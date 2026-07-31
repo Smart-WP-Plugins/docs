@@ -4,8 +4,8 @@
   "name": "SmartWP Plugins Documentation",
   "colors": {
     "primary": "#0353a6",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "light": "#007dff",
+    "dark": "#007dff"
   },
   "favicon": {
     "light": "/images/FAVICON_COLOR.svg",
@@ -101,5 +101,14 @@
     "fonts": {
       "family": "Inter"
     }
+  },
+  "background": {
+    "decoration": "gradient"
+  },
+  "fonts": {
+    "family": "Inter"
+  },
+  "interaction": {
+    "drilldown": true
   }
 }
