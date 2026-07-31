@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
-  "name": "Mintlify Starter Kit",
+  "name": "SmartWP Documentation",
   "colors": {
     "primary": "#0353a6",
     "light": "#07C983",
@@ -35,14 +35,7 @@
         }
       ]
     },
-    "groups": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "quickstart"
-        ]
-      }
-    ]
+    "groups": []
   },
   "logo": {
     "light": "/images/LOGO_WHITE.svg",
