@@ -12,78 +12,10 @@
     "dark": "/images/FAVICON_COLOR.svg"
   },
   "navigation": {
-    "pages": [
-      "index",
+    "groups": [
       {
         "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
-      },
-      "",
-      {
-        "group": "AddrVault",
-        "icon": "address-book",
-        "pages": [
-          {
-            "group": "Getting Started",
-            "pages": [
-              "addrvault/introduction",
-              "addrvault/installation",
-              "addrvault/quickstart"
-            ]
-          },
-          {
-            "group": "Core Concepts",
-            "pages": [
-              "addrvault/concepts/address-book-model",
-              "addrvault/concepts/default-swaps-and-duplicates"
-            ]
-          },
-          {
-            "group": "Checkout Integration",
-            "pages": [
-              "addrvault/checkout/checkout-overview",
-              "addrvault/checkout/checkout-blocks",
-              "addrvault/checkout/classic-checkout"
-            ]
-          },
-          {
-            "group": "My Account",
-            "pages": [
-              "addrvault/my-account"
-            ]
-          },
-          {
-            "group": "Configuration",
-            "pages": [
-              "addrvault/settings"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "addrvault/customization/appearance-and-theming",
-              "addrvault/customization/css-and-markup"
-            ]
-          },
-          {
-            "group": "Developer Reference",
-            "pages": [
-              "addrvault/developers/hooks-reference",
-              "addrvault/developers/javascript-api",
-              "addrvault/developers/architecture"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "addrvault/faq",
-              "addrvault/changelog"
-            ]
-          }
-        ]
+        "pages": []
       }
     ]
   },
