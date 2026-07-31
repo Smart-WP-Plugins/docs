@@ -1,0 +1,168 @@
+---
+title: "Hooks Reference"
+description: "Every PHP filter and action AddrVault exposes"
+icon: "plug"
+---
+
+<Warning>
+  Address arrays contain private customer data (name, phone, postal address). Never log them. Register these filters before the address book is first read on a request — normalized results are cached per-request and won't re-run your filter mid-page.
+</Warning>
+
+## Filters
+
+### `addrvault_address_field_keys`
+
+Filters which field keys are stored for every address-book entry.
+
+```php
+apply_filters( 'addrvault_address_field_keys', array $keys ): array
+```
+
+Email is intentionally excluded by default — it belongs to account identity, not a postal address.
+
+### `addrvault_saved_addresses`
+
+Filters a customer's normalized shared additional addresses after metadata is read.
+
+```php
+apply_filters( 'addrvault_saved_addresses', array $addresses, int $user_id ): array
+```
+
+### `addrvault_checkout_address_options`
+
+Filters the checkout-ready option list used by **both** classic and Blocks checkout.
+
+```php
+apply_filters( 'addrvault_checkout_address_options', array $options, int $user_id, string $type ): array
+```
+
+Each option contains `id`, `name`, `description`, `street`, `details`, `isDefault`, `defaultRoles`, `selectLabel`, and `fields`. Both checkout contexts receive the same set; only ordering and `isDefault` depend on `$type` (`"billing"` or `"shipping"`).
+
+### `addrvault_address_type_enabled`
+
+Filters whether a checkout selector is enabled.
+
+```php
+apply_filters( 'addrvault_address_type_enabled', bool $enabled, string $type ): bool
+```
+
+### `addrvault_address_save_limit`
+
+Filters the shared additional-address limit. Return `0` for unlimited.
+
+```php
+apply_filters( 'addrvault_address_save_limit', int $limit, int $user_id ): int
+```
+
+Lossless default swaps may preserve a displaced default beyond this limit — see [Default Swaps](/addrvault/concepts/default-swaps-and-duplicates).
+
+<CodeGroup>
+
+```php example.php
+// Give wholesale customers a higher limit.
+add_filter( 'addrvault_address_save_limit', function ( $limit, $user_id ) {
+    if ( user_can( $user_id, 'wholesale_customer' ) ) {
+        return 25;
+    }
+
+    return $limit;
+}, 10, 2 );
+```
+
+</CodeGroup>
+
+### `addrvault_address_search_threshold`
+
+Filters the saved-address count above which search appears in checkout and My Account. Return `0` to always show it.
+
+```php
+apply_filters( 'addrvault_address_search_threshold', int $threshold ): int
+```
+
+### `addrvault_save_checkout_addresses`
+
+Filters whether a validated address entered at checkout is saved to the address book.
+
+```php
+apply_filters( 'addrvault_save_checkout_addresses', bool $enabled ): bool
+```
+
+### `addrvault_update_checkout_default`
+
+Filters whether a new saved checkout address replaces its matching billing or shipping profile default.
+
+```php
+apply_filters( 'addrvault_update_checkout_default', bool $update ): bool
+```
+
+Has no effect when checkout-address saving is off.
+
+### `addrvault_color_scheme`
+
+Filters the storefront color mode. Supported results are `light`, `dark`, and `system`; anything else falls back to `light`.
+
+```php
+apply_filters( 'addrvault_color_scheme', string $scheme ): string
+```
+
+### `addrvault_accent_color`
+
+Filters the sanitized six-digit accent color. Invalid results fall back to `#6b3fa0`.
+
+```php
+apply_filters( 'addrvault_accent_color', string $color ): string
+```
+
+### `addrvault_account_labels`
+
+Filters My Account labels: `pageTitle`, `pageDescription`, `addAddress`, `addHeading`, `editHeading`, `backToAddresses`, `saveAddress`, `cancel`, `emptyHeading`, `emptyDescription`.
+
+```php
+apply_filters( 'addrvault_account_labels', array $labels ): array
+```
+
+### `addrvault_checkout_picker_labels`
+
+Filters shared picker labels: `address`, `billingCompactHeading`, `shippingCompactHeading`, `billingPanelHeading`, `shippingPanelHeading`, `savedAddress`, `savedAddresses`, `moreAddress`, `moreAddresses`, `searchLabel`, `searchPlaceholder`, `noResults`, `newAddress`, `default`, `change`.
+
+```php
+apply_filters( 'addrvault_checkout_picker_labels', array $labels ): array
+```
+
+<Note>
+  Count labels (`savedAddress(es)`, `moreAddress(es)`) must retain their `%d` placeholder.
+</Note>
+
+### `addrvault_checkout_block_picker_data`
+
+Filters the private data payload sent to the Checkout Blocks picker.
+
+```php
+apply_filters( 'addrvault_checkout_block_picker_data', array $data, int $user_id ): array
+```
+
+### `addrvault_classic_checkout_picker_data`
+
+Filters the private data payload sent to the classic-checkout picker.
+
+```php
+apply_filters( 'addrvault_classic_checkout_picker_data', array $data, int $user_id ): array
+```
+
+### `addrvault_admin_settings`
+
+Filters the settings array shown on the Accounts & Privacy → AddrVault subsection.
+
+```php
+apply_filters( 'addrvault_admin_settings', array $settings ): array
+```
+
+## Actions
+
+### `addrvault_addresses_saved`
+
+Fires after the shared additional-address collection is persisted — useful for cache invalidation or sync hooks that need to react to any address-book mutation.
+
+```php
+do_action( 'addrvault_addresses_saved', int $user_id, array $records )
+```

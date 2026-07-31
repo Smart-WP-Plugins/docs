@@ -1,0 +1,71 @@
+---
+title: "FAQ & Troubleshooting"
+description: "Common questions and how to diagnose the usual issues"
+icon: "circle-question"
+---
+
+## General
+
+<AccordionGroup>
+  <Accordion title="Is AddrVault really free, with no premium tier?">
+    Yes. Unlimited saved addresses, both checkout adapters, full light/dark/system theming, custom accent color, editable labels, and every developer hook are all included in the free plugin — there's no "Pro" version withholding functionality.
+  </Accordion>
+
+  <Accordion title="Does AddrVault support WooCommerce Checkout Blocks?">
+    Yes, natively — see [Checkout Blocks](/addrvault/checkout/checkout-blocks). The billing and shipping selectors are registered as forced inner blocks through WooCommerce's own Blocks integration registry and Store API, not injected after the fact.
+  </Accordion>
+
+  <Accordion title="Will this slow down my store?">
+    AddrVault creates no custom database tables, runs no extra queries beyond what WooCommerce already performs for customer data, caches its results for the duration of each request, and only loads its scripts and styles on checkout and My Account pages. There's no tracking or external service call of any kind. See [Architecture](/addrvault/developers/architecture).
+  </Accordion>
+
+  <Accordion title="Does selecting a saved address at checkout replace the customer's account default?">
+    Not by default. A saved address is used for the current order without silently replacing the WooCommerce default. Store owners can opt into promoting a new checkout address to the matching default under **New address defaults**. See [Checkout Overview](/addrvault/checkout/checkout-overview).
+  </Accordion>
+
+  <Accordion title="Are newly entered checkout addresses saved automatically?">
+    Yes, by default (**Save checkout addresses**). An address matching an existing entry's normalized first name, last name, and first address line is reused instead of duplicated — see [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+  </Accordion>
+
+  <Accordion title="What happens to the previous default address when a new one takes over?">
+    It stays in the address book, demoted to a plain additional address — unless it still holds the _other_ default role, in which case nothing changes for it. Reassigning a default never deletes the address it replaces. See [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+  </Accordion>
+
+  <Accordion title="What happens to data when AddrVault is uninstalled?">
+    Data is retained by default. Enabling **Uninstall cleanup** first will permanently remove AddrVault's settings and additional customer addresses on uninstall — WooCommerce's own billing/shipping profile fields are never touched, regardless of this setting.
+  </Accordion>
+
+  <Accordion title="Is AddrVault built to WordPress coding standards?">
+    Yes — PSR-4 autoloading with namespaced classes, and every release is checked against the WordPress Coding Standards PHPCS ruleset (`WordPress-Extra` plus `PHPCompatibilityWP`) before publishing. See [Architecture](/addrvault/developers/architecture).
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The picker isn't showing up at checkout">
+    Check, in order: the customer is signed in (AddrVault never offers saved addresses to guests); the relevant selector (billing/shipping) is enabled in **Accounts & Privacy → AddrVault**; and the customer actually has at least one address in their book (a billing or shipping profile default counts). The picker deliberately stays invisible rather than rendering an empty state when there's nothing to pick from.
+  </Accordion>
+
+  <Accordion title="The address book endpoint doesn't appear in My Account">
+    This usually means permalinks need refreshing. AddrVault registers its rewrite endpoint and flushes rules automatically on activation, but if the plugin was activated in an unusual way (e.g. via WP-CLI without the standard activation hook, or a staging sync that skipped it), visit **Settings → Permalinks** and click **Save Changes** once to force a flush.
+  </Accordion>
+
+  <Accordion title="A theme or plugin's CSS is bleeding into the picker">
+    This should be rare given AddrVault's [ID-rooted CSS reset](/addrvault/customization/css-and-markup), but if you hit a specific conflict, load your override CSS after `assets/css/addrvault.css` and target the stable root ID (`#addrvault-account-list`, `#addrvault-billing-picker`, `#addrvault-shipping-picker`) plus the relevant BEM class — that combination has enough specificity to win without `!important`.
+  </Accordion>
+
+  <Accordion title="Saving an address fails with 'That address is already in your address book'">
+    This is expected behavior, not a bug: the entry you're editing would normalize to the same first name, last name, and street line as a different existing entry. Edit or delete the other entry first if you actually want to merge them. See [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+  </Accordion>
+
+  <Accordion title="A row's 'Delete' or 'Make default' action is disabled">
+    Both are intentional guardrails, enforced server-side, not just visually: an address currently holding a default role can't be deleted until it's reassigned, and an address already holding a role can't be "made default" for that same role again. Hovering the disabled action shows why.
+  </Accordion>
+
+  <Accordion title="Settings aren't saving">
+    AddrVault settings use WooCommerce's own settings save pipeline (**WooCommerce → Settings → Accounts & Privacy → AddrVault**) — if changes there aren't persisting, it's almost always a WooCommerce-level issue (a conflicting plugin filtering `woocommerce_get_settings_account`, or a permissions problem), not something AddrVault-specific.
+  </Accordion>
+</AccordionGroup>
+
+Still stuck? Reach out at [hello@smartwpplugins.com](mailto:hello@smartwpplugins.com).

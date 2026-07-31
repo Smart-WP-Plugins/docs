@@ -1,0 +1,58 @@
+---
+title: "Checkout Blocks"
+description: "How AddrVault integrates with WooCommerce's block-based checkout"
+icon: "cube"
+---
+
+AddrVault's Checkout Blocks integration is built entirely on WooCommerce's own official extension points — the Blocks integration registry and the Store API — rather than injecting markup into the page after the fact.
+
+## Forced inner blocks
+
+AddrVault registers two blocks:
+
+| Block name | Parent block |
+| --- | --- |
+| `addrvault/billing-selector` | `woocommerce/checkout-billing-address-block` |
+| `addrvault/shipping-selector` | `woocommerce/checkout-shipping-address-block` |
+
+Both are registered as **forced** inner blocks (`inserter: false`, locked against removal or moving) of WooCommerce's own address blocks, so they render automatically, in the right place, on any checkout page built from Checkout Blocks — store owners don't need to manually add anything in the block editor, and can't accidentally delete the selector while editing the page.
+
+## Store API extension data
+
+AddrVault registers a writable extension namespace, `addrvault`, on the Checkout endpoint via `woocommerce_store_api_register_endpoint_data()`, with two fields:
+
+```json
+{
+  "billing_selection": "",
+  "shipping_selection": ""
+}
+```
+
+Each holds a saved address ID or `"new"`. This is the same Store API mechanism any other Blocks-aware extension uses to add data to the checkout request — AddrVault isn't reading or writing anything outside of WooCommerce's supported extension surface.
+
+## Keeping order-specific choices from leaking into account defaults
+
+This is the trickiest part of the integration, and worth understanding if you're debugging address behavior: WooCommerce's Store API updates the customer's billing/shipping profile fields as a normal side effect of processing checkout, even when a shopper only meant to use an address for _this order_. Left alone, that would silently overwrite the account default — exactly what [Checkout Overview](/addrvault/checkout/checkout-overview) promises won't happen.
+
+AddrVault works around this without fighting WooCommerce's own checkout flow:
+
+<Steps>
+  <Step title="Capture, before the overwrite">
+    When the Store API is about to update the customer object (`woocommerce_store_api_checkout_update_customer_data` / `..._cart_update_customer_data`), AddrVault reads and holds the customer's _current_ profile default, if the incoming address differs from it.
+  </Step>
+  <Step title="Let WooCommerce finish">
+    WooCommerce is allowed to write the submitted address to its normal place — it has to, so the draft order can copy the correct address for _this_ order before anything is restored.
+  </Step>
+  <Step title="Restore the account default afterward">
+    Once the full Store API request has completed — including WooCommerce's own final customer sync — AddrVault writes the captured default back, via a `rest_request_after_callbacks` filter, with a `shutdown`-time fallback in case the primary hook doesn't fire (payment failures, validation errors, etc.).
+  </Step>
+  <Step title="Save the new address afterward, if applicable">
+    If the shopper explicitly chose "Enter a new address," the finalized address is read back off the **processed order** (not the raw request) and added to the address book only once it's known to be complete and valid.
+  </Step>
+</Steps>
+
+The net effect: the order itself always has the correct, submitted address, and the account's stored default is untouched unless **New address defaults → Make the new address the matching default** is explicitly enabled.
+
+## Compatibility
+
+AddrVault declares compatibility with both `custom_order_tables` (HPOS) and `cart_checkout_blocks` via `FeaturesUtil::declare_compatibility()` before WooCommerce initializes its feature system, and registers its block scripts through the Checkout integration registry rather than assuming WooCommerce Blocks has already finished bootstrapping — it checks `did_action( 'woocommerce_blocks_loaded' )` and registers immediately if Blocks already loaded, or hooks the action if not.

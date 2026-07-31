@@ -1,0 +1,61 @@
+---
+title: "Introduction"
+description: "What AddrVault is, the problem it solves, and how it fits into WooCommerce"
+icon: "house"
+---
+
+AddrVault gives WooCommerce customers **one address book** instead of the usual pair of disconnected billing and shipping lists. Every saved address lives in a single, deduplicated library per customer, and that same library is what powers both checkout selectors and the My Account address page.
+
+## The problem
+
+Out of the box, WooCommerce treats billing and shipping as two separate profile fields. Most "address book" plugins layer a second set of lists on top of that split instead of removing it — customers still have to think about which list they're editing, and stores end up maintaining two copies of data that's often identical.
+
+Every extra decision at checkout is a place a customer can hesitate, or leave. A shorter path from cart to confirmed order is a conversion feature, not just a convenience one.
+
+## The AddrVault model
+
+AddrVault keeps one list per customer. An address in that list can be flagged as the **billing default**, the **shipping default**, **both**, or **neither** (a plain additional address). There is no second copy to keep in sync, no separate "shipping addresses" screen, and no ambiguity about where an address lives.
+
+<CardGroup cols={2}>
+  <Card title="One library, every context" icon="layer-group">
+    The same address book powers the billing selector, the shipping selector, and the My Account address page. Add an address once, use it everywhere.
+  </Card>
+
+  <Card title="Native Checkout Blocks support" icon="cube">
+    Billing and shipping selectors are registered as real inner blocks of WooCommerce's Checkout Blocks, through the official Blocks integration registry and Store API — not a shortcode retrofit.
+  </Card>
+
+  <Card title="Light, dark, and system themes" icon="palette">
+    A configurable color mode and a single accent color restyle the entire picker and My Account interface — no custom CSS required.
+  </Card>
+
+  <Card title="Everything included, free" icon="gift">
+    Unlimited saved addresses, both checkout adapters, full theming, and every developer hook ship in the free plugin. Nothing is held back for a paid tier.
+  </Card>
+</CardGroup>
+
+## Where AddrVault shows up
+
+<Steps>
+  <Step title="My Account → Address book">
+    Signed-in customers get a dedicated **Address book** endpoint (replacing WooCommerce's plain "Addresses" tab) with two default-address summary cards and one combined list of every saved address.
+  </Step>
+  <Step title="Checkout — Blocks or Classic">
+    When a customer has saved addresses, a picker appears above the native billing and/or shipping fields, showing a collapsed summary with a **Change** action, or the full list when expanded.
+  </Step>
+  <Step title="WooCommerce → Settings → Accounts & Privacy → AddrVault">
+    Store owners control which selectors are enabled, saved-address limits, checkout-saving behavior, appearance, and every customer-facing label from one settings screen.
+  </Step>
+</Steps>
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Installation" icon="download" href="/addrvault/installation">
+    Requirements and setup steps.
+  </Card>
+
+  <Card title="Quickstart" icon="bolt" href="/addrvault/quickstart">
+    Get a working checkout picker in about five minutes.
+  </Card>
+</CardGroup>

@@ -1,0 +1,59 @@
+---
+title: "The Address Book Model"
+description: "How entries, roles, and the combined list actually work"
+icon: "layer-group"
+---
+
+AddrVault's entire data model rests on one idea: there is one list of address **entries** per customer, and each entry can hold zero, one, or two **default roles**.
+
+## Entries and roles
+
+An entry is a normalized set of address fields (name, company, street, city, state, postcode, country, phone) plus an ID and, for additional addresses, timestamps. Every entry falls into one of these states:
+
+| Roles held | What it means | Entry ID |
+| --- | --- | --- |
+| `billing` only | The WooCommerce billing profile default | `default_billing` |
+| `shipping` only | The WooCommerce shipping profile default | `default_shipping` |
+| `billing` and `shipping` | Billing and shipping defaults happen to be the same address — shown as one entry, not two | `default_billing` |
+| _(none)_ | A plain additional address, shared and role-free | `addrvault_a_<random>` |
+
+Additional, role-free addresses are stored together in one piece of user meta, `_addrvault_addresses`. The two default-role entries aren't duplicated into that collection — they're read live from WooCommerce's own billing/shipping profile fields, the same fields WooCommerce itself has always used. AddrVault never introduces a second, competing copy of "the" billing address.
+
+<Note>
+  Email is deliberately excluded from address fields — it belongs to account identity, not a postal address, and is filterable via `addrvault_address_field_keys` if you need to change the stored field set.
+</Note>
+
+## How the combined list is built
+
+When AddrVault needs "the address book" (for My Account, or either checkout selector), it:
+
+1. Reads the billing default and shipping default from WooCommerce's profile fields.
+2. If both are non-empty and their normalized signatures match (see [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates)), collapses them into a single entry holding both roles.
+3. Appends every additional address from `_addrvault_addresses`, skipping any whose signature already matches a default — so a saved extra never sits alongside an identical default entry.
+4. Sorts the result: entries holding a default role always come first, then everything else ordered by most-recently-updated.
+
+The **same** combined list feeds My Account, the billing checkout selector, and the shipping checkout selector — only the sort emphasis changes (whichever role matches the current selector context is promoted to the top and flagged as the visible default), and only the two checkout selectors additionally receive the plugin's public `addrvault_checkout_address_options` filter.
+
+## Request-level caching
+
+Building that list involves normalizing every entry and formatting display text, which isn't free to repeat. AddrVault caches the combined address book, the checkout option list, and the raw primary/saved lookups for the lifetime of the current request, and invalidates all of it immediately after any mutation (create, update, delete, role change). You will never see stale data within a single page load, and you never pay to rebuild it twice for, say, the billing **and** shipping selector on the same checkout page.
+
+## What you can do with an entry
+
+<CardGroup cols={2}>
+  <Card title="Add" icon="plus">
+    Creates a new role-free additional address, after checking it isn't a duplicate of something already in the book.
+  </Card>
+
+  <Card title="Edit" icon="pen">
+    Updates an entry's fields in place — for a default-role entry, this writes straight to the WooCommerce profile field it represents.
+  </Card>
+
+  <Card title="Make default" icon="star">
+    Promotes any entry to hold a billing and/or shipping role. See [Default Swaps](/addrvault/concepts/default-swaps-and-duplicates) for what happens to whatever it replaces.
+  </Card>
+
+  <Card title="Delete" icon="trash">
+    Only allowed for role-free additional addresses. An entry holding any default role must be reassigned (or edited down to no roles) before it can be deleted — this is enforced server-side, not just hidden in the UI.
+  </Card>
+</CardGroup>
