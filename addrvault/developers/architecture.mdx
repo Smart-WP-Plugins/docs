@@ -1,0 +1,44 @@
+---
+title: "Architecture"
+description: "File map, storage model, and how the codebase is built"
+icon: "sitemap"
+---
+
+## File map
+
+| Area | Files | Responsibility |
+| --- | --- | --- |
+| Bootstrap | `addrvault.php` | Constants, namespace loader, compatibility declarations, WooCommerce gate |
+| Coordination | `includes/Plugin.php` | Wires up services, styles, translations, activation |
+| Persistence | `includes/AddressRepository.php` | Unified storage, default swaps, duplicate detection, formatting |
+| Settings | `includes/Admin/Settings.php` | Accounts & Privacy subsection, behavior, labels, appearance |
+| My Account | `includes/AccountController.php`, `templates/myaccount/` | Endpoint, form handling, actions |
+| Picker controller | `src/addrvault-address-picker.js` | Shared standard-DOM markup and interaction |
+| Picker styles | `assets/css/addrvault.css` | Scoped reset and all visual presentation |
+| Classic checkout | `includes/Checkout/ClassicCheckout.php` | Shortcode checkout adapter |
+| Checkout Blocks | `includes/Checkout/BlocksController.php`, `BlocksIntegration.php`, `src/blocks/` | Blocks registration and Store API integration |
+| Uninstall | `uninstall.php` | Opt-in settings and address cleanup |
+
+## No custom database tables
+
+AddrVault stores exactly one thing of its own: a single namespaced user-meta key, `_addrvault_addresses`, holding every customer's additional (role-free) addresses as one serialized collection. The two profile defaults are read from WooCommerce's own billing/shipping user meta — AddrVault never creates a second, competing copy of that data. There is nothing here for a host to migrate, index, or back up beyond what WooCommerce already manages.
+
+## PSR-4 autoloading, without a Composer runtime dependency
+
+Every PHP class lives under the `AddrVault\CustomerAddressBook` namespace and is autoloaded via a small `spl_autoload_register` callback defined directly in `addrvault.php` — mapping the namespace onto `includes/`. Composer's `vendor/autoload.php` is **never required in production**; Composer is used only for the project's own development tooling (WordPress Coding Standards, PHPCompatibility), and `vendor/` is excluded from every release archive.
+
+<Info>
+  Class files are named after their class (`AddressRepository.php`), not the legacy WordPress core `class-{name}.php` convention — a deliberate, documented choice to keep PSR-4 autoloading straightforward.
+</Info>
+
+## Request-level caching
+
+Building a customer's combined address book involves normalizing raw stored data and formatting display text — work that's identical whether it's needed for the billing selector, the shipping selector, or My Account on the same page load. `AddressRepository` caches its saved-address, profile-default, combined-book, and checkout-option lookups for the lifetime of the current request, and invalidates all of it immediately after any mutation. The practical effect: a checkout page rendering both selectors does the normalization work once, not twice.
+
+## Coding standards
+
+Every PHP file is checked against a WordPress Coding Standards ruleset (`WordPress-Extra` plus `PHPCompatibilityWP`, targeting PHP 7.4\+) before release, with a small number of documented, narrowly-scoped exceptions (PSR-4 filenames, template-scope variables that PHPCS's static analysis can't see are request-local). JavaScript and CSS go through `wp-scripts`' standard lint configuration. None of this is visible to a store owner directly — it's why the plugin stays predictable to extend and unlikely to collide with other well-built plugins on the same site.
+
+## Compatibility declarations
+
+AddrVault declares compatibility with WooCommerce's High-Performance Order Storage (`custom_order_tables`) and Cart & Checkout Blocks (`cart_checkout_blocks`) features via `FeaturesUtil::declare_compatibility()`, registered on `before_woocommerce_init` — before WooCommerce's own feature system finishes initializing.

@@ -1,0 +1,47 @@
+---
+title: "The Address Book Page"
+description: "What customers see and can do under My Account"
+icon: "address-book"
+---
+
+AddrVault replaces WooCommerce's plain **Addresses** item in My Account with **Address book** — one endpoint, no billing/shipping tabs to choose between.
+
+## Layout
+
+<Steps>
+  <Step title="Two default summary cards">
+    "Bills to" and "Ships to" cards show the current billing and shipping defaults (or an empty state with an **Add** action if a role has no default yet), each with a **Change** link straight into the editor.
+  </Step>
+  <Step title="One combined list">
+    Every entry in the customer's address book — both defaults and every additional address — in a single list, defaults first, then most-recently-updated. Each row shows the street line, recipient name, location, and phone (if set), plus badges for any default role it holds.
+  </Step>
+  <Step title="Search, once it's worth it">
+    A filter input appears automatically once the saved-address count passes the configured threshold — the same control and threshold used at checkout.
+  </Step>
+</Steps>
+
+## Row actions
+
+Each address has a keyboard-accessible three-dot action menu:
+
+| Action | Behavior |
+| --- | --- |
+| Edit | Opens the address in the editor |
+| Make default billing / Make default shipping | Promotes this entry to that role (see [Default Swaps](/addrvault/concepts/default-swaps-and-duplicates) for what happens to whatever it replaces). Disabled, with an explanatory title, if the entry already holds that role. |
+| Delete | Removes a role-free additional address. Disabled, with an explanatory title, if the entry currently holds any default role — it has to be reassigned first. |
+
+These aren't just UI-level restrictions: the same rules are enforced server-side, so a disabled action can't be triggered by a crafted request either.
+
+## Adding and editing
+
+The listing and editor views are mutually exclusive — opening the editor (via **Add new address** or any row's **Edit** action) replaces the list entirely with just the form and a **Back to addresses** link, rather than showing both at once.
+
+The editor form is WooCommerce's own locale-aware address field set (via `WC()->countries->get_address_fields()`), plus two checkboxes: **Default shipping address** and **Default billing address**. Leaving both unchecked keeps the entry as a plain, role-free additional address available everywhere at checkout.
+
+<Note>
+  If a save fails validation (a required field is empty, or the phone number doesn't look valid), AddrVault redirects back to the same editor with the customer's entered values intact — nothing is lost, and nothing needs to be retyped from scratch.
+</Note>
+
+## Security
+
+Every action — save, delete, make default — is a POST request, protected by a dedicated nonce (`check_admin_referer()` per action), scoped to the currently signed-in customer's own address book, validated, and sanitized before anything is written. There is no code path that lets one customer read or modify another customer's addresses.

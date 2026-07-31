@@ -1,0 +1,53 @@
+---
+title: "Appearance & Theming"
+description: "Color modes, accent color, and every editable label"
+icon: "palette"
+---
+
+AddrVault's appearance settings are the difference between a plugin that looks bolted onto your store and one that looks like it was designed for it.
+
+## Color mode
+
+Set **Color mode** in **Accounts & Privacy → AddrVault** to one of:
+
+| Value | Behavior |
+| --- | --- |
+| Light _(default)_ | Always uses the light token set |
+| Dark | Always uses the dark token set |
+| System | Applies the dark token set inside the visitor's `prefers-color-scheme: dark`, light otherwise |
+
+The selected mode adds exactly one body class — `addrvault-color-scheme-light`, `addrvault-color-scheme-dark`, or `addrvault-color-scheme-system` — on account and checkout pages. Dark mode replaces only AddrVault's own color tokens; component geometry and markup never change between modes, so a theme's own dark-mode handling (if any) is never in conflict with AddrVault's.
+
+## Accent color
+
+Set **Accent color** to any hex color. It drives the accent text, primary buttons, selected-state backgrounds, and the derived hover/5%/10% alpha surfaces throughout the picker and My Account — no custom CSS required. Internally, AddrVault emits both the hex value and its RGB channels as a small inline style block after the main stylesheet, so accent-derived surfaces can use `color-mix()` and `rgba()` without a second round trip.
+
+<Note>
+  If you're overriding the accent color yourself via the `addrvault_accent_color` filter or custom CSS, keep the hex and RGB-channel values in sync — see [CSS Variables & Markup](/addrvault/customization/css-and-markup) for the underlying tokens.
+</Note>
+
+## Labels
+
+Every customer-facing string listed below is editable directly from the settings screen, with translations still able to override whatever you type:
+
+| Label | Default |
+| --- | --- |
+| Address-book page title | Addresses |
+| Address-book description | Your billing default, shipping default, and additional addresses form one address book. Every address can be used anywhere at checkout. |
+| Add-address button | Add new address |
+| Add-address heading | Add a new address |
+| Edit-address heading | Edit address |
+| Back link | Back to addresses |
+| Save button | Save address |
+| Cancel action | Cancel |
+| Empty-state heading | You haven't saved an address yet |
+| Empty-state description | Add one now and it will be available to both billing and shipping at checkout. |
+| Billing summary heading | Billing to |
+| Shipping summary heading | Delivering to |
+| Billing picker heading | Bill to |
+| Shipping picker heading | Deliver to |
+| Search placeholder | Filter by street, city or postcode |
+| New-address choice | Enter a new address |
+| Change action | Change |
+
+A handful of additional picker strings (result counts, "No saved addresses match your search," the "Default" badge, and the search field's accessible label) aren't exposed on the settings screen but can still be changed with the `addrvault_checkout_picker_labels` and `addrvault_account_labels` filters — see the [Hooks Reference](/addrvault/developers/hooks-reference).

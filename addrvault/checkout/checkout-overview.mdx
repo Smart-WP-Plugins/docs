@@ -1,0 +1,52 @@
+---
+title: "Checkout Overview"
+description: "Rendering rules, picker behavior, and settings shared by both checkout adapters"
+icon: "cart-shopping"
+---
+
+AddrVault ships two checkout adapters — one for WooCommerce Checkout Blocks, one for the classic (shortcode) checkout — that share the same picker markup, behavior, labels, and settings. This page covers what's common to both; see [Checkout Blocks](/addrvault/checkout/checkout-blocks) and [Classic Checkout](/addrvault/checkout/classic-checkout) for the adapter-specific mechanics.
+
+## When the picker renders
+
+The picker only appears for a given selector (billing or shipping) when **all** of these are true:
+
+- The customer is signed in. AddrVault does not offer saved addresses to guests.
+- The corresponding selector is enabled in **Accounts & Privacy → AddrVault**.
+- The customer's combined address book (see [The Address Book Model](/addrvault/concepts/address-book-model)) has at least one entry.
+
+If any of those isn't true, native WooCommerce fields render exactly as they would without AddrVault installed — there's no empty picker shell taking up space.
+
+## Picker states
+
+<Tabs>
+  <Tab title="Collapsed summary">
+    When a selection is active, the picker shows a compact summary (recipient, street, location) with a single **Change** button — this is what a returning customer with one preferred address sees.
+  </Tab>
+  <Tab title="Expanded chooser">
+    Clicking **Change** (or first load, if nothing is selected yet) expands into the full list: every saved address as a keyboard-navigable radio option, plus an **Enter a new address** option at the end, which reveals WooCommerce's native fields.
+  </Tab>
+  <Tab title="Search">
+    Once the saved-address count exceeds the configured search threshold, a filter input appears above the list. The same threshold and search behavior apply in My Account.
+  </Tab>
+</Tabs>
+
+Selecting a saved address hides the native WooCommerce address fields (their values are populated from the selection); choosing **Enter a new address** clears and reveals them again. WooCommerce's own checkout fields and stores remain the single source of truth for what actually gets submitted — AddrVault only decides what pre-fills them.
+
+## What happens after checkout
+
+- **A saved selection is order-specific by default.** Choosing a saved address for this order does not silently change the customer's account default — that would be a surprising side effect for something as routine as picking a delivery address.
+- **A new address entered at checkout is saved automatically** (governed by **Save checkout addresses**, on by default), becoming a role-free additional address — unless it's an exact duplicate of something already in the book, in which case the existing entry is reused.
+- **Promoting a new address to the account default** is opt-in, via **New address defaults → Make the new address the matching default**. With this off (the default), the account's billing/shipping profile defaults never change just because a customer typed a new address for one order.
+- **Billing and shipping don't double-save.** If a customer lets billing be used for shipping, or otherwise submits the same address for both roles, AddrVault's normal duplicate detection means only one additional-address record is ever created — see [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+
+## Settings that affect checkout
+
+| Setting | Effect |
+| --- | --- |
+| Billing checkout selector / Shipping checkout selector | Turns each selector on or off independently |
+| Additional address limit | Caps how many additional addresses a customer can accumulate from checkout saves |
+| Address search threshold | Saved-address count above which the filter input appears |
+| Save checkout addresses | Whether a new checkout address is saved to the book at all |
+| New address defaults | Whether a newly saved checkout address also becomes the matching profile default |
+
+See the full [Configuration reference](/addrvault/settings) for every option and its default.

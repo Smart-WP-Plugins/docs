@@ -1,0 +1,46 @@
+---
+title: "Installation"
+description: "Requirements and setup steps for AddrVault"
+icon: "download"
+---
+
+## Requirements
+
+| Requirement | Minimum |
+| --- | --- |
+| WordPress | 6.5 |
+| PHP | 7.4 |
+| WooCommerce | 8.2 |
+
+AddrVault declares `Requires Plugins: woocommerce` in its plugin header, so WordPress will refuse to activate it without WooCommerce already active — you don't need to remember the dependency order yourself.
+
+<Note>
+  AddrVault has no other runtime dependencies. It ships with a small built-in PSR-4 autoloader, so there is no Composer install step required to run it — Composer is only used for the project's own development tooling.
+</Note>
+
+## Install
+
+<Steps>
+  <Step title="Install and activate WooCommerce">
+    AddrVault is a WooCommerce extension and does nothing without it. If WooCommerce isn't active, AddrVault will show an admin notice explaining the minimum version required instead of loading.
+  </Step>
+  <Step title="Install AddrVault">
+    Either search for **AddrVault - Customer Address Book for WooCommerce** under **Plugins → Add New** in your WordPress admin, or upload `addrvault.zip` directly via **Plugins → Add New → Upload Plugin**.
+  </Step>
+  <Step title="Activate the plugin">
+    On activation, AddrVault registers its My Account rewrite endpoint and flushes rewrite rules automatically — no manual permalink resave is required.
+  </Step>
+  <Step title="Open the settings screen">
+    Go to **WooCommerce → Settings → Accounts & Privacy → AddrVault** (or use the **Settings** link AddrVault adds directly under its entry on the Plugins screen) to configure behavior, appearance, and labels.
+  </Step>
+</Steps>
+
+## Verifying it worked
+
+- A signed-in customer visiting **My Account** should see an **Address book** entry in the account navigation, replacing WooCommerce's plain "Addresses" item.
+- A customer with at least one saved address (their billing or shipping profile default counts) should see a picker above the corresponding fields at checkout.
+- If nothing appears at checkout, that's expected until a customer has a saved address — the picker only renders when there's something to pick from. See the [Quickstart](/addrvault/quickstart) to create a test address quickly.
+
+## Uninstalling
+
+By default, deleting AddrVault leaves all customer address data and settings in place — useful if you're reinstalling later or just deactivating temporarily. If you want a full removal, enable **Uninstall cleanup** on the settings screen before deleting the plugin; this removes AddrVault's own settings and the shared additional-address records, but never touches WooCommerce's own billing or shipping profile fields.
