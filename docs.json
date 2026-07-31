@@ -21,7 +21,14 @@
         ]
       }
     ],
-    "groups": []
+    "groups": [
+      {
+        "group": "Getting Started",
+        "pages": [
+          "index"
+        ]
+      }
+    ]
   },
   "logo": {
     "light": "/images/LOGO_WHITE.svg",
