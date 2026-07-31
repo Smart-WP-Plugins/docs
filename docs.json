@@ -54,7 +54,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/mintlify"
+      "github": "https://github.com/Smart-WP-Plugins"
     }
   },
   "icons": {
@@ -62,5 +62,10 @@
   },
   "metadata": {
     "timestamp": false
+  },
+  "thumbnails": {
+    "fonts": {
+      "family": "Inter"
+    }
   }
 }
