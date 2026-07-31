@@ -12,15 +12,17 @@
     "dark": "/images/FAVICON_WHITE.svg"
   },
   "navigation": {
-    "groups": [
+    "products": [
       {
-        "group": "AddrVault",
+        "product": "AddrVault",
+        "description": "Give WooCommerce customers a reusable address book for My Account, classic checkout, and Checkout Blocks.",
         "pages": [
           "addrvault/introduction",
           "addrvault/installation",
-          "addrvault/my-account",
           "addrvault/quickstart",
+          "addrvault/my-account",
           "addrvault/settings",
+          "addrvault/changelog",
           {
             "group": "Checkout",
             "pages": [
@@ -51,8 +53,7 @@
               "addrvault/developers/javascript-api"
             ]
           },
-          "addrvault/faq",
-          "addrvault/changelog"
+          "addrvault/faq"
         ]
       }
     ]
@@ -101,9 +102,6 @@
     "fonts": {
       "family": "Inter"
     }
-  },
-  "fonts": {
-    "family": "Inter"
   },
   "interaction": {
     "drilldown": true
