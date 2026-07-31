@@ -14,8 +14,46 @@
   "navigation": {
     "groups": [
       {
-        "group": "Getting Started",
-        "pages": []
+        "group": "AddrVault",
+        "pages": [
+          "addrvault/changelog",
+          "addrvault/faq",
+          "addrvault/installation",
+          "addrvault/introduction",
+          "addrvault/my-account",
+          "addrvault/quickstart",
+          "addrvault/settings",
+          {
+            "group": "checkout",
+            "pages": [
+              "addrvault/checkout/checkout-blocks",
+              "addrvault/checkout/checkout-overview",
+              "addrvault/checkout/classic-checkout"
+            ]
+          },
+          {
+            "group": "concepts",
+            "pages": [
+              "addrvault/concepts/address-book-model",
+              "addrvault/concepts/default-swaps-and-duplicates"
+            ]
+          },
+          {
+            "group": "customization",
+            "pages": [
+              "addrvault/customization/appearance-and-theming",
+              "addrvault/customization/css-and-markup"
+            ]
+          },
+          {
+            "group": "developers",
+            "pages": [
+              "addrvault/developers/architecture",
+              "addrvault/developers/hooks-reference",
+              "addrvault/developers/javascript-api"
+            ]
+          }
+        ]
       }
     ]
   },
