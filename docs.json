@@ -22,7 +22,6 @@
           "addrvault/quickstart",
           "addrvault/my-account",
           "addrvault/settings",
-          "addrvault/changelog",
           {
             "group": "Checkout",
             "pages": [
@@ -53,7 +52,8 @@
               "addrvault/developers/javascript-api"
             ]
           },
-          "addrvault/faq"
+          "addrvault/faq",
+          "addrvault/changelog"
         ]
       }
     ]
