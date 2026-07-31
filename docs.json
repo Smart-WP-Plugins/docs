@@ -13,19 +13,12 @@
   },
   "navigation": {
     "pages": [
+      "index",
       {
         "group": "Getting Started",
         "pages": [
           "index",
           "quickstart"
-        ]
-      }
-    ],
-    "groups": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "index"
         ]
       }
     ]
