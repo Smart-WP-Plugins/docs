@@ -15,13 +15,7 @@
     "products": [
       {
         "product": "Unwan",
-        "description": "Give WooCommerce customers a reusable address book for My Account, classic checkout, and Checkout Blocks.",
         "pages": [
-          "addrvault/introduction",
-          "addrvault/installation",
-          "addrvault/quickstart",
-          "addrvault/my-account",
-          "addrvault/settings",
           {
             "group": "Checkout",
             "pages": [
@@ -37,6 +31,7 @@
               "addrvault/concepts/default-swaps-and-duplicates"
             ]
           },
+          "addrvault/installation",
           {
             "group": "Customization",
             "pages": [
@@ -44,6 +39,7 @@
               "addrvault/customization/css-and-markup"
             ]
           },
+          "addrvault/quickstart",
           {
             "group": "Developers",
             "pages": [
@@ -53,6 +49,9 @@
             ]
           },
           "addrvault/faq",
+          "addrvault/introduction",
+          "addrvault/my-account",
+          "addrvault/settings",
           "addrvault/changelog"
         ]
       }
