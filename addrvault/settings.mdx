@@ -1,10 +1,10 @@
 ---
 title: "Settings Reference"
-description: "Every AddrVault setting, what it controls, and its default"
+description: "Every Unwan setting, what it controls, and its default"
 icon: "sliders"
 ---
 
-All AddrVault settings live in one place: **WooCommerce → Settings → Accounts & Privacy → AddrVault**. They use WooCommerce's own settings save pipeline — there's no separate AddrVault admin page, no extra database table, and no additional admin-side request.
+All Unwan settings live in one place: **WooCommerce → Settings → Accounts & Privacy → Unwan**. They use WooCommerce's own settings save pipeline — there's no separate Unwan admin page, no extra database table, and no additional admin-side request.
 
 <Tip>
   Every setting on this page is also filterable from code — see the [Hooks Reference](/addrvault/developers/hooks-reference) if you need to set a value programmatically or per-customer.
@@ -14,19 +14,19 @@ All AddrVault settings live in one place: **WooCommerce → Settings → Account
 
 | Setting | Option key | Default | Effect |
 | --- | --- | --- | --- |
-| Billing checkout selector | `addrvault_billing_enable` | On | Lets customers choose any address-book entry for billing at checkout |
-| Shipping checkout selector | `addrvault_shipping_enable` | On | Lets customers choose any address-book entry for shipping at checkout |
-| Additional address limit | `addrvault_address_save_limit` | `0` (unlimited) | Maximum additional addresses per customer. Billing and shipping defaults don't count against this — and a displaced default from a role swap always bypasses it, see [Default Swaps](/addrvault/concepts/default-swaps-and-duplicates) |
-| Address search threshold | `addrvault_address_search_threshold` | `4` | Saved-address count above which the search field appears, in both checkout and My Account. `0` always shows it |
-| Save checkout addresses | `addrvault_save_checkout_addresses` | On | Whether a new, validated address entered at checkout is added to the customer's address book |
-| New address defaults | `addrvault_checkout_default_behavior` | Preserve | `preserve` keeps existing profile defaults untouched; `update` makes a newly saved checkout address the matching billing/shipping default. Has no effect when **Save checkout addresses** is off |
+| Billing checkout selector | `unwan_billing_enable` | On | Lets customers choose any address-book entry for billing at checkout |
+| Shipping checkout selector | `unwan_shipping_enable` | On | Lets customers choose any address-book entry for shipping at checkout |
+| Additional address limit | `unwan_address_save_limit` | `0` (unlimited) | Maximum additional addresses per customer. Billing and shipping defaults don't count against this — and a displaced default from a role swap always bypasses it, see [Default Swaps](/addrvault/concepts/default-swaps-and-duplicates) |
+| Address search threshold | `unwan_address_search_threshold` | `4` | Saved-address count above which the search field appears, in both checkout and My Account. `0` always shows it |
+| Save checkout addresses | `unwan_save_checkout_addresses` | On | Whether a new, validated address entered at checkout is added to the customer's address book |
+| New address defaults | `unwan_checkout_default_behavior` | Preserve | `preserve` keeps existing profile defaults untouched; `update` makes a newly saved checkout address the matching billing/shipping default. Has no effect when **Save checkout addresses** is off |
 
 ## Appearance
 
 | Setting | Option key | Default | Effect |
 | --- | --- | --- | --- |
-| Color mode | `addrvault_color_scheme` | Light | `light`, `dark`, or "follow the customer's device" (`system`) |
-| Accent color | `addrvault_accent_color` | `#6b3fa0` | A six-digit hex color driving every accent surface across the picker and My Account |
+| Color mode | `unwan_color_scheme` | Light | `light`, `dark`, or "follow the customer's device" (`system`) |
+| Accent color | `unwan_accent_color` | `#6b3fa0` | A six-digit hex color driving every accent surface across the picker and My Account |
 
 See [Appearance & Theming](/addrvault/customization/appearance-and-theming) for how these actually apply.
 
@@ -38,7 +38,7 @@ Every customer-facing string — page titles, button text, empty-state copy, pic
 
 | Setting | Option key | Default | Effect |
 | --- | --- | --- | --- |
-| Uninstall cleanup | `addrvault_remove_data_on_uninstall` | Off | When enabled, deleting the plugin permanently removes all AddrVault settings and additional customer addresses. WooCommerce's own billing and shipping profile fields are **never** removed, regardless of this setting |
+| Uninstall cleanup | `unwan_remove_data_on_uninstall` | Off | When enabled, deleting the plugin permanently removes all Unwan settings and additional customer addresses. WooCommerce's own billing and shipping profile fields are **never** removed, regardless of this setting |
 
 <Warning>
   Uninstall cleanup is destructive and cannot be undone once the plugin is deleted. Leave it off unless you specifically want a clean slate.

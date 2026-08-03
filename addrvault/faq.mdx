@@ -7,16 +7,16 @@ icon: "circle-question"
 ## General
 
 <AccordionGroup>
-  <Accordion title="Is AddrVault really free, with no premium tier?">
+  <Accordion title="Is Unwan really free, with no premium tier?">
     Yes. Unlimited saved addresses, both checkout adapters, full light/dark/system theming, custom accent color, editable labels, and every developer hook are all included in the free plugin — there's no "Pro" version withholding functionality.
   </Accordion>
 
-  <Accordion title="Does AddrVault support WooCommerce Checkout Blocks?">
+  <Accordion title="Does Unwan support WooCommerce Checkout Blocks?">
     Yes, natively — see [Checkout Blocks](/addrvault/checkout/checkout-blocks). The billing and shipping selectors are registered as forced inner blocks through WooCommerce's own Blocks integration registry and Store API, not injected after the fact.
   </Accordion>
 
   <Accordion title="Will this slow down my store?">
-    AddrVault creates no custom database tables, runs no extra queries beyond what WooCommerce already performs for customer data, caches its results for the duration of each request, and only loads its scripts and styles on checkout and My Account pages. There's no tracking or external service call of any kind. See [Architecture](/addrvault/developers/architecture).
+    Unwan creates no custom database tables, runs no extra queries beyond what WooCommerce already performs for customer data, caches its results for the duration of each request, and only loads its scripts and styles on checkout and My Account pages. There's no tracking or external service call of any kind. See [Architecture](/addrvault/developers/architecture).
   </Accordion>
 
   <Accordion title="Does selecting a saved address at checkout replace the customer's account default?">
@@ -31,11 +31,11 @@ icon: "circle-question"
     It stays in the address book, demoted to a plain additional address — unless it still holds the _other_ default role, in which case nothing changes for it. Reassigning a default never deletes the address it replaces. See [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
   </Accordion>
 
-  <Accordion title="What happens to data when AddrVault is uninstalled?">
-    Data is retained by default. Enabling **Uninstall cleanup** first will permanently remove AddrVault's settings and additional customer addresses on uninstall — WooCommerce's own billing/shipping profile fields are never touched, regardless of this setting.
+  <Accordion title="What happens to data when Unwan is uninstalled?">
+    Data is retained by default. Enabling **Uninstall cleanup** first will permanently remove Unwan's settings and additional customer addresses on uninstall — WooCommerce's own billing/shipping profile fields are never touched, regardless of this setting.
   </Accordion>
 
-  <Accordion title="Is AddrVault built to WordPress coding standards?">
+  <Accordion title="Is Unwan built to WordPress coding standards?">
     Yes — PSR-4 autoloading with namespaced classes, and every release is checked against the WordPress Coding Standards PHPCS ruleset (`WordPress-Extra` plus `PHPCompatibilityWP`) before publishing. See [Architecture](/addrvault/developers/architecture).
   </Accordion>
 </AccordionGroup>
@@ -44,15 +44,15 @@ icon: "circle-question"
 
 <AccordionGroup>
   <Accordion title="The picker isn't showing up at checkout">
-    Check, in order: the customer is signed in (AddrVault never offers saved addresses to guests); the relevant selector (billing/shipping) is enabled in **Accounts & Privacy → AddrVault**; and the customer actually has at least one address in their book (a billing or shipping profile default counts). The picker deliberately stays invisible rather than rendering an empty state when there's nothing to pick from.
+    Check, in order: the customer is signed in (Unwan never offers saved addresses to guests); the relevant selector (billing/shipping) is enabled in **Accounts & Privacy → Unwan**; and the customer actually has at least one address in their book (a billing or shipping profile default counts). The picker deliberately stays invisible rather than rendering an empty state when there's nothing to pick from.
   </Accordion>
 
   <Accordion title="The address book endpoint doesn't appear in My Account">
-    This usually means permalinks need refreshing. AddrVault registers its rewrite endpoint and flushes rules automatically on activation, but if the plugin was activated in an unusual way (e.g. via WP-CLI without the standard activation hook, or a staging sync that skipped it), visit **Settings → Permalinks** and click **Save Changes** once to force a flush.
+    This usually means permalinks need refreshing. Unwan registers its rewrite endpoint and flushes rules automatically on activation, but if the plugin was activated in an unusual way (e.g. via WP-CLI without the standard activation hook, or a staging sync that skipped it), visit **Settings → Permalinks** and click **Save Changes** once to force a flush.
   </Accordion>
 
   <Accordion title="A theme or plugin's CSS is bleeding into the picker">
-    This should be rare given AddrVault's [ID-rooted CSS reset](/addrvault/customization/css-and-markup), but if you hit a specific conflict, load your override CSS after `assets/css/addrvault.css` and target the stable root ID (`#addrvault-account-list`, `#addrvault-billing-picker`, `#addrvault-shipping-picker`) plus the relevant BEM class — that combination has enough specificity to win without `!important`.
+    This should be rare given Unwan's [ID-rooted CSS reset](/addrvault/customization/css-and-markup), but if you hit a specific conflict, load your override CSS after `assets/css/unwan.css` and target the stable root ID (`#unwan-account-list`, `#unwan-billing-picker`, `#unwan-shipping-picker`) plus the relevant BEM class — that combination has enough specificity to win without `!important`.
   </Accordion>
 
   <Accordion title="Saving an address fails with 'That address is already in your address book'">
@@ -64,7 +64,7 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Settings aren't saving">
-    AddrVault settings use WooCommerce's own settings save pipeline (**WooCommerce → Settings → Accounts & Privacy → AddrVault**) — if changes there aren't persisting, it's almost always a WooCommerce-level issue (a conflicting plugin filtering `woocommerce_get_settings_account`, or a permissions problem), not something AddrVault-specific.
+    Unwan settings use WooCommerce's own settings save pipeline (**WooCommerce → Settings → Accounts & Privacy → Unwan**) — if changes there aren't persisting, it's almost always a WooCommerce-level issue (a conflicting plugin filtering `woocommerce_get_settings_account`, or a permissions problem), not something Unwan-specific.
   </Accordion>
 </AccordionGroup>
 

@@ -4,17 +4,17 @@ description: "Rendering rules, picker behavior, and settings shared by both chec
 icon: "cart-shopping"
 ---
 
-AddrVault ships two checkout adapters — one for WooCommerce Checkout Blocks, one for the classic (shortcode) checkout — that share the same picker markup, behavior, labels, and settings. This page covers what's common to both; see [Checkout Blocks](/addrvault/checkout/checkout-blocks) and [Classic Checkout](/addrvault/checkout/classic-checkout) for the adapter-specific mechanics.
+Unwan ships two checkout adapters — one for WooCommerce Checkout Blocks, one for the classic (shortcode) checkout — that share the same picker markup, behavior, labels, and settings. This page covers what's common to both; see [Checkout Blocks](/addrvault/checkout/checkout-blocks) and [Classic Checkout](/addrvault/checkout/classic-checkout) for the adapter-specific mechanics.
 
 ## When the picker renders
 
 The picker only appears for a given selector (billing or shipping) when **all** of these are true:
 
-- The customer is signed in. AddrVault does not offer saved addresses to guests.
-- The corresponding selector is enabled in **Accounts & Privacy → AddrVault**.
+- The customer is signed in. Unwan does not offer saved addresses to guests.
+- The corresponding selector is enabled in **Accounts & Privacy → Unwan**.
 - The customer's combined address book (see [The Address Book Model](/addrvault/concepts/address-book-model)) has at least one entry.
 
-If any of those isn't true, native WooCommerce fields render exactly as they would without AddrVault installed — there's no empty picker shell taking up space.
+If any of those isn't true, native WooCommerce fields render exactly as they would without Unwan installed — there's no empty picker shell taking up space.
 
 ## Picker states
 
@@ -30,14 +30,14 @@ If any of those isn't true, native WooCommerce fields render exactly as they wou
   </Tab>
 </Tabs>
 
-Selecting a saved address hides the native WooCommerce address fields (their values are populated from the selection); choosing **Enter a new address** clears and reveals them again. WooCommerce's own checkout fields and stores remain the single source of truth for what actually gets submitted — AddrVault only decides what pre-fills them.
+Selecting a saved address hides the native WooCommerce address fields (their values are populated from the selection); choosing **Enter a new address** clears and reveals them again. WooCommerce's own checkout fields and stores remain the single source of truth for what actually gets submitted — Unwan only decides what pre-fills them.
 
 ## What happens after checkout
 
 - **A saved selection is order-specific by default.** Choosing a saved address for this order does not silently change the customer's account default — that would be a surprising side effect for something as routine as picking a delivery address.
 - **A new address entered at checkout is saved automatically** (governed by **Save checkout addresses**, on by default), becoming a role-free additional address — unless it's an exact duplicate of something already in the book, in which case the existing entry is reused.
 - **Promoting a new address to the account default** is opt-in, via **New address defaults → Make the new address the matching default**. With this off (the default), the account's billing/shipping profile defaults never change just because a customer typed a new address for one order.
-- **Billing and shipping don't double-save.** If a customer lets billing be used for shipping, or otherwise submits the same address for both roles, AddrVault's normal duplicate detection means only one additional-address record is ever created — see [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+- **Billing and shipping don't double-save.** If a customer lets billing be used for shipping, or otherwise submits the same address for both roles, Unwan's normal duplicate detection means only one additional-address record is ever created — see [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
 
 ## Settings that affect checkout
 
