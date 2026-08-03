@@ -16,43 +16,43 @@
       {
         "product": "Unwan",
         "pages": [
+          "unwan/introduction",
+          "unwan/installation",
+          "unwan/quickstart",
+          "unwan/my-account",
+          "unwan/settings",
           {
             "group": "Checkout",
             "pages": [
-              "addrvault/checkout/checkout-blocks",
-              "addrvault/checkout/checkout-overview",
-              "addrvault/checkout/classic-checkout"
+              "unwan/checkout/checkout-blocks",
+              "unwan/checkout/checkout-overview",
+              "unwan/checkout/classic-checkout"
             ]
           },
           {
             "group": "Concepts",
             "pages": [
-              "addrvault/concepts/address-book-model",
-              "addrvault/concepts/default-swaps-and-duplicates"
+              "unwan/concepts/address-book-model",
+              "unwan/concepts/default-swaps-and-duplicates"
             ]
           },
-          "addrvault/installation",
           {
             "group": "Customization",
             "pages": [
-              "addrvault/customization/appearance-and-theming",
-              "addrvault/customization/css-and-markup"
+              "unwan/customization/appearance-and-theming",
+              "unwan/customization/css-and-markup"
             ]
           },
-          "addrvault/quickstart",
           {
             "group": "Developers",
             "pages": [
-              "addrvault/developers/architecture",
-              "addrvault/developers/hooks-reference",
-              "addrvault/developers/javascript-api"
+              "unwan/developers/architecture",
+              "unwan/developers/hooks-reference",
+              "unwan/developers/javascript-api"
             ]
           },
-          "addrvault/faq",
-          "addrvault/introduction",
-          "addrvault/my-account",
-          "addrvault/settings",
-          "addrvault/changelog"
+          "unwan/faq",
+          "unwan/changelog"
         ]
       }
     ]
