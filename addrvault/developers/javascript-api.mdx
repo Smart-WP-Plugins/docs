@@ -4,14 +4,14 @@ description: "The shared picker controller used by both checkout adapters"
 icon: "square-js"
 ---
 
-AddrVault's picker is a small, standard-DOM controller shared by Checkout Blocks and classic checkout — there's exactly one implementation to reason about, not two.
+Unwan's picker is a small, standard-DOM controller shared by Checkout Blocks and classic checkout — there's exactly one implementation to reason about, not two.
 
-## `window.addrVaultAddressPicker`
+## `window.unwanAddressPicker`
 
 ```js
-const picker = window.addrVaultAddressPicker.mount( element, data );
+const picker = window.unwanAddressPicker.mount( element, data );
 picker.update( nextData );
-window.addrVaultAddressPicker.destroy( element );
+window.unwanAddressPicker.destroy( element );
 ```
 
 | Method | Description |
@@ -24,13 +24,13 @@ Instances are tracked in a `WeakMap` keyed by their mount element, so there's no
 
 ## Data shape
 
-The controller expects roughly this shape (matching what `addrvault_checkout_address_options` produces server-side):
+The controller expects roughly this shape (matching what `unwan_checkout_address_options` produces server-side):
 
 ```js
 {
   addresses: [
     {
-      id: 'addrvault_a_1a2b3c4d5e6f7890',
+      id: 'unwan_a_1a2b3c4d5e6f7890',
       name: 'Jordan Rivera',
       street: '123 Main St',
       details: 'Austin, TX 78701, United States',
@@ -40,9 +40,9 @@ The controller expects roughly this shape (matching what `addrvault_checkout_add
     },
     // …
   ],
-  selection: 'addrvault_a_1a2b3c4d5e6f7890', // a saved ID, or "new"
+  selection: 'unwan_a_1a2b3c4d5e6f7890', // a saved ID, or "new"
   summary: { /* the currently selected option, for the collapsed view */ },
-  labels: { /* addrvault_checkout_picker_labels keys */ },
+  labels: { /* unwan_checkout_picker_labels keys */ },
   searchThreshold: 4,
   disabled: false,
 }
@@ -53,7 +53,7 @@ The controller expects roughly this shape (matching what `addrvault_checkout_add
 Selecting an option — by click or keyboard — dispatches a bubbling custom event on the mount element:
 
 ```js
-element.addEventListener( 'addrvault-selection-change', ( event ) => {
+element.addEventListener( 'unwan-selection-change', ( event ) => {
   console.log( event.detail.value ); // a saved address ID, or "new"
 } );
 ```
@@ -65,9 +65,9 @@ Both checkout adapters listen for this to sync their hidden field (classic check
 The picker deliberately avoids anything that would make it hard to inspect, override, or extend:
 
 - No custom element (`customElements.define`) and no Shadow DOM — everything renders as plain `<div>`/`<span>`/`<button>` markup you can select and style with ordinary CSS.
-- No style mutation from JavaScript — all presentation lives in `assets/css/addrvault.css`, documented on the [CSS Variables & Markup](/addrvault/customization/css-and-markup) page.
+- No style mutation from JavaScript — all presentation lives in `assets/css/unwan.css`, documented on the [CSS Variables & Markup](/addrvault/customization/css-and-markup) page.
 - Full keyboard support out of the box: Arrow Up/Down/Left/Right, Home, and End move and select within the `role="radio"` group, matching standard radio-group behavior.
 
-## `window.addrVaultClassicCheckout`
+## `window.unwanClassicCheckout`
 
-On classic checkout only, AddrVault localizes a private, per-request configuration object consumed by `addrvault-classic-checkout.js` to mount the shared picker into each `.addrvault-checkout__selector` placeholder: checkout options for each enabled type, field keys, the store's base country, the search threshold, and picker labels. This object is checkout-request-specific and isn't intended as a public integration point — filter the data going _into_ it server-side instead, via `addrvault_classic_checkout_picker_data` (see the [Hooks Reference](/addrvault/developers/hooks-reference)).
+On classic checkout only, Unwan localizes a private, per-request configuration object consumed by `unwan-classic-checkout.js` to mount the shared picker into each `.unwan-checkout__selector` placeholder: checkout options for each enabled type, field keys, the store's base country, the search threshold, and picker labels. This object is checkout-request-specific and isn't intended as a public integration point — filter the data going _into_ it server-side instead, via `unwan_classic_checkout_picker_data` (see the [Hooks Reference](/addrvault/developers/hooks-reference)).

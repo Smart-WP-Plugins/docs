@@ -1,6 +1,6 @@
 ---
 title: "Default Swaps & Duplicate Detection"
-description: "Why reassigning a default never loses data, and how AddrVault recognizes the same address twice"
+description: "Why reassigning a default never loses data, and how Unwan recognizes the same address twice"
 icon: "shuffle"
 ---
 
@@ -8,14 +8,14 @@ Two rules make the single-library model safe to use without customers ever "losi
 
 ## Lossless default swaps
 
-When an entry is promoted to a default role it didn't already hold, AddrVault doesn't just overwrite the old default and discard it — it checks whether that displaced address is still represented anywhere else in the book first.
+When an entry is promoted to a default role it didn't already hold, Unwan doesn't just overwrite the old default and discard it — it checks whether that displaced address is still represented anywhere else in the book first.
 
 <Steps>
   <Step title="The new address is written to the profile field">
     Whatever entry is being promoted has its fields written into the WooCommerce billing or shipping profile field it's now claiming.
   </Step>
   <Step title="The displaced address is checked">
-    AddrVault reads what _used_ to be in that profile field, before the overwrite.
+    Unwan reads what _used_ to be in that profile field, before the overwrite.
   </Step>
   <Step title="It's dropped, or preserved">
     If the displaced address is empty, or its normalized signature matches the address that just replaced it, nothing further happens. Otherwise, it's inserted into the shared additional-address collection — so it's still in the book, just without a default role anymore.
@@ -23,7 +23,7 @@ When an entry is promoted to a default role it didn't already hold, AddrVault do
 </Steps>
 
 <Warning>
-  A displaced default **bypasses the configured additional-address limit**. Changing which address holds a role must never be the reason an address disappears from the book — so this specific insertion skips the `addrvault_address_save_limit` check that normally applies when a customer manually adds a new address.
+  A displaced default **bypasses the configured additional-address limit**. Changing which address holds a role must never be the reason an address disappears from the book — so this specific insertion skips the `unwan_address_save_limit` check that normally applies when a customer manually adds a new address.
 </Warning>
 
 ### Worked example
@@ -31,14 +31,14 @@ When an entry is promoted to a default role it didn't already hold, AddrVault do
 A customer's billing default is _123 Main St_. They add a new address, _456 Oak Ave_, and check "Default billing address" while saving it.
 
 1. _456 Oak Ave_ is written into the billing profile field.
-2. AddrVault notices _123 Main St_ used to be there and doesn't match _456 Oak Ave_.
+2. Unwan notices _123 Main St_ used to be there and doesn't match _456 Oak Ave_.
 3. _123 Main St_ is added to the shared collection as a plain, role-free additional address — even if the customer was already at their saved-address limit.
 
 The customer now has both addresses in their book; nothing was deleted.
 
 ## Duplicate detection
 
-Before any address is saved — whether typed into My Account, entered at checkout, or displaced by a default swap — AddrVault checks it against every existing entry (both profile defaults and every additional address) using a normalized signature:
+Before any address is saved — whether typed into My Account, entered at checkout, or displaced by a default swap — Unwan checks it against every existing entry (both profile defaults and every additional address) using a normalized signature:
 
 ```text
 signature = normalize(first_name) + "|" + normalize(last_name) + "|" + normalize(address_1)
@@ -48,12 +48,12 @@ where `normalize()` strips accents, collapses whitespace, and lowercases the val
 
 <Tabs>
   <Tab title="New address at checkout">
-    If a customer types an address at checkout that matches an existing entry's signature, AddrVault reuses the existing entry's ID instead of creating a new one — so filling in the same details twice never creates two records.
+    If a customer types an address at checkout that matches an existing entry's signature, Unwan reuses the existing entry's ID instead of creating a new one — so filling in the same details twice never creates two records.
   </Tab>
   <Tab title="Editing in My Account">
     Saving an edit that would make an entry's signature match a _different_ existing entry is rejected with an error ("That address is already in your address book"), rather than silently creating a collision.
   </Tab>
   <Tab title="Billing = shipping at checkout">
-    If a customer enters identical billing and shipping addresses in the same checkout, the second save recognizes the first as a duplicate and reuses it — AddrVault never creates two records for what is, in normalized terms, one address.
+    If a customer enters identical billing and shipping addresses in the same checkout, the second save recognizes the first as a duplicate and reuses it — Unwan never creates two records for what is, in normalized terms, one address.
   </Tab>
 </Tabs>

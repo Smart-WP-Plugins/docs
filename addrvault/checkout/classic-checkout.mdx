@@ -1,6 +1,6 @@
 ---
 title: "Classic Checkout"
-description: "How AddrVault integrates with the shortcode-based checkout"
+description: "How Unwan integrates with the shortcode-based checkout"
 icon: "receipt"
 ---
 
@@ -8,25 +8,25 @@ Stores still using the classic, shortcode-based `[woocommerce_checkout]` page ge
 
 ## How it mounts
 
-AddrVault prints an empty mount point immediately before WooCommerce's native billing and shipping forms:
+Unwan prints an empty mount point immediately before WooCommerce's native billing and shipping forms:
 
 ```php
 // via woocommerce_before_checkout_billing_form / _shipping_form
-<div class="addrvault-checkout__selector" data-addrvault-address-type="billing"></div>
+<div class="unwan-checkout__selector" data-unwan-address-type="billing"></div>
 ```
 
-The classic-checkout JavaScript (`addrvault-classic-checkout.js`) reads a localized `window.addrVaultClassicCheckout` object — containing each customer's checkout options, field keys, labels, and search threshold — and mounts the same shared controller used by Checkout Blocks (`window.addrVaultAddressPicker`, documented in the [JavaScript API](/addrvault/developers/javascript-api)) into each placeholder.
+The classic-checkout JavaScript (`unwan-classic-checkout.js`) reads a localized `window.unwanClassicCheckout` object — containing each customer's checkout options, field keys, labels, and search threshold — and mounts the same shared controller used by Checkout Blocks (`window.unwanAddressPicker`, documented in the [JavaScript API](/addrvault/developers/javascript-api)) into each placeholder.
 
 ## Submission and validation
 
-AddrVault adds a hidden field per enabled selector (`addrvault_billing_address_id` / `addrvault_shipping_address_id`) holding the current selection, defaulting to the customer's top-ranked option. On submit:
+Unwan adds a hidden field per enabled selector (`unwan_billing_address_id` / `unwan_shipping_address_id`) holding the current selection, defaulting to the customer's top-ranked option. On submit:
 
 1. `woocommerce_after_checkout_validation` rejects the order if a selector is enabled and its submitted value isn't `"new"` and doesn't match a real entry in that customer's checkout options — the same server-side validation a crafted or stale request would need to defeat.
-2. `woocommerce_checkout_update_customer_data` returns `false` when either AddrVault selection field is present, which stops WooCommerce's own default customer-data write — AddrVault persists only the address types the shopper actually chose to save as a default, on its own terms.
+2. `woocommerce_checkout_update_customer_data` returns `false` when either Unwan selection field is present, which stops WooCommerce's own default customer-data write — Unwan persists only the address types the shopper actually chose to save as a default, on its own terms.
 3. `woocommerce_checkout_update_user_meta` saves a new address (if `"new"` was chosen and **Save checkout addresses** is on) and, if configured, promotes it to the matching profile default.
 
-AddrVault also fills in the customer's WordPress display name from the billing name on this hook, but only when it's currently empty or is still just the account email — it never overwrites a name the customer has already set.
+Unwan also fills in the customer's WordPress display name from the billing name on this hook, but only when it's currently empty or is still just the account email — it never overwrites a name the customer has already set.
 
 ## Detecting Checkout Blocks pages
 
-The classic-checkout script only enqueues on pages that are actually running the shortcode checkout. AddrVault checks whether the current queried page contains the `woocommerce/checkout` block and skips its own classic assets if so, so the two adapters never both try to mount on the same page.
+The classic-checkout script only enqueues on pages that are actually running the shortcode checkout. Unwan checks whether the current queried page contains the `woocommerce/checkout` block and skips its own classic assets if so, so the two adapters never both try to mount on the same page.

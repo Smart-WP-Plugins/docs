@@ -4,14 +4,14 @@ description: "Get a working, styled checkout address picker in about five minute
 icon: "bolt"
 ---
 
-This walks through the fastest path to seeing AddrVault working end to end: one saved address, one checkout, one styled picker.
+This walks through the fastest path to seeing Unwan working end to end: one saved address, one checkout, one styled picker.
 
 <Steps>
   <Step title="Confirm the selectors are enabled">
-    Go to **WooCommerce → Settings → Accounts & Privacy → AddrVault**. Under **Address book**, both **Billing checkout selector** and **Shipping checkout selector** are enabled by default — leave them on, or turn off whichever one your store doesn't need.
+    Go to **WooCommerce → Settings → Accounts & Privacy → Unwan**. Under **Address book**, both **Billing checkout selector** and **Shipping checkout selector** are enabled by default — leave them on, or turn off whichever one your store doesn't need.
   </Step>
   <Step title="Create a test customer address">
-    Sign in as (or create) a customer account, visit **My Account → Address book**, and click **Add new address**. Fill in a complete address — AddrVault requires at least a street address, city, or postcode to consider an entry valid — and save it without checking either default-role box, so it becomes a plain additional address.
+    Sign in as (or create) a customer account, visit **My Account → Address book**, and click **Add new address**. Fill in a complete address — Unwan requires at least a street address, city, or postcode to consider an entry valid — and save it without checking either default-role box, so it becomes a plain additional address.
   </Step>
   <Step title="Set a billing or shipping default (optional)">
     From the address list, open the row's action menu and choose **Make default billing** or **Make default shipping**. This is optional — the checkout picker also shows addresses that hold no default role.
@@ -20,12 +20,12 @@ This walks through the fastest path to seeing AddrVault working end to end: one 
     As the same customer, add a product to the cart and go to checkout (classic or block-based — both work identically). You should see a picker above the billing fields (and shipping fields, if shipping is needed) showing the saved address as a collapsed summary with a **Change** action.
   </Step>
   <Step title="Pick your color mode and accent">
-    Back in **Accounts & Privacy → AddrVault**, set **Color mode** to Light, Dark, or "Follow the customer's device," and pick an **Accent color**. Reload checkout or My Account to see the whole interface restyle instantly — no CSS needed.
+    Back in **Accounts & Privacy → Unwan**, set **Color mode** to Light, Dark, or "Follow the customer's device," and pick an **Accent color**. Reload checkout or My Account to see the whole interface restyle instantly — no CSS needed.
   </Step>
 </Steps>
 
 <Check>
-  If the picker doesn't appear, the most common cause is that the signed-in customer has no saved address yet — AddrVault deliberately stays invisible until there's something to pick from. See [Checkout Integration](/addrvault/checkout/checkout-overview) for the full rendering rules.
+  If the picker doesn't appear, the most common cause is that the signed-in customer has no saved address yet — Unwan deliberately stays invisible until there's something to pick from. See [Checkout Integration](/addrvault/checkout/checkout-overview) for the full rendering rules.
 </Check>
 
 ## Where to go next
@@ -44,6 +44,6 @@ This walks through the fastest path to seeing AddrVault working end to end: one 
   </Card>
 
   <Card title="Hooks reference" icon="code" href="/addrvault/developers/hooks-reference">
-    Every filter and action AddrVault exposes.
+    Every filter and action Unwan exposes.
   </Card>
 </CardGroup>

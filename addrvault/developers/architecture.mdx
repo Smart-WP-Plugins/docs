@@ -8,24 +8,24 @@ icon: "sitemap"
 
 | Area | Files | Responsibility |
 | --- | --- | --- |
-| Bootstrap | `addrvault.php` | Constants, namespace loader, compatibility declarations, WooCommerce gate |
+| Bootstrap | `unwan-for-woocommerce.php` | Constants, namespace loader, compatibility declarations, WooCommerce gate |
 | Coordination | `includes/Plugin.php` | Wires up services, styles, translations, activation |
 | Persistence | `includes/AddressRepository.php` | Unified storage, default swaps, duplicate detection, formatting |
 | Settings | `includes/Admin/Settings.php` | Accounts & Privacy subsection, behavior, labels, appearance |
 | My Account | `includes/AccountController.php`, `templates/myaccount/` | Endpoint, form handling, actions |
-| Picker controller | `src/addrvault-address-picker.js` | Shared standard-DOM markup and interaction |
-| Picker styles | `assets/css/addrvault.css` | Scoped reset and all visual presentation |
+| Picker controller | `src/unwan-address-picker.js` | Shared standard-DOM markup and interaction |
+| Picker styles | `assets/css/unwan.css` | Scoped reset and all visual presentation |
 | Classic checkout | `includes/Checkout/ClassicCheckout.php` | Shortcode checkout adapter |
 | Checkout Blocks | `includes/Checkout/BlocksController.php`, `BlocksIntegration.php`, `src/blocks/` | Blocks registration and Store API integration |
 | Uninstall | `uninstall.php` | Opt-in settings and address cleanup |
 
 ## No custom database tables
 
-AddrVault stores exactly one thing of its own: a single namespaced user-meta key, `_addrvault_addresses`, holding every customer's additional (role-free) addresses as one serialized collection. The two profile defaults are read from WooCommerce's own billing/shipping user meta — AddrVault never creates a second, competing copy of that data. There is nothing here for a host to migrate, index, or back up beyond what WooCommerce already manages.
+Unwan stores exactly one thing of its own: a single namespaced user-meta key, `_unwan_addresses`, holding every customer's additional (role-free) addresses as one serialized collection. The two profile defaults are read from WooCommerce's own billing/shipping user meta — Unwan never creates a second, competing copy of that data. There is nothing here for a host to migrate, index, or back up beyond what WooCommerce already manages.
 
 ## PSR-4 autoloading, without a Composer runtime dependency
 
-Every PHP class lives under the `AddrVault\CustomerAddressBook` namespace and is autoloaded via a small `spl_autoload_register` callback defined directly in `addrvault.php` — mapping the namespace onto `includes/`. Composer's `vendor/autoload.php` is **never required in production**; Composer is used only for the project's own development tooling (WordPress Coding Standards, PHPCompatibility), and `vendor/` is excluded from every release archive.
+Every PHP class lives under the `Unwan\AddressLibrary` namespace and is autoloaded via a small `spl_autoload_register` callback defined directly in `unwan-for-woocommerce.php` — mapping the namespace onto `includes/`. Composer's `vendor/autoload.php` is **never required in production**; Composer is used only for the project's own development tooling (WordPress Coding Standards, PHPCompatibility), and `vendor/` is excluded from every release archive.
 
 <Info>
   Class files are named after their class (`AddressRepository.php`), not the legacy WordPress core `class-{name}.php` convention — a deliberate, documented choice to keep PSR-4 autoloading straightforward.
@@ -41,4 +41,4 @@ Every PHP file is checked against a WordPress Coding Standards ruleset (`WordPre
 
 ## Compatibility declarations
 
-AddrVault declares compatibility with WooCommerce's High-Performance Order Storage (`custom_order_tables`) and Cart & Checkout Blocks (`cart_checkout_blocks`) features via `FeaturesUtil::declare_compatibility()`, registered on `before_woocommerce_init` — before WooCommerce's own feature system finishes initializing.
+Unwan declares compatibility with WooCommerce's High-Performance Order Storage (`custom_order_tables`) and Cart & Checkout Blocks (`cart_checkout_blocks`) features via `FeaturesUtil::declare_compatibility()`, registered on `before_woocommerce_init` — before WooCommerce's own feature system finishes initializing.

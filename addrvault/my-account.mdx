@@ -4,7 +4,7 @@ description: "What customers see and can do under My Account"
 icon: "address-book"
 ---
 
-AddrVault replaces WooCommerce's plain **Addresses** item in My Account with **Address book** — one endpoint, no billing/shipping tabs to choose between.
+Unwan replaces WooCommerce's plain **Addresses** item in My Account with **Address book** — one endpoint, no billing/shipping tabs to choose between.
 
 ## Layout
 
@@ -39,7 +39,7 @@ The listing and editor views are mutually exclusive — opening the editor (via 
 The editor form is WooCommerce's own locale-aware address field set (via `WC()->countries->get_address_fields()`), plus two checkboxes: **Default shipping address** and **Default billing address**. Leaving both unchecked keeps the entry as a plain, role-free additional address available everywhere at checkout.
 
 <Note>
-  If a save fails validation (a required field is empty, or the phone number doesn't look valid), AddrVault redirects back to the same editor with the customer's entered values intact — nothing is lost, and nothing needs to be retyped from scratch.
+  If a save fails validation (a required field is empty, or the phone number doesn't look valid), Unwan redirects back to the same editor with the customer's entered values intact — nothing is lost, and nothing needs to be retyped from scratch.
 </Note>
 
 ## Security
