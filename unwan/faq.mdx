@@ -12,23 +12,23 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Does Unwan support WooCommerce Checkout Blocks?">
-    Yes, natively — see [Checkout Blocks](/addrvault/checkout/checkout-blocks). The billing and shipping selectors are registered as forced inner blocks through WooCommerce's own Blocks integration registry and Store API, not injected after the fact.
+    Yes, natively — see [Checkout Blocks](/unwan/checkout/checkout-blocks). The billing and shipping selectors are registered as forced inner blocks through WooCommerce's own Blocks integration registry and Store API, not injected after the fact.
   </Accordion>
 
   <Accordion title="Will this slow down my store?">
-    Unwan creates no custom database tables, runs no extra queries beyond what WooCommerce already performs for customer data, caches its results for the duration of each request, and only loads its scripts and styles on checkout and My Account pages. There's no tracking or external service call of any kind. See [Architecture](/addrvault/developers/architecture).
+    Unwan creates no custom database tables, runs no extra queries beyond what WooCommerce already performs for customer data, caches its results for the duration of each request, and only loads its scripts and styles on checkout and My Account pages. There's no tracking or external service call of any kind. See [Architecture](/unwan/developers/architecture).
   </Accordion>
 
   <Accordion title="Does selecting a saved address at checkout replace the customer's account default?">
-    Not by default. A saved address is used for the current order without silently replacing the WooCommerce default. Store owners can opt into promoting a new checkout address to the matching default under **New address defaults**. See [Checkout Overview](/addrvault/checkout/checkout-overview).
+    Not by default. A saved address is used for the current order without silently replacing the WooCommerce default. Store owners can opt into promoting a new checkout address to the matching default under **New address defaults**. See [Checkout Overview](/unwan/checkout/checkout-overview).
   </Accordion>
 
   <Accordion title="Are newly entered checkout addresses saved automatically?">
-    Yes, by default (**Save checkout addresses**). An address matching an existing entry's normalized first name, last name, and first address line is reused instead of duplicated — see [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+    Yes, by default (**Save checkout addresses**). An address matching an existing entry's normalized first name, last name, and first address line is reused instead of duplicated — see [Default Swaps & Duplicate Detection](/unwan/concepts/default-swaps-and-duplicates).
   </Accordion>
 
   <Accordion title="What happens to the previous default address when a new one takes over?">
-    It stays in the address book, demoted to a plain additional address — unless it still holds the _other_ default role, in which case nothing changes for it. Reassigning a default never deletes the address it replaces. See [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+    It stays in the address book, demoted to a plain additional address — unless it still holds the _other_ default role, in which case nothing changes for it. Reassigning a default never deletes the address it replaces. See [Default Swaps & Duplicate Detection](/unwan/concepts/default-swaps-and-duplicates).
   </Accordion>
 
   <Accordion title="What happens to data when Unwan is uninstalled?">
@@ -36,7 +36,7 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="Is Unwan built to WordPress coding standards?">
-    Yes — PSR-4 autoloading with namespaced classes, and every release is checked against the WordPress Coding Standards PHPCS ruleset (`WordPress-Extra` plus `PHPCompatibilityWP`) before publishing. See [Architecture](/addrvault/developers/architecture).
+    Yes — PSR-4 autoloading with namespaced classes, and every release is checked against the WordPress Coding Standards PHPCS ruleset (`WordPress-Extra` plus `PHPCompatibilityWP`) before publishing. See [Architecture](/unwan/developers/architecture).
   </Accordion>
 </AccordionGroup>
 
@@ -52,11 +52,11 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="A theme or plugin's CSS is bleeding into the picker">
-    This should be rare given Unwan's [ID-rooted CSS reset](/addrvault/customization/css-and-markup), but if you hit a specific conflict, load your override CSS after `assets/css/unwan.css` and target the stable root ID (`#unwan-account-list`, `#unwan-billing-picker`, `#unwan-shipping-picker`) plus the relevant BEM class — that combination has enough specificity to win without `!important`.
+    This should be rare given Unwan's [ID-rooted CSS reset](/unwan/customization/css-and-markup), but if you hit a specific conflict, load your override CSS after `assets/css/unwan.css` and target the stable root ID (`#unwan-account-list`, `#unwan-billing-picker`, `#unwan-shipping-picker`) plus the relevant BEM class — that combination has enough specificity to win without `!important`.
   </Accordion>
 
   <Accordion title="Saving an address fails with 'That address is already in your address book'">
-    This is expected behavior, not a bug: the entry you're editing would normalize to the same first name, last name, and street line as a different existing entry. Edit or delete the other entry first if you actually want to merge them. See [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates).
+    This is expected behavior, not a bug: the entry you're editing would normalize to the same first name, last name, and street line as a different existing entry. Edit or delete the other entry first if you actually want to merge them. See [Default Swaps & Duplicate Detection](/unwan/concepts/default-swaps-and-duplicates).
   </Accordion>
 
   <Accordion title="A row's 'Delete' or 'Make default' action is disabled">

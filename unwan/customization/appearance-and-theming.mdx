@@ -23,7 +23,7 @@ The selected mode adds exactly one body class — `unwan-color-scheme-light`, `u
 Set **Accent color** to any hex color. It drives the accent text, primary buttons, selected-state backgrounds, and the derived hover/5%/10% alpha surfaces throughout the picker and My Account — no custom CSS required. Internally, Unwan emits both the hex value and its RGB channels as a small inline style block after the main stylesheet, so accent-derived surfaces can use `color-mix()` and `rgba()` without a second round trip.
 
 <Note>
-  If you're overriding the accent color yourself via the `unwan_accent_color` filter or custom CSS, keep the hex and RGB-channel values in sync — see [CSS Variables & Markup](/addrvault/customization/css-and-markup) for the underlying tokens.
+  If you're overriding the accent color yourself via the `unwan_accent_color` filter or custom CSS, keep the hex and RGB-channel values in sync — see [CSS Variables & Markup](/unwan/customization/css-and-markup) for the underlying tokens.
 </Note>
 
 ## Labels
@@ -50,4 +50,4 @@ Every customer-facing string listed below is editable directly from the settings
 | New-address choice | Enter a new address |
 | Change action | Change |
 
-A handful of additional picker strings (result counts, "No saved addresses match your search," the "Default" badge, and the search field's accessible label) aren't exposed on the settings screen but can still be changed with the `unwan_checkout_picker_labels` and `unwan_account_labels` filters — see the [Hooks Reference](/addrvault/developers/hooks-reference).
+A handful of additional picker strings (result counts, "No saved addresses match your search," the "Default" badge, and the search field's accessible label) aren't exposed on the settings screen but can still be changed with the `unwan_checkout_picker_labels` and `unwan_account_labels` filters — see the [Hooks Reference](/unwan/developers/hooks-reference).

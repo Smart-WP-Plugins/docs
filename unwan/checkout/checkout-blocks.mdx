@@ -32,7 +32,7 @@ Each holds a saved address ID or `"new"`. This is the same Store API mechanism a
 
 ## Keeping order-specific choices from leaking into account defaults
 
-This is the trickiest part of the integration, and worth understanding if you're debugging address behavior: WooCommerce's Store API updates the customer's billing/shipping profile fields as a normal side effect of processing checkout, even when a shopper only meant to use an address for _this order_. Left alone, that would silently overwrite the account default — exactly what [Checkout Overview](/addrvault/checkout/checkout-overview) promises won't happen.
+This is the trickiest part of the integration, and worth understanding if you're debugging address behavior: WooCommerce's Store API updates the customer's billing/shipping profile fields as a normal side effect of processing checkout, even when a shopper only meant to use an address for _this order_. Left alone, that would silently overwrite the account default — exactly what [Checkout Overview](/unwan/checkout/checkout-overview) promises won't happen.
 
 Unwan works around this without fighting WooCommerce's own checkout flow:
 
