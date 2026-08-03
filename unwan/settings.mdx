@@ -7,7 +7,7 @@ icon: "sliders"
 All Unwan settings live in one place: **WooCommerce → Settings → Accounts & Privacy → Unwan**. They use WooCommerce's own settings save pipeline — there's no separate Unwan admin page, no extra database table, and no additional admin-side request.
 
 <Tip>
-  Every setting on this page is also filterable from code — see the [Hooks Reference](/addrvault/developers/hooks-reference) if you need to set a value programmatically or per-customer.
+  Every setting on this page is also filterable from code — see the [Hooks Reference](/unwan/developers/hooks-reference) if you need to set a value programmatically or per-customer.
 </Tip>
 
 ## Address book
@@ -16,7 +16,7 @@ All Unwan settings live in one place: **WooCommerce → Settings → Accounts & 
 | --- | --- | --- | --- |
 | Billing checkout selector | `unwan_billing_enable` | On | Lets customers choose any address-book entry for billing at checkout |
 | Shipping checkout selector | `unwan_shipping_enable` | On | Lets customers choose any address-book entry for shipping at checkout |
-| Additional address limit | `unwan_address_save_limit` | `0` (unlimited) | Maximum additional addresses per customer. Billing and shipping defaults don't count against this — and a displaced default from a role swap always bypasses it, see [Default Swaps](/addrvault/concepts/default-swaps-and-duplicates) |
+| Additional address limit | `unwan_address_save_limit` | `0` (unlimited) | Maximum additional addresses per customer. Billing and shipping defaults don't count against this — and a displaced default from a role swap always bypasses it, see [Default Swaps](/unwan/concepts/default-swaps-and-duplicates) |
 | Address search threshold | `unwan_address_search_threshold` | `4` | Saved-address count above which the search field appears, in both checkout and My Account. `0` always shows it |
 | Save checkout addresses | `unwan_save_checkout_addresses` | On | Whether a new, validated address entered at checkout is added to the customer's address book |
 | New address defaults | `unwan_checkout_default_behavior` | Preserve | `preserve` keeps existing profile defaults untouched; `update` makes a newly saved checkout address the matching billing/shipping default. Has no effect when **Save checkout addresses** is off |
@@ -28,11 +28,11 @@ All Unwan settings live in one place: **WooCommerce → Settings → Accounts & 
 | Color mode | `unwan_color_scheme` | Light | `light`, `dark`, or "follow the customer's device" (`system`) |
 | Accent color | `unwan_accent_color` | `#6b3fa0` | A six-digit hex color driving every accent surface across the picker and My Account |
 
-See [Appearance & Theming](/addrvault/customization/appearance-and-theming) for how these actually apply.
+See [Appearance & Theming](/unwan/customization/appearance-and-theming) for how these actually apply.
 
 ## Text and labels
 
-Every customer-facing string — page titles, button text, empty-state copy, picker headings — is editable from this section, with translations still able to override whatever you set. See [Appearance & Theming](/addrvault/customization/appearance-and-theming#labels) for the full list of editable keys and their defaults.
+Every customer-facing string — page titles, button text, empty-state copy, picker headings — is editable from this section, with translations still able to override whatever you set. See [Appearance & Theming](/unwan/customization/appearance-and-theming#labels) for the full list of editable keys and their defaults.
 
 ## Data removal
 

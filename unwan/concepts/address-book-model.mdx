@@ -28,7 +28,7 @@ Additional, role-free addresses are stored together in one piece of user meta, `
 When Unwan needs "the address book" (for My Account, or either checkout selector), it:
 
 1. Reads the billing default and shipping default from WooCommerce's profile fields.
-2. If both are non-empty and their normalized signatures match (see [Default Swaps & Duplicate Detection](/addrvault/concepts/default-swaps-and-duplicates)), collapses them into a single entry holding both roles.
+2. If both are non-empty and their normalized signatures match (see [Default Swaps & Duplicate Detection](/unwan/concepts/default-swaps-and-duplicates)), collapses them into a single entry holding both roles.
 3. Appends every additional address from `_unwan_addresses`, skipping any whose signature already matches a default — so a saved extra never sits alongside an identical default entry.
 4. Sorts the result: entries holding a default role always come first, then everything else ordered by most-recently-updated.
 
@@ -50,7 +50,7 @@ Building that list involves normalizing every entry and formatting display text,
   </Card>
 
   <Card title="Make default" icon="star">
-    Promotes any entry to hold a billing and/or shipping role. See [Default Swaps](/addrvault/concepts/default-swaps-and-duplicates) for what happens to whatever it replaces.
+    Promotes any entry to hold a billing and/or shipping role. See [Default Swaps](/unwan/concepts/default-swaps-and-duplicates) for what happens to whatever it replaces.
   </Card>
 
   <Card title="Delete" icon="trash">
