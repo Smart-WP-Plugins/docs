@@ -17,6 +17,7 @@ icon: "sitemap"
 | Picker styles | `assets/css/unwan.css` | Scoped reset and all visual presentation |
 | Classic checkout | `includes/Checkout/ClassicCheckout.php` | Shortcode checkout adapter |
 | Checkout Blocks | `includes/Checkout/BlocksController.php`, `BlocksIntegration.php`, `src/blocks/` | Blocks registration and Store API integration |
+| Translations | `languages/` | Bundled POT, ten locale catalogues, block script-translation JSON |
 | Uninstall | `uninstall.php` | Opt-in settings and address cleanup |
 
 ## No custom database tables
@@ -34,6 +35,25 @@ Every PHP class lives under the `Unwan\AddressLibrary` namespace and is autoload
 ## Request-level caching
 
 Building a customer's combined address book involves normalizing raw stored data and formatting display text — work that's identical whether it's needed for the billing selector, the shipping selector, or My Account on the same page load. `AddressRepository` caches its saved-address, profile-default, combined-book, and checkout-option lookups for the lifetime of the current request, and invalidates all of it immediately after any mutation. The practical effect: a checkout page rendering both selectors does the normalization work once, not twice.
+
+## Translations
+
+Unwan ships its own translations rather than waiting for volunteers on translate.wordpress.org. `languages/` holds the POT, ten locale catalogues as `.po` plus compiled `.mo`, and the script-translation JSON the block bundles need. Bundled locales, all left-to-right: `es_ES`, `fr_FR`, `de_DE`, `it_IT`, `pt_BR`, `nl_NL`, `pl_PL`, `ru_RU`, `sv_SE`, `ja`.
+
+PHP and JavaScript resolve through different mechanisms, and their precedence runs in opposite directions:
+
+| Side | Loaded by | Wins on conflict |
+| --- | --- | --- |
+| PHP | `load_plugin_textdomain()` on `init` | `WP_LANG_DIR` — a community translation overrides the bundled copy |
+| Block JS | `wp_set_script_translations()` with an explicit path | The bundled `languages/` copy, checked before `WP_LANG_DIR` |
+
+The PHP loader is required, not vestigial. `WP_Textdomain_Registry` searches only `WP_LANG_DIR/plugins`, `WP_LANG_DIR/themes`, and paths registered through `load_plugin_textdomain()` — omit the call and the bundled catalogues are never found. It runs on `init` because WordPress 6.7 and later emit a `_doing_it_wrong()` notice for translations loaded earlier.
+
+Script translations are keyed by a hash WordPress computes over the **built** script path (`build/blocks/frontend.js`), not the `src/` path the strings were extracted from, producing filenames like `unwan-for-woocommerce-fr_FR-<md5>.json`.
+
+<Info>
+  WordPress.org's Plugin Check reports `load_plugin_textdomain()` as a discouraged function. That rule assumes a plugin whose translations come only from translate.wordpress.org, which stopped applying once Unwan bundled its own — the finding is a warning, is expected, and removing the call would silently disable all ten locales.
+</Info>
 
 ## Coding standards
 

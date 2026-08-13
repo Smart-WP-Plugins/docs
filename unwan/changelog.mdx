@@ -6,6 +6,24 @@ icon: "clock-rotate-left"
 
 This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
 
+## 1.0.3
+
+Translations, and the i18n defects found while producing them.
+
+- Added bundled translations for ten languages: Spanish, French, German, Italian, Portuguese (Brazil), Dutch, Polish, Russian, Swedish, and Japanese. See [Translations](/unwan/developers/architecture#translations).
+- Fixed the saved-address counts ("2 saved addresses") staying in English at checkout and in My Account. The same message was registered both as a singular-only string and as a plural, and gettext can only resolve one of those.
+- Fixed the row action menu's **Make default billing** / **Make default shipping** entries interpolating an untranslated English word into an otherwise translated sentence.
+- Sanitized the request-method check in the My Account form handler.
+- Verified compatibility with WordPress 7.0 and WooCommerce 11.0.1.
+
+## 1.0.2
+
+- Verified compatibility with WordPress 7.0.2 and WooCommerce 11.0.1.
+
+## 1.0.1
+
+- Renamed the plugin to Unwan – Multiple Address Book for WooCommerce. The slug, text domain, and every public identifier are unchanged.
+
 ## 1.0.0
 
 Initial release.
