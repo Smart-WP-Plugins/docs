@@ -6,11 +6,13 @@ icon: "download"
 
 ## Requirements
 
-| Requirement | Minimum |
-| --- | --- |
-| WordPress | 6.5 |
-| PHP | 7.4 |
-| WooCommerce | 8.2 |
+| Requirement | Minimum | Verified against |
+| --- | --- | --- |
+| WordPress | 6.5 | 7.1 |
+| PHP | 7.4 | 8.3 |
+| WooCommerce | 8.2 | 11.0.1 |
+
+"Verified against" is the newest version Unwan's [test suite](/unwan/developers/architecture#testing) has been run green on, not a ceiling — newer releases are expected to work and are checked each time Unwan itself is updated.
 
 Unwan declares `Requires Plugins: woocommerce` in its plugin header, so WordPress will refuse to activate it without WooCommerce already active — you don't need to remember the dependency order yourself.
 
@@ -25,7 +27,7 @@ Unwan declares `Requires Plugins: woocommerce` in its plugin header, so WordPres
     Unwan is a WooCommerce extension and does nothing without it. If WooCommerce isn't active, Unwan will show an admin notice explaining the minimum version required instead of loading.
   </Step>
   <Step title="Install Unwan">
-    Either search for **Unwan – Address Library for WooCommerce** under **Plugins → Add New Plugin** in your WordPress admin, or upload `unwan-for-woocommerce.zip` directly via **Plugins → Add New Plugin → Upload Plugin**.
+    Either search for **Unwan – Multiple Address Book for WooCommerce** under **Plugins → Add New Plugin** in your WordPress admin, or upload `unwan-for-woocommerce.zip` directly via **Plugins → Add New Plugin → Upload Plugin**.
   </Step>
   <Step title="Activate the plugin">
     On activation, Unwan registers its My Account rewrite endpoint and flushes rewrite rules automatically — no manual permalink resave is required.

@@ -19,6 +19,7 @@ icon: "sitemap"
 | Checkout Blocks | `includes/Checkout/BlocksController.php`, `BlocksIntegration.php`, `src/blocks/` | Blocks registration and Store API integration |
 | Translations | `languages/` | Bundled POT, ten locale catalogues, block script-translation JSON |
 | Uninstall | `uninstall.php` | Opt-in settings and address cleanup |
+| Tests | `tests/`, `phpunit.xml.dist` | Integration suite run against real WordPress \+ WooCommerce (development only) |
 
 ## No custom database tables
 
@@ -58,6 +59,27 @@ Script translations are keyed by a hash WordPress computes over the **built** sc
 ## Coding standards
 
 Every PHP file is checked against a WordPress Coding Standards ruleset (`WordPress-Extra` plus `PHPCompatibilityWP`, targeting PHP 7.4\+) before release, with a small number of documented, narrowly-scoped exceptions (PSR-4 filenames, template-scope variables that PHPCS's static analysis can't see are request-local). JavaScript and CSS go through `wp-scripts`' standard lint configuration. None of this is visible to a store owner directly — it's why the plugin stays predictable to extend and unlikely to collide with other well-built plugins on the same site.
+
+## Testing
+
+Unwan is covered by 168 integration tests that boot a real WordPress install with WooCommerce active, using the WordPress core PHPUnit library. They are not unit tests against mocks: every assertion runs through actual `WC_Customer` objects, real user meta, and the real template stack, which is what makes them useful as a compatibility check against a new WordPress or WooCommerce release.
+
+| Area | What is asserted |
+| --- | --- |
+| Storage | Where each address lives, field sanitization, how the two defaults and the shared extras combine into one book |
+| Duplicates | That case, accents, and whitespace normalize away, and that a different name at the same street stays a separate entry |
+| Default roles | That reassigning a default never loses the displaced address, even when the additional-address limit is already full |
+| Checkout | Option shaping and ordering, cache invalidation, validation, and that an order-specific choice does not rewrite profile defaults |
+| Hooks | Every filter and action on the [Hooks Reference](/unwan/developers/hooks-reference), with its documented signature |
+| My Account | Markup structure, output escaping, search visibility, and that one customer can never open another's address |
+| Blocks | Block registration, the Store API extension schema, and that guests receive no address data |
+| Uninstall | That cleanup stays opt-in and never touches WooCommerce's own profile fields |
+
+Two of the tests exist to catch drift rather than defects. One fails when a new setting is added without also adding it to the uninstall routine's option list — the failure mode it prevents is data left behind after a "full removal". The other fails when the plugin's `Tested up to` header falls behind the WordPress version the suite just ran on, which is what prompts a re-verification instead of letting the claim quietly go stale.
+
+<Note>
+  The suite is development tooling. `tests/` is excluded from the release archive, so nothing described here ships to a store.
+</Note>
 
 ## Compatibility declarations
 

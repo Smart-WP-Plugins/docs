@@ -6,6 +6,17 @@ icon: "clock-rotate-left"
 
 This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
 
+## 1.0.4
+
+Compatibility verification, and a regression suite to keep it verifiable.
+
+- Verified compatibility with WordPress 7.1, WooCommerce 11.0.1, and PHP 8.3. No deprecated WordPress functions are in use, and none of WordPress 7.1's breaking changes apply to Unwan — they land in `@wordpress/components`, `@wordpress/icons`, `@wordpress/reusable-blocks`, and jQuery UI, none of which Unwan's block scripts or classic-checkout script depend on.
+- Added an automated test suite: 168 integration tests that boot a real WordPress install with WooCommerce active, covering address storage and sanitization, duplicate detection, lossless default-role swaps, the additional-address limit, checkout option shaping, request-level caching, the public hook contract, settings sanitization, uninstall gating, My Account rendering and escaping, and both checkout adapters. See [Testing](/unwan/developers/architecture#testing).
+
+<Note>
+  The test suite is development tooling and is not part of the plugin download. The released archive is unchanged in size and contents apart from the version bump and regenerated translation headers.
+</Note>
+
 ## 1.0.3
 
 Translations, and the i18n defects found while producing them.
