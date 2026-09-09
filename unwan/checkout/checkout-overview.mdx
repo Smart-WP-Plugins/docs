@@ -32,6 +32,12 @@ If any of those isn't true, native WooCommerce fields render exactly as they wou
 
 Selecting a saved address hides the native WooCommerce address fields (their values are populated from the selection); choosing **Enter a new address** clears and reveals them again. WooCommerce's own checkout fields and stores remain the single source of truth for what actually gets submitted — Unwan only decides what pre-fills them.
 
+Only a _saved_ address stands in for the fields. If the cart already carries an address that isn't in the book — carried over from an earlier order, or edited away from a saved one — the picker shows it as the current selection but leaves the fields visible and editable underneath, so it can be corrected in place rather than cleared and retyped.
+
+<Note>
+  Local pickup is a special case. WooCommerce drops the shipping address from the order and collects only a billing address, while keeping its internal "use shipping as billing" flag set. Unwan suspends its shipping-to-billing synchronisation for as long as collection is active, leaving the billing picker and the billing fields in charge.
+</Note>
+
 ## What happens after checkout
 
 - **A saved selection is order-specific by default.** Choosing a saved address for this order does not silently change the customer's account default — that would be a surprising side effect for something as routine as picking a delivery address.

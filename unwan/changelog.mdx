@@ -6,6 +6,15 @@ icon: "clock-rotate-left"
 
 This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
 
+## 1.0.5
+
+Checkout address entry fixes, both reported from live stores.
+
+- Fixed the checkout address form collapsing after every field change when another plugin re-renders the checkout. Multi-step checkout extensions unmount and remount WooCommerce's checkout blocks while the customer is still typing; Unwan re-read the half-entered address on each remount, treated it as an address it did not recognise, and hid the fields. Selection state now survives a remount.
+- Fixed an address entered at checkout not reaching the address book after such a re-render. The same remount reclassified an explicitly new address as an edit of an existing one, which silently suppressed the save.
+- Fixed the billing address being overwritten by the shipping address when local pickup was selected. WooCommerce keeps its "use shipping as billing" flag set during collection while making billing the only editable address, so Unwan kept mirroring one into the other and collapsed the billing form on every keystroke. Synchronisation is now suspended whenever collection is active.
+- Address fields now stay visible and editable for an address that is not in the address book, at both classic and block checkout. Correcting one previously meant clearing it and retyping from scratch.
+
 ## 1.0.4
 
 Compatibility verification, and a regression suite to keep it verifiable.
