@@ -54,6 +54,9 @@
           "unwan/faq",
           "unwan/changelog"
         ]
+      },
+      {
+        "product": "CartPresets"
       }
     ]
   },
