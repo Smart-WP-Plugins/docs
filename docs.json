@@ -79,7 +79,9 @@
           {
             "group": "Links and the cart",
             "icon": "link",
-            "pages": []
+            "pages": [
+              "cartpresets/links/preset-links"
+            ]
           },
           {
             "group": "Store settings",

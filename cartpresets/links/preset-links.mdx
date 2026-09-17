@@ -1,0 +1,83 @@
+---
+title: "Preset links"
+description: "The two URL forms, renaming a preset, and what happens to links you already shared"
+icon: "link"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Every preset has a link, and that link is the only way to a preset. There is no product page and no catalogue entry.
+
+## Two forms, one preset
+
+Both of these resolve to the same preset, and both work at all times:
+
+```
+https://yourstore.com/preset/starter-kit      pretty permalink
+https://yourstore.com/?preset=starter-kit     query string
+```
+
+The pretty form needs pretty permalinks enabled in WordPress. The query form works regardless, which makes it the reliable fallback on a site with plain permalinks.
+
+<Media>The Preset link card in the editor sidebar, with the copy button</Media>
+
+## Changing the base and the parameter
+
+Both halves are yours, under **Settings → Links & fallbacks**:
+
+| Setting | Key | Default | Controls |
+| --- | --- | --- | --- |
+| URL parameter | `url_param` | `preset` | The `?preset=` half |
+| Permalink base | `permalink_base` | `/preset/` | The `/preset/` half |
+
+Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. Changing it flushes permalinks for you.
+
+<Warning>
+  Changing the base does **not** leave a redirect behind. Links already shared in the old form stop resolving. Renaming a *preset* does leave a redirect — that is the next section — but the base is a store-wide change, so set it before you start sharing links, not after.
+</Warning>
+
+The parameter name is checked against names WordPress and WooCommerce already own, and a collision is refused. It subtracts the plugin's own registered parameter from that list first, so saving the settings screen twice does not accuse you of colliding with yourself.
+
+## Renaming a preset
+
+Change a preset's slug and the old one keeps working for **30 days**, as a permanent redirect to the new one.
+
+That window exists because a link, once shared, is out of your hands. A newsletter sent last week cannot be edited. Thirty days is long enough for traffic from an existing campaign to drain.
+
+After 30 days the old slug stops resolving and meets the not-found fallback.
+
+<Tip>
+  Each rename adds its own entry, so a preset renamed twice has both old slugs redirecting — each expiring 30 days from its own rename.
+</Tip>
+
+## Slug collisions
+
+Two presets cannot share a slug. If you type one that is taken, the new preset gets a numbered suffix — `starter-kit-2` — and saves. It does not refuse the save and make you think of another name.
+
+Check the **Preset link** card after saving if the exact slug matters to you.
+
+## When a link does not resolve
+
+A mistyped slug, a deleted preset, or a rename older than 30 days all reach the same place: your **fallback URL**, under **Settings → Links & fallbacks**. Leave it empty and customers go to your shop page.
+
+They also get a notice — *That link is not valid. It may have been changed or removed.*
+
+The shipped wording deliberately does not say whether the preset ever existed. Anyone can guess a URL, and a message confirming what used to be there tells a stranger more than it tells your customer. You can reword it; see [Cart notices and wording](/cartpresets/links/wording).
+
+## UTM parameters
+
+Campaign parameters on a preset link — `?utm_source=newsletter` and friends — can be carried through the redirect to the cart, so your analytics still attribute the visit. Off by default; turn it on under **Settings → Links & fallbacks**.
+
+## Settings reference
+
+| Setting | Key | Default |
+| --- | --- | --- |
+| URL parameter | `url_param` | `preset` |
+| Permalink base | `permalink_base` | `/preset/` |
+| Fallback URL | `not_found_url` | Empty (shop page) |
+| Keep UTM parameters | `utm` | Off |
+
+## For developers
+
+`cartpresets_preset_url` shapes the URL a preset **outputs**. It does not affect how an incoming request is parsed — that read path is independent, so changing one keeps the other working. See the [hooks reference](/cartpresets/developers/hooks-reference#order-and-display).
