@@ -99,7 +99,8 @@
             "group": "Developers",
             "icon": "code",
             "pages": []
-          }
+          },
+          "cartpresets/licence"
         ]
       }
     ]

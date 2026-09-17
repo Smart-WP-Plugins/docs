@@ -1,0 +1,96 @@
+---
+title: "Licence and updates"
+description: "Activating a key, what a licence buys, and what happens when it expires"
+icon: "key"
+tag: "PRO"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+<Info>
+  Licensing applies to Pro only. The free build has no licence screen, because there is nothing to license.
+</Info>
+
+## Activating
+
+**Cart Presets → License**. Paste the key from your purchase email and click **Activate**.
+
+<Media>The License screen with an active licence, showing plan, expiry, sites used and the Sync and Deactivate buttons</Media>
+
+Once active the screen shows your plan, the expiry date, how many of your activations are in use, and when the licence was last checked.
+
+| Button | Does |
+| --- | --- |
+| Sync | Re-checks with the licensing service now, rather than waiting for the next scheduled check |
+| Deactivate | Releases this site's activation so you can use it elsewhere |
+
+<Tip>
+  Deactivate before migrating a site or tearing down a staging install. It frees the activation rather than leaving it held by a site that no longer exists.
+</Tip>
+
+## What a licence buys
+
+**Updates and support.** Not the right to keep running what you already have.
+
+This is worth being explicit about, because plugins differ on it:
+
+<Note>
+  **When your licence expires, the plugin carries on working exactly as installed.** Nothing switches off. Nothing is deleted. No setting stops applying. You stop receiving new versions until you renew.
+</Note>
+
+The tier is decided by which build is on disk, never by licence state. An expired licence leaves every Pro file exactly where it was, so every Pro feature keeps working.
+
+## What is sent, and when
+
+Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates.
+
+It runs from **wp-admin and cron only**. Your storefront never reaches it, so a customer browsing your shop never triggers a licence check.
+
+The key is never written to a log, never returned in an API response, and never shown in a notice.
+
+## Updates
+
+With an active licence, Pro updates appear on your Plugins screen like any other plugin. Update in place; your presets, items and settings are database rows and are untouched by the swap.
+
+WordPress checks for updates on its own schedule — roughly twice a day, more often while you are sitting on the Updates screen.
+
+## The licence notice
+
+Without an active licence you get a dismissible warning — once inside the CartPresets panel, styled to match it, and once as a standard WordPress notice elsewhere in wp-admin.
+
+They are one message, not two. Dismissing either dismisses both, and it stays dismissed for that licence state. If the state changes — an expiry, a detached site — it returns, because it is now telling you something new.
+
+The notice leads with what stopped and closes with what did not, because the true answer to *my licence lapsed* is that almost nothing changed.
+
+## Licence states
+
+| State | Means | Updates |
+| --- | --- | --- |
+| Active | Everything is fine | Yes |
+| Expired | The term ended | No, until renewed |
+| Cancelled | This site is no longer attached to a licence | No |
+| No licence | Never activated on this site | No |
+
+In all four, every Pro feature keeps working.
+
+## Moving a site
+
+Staging and production count as separate activations. If you are out of activations:
+
+<Steps>
+  <Step title="Deactivate on the site you are leaving">
+    **Cart Presets → License → Deactivate**.
+  </Step>
+  <Step title="Activate on the new one">
+    Paste the same key.
+  </Step>
+</Steps>
+
+If the old site is already gone and still holding an activation, contact support — it can be released from our side.
+
+## For developers
+
+`cartpresets_update_manifest_url` changes where a site looks for its release manifest. Point it elsewhere to run a pre-release channel, or return an empty string to switch automatic updates off for that site entirely.
+
+The licence is checked **before** the manifest is fetched, so the filter changes which release a licensed site is offered rather than bypassing licensing. See the [hooks reference](/cartpresets/developers/hooks-reference#updates-pro-only).
