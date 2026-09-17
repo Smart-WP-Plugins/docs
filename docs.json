@@ -80,7 +80,8 @@
             "group": "Links and the cart",
             "icon": "link",
             "pages": [
-              "cartpresets/links/preset-links"
+              "cartpresets/links/preset-links",
+              "cartpresets/links/cart-behaviour"
             ]
           },
           {
