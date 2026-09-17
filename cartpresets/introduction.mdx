@@ -1,0 +1,97 @@
+---
+title: "Introduction"
+description: "What CartPresets does, the problem it solves, and how the free and Pro builds differ"
+icon: "house"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+CartPresets turns a set of products into a shareable link. A customer who follows it lands with the whole set already in their cart, at the price you set.
+
+There is no bundle product to build, no product page to design, and no configuration step for the customer to work through. You pick the items, set the price, and share the link.
+
+<Media>The preset editor with three items and the live pricing summary, 1440px wide</Media>
+
+## The problem it solves
+
+Selling a combination of products in WooCommerce normally means creating a new product to represent it. That product needs a title, an image, a description, a price, and a place in your catalogue. It shows up in search and in category listings. If you want ten combinations, you maintain ten products.
+
+Worse, the combination is frozen. Changing what is inside means editing the product, and every customer who sees it gets the same set.
+
+A preset is not a product. It is an instruction: *put these items in the cart at this price*. Nothing is added to your catalogue, nothing appears in search, and the link is the only way in.
+
+## What a preset is made of
+
+<CardGroup cols={2}>
+  <Card title="Items" icon="boxes-stacked" href="/cartpresets/building/items">
+    Store products and specific variations, each with its own quantity and rules
+  </Card>
+  <Card title="Pricing" icon="tag" href="/cartpresets/building/pricing">
+    A discount per item, a discount across the whole preset, or both
+  </Card>
+  <Card title="A link" icon="link" href="/cartpresets/links/preset-links">
+    A pretty permalink and a query-string form, both resolving to the same preset
+  </Card>
+  <Card title="Rules" icon="sliders" href="/cartpresets/links/cart-behaviour">
+    What happens to the cart the link finds, and where the customer lands afterwards
+  </Card>
+</CardGroup>
+
+## A worked example
+
+Say you sell coffee equipment and want a starter kit: a grinder, a kettle, and a bag of beans, for 15% off.
+
+You create a preset, add the three products, set a 15% discount across the preset, and save. You get back a link like `https://yourstore.com/preset/starter-kit`.
+
+Share that link in a newsletter. A customer clicks it, and their cart already holds the grinder, the kettle, and the beans, priced at 15% off the total. They go straight to checkout.
+
+Your catalogue still has three products in it. Not four.
+
+## Free and Pro
+
+CartPresets comes in two builds that share the same database tables, the same settings, and the same hooks. The free build is not the Pro build with features switched off — it is a build that never had them.
+
+| | Free | Pro |
+| --- | --- | --- |
+| Build presets from store products and variations | Yes | Yes |
+| Per-item and per-preset discounts | Yes | Yes |
+| Preset links, redirects, and fallbacks | Yes | Yes |
+| Cart behaviour and quantity rules | Yes | Yes |
+| Editable customer-facing wording | Yes | Yes |
+| Publish and expire on a schedule | — | Yes |
+| Purchase limits and per-customer caps | — | Yes |
+| Restrict who may follow a link | — | Yes |
+| Items that are not store products | — | Yes |
+| Apply a coupon automatically | — | Yes |
+| Subscription discount terms | — | Yes |
+| Import and export | — | Yes |
+| The Presets report in WooCommerce Analytics | — | Yes |
+
+Pro features are marked with a <Pro /> badge throughout these docs — in the sidebar, in the page headings, and in the tier column of reference tables.
+
+<Note>
+  On the free build, Pro controls are still visible in the editor. They are locked, and clicking one explains what it does. Nothing is hidden, so you can see what you would be buying before you buy it.
+</Note>
+
+## What it does not do
+
+Being clear about this saves you an evaluation:
+
+- **It is not a product bundle plugin.** A preset has no product page, no add-to-cart button on your store, and no presence in your catalogue. If you need customers to *discover* a combination by browsing, you need a bundle product, not a preset.
+- **It does not let the customer configure anything.** A preset is fixed when you save it. Customers follow the link and get what you chose.
+- **It tracks nothing.** No analytics of its own, no scripts or styles on your storefront, no data leaving your site.
+
+## Where to go next
+
+<CardGroup cols={3}>
+  <Card title="Installation" icon="download" href="/cartpresets/installation">
+    Requirements and setup for both builds
+  </Card>
+  <Card title="Quickstart" icon="bolt" href="/cartpresets/quickstart">
+    Build and share your first preset in about five minutes
+  </Card>
+  <Card title="Hooks reference" icon="plug" href="/cartpresets/developers/hooks-reference">
+    Every action and filter, for developers
+  </Card>
+</CardGroup>

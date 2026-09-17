@@ -56,7 +56,10 @@
         ]
       },
       {
-        "product": "CartPresets"
+        "product": "CartPresets",
+        "pages": [
+          "cartpresets/introduction"
+        ]
       }
     ]
   },
