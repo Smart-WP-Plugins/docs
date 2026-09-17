@@ -67,7 +67,8 @@
             "icon": "layer-group",
             "pages": [
               "cartpresets/building/items",
-              "cartpresets/building/pricing"
+              "cartpresets/building/pricing",
+              "cartpresets/building/health-checks"
             ]
           },
           {
