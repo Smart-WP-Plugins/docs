@@ -1,0 +1,100 @@
+---
+title: "JavaScript helpers"
+description: "The pricing, status and formatting helpers published on the admin page"
+icon: "square-js"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+`window.CartPresetsAdmin` is set on CartPresets' own admin page. It exposes three helpers — the things another plugin extending this admin would otherwise reimplement and get subtly wrong.
+
+<Warning>
+  This exists on the plugin's **admin page only**. Nothing is enqueued on your storefront, so there is no front-end equivalent and there will not be one.
+</Warning>
+
+```js
+const { pricing, status, format, version } = window.CartPresetsAdmin;
+```
+
+## pricing
+
+The same arithmetic the editor and the cart both use, pinned to the PHP by a shared fixture table.
+
+```js
+pricing.presetTotals( items, settings );
+```
+
+Returns the whole computation: per-row unit and line prices, the subtotal, the item discount total, the preset-level discount and the final total. It is what the editor's live summary draws.
+
+Use it rather than reimplementing the two-pass model — source price, per-item discount, then a pro-rata distributed preset discount with the rounding drift placed on the largest line. Getting that last part wrong by a penny is easy, and invisible until a customer notices.
+
+See [Pricing and discounts](/cartpresets/building/pricing) for the model itself.
+
+## status
+
+The derived status ladder, and what a rung means.
+
+```js
+status.statusOf( preset );      // 'active' | 'scheduled' | 'inactive'
+status.isLive( 'scheduled' );   // false
+status.isPurchasable( preset );
+```
+
+Status is derived from the status switch, the dates and the caps every time it is read — never stored. Asking these rather than reading a field is what keeps your answer the same as the plugin's.
+
+## format
+
+Your store's own currency and date settings, already resolved.
+
+```js
+format.money( 42.5 );                // in the store's currency, symbol position and separators
+format.shortDate( '2026-09-10' );    // in the store's date format
+```
+
+The currency parts come from WooCommerce settings through the boot payload, so these match what the cart will print.
+
+## The boot payload
+
+Everything the panel is handed at load time is on `window.cartPresetsBoot`:
+
+| Key | Holds |
+| --- | --- |
+| `restUrl` | The REST base for `cartpresets/v1` |
+| `version` | Plugin version |
+| `now` | The store's current time |
+| `currency` | Symbol, position, decimals, separators |
+| `statuses` | The derived status ladder |
+| `sorts` | Valid sort keys |
+| `filterFields` | The listing's filter grammar |
+| `settings` | Resolved store settings |
+| `links` | URL parameter and permalink base |
+| `isPro` | Which build is running |
+| `upgradeUrl` | Where the upgrade call to action points |
+| `notices` | The wording catalogue |
+
+Add your own keys from PHP through [`cartpresets_admin_boot`](/cartpresets/developers/hooks-reference#the-admin-panel), and read them here without a second request.
+
+```php
+add_filter( 'cartpresets_admin_boot', function ( $data ) {
+	$data['myPlugin'] = array( 'enabled' => true );
+
+	return $data;
+} );
+```
+
+```js
+const mine = window.cartPresetsBoot.myPlugin;
+```
+
+<Warning>
+  That filter is **additive only**. Removing or rewriting an existing key breaks the panel, and nothing downstream checks.
+</Warning>
+
+## No components are exported
+
+An earlier version published a component library here. It no longer does.
+
+The panel is transcribed from a design file rather than built on a component system, and its pieces are shaped by the screens they belong to rather than by being reusable. Publishing them would be promising an API that the next design round would break.
+
+The helpers above are the stable part, because they answer to test fixtures rather than to a drawing.

@@ -102,7 +102,8 @@
               "cartpresets/developers/architecture",
               "cartpresets/developers/order-meta",
               "cartpresets/developers/hooks-reference",
-              "cartpresets/developers/rest-api"
+              "cartpresets/developers/rest-api",
+              "cartpresets/developers/javascript"
             ]
           },
           "cartpresets/licence"
