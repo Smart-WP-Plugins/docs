@@ -69,7 +69,8 @@
               "cartpresets/building/items",
               "cartpresets/building/pricing",
               "cartpresets/building/health-checks",
-              "cartpresets/building/scheduling"
+              "cartpresets/building/scheduling",
+              "cartpresets/building/purchase-limits"
             ]
           },
           {
