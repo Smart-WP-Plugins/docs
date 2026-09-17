@@ -82,7 +82,8 @@
             "pages": [
               "cartpresets/links/preset-links",
               "cartpresets/links/cart-behaviour",
-              "cartpresets/links/destinations"
+              "cartpresets/links/destinations",
+              "cartpresets/links/wording"
             ]
           },
           {

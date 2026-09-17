@@ -1,0 +1,122 @@
+---
+title: "Cart notices and wording"
+description: "All nineteen customer-facing strings, their defaults, and how to translate them"
+icon: "comment"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Every sentence and label a customer reads is editable, under **Settings → Cart notices and labels**. There are nineteen, in four groups.
+
+Leave one blank and the shipped wording is used — so you only ever store what you actually changed, and a release that improves a default reaches you automatically.
+
+<Media>The Cart notices and labels section with the four groups, one expanded</Media>
+
+## Refusals
+
+Eight messages for a link that could not be followed.
+
+| ID | When | Shipped wording |
+| --- | --- | --- |
+| `not_found` | The link matches no preset — mistyped, deleted, or renamed more than 30 days ago | That link is not valid. It may have been changed or removed. |
+| `scheduled` | Status is scheduled<Pro /> | This preset is not available yet. |
+| `unavailable` | Expired, inactive, or sold out | This preset is no longer available. |
+| `limit_total` | Total cap hit<Pro /> | This preset has reached its purchase limit and is no longer available. |
+| `limit_customer` | Per-customer cap hit<Pro /> | Uses `%d` — see [Placeholders](#placeholders) |
+| `no_items` | The preset has no items | This preset is not available right now. |
+| `item_blocked` | An item failed and your rule is "refuse the whole preset" | This preset is unavailable because one of its items cannot be purchased right now. |
+| `nothing_added` | Every add failed at cart time | Nothing in this preset could be added to your cart. |
+
+<Warning>
+  Write `not_found` for a stranger. Anyone can guess a URL, and the shipped wording deliberately does not say whether the preset ever existed. It also cannot be switched off — an empty override falls back to the default — so it has to be safe in front of anyone.
+</Warning>
+
+## Partial adds
+
+Four messages for a link that worked with a caveat.
+
+| ID | When | Shipped wording |
+| --- | --- | --- |
+| `already_in_cart` | They follow the link again holding the last slot | “%s” is already in your cart. |
+| `item_out_of_stock` | Partial add, out of stock | One item in this preset is out of stock. |
+| `item_qty_capped` | Partial add, sold individually | One item in this preset is limited to one per order, so the quantity was adjusted. |
+| `item_unavailable` | Partial add, everything else | One item in this preset is currently unavailable. |
+
+## Later, in the cart
+
+Four messages about editing a preset that is already in the cart.
+
+| ID | When | Shipped wording |
+| --- | --- | --- |
+| `cascade_removed` | A preset was removed because one of its items changed | That preset has been removed from your cart because one of its items was changed. |
+| `quantity_locked` | Quantity is fixed | That item's quantity is fixed by the preset it belongs to. |
+| `quantity_min` | Below the minimum | This preset item has a minimum quantity of %d. |
+| `quantity_max` | Above the maximum | This preset item has a maximum quantity of %d at the preset price. |
+
+## Labels
+
+Three labels, shown on the cart line, the order, and in emails.
+
+| ID | Where | Shipped wording |
+| --- | --- | --- |
+| `cart_line` | On the cart line, ahead of the preset name | Part of preset |
+| `order_line` | On the order and in emails | Part of preset: %s |
+| `cart_details` | The second cart row on a custom item<Pro /> | — |
+
+<Tip>
+  `cart_line` is the one most stores change. "Part of preset" is accurate and a little technical — "Bundle", "Included in your kit" or your campaign's own name often reads better to a customer.
+</Tip>
+
+## Placeholders
+
+Four messages contain a placeholder that carries a value:
+
+| ID | Placeholder | Becomes |
+| --- | --- | --- |
+| `limit_customer` | `%d` | The per-customer limit |
+| `already_in_cart` | `%s` | The preset name |
+| `quantity_min` | `%d` | The minimum quantity |
+| `quantity_max` | `%d` | The maximum quantity |
+| `order_line` | `%s` | The preset name, as it was when the order was placed |
+
+These are checked when you save, in both directions:
+
+- **Dropping one** leaves a sentence that reads as a typo — *"limited to purchases per customer"*.
+- **Adding one** would break the cart page in front of a customer.
+
+Either is refused with the offending row named, so you cannot save a message that would fail later.
+
+## The one plural
+
+`limit_customer` is the only message whose grammar changes with the number, so it is stored as a pair — singular and plural. Each falls back on its own, so rewriting only the plural gives you your sentence for two and the shipped one for one, rather than *"1 purchases"*.
+
+<Note>
+  If your store translates into a language with more than two plural forms, leaving this one at its default is genuinely better than rewriting it. The default path keeps proper plural handling in every locale; an override has exactly two forms in any language.
+</Note>
+
+## Translating
+
+Two halves, and they translate differently.
+
+**Wording you have not touched** goes through WordPress's normal translation functions and is in the `.pot` file like everything else. Nothing special is needed.
+
+**Wording you have rewritten** is a value in an option, and an option value is data rather than a translatable string. CartPresets ships a `wpml-config.xml` naming every key so a translation plugin can pick it up.
+
+<Warning>
+  **WPML needs String Translation, not just WPML core.** Verified against WPML 4.9.7. Core parses the config block, but the class that registers and translates those keys ships with the **WPML String Translation** add-on. Without it the config file is read and then ignored — no error, no notice, just untranslated wording on a store that believes it is set up.
+</Warning>
+
+**Polylang** reads the same file through its own WPML-config compatibility and needs no add-on.
+
+### Why String Translation only lists some of them
+
+It lists the ones you have actually rewritten, and that is correct rather than a gap.
+
+WPML builds its list by intersecting the keys named in the config against the keys the option currently holds — and CartPresets stores only your overrides. A notice still at its shipped wording has nothing to translate there because it is translated through gettext instead.
+
+So the list grows as you edit. A store that has reworded nothing sees nothing.
+
+## For developers
+
+`cartpresets_notice_text` filters one customer-facing sentence before its values are put in, receiving the wording, the notice ID, and whether this is the plural form of a pair. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).
