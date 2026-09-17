@@ -1,0 +1,73 @@
+---
+title: "Data and uninstall"
+description: "What CartPresets stores, what leaves your site, and what happens when you delete it"
+icon: "database"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+## What is stored
+
+Four tables and one option:
+
+| Table | Holds | Personal data |
+| --- | --- | --- |
+| `cartpresets_presets` | Presets — name, slug, status, dates, caps, settings | None |
+| `cartpresets_items` | The items inside each preset | None |
+| `cartpresets_redemptions` | One row per claim, for purchase limits | A user ID, or a hashed guest fingerprint |
+| `cartpresets_slug_history` | Old slugs, for 30-day redirects | None |
+
+Plus the `cartpresets_settings` option, and meta on order line items — see [Order line item meta](/cartpresets/developers/order-meta).
+
+### The one row with personal data in it
+
+A redemption records who claimed a preset, so a per-customer cap can be enforced. For a signed-in customer that is their user ID. For a guest it is a hashed fingerprint, not an email address or an IP you could read back.
+
+Without it a per-customer limit cannot exist — there is no way to know somebody has already claimed something if you do not record that they did.
+
+## What leaves your site
+
+**Nothing, on the free build.** No analytics, no phone-home, no scripts or styles enqueued on your storefront at all.
+
+**On Pro**, one thing: a licence check. Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates. It runs from wp-admin and cron only — never from your storefront, so a customer browsing your shop never triggers it.
+
+The Presets report reads your own WooCommerce order tables. Those figures never leave your site.
+
+<Note>
+  The **Copy system report** button on the Settings sidebar reads your install and puts the result on your clipboard. It sends nothing. It is there so you can paste it into a support thread yourself.
+</Note>
+
+## Uninstalling
+
+Deleting the plugin removes **nothing** by default.
+
+That is the opposite of most plugins, and deliberate: a merchant who deactivates to test something, or who deletes and reinstalls to fix a bad upload, should not lose a year of work to a routine action.
+
+Each category has its own opt-in under **Settings → Data control**:
+
+| Switch | Key | Removes |
+| --- | --- | --- |
+| Presets and their settings | `delete_links` | All four tables |
+| Cart notice and label wording | `delete_settings` | The settings option |
+| The carrier product | `delete_carrier` | The hidden product |
+
+<Warning>
+  These fire on **delete**, not on deactivate, and they cannot be undone. Turning one on does nothing immediately — it arms the deletion for whenever you next delete the plugin.
+</Warning>
+
+### What is never removed
+
+Order line item meta stays, whatever you switch on. It is part of your order history, and an order that recorded which preset it came from should keep recording it after the plugin is gone.
+
+The carrier product is also left alone unless you opt in specifically. It is a WooCommerce product that may be attached to old orders, and deleting it would damage order history.
+
+## GDPR and data requests
+
+The only personal data is the redemption record. If you need to erase a customer's data, deleting their rows releases any per-customer cap they were holding — which is the correct outcome: with no record of their claim, there is no claim.
+
+## Moving to a new site
+
+Presets are database rows, so a full database migration carries them.
+
+If you are moving between separate stores, use [Import and export](/cartpresets/import-export)<Pro /> instead — it matches products by SKU on the way in, which a raw table copy cannot do.

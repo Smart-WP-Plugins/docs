@@ -1,0 +1,102 @@
+---
+title: "Where customers land"
+description: "The destination after a successful add, and every way a link can be refused"
+icon: "signs-post"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Following a preset link always ends in a redirect. Where to depends on whether the preset could be added.
+
+## After a successful add
+
+Set store-wide under **Settings → Cart behavior → After a successful add**, and overridable per preset.
+
+| Choice | Where they go | Key |
+| --- | --- | --- |
+| The cart | Your cart page, holding the preset | `cart` |
+| Checkout | Straight to checkout | `checkout` |
+| Stay on the page | Back where they came from | `stay` |
+| Custom URL | An address you choose | `custom` |
+
+**The cart** is the default and the safe choice: the customer sees what they got before they commit to it.
+
+**Checkout** shortens the path for a campaign where the offer is already understood.
+
+**Stay on the page** is for links embedded in your own content. A button inside a blog post can fill the cart and leave the reader exactly where they were reading.
+
+<Media>The "After a successful add" section with the four options, Custom URL selected and an address entered</Media>
+
+### How "stay" decides where that is
+
+From the referring page, and only if it is one of yours.
+
+A referer from another site is ignored and the customer goes to your home page instead. Otherwise any site could embed your preset link and bounce your customers back to themselves.
+
+No referer at all — a link pasted into the address bar, or a browser that sends none — also goes to your home page.
+
+### Per-preset override
+
+Each preset can pick its own destination, or follow the store setting. The editor shows what the store setting currently is, so you can see what "follow the store setting" means without leaving the page.
+
+## When a link is refused
+
+Eight situations, each with its own message and all of them editable. See [Cart notices and wording](/cartpresets/links/wording).
+
+| Situation | Where they land | Notice ID |
+| --- | --- | --- |
+| The link matches no preset | Fallback URL | `not_found` |
+| Not started yet<Pro /> | Cart | `scheduled` |
+| Ended, inactive, or sold out | Cart, or your redirect | `unavailable` |
+| Total cap reached<Pro /> | Cart, or your redirect | `limit_total` |
+| Per-customer cap reached<Pro /> | Cart, or your redirect | `limit_customer` |
+| The preset has no items | Cart | `no_items` |
+| An item cannot be bought, and your rule is "refuse the whole preset" | Cart | `item_blocked` |
+| Every item failed at cart time | Cart | `nothing_added` |
+| Not eligible<Pro /> | Fallback URL | your rejection message |
+
+### The fallback URL
+
+**Settings → Links & fallbacks → Fallback URL**. Leave it empty and refused customers go to your shop page.
+
+### Ended and sold-out presets can redirect instead
+
+A preset whose schedule ended or whose cap filled can send customers to an address of your choice rather than the cart — typically a landing page explaining the offer has closed. That is the `unavailable_action` setting, covered under [Scheduling](/cartpresets/building/scheduling)<Pro />.
+
+## Partial adds
+
+Sometimes most of a preset works. Four messages cover the cases where something was skipped or trimmed:
+
+| Situation | Notice ID |
+| --- | --- |
+| They already hold this preset | `already_in_cart` |
+| One item is out of stock | `item_out_of_stock` |
+| One item is limited to one per order, so the quantity was trimmed | `item_qty_capped` |
+| One item is unavailable for any other reason | `item_unavailable` |
+
+The customer keeps what could be added. Whether a failure skips the item or refuses the whole preset is the **If an item cannot be added** setting — see [Items](/cartpresets/building/items).
+
+## External addresses work
+
+Custom destinations, per-preset custom URLs and end-of-life redirects may all point at another domain.
+
+WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp-admin — sending your customer to a dashboard login. CartPresets passes merchant-configured destinations through a helper that allow-lists the host you actually configured, so the address you typed is the address they reach.
+
+<Note>
+  This applies only to addresses **you** configured in settings. A host arriving in a request is never trusted.
+</Note>
+
+## Settings reference
+
+| Setting | Level | Key | Default |
+| --- | --- | --- | --- |
+| After a successful add | Store | `post_add` | `cart` |
+| Custom URL | Store | `post_add_url` | Empty |
+| Destination | Preset | `redirect` | `global` |
+| Custom URL | Preset | `custom_url` | Empty |
+| Fallback URL | Store | `not_found_url` | Empty (shop page) |
+
+## For developers
+
+`cartpresets_post_add_url` filters the resolved destination and is safety-clamped. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).

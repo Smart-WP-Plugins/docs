@@ -1,0 +1,84 @@
+---
+title: "Cart behaviour"
+description: "What a preset link does to a cart that already has things in it"
+icon: "cart-shopping"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+A customer following your link often already has a cart. Three independent switches decide what happens to it, under **Settings → Cart behavior**.
+
+<Media>The Cart behavior section with all three switches, the lower two disabled because the first is on</Media>
+
+## The three switches
+
+| Switch | Key | Default | Effect |
+| --- | --- | --- | --- |
+| Clear the existing cart | `clear_cart` | Off | The link empties the cart before adding. Nothing survives |
+| Allow the same preset twice | `allow_duplicate` | Off | Whether a second visit adds a second copy or replaces the first |
+| Keep the customer's own items | `keep_existing` | On | Whether their non-preset lines survive |
+
+**Clear the existing cart** answers the other two on their behalf, so the settings screen draws them disabled with the reason rather than hiding them. A control that vanishes takes its explanation with it.
+
+### Clear the existing cart
+
+Nothing survives: not the customer's own shopping, not another preset, not an earlier copy of this one.
+
+Use it when the link is the whole offer and you want the customer to arrive holding exactly it — a one-click campaign where anything else in the cart is a distraction.
+
+<Warning>
+  This deletes things the customer chose themselves. On a store where people browse and accumulate over several visits, it is an aggressive default to take.
+</Warning>
+
+### Allow the same preset twice
+
+With the cart left standing, what happens when someone follows the same link twice.
+
+**Off** (the default) means a second visit replaces the first copy. The earlier lines are removed and a fresh set added — they have to be removed, because the add that follows mints a new instance ID, so leaving them would guarantee a second copy rather than prevent one.
+
+**On** means they end up with two.
+
+### Keep the customer's own items
+
+With the cart left standing, whether their non-preset lines survive. On by default.
+
+Another preset's lines are somebody else's offer, and a link never sweeps those out unless the whole cart goes.
+
+## Preset instances
+
+Every time a link is followed, the lines it adds are stamped with an **instance ID** — what makes "this copy of this preset" a distinct thing in the cart.
+
+That is what lets two copies of the same preset coexist with independent pricing, and what lets removing one item remove the right set.
+
+## Removing an item removes the set
+
+Deleting one line of a preset from the cart removes the whole instance, with a notice saying so.
+
+The price was quoted for the set. Letting a customer delete the expensive half of a discounted pair would hand them the discount without the bundle.
+
+Exempt a specific line with **Customer can remove this item** — see [Items](/cartpresets/building/items#removable).
+
+## Quantities
+
+By default a preset line's quantity is locked, and trying to change it in the cart shows a notice. Per item you can allow changes, with a minimum and maximum. See [Items](/cartpresets/building/items#quantity).
+
+## Prices hold
+
+A preset line is priced by the preset, not by the product, and that holds through every recalculation — applying a coupon, changing a quantity, picking a shipping method.
+
+The price is never read back off the cart line. WooCommerce recalculates several times per request, and a line may already carry a discounted price from an earlier pass — reading the baseline from there would compound the discount on every recalculation, producing a price that mysteriously drops as the customer clicks around.
+
+## Both carts
+
+Everything here works identically in the classic cart and the Cart and Checkout **blocks** — pricing, quantity locks, cascade removal, and notices.
+
+Notices needed specific work: the blocks on a classic theme never print WooCommerce's classic notice queue, so messages would sit in the session until some other template dumped them all at once. CartPresets prepends the pending queue to both blocks through WooCommerce's own notice templates.
+
+## Per-preset override
+
+A preset can override the store-wide clear-cart setting with **Yes**, **No**, or **Follow the store setting** (the default). Key: `clear_cart` on the preset.
+
+## For developers
+
+`cartpresets_clear_cart` filters the resolved outright-clear decision. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings are read only when it resolves false. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).

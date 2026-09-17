@@ -1,0 +1,91 @@
+---
+title: "Purchase limits"
+description: "Cap how many times a preset can be claimed, in total and per customer"
+icon: "gauge-high"
+tag: "PRO"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+<Info>
+  Setting a limit is a Pro feature. **Counting and enforcing one is not** — both builds record claims and honour a cap that is already set, so moving to the free build never puts a sold-out link back on sale.
+</Info>
+
+A limit caps how many times the offer may be claimed. Set a total, a per-customer cap, or both.
+
+<Media>The Availability card showing the total cap, the per-customer cap, and the usage meter</Media>
+
+## Claims, not units
+
+This is the distinction worth getting right:
+
+- **A limit** caps how many times the preset is claimed. A total of 50 means 50 people can follow the link and buy.
+- **A quantity rule** caps what one claim holds. A maximum of 3 means one person can take up to three of that item.
+
+They are different questions, and they multiply. A total of 50 with a quantity of 3 can move 150 units.
+
+<Warning>
+  The health panel warns when a cap of one sits beside an open quantity, because that combination usually means somebody meant units and typed claims.
+</Warning>
+
+## Which orders consume a slot
+
+A slot is taken when an order enters one of the statuses you nominate, under **Settings → Cart behavior → Order statuses that use up a purchase limit**.
+
+The default is **On hold**, **Processing** and **Completed**. On hold is in the set because a bank-transfer order is a real commitment — leaving it out would let a limited run be oversold by everyone who pays by transfer.
+
+| Status | In the default set |
+| --- | --- |
+| Pending payment | No |
+| On hold | Yes |
+| Processing | Yes |
+| Completed | Yes |
+| Cancelled | No |
+| Refunded | No |
+| Failed | No |
+
+## Slots come back
+
+Recording is reversible. An order that leaves the counted statuses releases its slot, so a cancelled or refunded order does not permanently eat part of a limited run.
+
+This matters more than it sounds. Without it, a run of 50 with ten cancellations sells 40 and reports itself sold out.
+
+<Note>
+  Renewal orders never consume a slot. A subscription renewing monthly would otherwise exhaust a capped preset by itself.
+</Note>
+
+## Sold out versus you already have one
+
+The limit check counts what will survive, not what is in the cart right now.
+
+If a customer follows the link while already holding the last slot, they are told *that preset is already in your cart* — not *sold out*. The check asks whether one claim would fit on its own, which separates the two cases.
+
+Which of the two they meet also depends on your [cart behaviour](/cartpresets/links/cart-behaviour) settings: an earlier copy counts against the cap only when the cart is left standing **and** duplicates are allowed.
+
+## Per-customer caps and who counts as a customer
+
+For signed-in customers, the user ID. For guests, a hashed fingerprint.
+
+A guest fingerprint is a best effort, not an identity. Someone determined to get around it can. A per-customer cap is there to keep an honest introductory offer to one per person, not to be a security boundary.
+
+Developers can change how a customer is recognised through `cartpresets_redemption_customer_key` — see the [hooks reference](/cartpresets/developers/hooks-reference#identity-and-keys).
+
+## What a capped-out customer sees
+
+Two separate messages, both editable:
+
+| Situation | Shipped wording | Notice ID |
+| --- | --- | --- |
+| Total cap hit | This preset has reached its purchase limit and is no longer available. | `limit_total` |
+| Per-customer cap hit | You have already claimed this preset the maximum of %d times. | `limit_customer` |
+
+Where they land afterwards is the same choice a [schedule](/cartpresets/building/scheduling) uses — the cart with a notice, or an address of your own.
+
+## Settings reference
+
+| Setting | Level | Key | Default |
+| --- | --- | --- | --- |
+| Total limit | Preset | `max_total` | Empty (no cap) |
+| Per-customer limit | Preset | `max_per` | `0` (no cap) |
+| Statuses that consume a slot | Store | `redemption_statuses` | on-hold, processing, completed |

@@ -1,0 +1,103 @@
+---
+title: "Items"
+description: "Store products, variations, quantity rules, and items that are not in your catalogue"
+icon: "boxes-stacked"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+An item is one line the link will add to the cart. A preset can hold as many as you like, and the order you put them in is the order they appear.
+
+<Media>The Items card with four rows, one expanded</Media>
+
+## Store products
+
+Click **Add store product** and search by name or SKU.
+
+The picker offers simple products, variable products, and their subscription equivalents. Grouped, external and composite products are not offered, because none of them can be added to a cart by product ID — a preset has no product page to post a form from.
+
+### Variations
+
+Pick a variable product and the row asks you to answer every attribute.
+
+This is not optional. A variation with an attribute left as "Any" passes WooCommerce's own catalogue checks and then fails at `add_to_cart()` with *"Size is a required field"* — and a preset has nobody to ask. Answering at build time is the only point where somebody can.
+
+<Warning>
+  If you later delete a variation or remove one of its terms, the preset's stored answer stops matching. The health panel says so, and the listing flags the preset with a stock problem.
+</Warning>
+
+## Quantity
+
+Every item has a quantity — how many the link adds. Beyond that, you decide whether the customer may change it once it is in the cart.
+
+| Control | Default | Effect |
+| --- | --- | --- |
+| Let the customer change the quantity | Off | When off, the quantity box in the cart is locked and shows a notice if they try |
+| Minimum | 1 | The lowest they may go, when changing is allowed |
+| Maximum | 0 (no limit) | The highest they may go at the preset price |
+
+<Note>
+  Quantity rules cap what one claim holds. They are a different question from [purchase limits](/cartpresets/building/purchase-limits)<Pro />, which cap how many times the offer may be claimed at all.
+</Note>
+
+## Removable
+
+By default, removing one item of a preset from the cart removes the whole preset — and says so. That is deliberate: the price was quoted for the set, and letting a customer delete the expensive half of a discounted pair would hand them the discount without the bundle.
+
+Turn on **Customer can remove this item** on a specific row to exempt it. Useful for an optional extra riding along with a fixed core.
+
+## Coupons
+
+Each item decides whether store coupons may discount it. The default is **no** — a preset price is already a discount, and stacking a coupon on top is usually not what you meant.
+
+Turn on **Allow coupons on this item** where you do want it, for example a full-price add-on inside an otherwise discounted set.
+
+<Tip>
+  This is per item, so one preset can have coupon-able and coupon-proof lines side by side.
+</Tip>
+
+## When an item cannot be added
+
+Products go out of stock, get deleted, or are limited to one per order. What the link does then is a store-wide setting under **Settings → Cart behavior → If an item cannot be added**:
+
+| Choice | What happens | Key |
+| --- | --- | --- |
+| Skip the item | Everything else is added, with a cart notice | `skip` |
+| Refuse the whole preset | Nothing is added, and the preset reads as unavailable | `none` |
+| Allow a backorder | The item is added anyway, where your store already allows backorders | `backorder` |
+
+**Skip** is the default, and the right answer for most stores — a customer who wanted five things should not leave with none because one was out of stock.
+
+**Refuse** is for sets that only make sense whole: a machine and the one cable that fits it.
+
+The wording in each case is yours to change. See [Cart notices and wording](/cartpresets/links/wording).
+
+## Custom items<Pro />
+
+A custom item is a line that is not a product in your catalogue at all — a setup fee, a deposit, a printed insert, a one-off service.
+
+It carries its own:
+
+- **Name** and **price**
+- **Description**, shown as a second row on the cart line
+- **Image**
+- **Shipping**, if it ships — weight, dimensions, and shipping class
+
+Nothing is added to your catalogue. The item never appears in search, in a category, or in your products list.
+
+<Media>A custom item row expanded, showing the name, price, description, image and shipping fields</Media>
+
+### How they reach the cart
+
+WooCommerce cannot put a line in a cart without a product behind it, so custom items ride on a single hidden **carrier product** — one for your whole store, virtual, hidden from the catalogue, excluded from search and sitemaps. The line is then renamed and repriced for that item.
+
+Two custom items in one cart are two lines on the same carrier product, priced independently. See [The carrier product](/cartpresets/settings/carrier-product).
+
+<Warning>
+  On the free build, a custom item left behind by a Pro build stays with the preset but is **not added to the cart**. The editor marks it with a <Pro /> badge, leaves it out of the pricing summary and unit count, and the health panel says so — rather than quoting you a total the cart will not charge.
+</Warning>
+
+## Item discounts
+
+Each item can carry its own discount before the preset-wide one is applied. That is covered in full under [Pricing and discounts](/cartpresets/building/pricing).

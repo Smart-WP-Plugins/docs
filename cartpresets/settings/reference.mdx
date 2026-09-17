@@ -1,0 +1,135 @@
+---
+title: "Settings reference"
+description: "Every setting at every level, its key, its default, and which tier honours it"
+icon: "list-check"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Settings live at three levels. A preset-level setting overrides the store-wide one; an item-level setting applies to one line.
+
+All store settings live in a single option, `cartpresets_settings`. Preset and item settings live in their own tables.
+
+<Media>The Settings screen with the sidebar System status card visible</Media>
+
+## Store settings
+
+### Carrier product
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| Carrier product | `carrier_product_id` | `0` (none) | Both |
+
+The hidden product custom items ride on. See [The carrier product](/cartpresets/settings/carrier-product).
+
+### Cart behavior
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| Clear the existing cart | `clear_cart` | Off | Both |
+| Allow the same preset twice | `allow_duplicate` | Off | Both |
+| Keep the customer's own items | `keep_existing` | On | Both |
+| If an item cannot be added | `invalid_item` | `skip` | Both |
+| Order statuses that use up a purchase limit | `redemption_statuses` | on-hold, processing, completed | Pro to edit, honoured on both |
+| When a preset stops selling | `unavailable_action` | `deactivate` | Pro to edit, honoured on both |
+| Tell the customer why | `unavailable_notice` | On | Both |
+| After a successful add | `post_add` | `cart` | Both |
+| Custom URL | `post_add_url` | Empty | Both |
+
+`invalid_item` accepts `skip`, `none` or `backorder`. `unavailable_action` accepts `leave`, `deactivate` or `redirect`. `post_add` accepts `cart`, `checkout`, `stay` or `custom`.
+
+### Cart notices and labels
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| All nineteen strings | `notices` | Empty (shipped wording) | Both |
+
+Only the ones you have rewritten are stored. See [Cart notices and wording](/cartpresets/links/wording).
+
+### Links and fallbacks
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| URL parameter | `url_param` | `preset` | Both |
+| Permalink base | `permalink_base` | `/preset/` | Both |
+| Fallback URL | `not_found_url` | Empty (shop page) | Both |
+| Keep UTM parameters | `utm` | Off | Both |
+
+### Data control
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| Delete presets on uninstall | `delete_links` | Off | Both |
+| Delete settings on uninstall | `delete_settings` | Off | Both |
+| Delete the carrier product on uninstall | `delete_carrier` | Off | Both |
+
+See [Data and uninstall](/cartpresets/settings/data-and-uninstall).
+
+## Preset settings
+
+Set in the editor, on one preset.
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| Publish date | `created_at` | Now | Pro to edit |
+| Ends on | `end_at` | Empty | Pro to edit |
+| Total purchase limit | `max_total` | Empty | Pro to edit, honoured on both |
+| Per-customer limit | `max_per` | `0` | Pro to edit, honoured on both |
+| Destination after add | `redirect` | `global` | Both |
+| Custom URL | `custom_url` | Empty | Both |
+| Clear the cart | `clear_cart` | `global` | Both |
+| Coupon code | `coupon` | Empty | Pro — not applied on free |
+| Additional discount on | `discount_on` | Off | Both |
+| Additional discount type | `discount_type` | Percentage | Both |
+| Additional discount value | `discount_value` | `0` | Both |
+| Require sign-in | `logged_in` | Off | Pro |
+| Allowed roles | `roles` | Empty | Pro |
+| Rejection message | `reject_message` | Empty | Pro |
+| When this preset stops selling | `unavailable_action` | `global` | Pro to edit |
+| Redirect address | `unavailable_url` | Empty | Pro to edit |
+| Tell the customer why | `unavailable_notice` | On | Both |
+
+`redirect` and `clear_cart` accept `global` to follow the store setting.
+
+## Item settings
+
+Set on one item inside a preset.
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| Discount type | `disc_type` | None | Both |
+| Discount value | `disc_value` | `0` | Both |
+| Use the regular price | `use_regular` | Off | Both |
+| Payments a discount covers | `sub_payments` | `0` (all) | Pro — free reads as first only |
+| Waive the sign-up fee | `sub_waive_fee` | Off | Pro — free charges the fee |
+| Allow coupons on this item | `allow_coupons` | Off | Both |
+| Customer can change quantity | `allow_qty` | Off | Both |
+| Minimum quantity | `qty_min` | `1` | Both |
+| Maximum quantity | `qty_max` | `0` (no limit) | Both |
+| Customer can remove this item | `removable` | Off | Both |
+| Variation attributes | `variation_attributes` | Empty | Both |
+| Custom item name | `custom_name` | Empty | Pro |
+| Custom item price | `custom_price` | `0` | Pro |
+| Description | `description` | Empty | Pro |
+| Image | `image_id` | `0` | Pro |
+
+`disc_type` accepts `none`, `pct`, `fixed` or `custom`.
+
+## What "Pro to edit, honoured on both" means
+
+Some settings can only be *set* on Pro, but are *enforced* on both builds.
+
+Purchase limits are the clearest case. Setting a cap needs Pro. Counting claims against one, and refusing a link once it fills, happens on both — because moving to the free build must never put a sold-out link back on sale.
+
+The same logic covers schedules. The general rule: **honour the restriction, drop the enhancement.**
+
+## Where settings are stored
+
+| Level | Storage |
+| --- | --- |
+| Store | One option, `cartpresets_settings` |
+| Preset | Columns and a settings blob on `cartpresets_presets` |
+| Item | A settings blob on `cartpresets_items` |
+
+Writes walk the schema rather than the request, so a key that is not in the schema is never persisted no matter what a request contains. Developers can register their own keys — see [the hooks reference](/cartpresets/developers/hooks-reference#schema).

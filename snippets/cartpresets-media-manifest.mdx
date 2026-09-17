@@ -1,0 +1,76 @@
+---
+title: "CartPresets media manifest"
+description: "Internal: every media placeholder in the CartPresets docs"
+---
+
+Not published. This file lives under `snippets/`, which Mintlify excludes from the
+rendered site and from navigation.
+
+## How the placeholders work
+
+Every slot is a `<Media>` component from `/snippets/media.mdx`:
+
+```mdx
+<Media>The Items card with four rows, one expanded</Media>
+<Media kind="Video">Following a preset link in a private window, 20 seconds</Media>
+```
+
+It renders a dashed box with the caption inside. To find every slot:
+
+```bash
+grep -rn '<Media' cartpresets/
+```
+
+To replace one, swap the component for a real frame:
+
+```mdx
+<Frame caption="The Items card with four rows, one expanded">
+  <img src="/images/cartpresets/items-card.png" alt="The Items card" />
+</Frame>
+```
+
+When every slot is filled, delete `/snippets/media.mdx` and the import lines.
+
+## The slots
+
+| Page | Kind | What to capture |
+| --- | --- | --- |
+| Introduction | Screenshot | The preset editor with three items and the live pricing summary, 1440px wide |
+| Installation | Screenshot | The Plugins screen with CartPresets Pro active and the licence notice above it |
+| Quickstart | Screenshot | The Preset details card with a title, slug and description filled in |
+| Quickstart | Screenshot | The Items card with three products, one row expanded showing discount and quantity |
+| Quickstart | Screenshot | The pricing summary sidebar — regular value, item discounts, additional discount, preset total |
+| Quickstart | Screenshot | The health checks panel with one warning and one failure, the failure expanded |
+| Quickstart | **Video** | Following a preset link in a private window and landing on the filled cart, ~20s |
+| The admin interface | Screenshot | The wp-admin sidebar with the Cart Presets menu expanded |
+| The admin interface | Screenshot | All Presets in table view — search, filter, status tabs, layout toggle |
+| The admin interface | Screenshot | The full preset editor, main column and sidebar |
+| The admin interface | Screenshot | The Settings screen, carrier product card and cart behaviour section |
+| Items | Screenshot | The Items card with four rows, one expanded |
+| Items | Screenshot | A custom item row expanded — name, price, description, image, shipping |
+| Pricing and discounts | Screenshot | The pricing summary with every row visible |
+| Health checks | Screenshot | The health panel with one failure and two warnings, the failure expanded |
+| Scheduling | Screenshot | Preset details with the publish date popover open, calendar and time row |
+| Scheduling | Screenshot | The Availability card — end date, end-of-life choice, notice switch |
+| Purchase limits | Screenshot | The Availability card — total cap, per-customer cap, usage meter |
+| Eligibility | Screenshot | "Who can use this link" — sign-in on, two roles, a rejection message |
+| Automatic coupons | Screenshot | The coupon field with a code, and the resulting cart showing it applied |
+| Subscriptions | Screenshot | A subscription item expanded — Payments field and waive-fee switch |
+| Preset links | Screenshot | The Preset link card in the editor sidebar, with the copy button |
+| Cart behaviour | Screenshot | Cart behavior with all three switches, lower two disabled |
+| Where customers land | Screenshot | "After a successful add" — four options, Custom URL selected |
+| Cart notices and wording | Screenshot | Cart notices and labels, four groups, one expanded |
+| Settings reference | Screenshot | The Settings screen with the System status sidebar card |
+| The carrier product | Screenshot | The carrier product card with a linked product and its ID |
+| The Presets report | Screenshot | The report — date picker, summary cards, chart, table |
+| Import and export | Screenshot | The listing with several presets selected and the export action |
+| Licence and updates | Screenshot | The License screen — plan, expiry, sites used, Sync and Deactivate |
+
+**31 slots: 30 screenshots and 1 video.**
+
+## Suggested conventions
+
+- Capture at 1440px wide, 2x for retina.
+- Use the same demo store throughout — consistent product names read as one product, not several.
+- Crop to the card being discussed rather than the whole page, except where the caption says otherwise.
+- Put files in `/images/cartpresets/` so they stay separate from Unwan's.

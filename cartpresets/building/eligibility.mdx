@@ -1,0 +1,70 @@
+---
+title: "Eligibility"
+description: "Restrict a link to signed-in customers, or to particular roles"
+icon: "user-lock"
+tag: "PRO"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+<Info>
+  Eligibility is a Pro feature. On the free build the two settings are stored but not enforced — every visitor is eligible. The controls are visible and locked.
+</Info>
+
+By default anyone holding the link can use it. Eligibility narrows that to signed-in customers, or to particular roles.
+
+<Media>The "Who can use this link" card with the sign-in switch on, two roles selected, and a rejection message</Media>
+
+## Two gates
+
+**Require sign-in.** A guest following the link is sent to sign in, and returned to the link afterwards — so the preset still fills their cart once they are in, rather than dropping them on an account page with no idea why.
+
+**Limit to roles.** Pick one or more WordPress roles. A visitor whose account does not hold one of them is turned away.
+
+Selecting roles implies sign-in: a logged-out visitor has no role to match.
+
+<Tip>
+  This is how a wholesale or staff preset stays out of public reach even though the link itself is not secret.
+</Tip>
+
+## Why only these two
+
+Both are facts WordPress knows with certainty on every request.
+
+Ship-to region was considered and removed. A visitor's country is frequently unknowable at the moment they click a link, and a restriction that silently holds for some visitors and not others is worse than no restriction at all — you would believe the preset was protected when it was not.
+
+## What a rejected visitor sees
+
+Your own message, as a notice, and then your store's fallback URL.
+
+The **rejection message** is per preset, so a wholesale link can say something different from a staff one. Leave it empty and the shipped wording is used.
+
+<Warning>
+  Write the message for a stranger. Anyone with the link can trigger it, so it should not confirm what the preset contains or who it is for.
+</Warning>
+
+## Where they land
+
+The store's **not-found fallback**, under **Settings → Links & fallbacks**. Leave it empty and they go to your shop page.
+
+External addresses work. A merchant-configured destination passes through a redirect helper that allow-lists the host you configured — WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp-admin, which would send a rejected customer to your dashboard login.
+
+## Notices reach block checkouts too
+
+WooCommerce's Cart and Checkout **blocks** on a classic theme never print the classic notice queue. A message written into the session would sit there until some classic template dumped every stale notice at once.
+
+CartPresets prepends the pending queue to both blocks through WooCommerce's own notice templates, so your rejection message arrives whichever cart your theme uses.
+
+## Settings reference
+
+| Setting | Level | Key | Default |
+| --- | --- | --- | --- |
+| Require sign-in | Preset | `logged_in` | Off |
+| Allowed roles | Preset | `roles` | Empty (all) |
+| Rejection message | Preset | `reject_message` | Empty (shipped wording) |
+| Fallback URL | Store | `not_found_url` | Empty (shop page) |
+
+## For developers
+
+Eligibility is decided through `cartpresets_eligibility`, seeded `allowed => true`. Every verdict comes from a listener, including the plugin's own — so you can add a rule of your own (a membership check, a regional policy) at a later priority and have the last word. See the [hooks reference](/cartpresets/developers/hooks-reference#availability-and-eligibility).

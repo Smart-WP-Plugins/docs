@@ -1,0 +1,65 @@
+---
+title: "The carrier product"
+description: "The hidden product custom items ride on, and why it exists"
+icon: "box"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+WooCommerce cannot put a line in a cart without a product behind it. A [custom item](/cartpresets/building/items#custom-items)<Pro /> is by definition not a product in your catalogue — so it rides on one hidden product instead.
+
+<Media>The carrier product card in Settings, showing a linked product with its ID</Media>
+
+## What it is
+
+One product for your whole store. It is:
+
+- **Virtual** — nothing to ship by itself
+- **Hidden from the catalogue** — not in shop pages or category listings
+- **Excluded from search** and from your sitemap
+- **Priced at zero**, because every line that uses it overrides the price anyway
+
+Customers never see it as a product. They see the cart line, which carries the custom item's own name, price, description and image.
+
+## Setting one up
+
+Under **Settings → The carrier product**:
+
+- **Create one** and the plugin makes it with the right flags set.
+- **Change** points it at an existing virtual product, if you would rather manage it yourself.
+- **Unlink** detaches it without deleting the product.
+
+<Note>
+  On the free build this card is locked and does nothing, because free never adds a custom item. It stays visible rather than disappearing, so the Settings screen does not change shape between tiers.
+</Note>
+
+## Several custom items at once
+
+Two custom items in one cart are two lines on the same carrier product, priced and named independently.
+
+That works because each line gets its own clone of the product object before anything is changed on it. WooCommerce can hand back the same product object across calls, and mutating a shared instance would give both lines whichever name was written last.
+
+## Shipping
+
+A custom item that ships carries its own weight, dimensions and shipping class, set on the item.
+
+Those values are also stamped onto the **order line** at checkout, under `_cartpresets_custom_*` meta keys. That matters more than it looks: reading the order line back re-fetches the real carrier product, whose record is generic, virtual and weightless. The clone that carried the actual weight existed for one cart calculation and was never saved.
+
+Without that snapshot, a packing-slip or shipping-label plugin reading a custom preset item gets nothing usable. See [Order line item meta](/cartpresets/developers/order-meta).
+
+## If you delete it
+
+Presets keep their custom items, and the health panel flags every preset that has one. Following such a link refuses the custom line — skipped or blocking, per your **If an item cannot be added** setting.
+
+Re-link a carrier product and everything works again. Nothing is lost.
+
+## Uninstalling
+
+The carrier product is **not** deleted when you delete the plugin, unless you opt in under **Settings → Data control**. It is a WooCommerce product, it may be attached to old orders, and deleting it would damage order history.
+
+## For developers
+
+`cartpresets_carrier_product_id` filters which product is used. `cartpresets_carrier_product_created` fires both when the plugin creates one and when you point it at an existing product — a listener's question is "what is the carrier now", not "was it made from scratch".
+
+`cartpresets_custom_item_shipping_data` filters the shipping values a custom item contributes, and is safety-clamped. See the [hooks reference](/cartpresets/developers/hooks-reference).

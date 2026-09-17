@@ -1,0 +1,85 @@
+---
+title: "Import and export"
+description: "Move presets between stores, or keep them under version control"
+icon: "arrow-right-arrow-left"
+tag: "PRO"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+<Info>
+  Import and export are Pro features. On the free build the routes are not registered at all — a request 404s like any unknown route.
+</Info>
+
+Presets export as JSON and import somewhere else. The obvious use is carrying a staging store's work to production without rebuilding it by hand.
+
+<Media>The listing with several presets selected and the export action visible</Media>
+
+## Exporting
+
+**One preset** — **Export as JSON** in the row menu.
+
+**Several** — tick the rows you want and use the bulk export.
+
+The file contains the presets, their items, and every setting on both. It does not contain your store settings, your wording overrides, or any order data.
+
+<Tip>
+  The export is plain JSON, so it diffs readably. Committing it to a repository gives you a version history of your presets, which the plugin itself does not keep.
+</Tip>
+
+## Importing
+
+Upload the file on the destination store.
+
+### How products are matched
+
+**By SKU first, falling back to product ID.**
+
+SKU first is the important half. Product IDs almost never line up between two stores — the same hoodie is #412 on staging and #1908 on production. A SKU is a name you chose, and it usually survives the move.
+
+| The import finds | Result |
+| --- | --- |
+| A product with a matching SKU | Matched |
+| No SKU match, but the ID exists | Matched by ID |
+| Neither | The item is imported with no product, and the health panel flags it |
+
+<Warning>
+  An ID-only match is a guess. If your two stores have unrelated product IDs, an import can silently attach the wrong product. Check imported presets before activating them — which is what the next section makes easy.
+</Warning>
+
+### Every import arrives inactive
+
+Whatever the status was on export, imported presets land **inactive**.
+
+No link goes live unasked. You get to open each one, check the items matched the products you expected, look at the health panel, and activate deliberately.
+
+### Slugs
+
+An imported slug already taken on the destination store gets a numbered suffix, the same way a manually created one does. The import never overwrites an existing preset.
+
+<Note>
+  That means importing the same file twice gives you two copies rather than an update. Import is a copy operation, not a sync.
+</Note>
+
+## What does not travel
+
+| | Travels | Why not |
+| --- | --- | --- |
+| Presets and items | Yes | |
+| Preset and item settings | Yes | |
+| Store settings | No | They describe the store, not the preset |
+| Wording overrides | No | Same |
+| Redemption counts | No | A cap's usage belongs to the store that sold it |
+| Slug history | No | Old links pointed at the old store |
+| The carrier product | No | Set one up on the destination store first |
+
+<Warning>
+  Import presets containing custom items **after** linking a carrier product on the destination store. Without one, those items cannot be added and the health panel will flag every affected preset.
+</Warning>
+
+## For developers
+
+The routes are `cartpresets/v1/presets/export` and `cartpresets/v1/presets/import`, registered by Pro on the shared `cartpresets_register_rest_routes` action. On free nothing listens, so neither route exists.
+
+See the [REST API](/cartpresets/developers/rest-api).

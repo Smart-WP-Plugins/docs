@@ -1,0 +1,39 @@
+---
+title: "Media placeholder"
+---
+
+export const Media = ({ kind = 'Screenshot', children }) => (
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '0.5rem',
+      textAlign: 'center',
+      padding: '2.75rem 1.5rem',
+      margin: '1.5rem 0',
+      border: '1.5px dashed #b4c0d4',
+      borderRadius: '0.75rem',
+      background: 'rgba(148, 163, 184, 0.07)'
+    }}
+  >
+    <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>
+      {kind === 'Video' ? '▶️' : '🖼️'}
+    </span>
+    <span
+      style={{
+        fontSize: '0.75rem',
+        fontWeight: 700,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        color: '#64748b'
+      }}
+    >
+      {kind} pending
+    </span>
+    <span style={{ fontSize: '0.875rem', color: '#64748b', maxWidth: '34rem' }}>
+      {children}
+    </span>
+  </div>
+);

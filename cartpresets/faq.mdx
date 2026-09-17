@@ -1,0 +1,137 @@
+---
+title: "FAQ and troubleshooting"
+description: "Common questions, and how to diagnose the usual problems"
+icon: "circle-question"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+## Questions
+
+<AccordionGroup>
+  <Accordion title="Does it work with the block cart and checkout?">
+    Yes. Pricing, quantity locks, cascade removal and notices all work in both the classic and block cart and checkout.
+
+    Notices needed specific work: the blocks on a classic theme never print WooCommerce's classic notice queue, so a message would sit in the session until some other template dumped it. CartPresets prepends the pending queue to both blocks through WooCommerce's own notice templates.
+  </Accordion>
+
+  <Accordion title="Can I use it with subscription products?">
+    Yes. In the free build a preset's discount buys the **first payment**; renewals bill the product's own price, and the sign-up fee is charged as normal.
+
+    Pro lets you choose per item — a fixed number of payments, or every renewal for the life of the subscription, with the option to waive the sign-up fee. See [Subscriptions](/cartpresets/building/subscriptions).
+  </Accordion>
+
+  <Accordion title="Does it track my customers?">
+    No. The plugin records no analytics of its own and enqueues nothing on your storefront — no scripts, no styles.
+
+    Pro's Presets report reads your existing WooCommerce order data, under your store's own Analytics settings. Those figures never leave your site.
+  </Accordion>
+
+  <Accordion title="What happens when my Pro licence expires?">
+    The plugin carries on working exactly as installed. A licence buys updates and support, not the right to keep running what you already have.
+
+    Nothing switches off, nothing is deleted, and no setting stops applying. You stop receiving new versions until you renew.
+  </Accordion>
+
+  <Accordion title="What happens if I go back to the free version?">
+    Your presets, items and settings are untouched. Both builds read the same tables, so nothing is migrated and nothing is lost.
+
+    The premium controls stop being editable, and your stored answers stay on the record exactly as you left them — reinstalling Pro turns them back on rather than asking you to set them up again.
+
+    **Two stop applying** rather than staying on, because leaving them running would be worse:
+
+    - An **automatic coupon** you can no longer see or switch off would keep discounting orders.
+    - **Custom items** are not added to the cart at all. The editor marks them and leaves them out of its totals, rather than quoting you a price the cart will not charge.
+
+    **A schedule already set and a cap already filled are still honoured.** Those switch a link *off*, and moving to the free build must not resurrect something you deliberately ended.
+
+    The rule throughout: honour the restriction, drop the enhancement.
+  </Accordion>
+
+  <Accordion title="What happens to my data on uninstall?">
+    Nothing, unless you opt in. Each category has its own switch under **Settings → Data control**, all off by default. See [Data and uninstall](/cartpresets/settings/data-and-uninstall).
+  </Accordion>
+
+  <Accordion title="Is a preset link secret?">
+    No. Anyone holding the link can follow it, and a slug is guessable.
+
+    If a preset should not be public, use [Eligibility](/cartpresets/building/eligibility)<Pro /> to require sign-in or particular roles. Obscurity is not a restriction.
+  </Accordion>
+
+  <Accordion title="How many presets can I have?">
+    No limit. They are rows in an indexed table, and the listing pages through them.
+  </Accordion>
+
+  <Accordion title="Can a customer see a preset without the link?">
+    No. A preset has no product page, no catalogue entry and no presence in search. The link is the only way in.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+### The link goes to my shop page instead of filling the cart
+
+The preset was refused. Work through, in order:
+
+1. **Is the slug right?** A typo, a deleted preset, or a rename more than 30 days old all fall through to the fallback.
+2. **Is the preset active?** Check the status badge in the listing. Scheduled and Inactive both refuse.
+3. **Has a cap filled?**<Pro /> A sold-out preset reads as Inactive.
+4. **Is there an eligibility rule?**<Pro /> Test in a private window as the customer would arrive.
+
+If there is no notice explaining which of these it was, check **Settings → Cart behavior → Tell the customer why** is on.
+
+### The link works for me but not for customers
+
+Almost always eligibility, or being signed in as an administrator. Test in a private window.
+
+### Pretty links 404 but `?preset=` works
+
+The rewrite rule has not been flushed. Visit **Settings → Permalinks** in WordPress and click Save — no changes needed, the visit is what flushes.
+
+If pretty permalinks are disabled site-wide, the query form is the correct one to share.
+
+### The cart price does not match the editor
+
+Worth reporting — the two are pinned to each other by a shared test fixture, so a genuine mismatch is a bug.
+
+Before reporting, check the obvious causes:
+
+- **Taxes.** The editor quotes the preset price; your cart may display tax-inclusive or tax-exclusive depending on WooCommerce settings.
+- **A coupon** applied on top, automatically or by hand.
+- **A sale started** since you built the preset, where the item is not using the regular price.
+- **A custom item on the free build.** It is not added, and recent versions leave it out of the editor's totals too — if your editor is still counting it, update.
+
+### An item is missing from the cart
+
+Check the notice the customer got. Out of stock, sold individually, or deleted each have their own message.
+
+Whether a failure skips the item or refuses the whole preset is **Settings → Cart behavior → If an item cannot be added**.
+
+### Notices are not appearing
+
+If you are on a block cart with a classic theme and running an old version, update — this was specifically fixed.
+
+Otherwise check that the notice still has wording. An override saved as whitespace reads as empty, and empty falls back to the shipped default — so a genuinely blank notice is not possible, but a message you rewrote to something unclear is.
+
+### Reworded notices show in English on a translated store
+
+**WPML needs the String Translation add-on**, not just WPML core. Without it the config file is read and ignored — no error, no notice, just untranslated wording.
+
+Also note that String Translation only lists notices you have actually rewritten. Ones still at their shipped wording are translated through gettext instead, so their absence there is correct. See [Translating](/cartpresets/links/wording#translating).
+
+### Custom items are not being added<Pro />
+
+Check a carrier product is linked under **Settings → The carrier product**. Without one, custom items cannot reach the cart.
+
+If you are on the free build, custom items are not added at all — that is expected, and the editor should be marking them.
+
+### Purchase limits are counting orders I did not expect<Pro />
+
+Check **Settings → Cart behavior → Order statuses that use up a purchase limit**. The default includes **On hold**, because a bank-transfer order is a real commitment.
+
+Remember that limits and the Presets report answer different questions and will not agree: an on-hold order consumes a slot before it counts as a sale.
+
+### Getting help
+
+The Settings sidebar has a **Copy system report** button. It reads your install — versions, permalink structure, preset base, tier — and puts the result on your clipboard. It sends nothing anywhere. Paste it into your support thread.

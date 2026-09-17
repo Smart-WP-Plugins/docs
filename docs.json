@@ -56,7 +56,61 @@
         ]
       },
       {
-        "product": "CartPresets"
+        "product": "CartPresets",
+        "pages": [
+          "cartpresets/introduction",
+          "cartpresets/installation",
+          "cartpresets/quickstart",
+          "cartpresets/interface",
+          {
+            "group": "Building presets",
+            "icon": "layer-group",
+            "pages": [
+              "cartpresets/building/items",
+              "cartpresets/building/pricing",
+              "cartpresets/building/health-checks",
+              "cartpresets/building/scheduling",
+              "cartpresets/building/purchase-limits",
+              "cartpresets/building/eligibility",
+              "cartpresets/building/auto-coupon",
+              "cartpresets/building/subscriptions"
+            ]
+          },
+          {
+            "group": "Links and the cart",
+            "icon": "link",
+            "pages": [
+              "cartpresets/links/preset-links",
+              "cartpresets/links/cart-behaviour",
+              "cartpresets/links/destinations",
+              "cartpresets/links/wording"
+            ]
+          },
+          {
+            "group": "Store settings",
+            "icon": "sliders",
+            "pages": [
+              "cartpresets/settings/reference",
+              "cartpresets/settings/carrier-product",
+              "cartpresets/settings/data-and-uninstall"
+            ]
+          },
+          "cartpresets/analytics",
+          "cartpresets/import-export",
+          "cartpresets/licence",
+          {
+            "group": "Developers",
+            "icon": "code",
+            "pages": [
+              "cartpresets/developers/architecture",
+              "cartpresets/developers/hooks-reference",
+              "cartpresets/developers/rest-api",
+              "cartpresets/developers/order-meta",
+              "cartpresets/developers/javascript"
+            ]
+          },
+          "cartpresets/faq"
+        ]
       }
     ]
   },

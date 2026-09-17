@@ -1,0 +1,99 @@
+---
+title: "Quickstart"
+description: "Build a working preset and share its link in about five minutes"
+icon: "bolt"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+This walks through one preset end to end: three products, a discount, and a link you can paste into a newsletter. Everything here works on the free build.
+
+## 1. Create the preset
+
+Go to **Cart Presets → Add New Preset**.
+
+Give it a title. The slug fills itself in from the title as you type, and the slug is what appears in the link — "Starter Kit" becomes `starter-kit`. You can edit the slug directly if you want something shorter.
+
+The internal description is for your team. Customers never see it.
+
+<Media>The Preset details card with a title, slug and description filled in</Media>
+
+## 2. Add items
+
+In the **Items** card, click **Add store product** and pick a product. Repeat for each one you want in the set.
+
+For a variable product, the picker asks you to choose the variation. Every attribute has to be answered — a preset has nobody to ask at cart time, so "Any" is not an option here.
+
+Expand a row to set:
+
+- **Quantity** — how many of this item the link adds.
+- **A per-item discount** — a percentage, a fixed amount off, or a flat price that replaces the product's own.
+- **Quantity rules** — whether the customer may change the amount in the cart, and between what bounds.
+
+<Media>The Items card with three products, one row expanded showing the discount and quantity controls</Media>
+
+## 3. Set the price
+
+Each item can carry its own discount, and the preset as a whole can carry one on top.
+
+Turn on **Additional discount** and choose:
+
+| Type | What you type | What happens |
+| --- | --- | --- |
+| Percentage | `15` | 15% comes off the subtotal |
+| Fixed amount | `20` | 20 comes off the subtotal |
+| Target total | `99` | The discount is whatever brings the preset to 99 |
+
+**Target total** is the useful one for a kit: you name the price you advertised and the plugin works out the discount.
+
+The **Pricing summary** on the right recalculates as you type, and it shows the same numbers the customer's cart will. If they disagree, that is a bug — they are pinned to each other by a shared test fixture.
+
+<Media>The pricing summary sidebar showing regular value, item discounts, additional discount and the preset total</Media>
+
+## 4. Check the health panel
+
+Below the summary, **Health checks** asks about a dozen questions of the preset and answers each one.
+
+A **warning** is something that will work but may not be what you meant. A **failure** blocks the save — a variation with an unanswered attribute, a discount switched on with no amount, no items at all. Click any check to jump to the control it is about.
+
+<Media>The health checks panel with one warning and one failure, the failure expanded</Media>
+
+## 5. Save and share
+
+Click **Save preset**. The **Preset link** card fills in with the live URL:
+
+```
+https://yourstore.com/preset/starter-kit
+```
+
+Copy it with the button beside it. That link is now live — anyone who follows it lands on your cart page holding the three items at the price you set.
+
+<Note>
+  A preset goes live the moment you save it with the status switch on. There is no separate publish step. If you want it built now and selling later, that is a [schedule](/cartpresets/building/scheduling)<Pro />.
+</Note>
+
+## 6. Try it yourself
+
+Open the link in a private window, so you arrive as a customer rather than as yourself.
+
+You should land on the cart with the three items in it, each carrying a **Part of preset** label, and the total matching what the editor quoted.
+
+<Media kind="Video">Following a preset link in a private window and landing on the filled cart, 20 seconds</Media>
+
+## What to read next
+
+<CardGroup cols={2}>
+  <Card title="Where customers land" icon="signs-post" href="/cartpresets/links/destinations">
+    Send them to the cart, to checkout, or to a page of your own
+  </Card>
+  <Card title="Cart behaviour" icon="cart-shopping" href="/cartpresets/links/cart-behaviour">
+    What the link does to a cart that already has things in it
+  </Card>
+  <Card title="Cart notices and wording" icon="comment" href="/cartpresets/links/wording">
+    Rewrite every sentence a customer reads
+  </Card>
+  <Card title="Purchase limits" icon="gauge-high" href="/cartpresets/building/purchase-limits">
+    Cap how many times a preset can be claimed
+  </Card>
+</CardGroup>

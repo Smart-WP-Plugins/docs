@@ -1,0 +1,105 @@
+---
+title: "Pricing and discounts"
+description: "How a preset's configuration becomes the number a customer is charged"
+icon: "tag"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+A preset price is built in two passes, in this order:
+
+1. **Per item.** Each item resolves a source price and applies its own discount, producing a unit price.
+2. **Per preset.** The discounted line totals are summed, and one preset-level discount comes off that subtotal.
+
+<Media>The pricing summary sidebar with all rows visible: regular value, item discounts, additional discount, average per unit, preset total</Media>
+
+## Where the base price comes from
+
+```
+base = custom item      → its configured price
+       use_regular on   → the product's regular price
+       otherwise        → the sale price if there is one, else regular
+```
+
+**Use the regular price** exists because a sale and a preset discount otherwise stack into a margin nobody agreed to. A merchant running 20% off a product and putting it in a preset at 20% off is usually expecting the second 20%, not both.
+
+The control hides itself on a custom item, where it would mean nothing.
+
+## Per-item discounts
+
+| Type | Formula | Note |
+| --- | --- | --- |
+| None | `base` | |
+| Percentage | `base × (1 − value/100)` | |
+| Fixed amount | `base − value` | **Per unit**, not spread across the quantity |
+| Custom price | `value` | A literal override; ignores the base entirely |
+
+Everything is clamped to zero. A 50 fixed discount on a 45 product gives 0, never −5.
+
+<Tip>
+  Fixed being per-unit is deliberate. It is consistent with percentage, which is inherently per-unit whatever the quantity is. Two of an item at 5 off is 10 off, not 5.
+</Tip>
+
+## The preset-wide discount
+
+Turn on **Additional discount** and pick a type:
+
+| Type | Formula |
+| --- | --- |
+| Percentage | `subtotal × value/100` |
+| Fixed amount | `value` |
+| Target total | `subtotal − value` |
+
+**Target total** is a price, not a discount — you type what you want the preset to cost and the discount is whatever gets there. It is clamped to the subtotal at both ends, so a target above the subtotal is not a surcharge and a target below zero does not produce a cart that owes the customer money.
+
+## How a preset discount reaches the cart
+
+WooCommerce has no concept of "a discount on this group of lines". It stores a unit price per line, multiplies by quantity, and sums. So a preset-level discount has to be pushed back down onto the lines.
+
+CartPresets spreads it pro-rata by line value. Each share is rounded to your store's money precision, which almost always loses or gains a penny against the promised total — so the drift is measured and placed on the largest line that can absorb it without going negative.
+
+A worked example, verified in a real cart:
+
+```
+Hoodie · Blue, Yes    45.00 regular, 20% off  →  36.00
+                                     subtotal   36.00
+                       link discount 10%       − 3.60
+                                        total   32.40
+```
+
+And one where it does not divide evenly — three lines of 10 with 10 off. Naive rounding gives three shares of 3.33, which is 9.99. The missing penny goes to the largest line:
+
+```
+6.66   6.67   6.67   =  20.00 exactly
+```
+
+<Note>
+  This is why the cart shows a discounted unit price on each line rather than a single discount row. The total is exact; the distribution is what makes it exact.
+</Note>
+
+## The summary agrees with the cart
+
+The editor's pricing summary is computed in your browser, so it can update as you type. The cart's price is computed in PHP.
+
+Those are two implementations of the same arithmetic, and two implementations drift. They are pinned to each other by a shared fixture table that both run against in the test suite, so a formula changed on one side and not the other fails a test rather than silently charging the wrong amount.
+
+If the editor and the cart ever disagree, that is a bug worth reporting.
+
+## Prices are never cached
+
+Item definitions are cached. Prices never are.
+
+A cached price goes stale the moment you edit a product, run a sale, or change a tax rate — and a stale price in a cart is a wrong charge. Every figure is computed from live product prices at the moment it is needed, including the Price column in the listing.
+
+## Coupons on top
+
+Store coupons are refused on preset items by default, per item. Turn on **Allow coupons on this item** where you want them to stack. See [Items](/cartpresets/building/items#coupons).
+
+A preset can also apply a coupon of its own, automatically, the moment the link is followed — see [Automatic coupons](/cartpresets/building/auto-coupon)<Pro />.
+
+## Subscriptions
+
+A preset discount on a subscription product raises a question a one-off purchase does not: does the discount buy the first payment, or every renewal for the life of the subscription?
+
+The free build always reads it as **the first payment**, with the sign-up fee charged. Pro lets you choose per item. See [Subscriptions](/cartpresets/building/subscriptions).
