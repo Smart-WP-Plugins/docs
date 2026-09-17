@@ -99,7 +99,8 @@
             "group": "Developers",
             "icon": "code",
             "pages": [
-              "cartpresets/developers/architecture"
+              "cartpresets/developers/architecture",
+              "cartpresets/developers/hooks-reference"
             ]
           },
           "cartpresets/licence"

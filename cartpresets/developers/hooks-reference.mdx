@@ -1,0 +1,297 @@
+---
+title: "Hooks reference"
+description: "Every action and filter CartPresets exposes, with signatures and worked examples"
+icon: "plug"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Hooks are a public API once shipped. Within a major version none of these will be removed, and none will change argument order or count.
+
+<Note>
+  Every hook on this page exists in **both** builds unless it is marked <Pro />. The tables, the REST namespace and the stored values are identical too.
+</Note>
+
+## Three words used throughout
+
+**Safety-clamped** — a limit is re-applied after your filter runs, so a listener cannot produce a nonsensical result. Named per hook.
+
+**Additive only** — add keys freely; the plugin's own are restored afterwards. Removing or rewriting one breaks the feature rather than extending it.
+
+**Seeded conservatively** — the value with no listener attached is the cautious one. Pro attaches at priority 10 like anyone else, so a listener at a later priority still has the last word.
+
+## Lifecycle actions
+
+Every "this happened" hook has a counterpart for when it is undone, so a listener can clean up what it granted without polling.
+
+```php
+// Presets
+do_action( 'cartpresets_after_preset_created',    int $id, array $data );
+do_action( 'cartpresets_after_preset_saved',      int $id, array $data );
+do_action( 'cartpresets_before_preset_deleted',   int $id, object $preset );
+do_action( 'cartpresets_after_preset_deleted',    int $id );
+do_action( 'cartpresets_after_preset_duplicated', int $new_id, int $source_id );
+do_action( 'cartpresets_preset_status_changed',   int $id, string $new, string $old );
+
+// The cart
+do_action( 'cartpresets_before_add_to_cart',           object $preset, array $items, array $verdicts );
+do_action( 'cartpresets_after_add_to_cart',            object $preset, array $cart_keys, string $instance_id );
+do_action( 'cartpresets_instance_removed_from_cart',   string $instance_id, WC_Cart $cart );
+
+// Purchase limits
+do_action( 'cartpresets_before_redemption_recorded', int $preset_id, int $order_id, string $instance );
+do_action( 'cartpresets_after_redemption_recorded',  int $preset_id, int $order_id, string $instance );
+do_action( 'cartpresets_redemption_limit_exceeded',  int $preset_id, string $limit_type );
+do_action( 'cartpresets_redemptions_released',       int $order_id );
+
+// Settings, carrier, lifecycle
+do_action( 'cartpresets_after_settings_saved',     array $next, array $previous );
+do_action( 'cartpresets_carrier_product_created',  int $product_id );
+do_action( 'cartpresets_carrier_product_unlinked' );
+do_action( 'cartpresets_activated' );
+do_action( 'cartpresets_deactivated' );
+do_action( 'cartpresets_loaded' );
+do_action( 'cartpresets_cart_hooks_registered' );
+do_action( 'cartpresets_register_rest_routes' );
+do_action( 'cartpresets_cache_invalidated', int $product_id, int[] $preset_ids );
+```
+
+`cartpresets_redemptions_released` is the counterpart to `after_redemption_recorded`. An order leaving the counted statuses gives its slot back, so a listener that granted something on record can revoke it on release.
+
+`cartpresets_carrier_product_created` fires both when the plugin creates a carrier product and when a merchant points it at an existing one. A listener's question is "what is the carrier now", so a separate hook would only mean subscribing to both to stay correct.
+
+### Worked example: grant a membership when a preset is bought
+
+```php
+add_action( 'cartpresets_after_redemption_recorded', function ( $preset_id, $order_id ) {
+	if ( 12 !== (int) $preset_id ) {
+		return;
+	}
+
+	my_plugin_grant_membership( wc_get_order( $order_id )->get_customer_id() );
+}, 10, 2 );
+```
+
+No registration step, no interface, and it degrades to a no-op if CartPresets is not installed.
+
+## Pricing
+
+```php
+apply_filters( 'cartpresets_item_source_price', float $base, object $item );
+apply_filters( 'cartpresets_item_unit_price',   float $unit, object $item );
+apply_filters( 'cartpresets_item_subscription_terms', array $terms, object $item, array $settings );
+```
+
+`cartpresets_item_unit_price` is the last word on what a line costs. **Safety-clamped**: `max( 0, ... )` is re-applied afterwards, so no listener can produce a negative price and hand the customer money.
+
+`cartpresets_item_subscription_terms` decides how far a preset discount reaches into a subscription, as `[ 'scope' => 'first'|'all', 'waive_fee' => bool ]`.
+
+- `first` spends the discount on the payment being made now and bills renewals at the product's own price.
+- `all` holds the preset's price on every renewal.
+- `waive_fee` zeroes the product's sign-up fee for that line.
+
+**Seeded conservatively** — `first`, fee charged — so a discount cannot become permanent by default. **Safety-clamped**: a returned `scope` that is not exactly `all` reads as `first`.
+
+## Cart
+
+```php
+apply_filters( 'cartpresets_cart_item_data',      array $data, object $item, object $preset );
+apply_filters( 'cartpresets_cart_group_id',       string $instance_id, array $cart_item );
+apply_filters( 'cartpresets_item_coupon_allowed', bool $allowed, array $cart_item );
+apply_filters( 'cartpresets_clear_cart',          bool $should_clear, int $preset_id, WC_Cart $cart );
+apply_filters( 'cartpresets_preset_coupon',       string $code, object $preset, array $settings );
+apply_filters( 'cartpresets_post_add_url',        string $url, object $preset );
+apply_filters( 'cartpresets_notice_text',         string $text, string $id, bool $is_plural );
+```
+
+`cartpresets_cart_item_data` is **additive only**. Append your own keys freely; the plugin's are re-applied afterwards, because the integrity rules read them and a filter rewriting an instance ID would break preset isolation for every other line in the cart.
+
+`cartpresets_cart_group_id` is applied on **both sides** of every comparison, so overriding it changes what "the rest of this preset" means consistently rather than only where the trigger line is read.
+
+`cartpresets_clear_cart` decides the outright clear — the whole cart, the customer's own shopping included. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings it outranks are read only when it resolves false.
+
+`cartpresets_preset_coupon` is **seeded empty**, and shared code never reads the stored setting itself — so with nothing attached a preset applies no coupon. Honouring the stored code is Pro.
+
+`cartpresets_post_add_url` is **safety-clamped** against the host allow-list.
+
+`cartpresets_notice_text` receives one customer-facing sentence before its values are put in, with the notice ID and whether this is the plural form of a pair. See [Cart notices and wording](/cartpresets/links/wording).
+
+## Availability and eligibility
+
+```php
+apply_filters( 'cartpresets_item_is_valid', bool $is_valid, array $verdict );
+apply_filters( 'cartpresets_eligibility',   array $result, object $preset );
+```
+
+`cartpresets_item_is_valid` is **additive only** in the restrictive direction: it can turn a valid item invalid — a membership gate, a regional rule — but cannot rescue one the plugin has already hard-failed. A deleted product or a missing carrier means the resulting cart line would be broken rather than merely unwanted, and the filter is not applied at all in those cases.
+
+`cartpresets_eligibility` is **seeded** `allowed => true`, and every verdict comes from a listener — including the plugin's own. On free nothing is attached and the verdict stays yes.
+
+### Worked example: a regional rule
+
+```php
+add_filter( 'cartpresets_eligibility', function ( $result, $preset ) {
+	if ( 'wholesale-kit' !== $preset->slug ) {
+		return $result;
+	}
+
+	if ( 'GB' !== WC()->customer->get_shipping_country() ) {
+		return array(
+			'allowed' => false,
+			'reason'  => __( 'This offer is only available in the UK.', 'my-plugin' ),
+		);
+	}
+
+	return $result;
+}, 20, 2 );
+```
+
+Priority 20 runs after the plugin's own listener, so this has the last word.
+
+## Tier
+
+```php
+apply_filters( 'cartpresets_is_pro', bool $is_pro );
+```
+
+Whether the Pro tier is active. The unfiltered answer is whether the Pro code is installed at all. Filtering it false makes a Pro build behave as the free one does, which is how the free experience is tested without deleting files.
+
+<Warning>
+  Read this through `Support\Tier::is_pro()` rather than calling the filter yourself, and read it **at the moment you decide something** rather than when you register. Code that filters the tier can load after your listener was attached.
+</Warning>
+
+Two more filters exist so a save cannot write what the running tier has no control for:
+
+```php
+apply_filters( 'cartpresets_preset_premium_fields', array $keep, array $submitted, ?object $preset );
+apply_filters( 'cartpresets_premium_settings',      array $keep, array $incoming );
+```
+
+Both are seeded with the values **already stored**. A listener returns the submitted value for the fields it answers for; keys it leaves out keep their seeded value, and keys outside the set are dropped rather than written.
+
+Written this way round on purpose: a tier without a control neither sets the field nor disturbs what another tier stored.
+
+`cartpresets_preset_premium_fields` covers `created_at`, `end_at`, `max_total`, `max_per`, `unavailable_action`, `unavailable_url` and `coupon`. `cartpresets_premium_settings` covers the store-wide `unavailable_action` and `redemption_statuses`.
+
+Neither is a validation step — a rejected value is silently the stored one, and the rest of the same save goes through.
+
+## Schema
+
+```php
+apply_filters( 'cartpresets_settings_defaults',      array $defaults );
+apply_filters( 'cartpresets_item_settings_defaults', array $defaults );
+```
+
+Register a **new** key of your own. The plugin's own keys are restored after the filter, so nothing can redefine what `disc_type` means underneath the pricing engine.
+
+Writes walk the schema rather than the payload, so a key you have not registered here is never persisted no matter what a request contains.
+
+## Identity and keys
+
+```php
+apply_filters( 'cartpresets_generated_slug',          string $slug, string $name, int $exclude_id );
+apply_filters( 'cartpresets_redemption_customer_key', string $key );
+apply_filters( 'cartpresets_carrier_product_id',      int $product_id );
+```
+
+`cartpresets_generated_slug` runs before uniquification and its result is sanitised — a listener shapes the slug, it cannot break the URL.
+
+`cartpresets_redemption_customer_key` decides how "the same customer" is recognised for per-customer limits. Default: user ID for members, a hashed fingerprint for guests. Return a stable key per real person.
+
+## Listing
+
+```php
+apply_filters( 'cartpresets_list_args', array $args );
+```
+
+The listing's resolved query arguments, after defaults and before any SQL is built. Every key is always present: `search`, `status`, `sort` with `dir`, `per_page`, `page`, and `filters`.
+
+The pre-builder arguments compose with the filter rows: `added_after` / `added_before` (`YYYY-MM-DD`, inclusive bounds on the publish date, the end one running to the last second of its day), `price_op` with `price` and `price_max`, `orders_op` with `orders` and `orders_max`, plus `product`, `stock_problem` and `has_coupon`.
+
+`filters` is either the encoded query-string form — `field~op~value` rows joined by `|`, each value percent-encoded — or an array of `{ field, op, value }`:
+
+| Field | Type | Operators |
+| --- | --- | --- |
+| `product_name` | text | `eq`, `contains`, `not_contains`, `starts_with` |
+| `coupon` | text | `eq`, `contains`, `not_contains`, `starts_with` |
+| `price` | number | `eq`, `gt`, `lt` |
+| `order_revenue` | number | `eq`, `gt`, `lt` |
+| `orders` | number | `eq`, `gt`, `lt` |
+| `stock_problem` | boolean | `is` |
+
+`price` is what the customer pays; `order_revenue` is that price multiplied by recorded redemptions. Both are computed from live product prices, so they are applied after the SQL rather than inside it.
+
+What you return is validated exactly like a caller's own arguments — an unknown sort key falls back, statuses outside the ladder are dropped, rows outside the allow-lists are dropped, and every value still reaches SQL through `prepare()`.
+
+## Admin picker
+
+```php
+apply_filters( 'cartpresets_picker_product_types', string[] $types );
+```
+
+Which product types the editor's item picker offers. Default: `simple`, `variable`, `subscription`, `variable-subscription`.
+
+External, grouped and composite types are excluded because they cannot be added to a cart by product ID. Grant a custom type here only if it can.
+
+## The admin panel
+
+```php
+apply_filters( 'cartpresets_admin_boot', array $data );
+```
+
+Everything the React panel is handed at boot — REST URL and nonce, capability, tier, upgrade URL, the wording catalogue. Append a key and your own screen can read it without a second request on every page load.
+
+**Additive only.** A listener that removes or rewrites an existing key is breaking the panel rather than extending it, and nothing downstream checks.
+
+This is also the seam premium code uses to publish state shared code must not know about: the licence notice adds a `licence` key here, because shared code cannot name a class the free build does not ship.
+
+## Order and display
+
+```php
+apply_filters( 'cartpresets_order_line_item_meta',       array $meta, array $cart_item );
+apply_filters( 'cartpresets_badge_text',                 string $text, string $name, string $context );
+apply_filters( 'cartpresets_custom_item_shipping_data',  array $shipping, object $item );
+apply_filters( 'cartpresets_preset_url',                 string $url, string $slug );
+apply_filters( 'cartpresets_admin_capability',           string $capability );
+```
+
+`cartpresets_order_line_item_meta` is **additive only**. `cartpresets_custom_item_shipping_data` and `cartpresets_admin_capability` are **safety-clamped**.
+
+`cartpresets_preset_url` shapes **output only**. It does not affect how an incoming request is parsed — that read path is independent and is not rewired by this filter, so changing one keeps the other working.
+
+## Reporting<Pro />
+
+```php
+apply_filters( 'cartpresets_sales_payload',     array $payload, string $after, string $before, int[] $ids, WP_REST_Request $request );
+apply_filters( 'cartpresets_sales_orders_cap',  int $cap, int $preset_id );  // default 100
+```
+
+The payload filter runs last, after totals, series, rows and the orders drill-down are assembled. The cap filter raises how many orders the drill-down lists; the table announces truncation either way.
+
+Both fire from Pro only. On free they never fire and the `cartpresets/v1/sales` routes are not registered at all — as with import and export, absent rather than refusing.
+
+<Warning>
+  Check `Support\Tier::is_pro()` before assuming either exists. An integration that needs sales figures on **both** tiers should read WooCommerce's lookup tables itself, the way this controller does.
+</Warning>
+
+## Updates<Pro />
+
+```php
+apply_filters( 'cartpresets_update_manifest_url', string $url );
+```
+
+Where the Pro build looks for its release manifest. Point it elsewhere to run a site on a pre-release channel, or return an empty string to switch automatic updates off for that site entirely.
+
+Fired from the admin and cron only — the storefront never reaches it. The licence is checked **before** the manifest is fetched, so a filter returning a different URL changes which release a licensed site is offered rather than bypassing licensing.
+
+## What is deliberately not exposed
+
+These are the guarantees a store owner is paying for. A hook that weakened one would undermine the plugin rather than extend it.
+
+- No filter bypasses a capability or nonce check.
+- No filter turns a hard validation failure back into a valid item.
+- No filter bypasses purchase-limit enforcement at either stage.
+- No filter disables cascade removal or weakens instance isolation.
+- No filter sits between a query and `$wpdb->prepare()`.
+- No PHP filter registers anything the React admin renders.
