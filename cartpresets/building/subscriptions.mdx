@@ -1,0 +1,90 @@
+---
+title: "Subscriptions"
+description: "How far a preset discount reaches into renewals, and what the free build assumes"
+icon: "rotate"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Presets work with WooCommerce Subscriptions products on both builds. What differs is how far a discount reaches.
+
+## The question a subscription raises
+
+A 20% discount on a one-off product is unambiguous. On a subscription it is not: does it buy the **first payment**, or **every renewal for the life of the subscription**?
+
+Get that wrong in the generous direction and you discover, from a subscription that has been renewing for a year, that a link you made once granted a permanent discount.
+
+## What the free build does
+
+**The first payment, with the sign-up fee charged.** Always, whatever the item's stored settings say.
+
+That is the conservative reading, and it is what shared code performs with nothing attached. The asymmetry is the point: a merchant who cannot see the controls must not be surprised by a permanent discount.
+
+<Note>
+  The two settings are **stored** on both builds. Upgrading turns your existing answers on rather than asking you to set them up again.
+</Note>
+
+## Choosing on Pro<Pro />
+
+Each subscription item in the editor gets a **Payments** field and a **Waive the sign-up fee** switch.
+
+<Media>A subscription item expanded, showing the Payments field and the waive-fee switch</Media>
+
+### Payments
+
+| Value | Effect |
+| --- | --- |
+| Every payment | The discounted price applies for the life of the subscription. The cart line's "every month" price string is exactly true |
+| A number | The discount covers that many payments, then renewals bill the product's own price |
+
+Payments are counted the way WooCommerce Subscriptions counts them, **including the first one**. "Three payments" means the initial order and two renewals.
+
+<Tip>
+  This is what an introductory offer actually needs: three months at a discount, then the normal price, without anybody having to intervene.
+</Tip>
+
+### When the discount runs out
+
+The line is actively restored to the product's own live price — restored, not merely skipped, because the initial pass has already stamped the discounted price onto the line.
+
+The price renewals return to is the same baseline the editor quoted. If the item uses **the regular price**, renewals bill the regular price even if a sale is running at the time, so a sale cannot stamp a lower renewal price than you configured.
+
+### Waive the sign-up fee
+
+Zeroes the product's sign-up fee for that line only. The mark travels in memory and is never saved to the product, so other customers buying the same product outside this preset still pay the fee.
+
+On the free build the switch shows **off**, because the fee is always charged there. Off is the honest reading of what will happen.
+
+## The preset-wide discount is first-order only
+
+Whatever its type, the **additional discount** belongs to the first order.
+
+A recurring cart holds only the subscription lines. Recomputing a fixed amount or a target total against that smaller subtotal would land the whole preset discount on the recurring lines at every renewal — which is not what "20 off the kit" meant.
+
+Per-item discounts are the ones that can follow a subscription into its renewals.
+
+## Renewal protections
+
+Three things hold automatically:
+
+- **Renewal orders never consume a purchase-limit slot.** They inherit the preset's meta from the subscription, and without the guard one subscriber's renewals would exhaust a capped preset alone.
+- **A renewal paid through the cart is never repriced.** The subscription decides what a renewal costs, not the preset.
+- **Products that may only be bought as a subscription plan** — All Products for Subscriptions' forced mode — are refused as preset items. A preset adds by product ID with no plan, and two pricing engines fighting over one line means one of the two prices shown is a lie.
+
+## A known limitation
+
+Where a discount covers a fixed number of payments, WooCommerce's cart line still renders a recurring price string — "36.00 every month" — that the discount will not hold for the whole life of the subscription.
+
+The string comes from Subscriptions' own templates, built before the preset's terms are resolved. The order confirmation and the subscription record are correct. Say so in your offer copy if the distinction matters to your customers.
+
+## Settings reference
+
+| Setting | Level | Key | Default | Tier |
+| --- | --- | --- | --- | --- |
+| Payments | Item | `sub_payments` | `0` (every payment) | Stored on both, honoured on Pro |
+| Waive the sign-up fee | Item | `sub_waive_fee` | Off | Stored on both, honoured on Pro |
+
+## For developers
+
+Both are resolved through `cartpresets_item_subscription_terms`, returning `[ 'scope' => 'first'|'all', 'waive_fee' => bool ]`. Seeded conservatively — `first`, fee charged — and safety-clamped: a returned scope that is not exactly `all` reads as `first`, so no listener can make a subscription cheaper by accident. See the [hooks reference](/cartpresets/developers/hooks-reference#pricing).

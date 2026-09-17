@@ -72,7 +72,8 @@
               "cartpresets/building/scheduling",
               "cartpresets/building/purchase-limits",
               "cartpresets/building/eligibility",
-              "cartpresets/building/auto-coupon"
+              "cartpresets/building/auto-coupon",
+              "cartpresets/building/subscriptions"
             ]
           },
           {
