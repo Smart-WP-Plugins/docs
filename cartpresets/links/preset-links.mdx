@@ -13,7 +13,7 @@ Every preset has a link, and that link is the only way to a preset. There is no 
 
 Both of these resolve to the same preset, and both work at all times:
 
-```
+```text
 https://yourstore.com/preset/starter-kit      pretty permalink
 https://yourstore.com/?preset=starter-kit     query string
 ```
@@ -51,9 +51,17 @@ After 30 days the old slug stops resolving and meets the not-found fallback.
   Each rename adds its own entry, so a preset renamed twice has both old slugs redirecting — each expiring 30 days from its own rename.
 </Tip>
 
+## The slug field is optional
+
+Leave it empty and the slug is generated from the title when you save. The field shows what it would become as you type the title, so you can see the link you are about to get before you commit to it.
+
+You only need to touch it when you want something other than the title — a shorter link, or one that stays put when you rename the preset.
+
 ## Slug collisions
 
-Two presets cannot share a slug. If you type one that is taken, the new preset gets a numbered suffix — `starter-kit-2` — and saves. It does not refuse the save and make you think of another name.
+Two presets cannot share a slug, but a collision never refuses a save. Whichever slug you end up with — typed, or generated from the title — gets a number appended until it is free: `starter-kit`, then `starter-kit-2`, then `starter-kit-3`.
+
+That rule exists for the empty field more than the typed one. Titles are not required to be unique, so two presets called "Summer Kit" is ordinary rather than a mistake — and refusing a save over a slug you never typed, on a field you deliberately left blank, would be the plugin arguing with you about something it can settle by itself.
 
 Check the **Preset link** card after saving if the exact slug matters to you.
 
