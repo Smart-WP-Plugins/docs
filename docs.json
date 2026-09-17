@@ -101,9 +101,9 @@
             "icon": "code",
             "pages": [
               "cartpresets/developers/architecture",
-              "cartpresets/developers/order-meta",
               "cartpresets/developers/hooks-reference",
               "cartpresets/developers/rest-api",
+              "cartpresets/developers/order-meta",
               "cartpresets/developers/javascript"
             ]
           },
