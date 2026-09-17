@@ -90,7 +90,8 @@
             "group": "Store settings",
             "icon": "sliders",
             "pages": [
-              "cartpresets/settings/reference"
+              "cartpresets/settings/reference",
+              "cartpresets/settings/carrier-product"
             ]
           },
           {
