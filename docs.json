@@ -98,7 +98,9 @@
           {
             "group": "Developers",
             "icon": "code",
-            "pages": []
+            "pages": [
+              "cartpresets/developers/architecture"
+            ]
           },
           "cartpresets/licence"
         ]

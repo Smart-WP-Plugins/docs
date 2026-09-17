@@ -1,0 +1,100 @@
+---
+title: "Architecture"
+description: "How the plugin is put together, and the constraints that shaped it"
+icon: "sitemap"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+## Storage
+
+Four custom tables, not custom post types.
+
+| Table | Holds |
+| --- | --- |
+| `cartpresets_presets` | One row per preset |
+| `cartpresets_items` | Items, with a foreign key `preset_id` |
+| `cartpresets_redemptions` | One row per claim |
+| `cartpresets_slug_history` | Old slugs and when they expire |
+
+Presets are queried by shape — "active, containing this product, above this price, sorted by revenue" — and that is a job for SQL with indexes on the columns being filtered. The same queries against post meta would be a pile of joins on a table shared with every other plugin on the site.
+
+Settings that do not need indexing ride in a JSON blob on the row. Anything the listing filters or sorts by has a real column.
+
+## The tier boundary
+
+**`src/Pro/` and `assets/src/pro/` are the entire premium footprint.** The free build is this plugin with those two directories deleted.
+
+Nothing in shared code names a Pro class. Pro attaches to the same public filters documented in the [hooks reference](/cartpresets/developers/hooks-reference) that any third-party plugin would use.
+
+That has a cost worth understanding: a premium feature must have a filter to attach to. Where one did not exist, the shared code grew the filter. The alternative — `if ( is_pro() )` at every decision point — would be a worse codebase and a leakier boundary.
+
+### Which way the gates point
+
+Shared code performs the **conservative** reading unaided, and Pro relaxes it:
+
+| Question | Shared code answers | Pro listener |
+| --- | --- | --- |
+| How far does a subscription discount reach? | The first payment | Honours the stored setting |
+| Is this preset scheduled? | It is live now and never ends | Honours the dates |
+| Is this capped? | No cap | Honours the cap |
+| Which coupon applies? | None | Honours the stored code |
+| Is this visitor eligible? | Yes | Honours the rules |
+
+Written the other way round — shared code being generous and Pro tightening — the premium behaviour would ship in the free build.
+
+### The tier is the build, never the licence
+
+`Tier::is_pro()` reads whether the Pro code is on disk. It never reads licence state.
+
+An expired licence leaves every Pro file where it was, so every gate keeps answering yes. A test enforces that no entitlement check can reach the tier decision.
+
+## The storefront footprint
+
+**No styles and no scripts are enqueued on the front end. Ever.**
+
+Cart pricing hooks attach only when a cart actually contains a preset. A shopper browsing your catalogue runs none of this plugin's code beyond the check that decides there is nothing to do.
+
+That is also why there is no analytics subsystem: a preset hit performs zero writes. Sales enter the books when WooCommerce processes the order, on hooks that never run on the storefront.
+
+## Pricing runs twice, in two languages
+
+`Support\Pricing` in PHP is the authority. `assets/src/lib/pricing.js` is a mirror, and it exists only because the editor's live summary has to recompute a total in the browser as you type — it cannot call PHP for that.
+
+Two hand-maintained copies of the same arithmetic drift. Both run against a shared fixture table in the test suite, so a formula changed on one side and not the other fails a test rather than silently charging the wrong amount.
+
+Changing a formula means changing three things: the PHP, the JS, and the fixture.
+
+## Prices are never cached
+
+Item definitions are cached, because they change only through the plugin's own save paths — a closed set to invalidate.
+
+Prices never are. A cached price goes stale the moment a product is edited, a sale starts, or a tax rate changes, and a stale price in a cart is a wrong charge.
+
+## The admin is a React app
+
+One admin page, one bundle. The whole route lives in the query string, so a view survives a reload, can be shared as a link, and comes back intact through the browser's back button.
+
+The server hands the panel everything it needs at boot — REST URL, nonce, capability, tier, currency, the wording catalogue — in one inline payload, so the panel makes no request just to find out what it is.
+
+That payload is filterable through `cartpresets_admin_boot`, which is how Pro publishes state shared code must not know about.
+
+## Order lines carry their own record
+
+At checkout, every preset line is stamped with the preset ID, the preset name **as it was at that moment**, and the instance ID.
+
+Snapshotting the name matters: renaming a preset next year must not rewrite what last year's orders say they were.
+
+See [Order line item meta](/cartpresets/developers/order-meta).
+
+## What is deliberately not extensible
+
+These are guarantees, not gaps:
+
+- No filter bypasses a capability or nonce check.
+- No filter turns a hard validation failure back into a valid item.
+- No filter bypasses purchase-limit enforcement at either stage.
+- No filter disables cascade removal or weakens instance isolation.
+- No filter sits between a query and `$wpdb->prepare()`.
+- No PHP filter registers anything the React admin renders. A client-rendered extension point has to be registered client-side; a PHP filter that looks like it works and silently does nothing is worse than no extension point at all.
