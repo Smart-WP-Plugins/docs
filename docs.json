@@ -107,6 +107,7 @@
               "cartpresets/developers/javascript"
             ]
           },
+          "cartpresets/import-export",
           "cartpresets/licence",
           "cartpresets/faq"
         ]
