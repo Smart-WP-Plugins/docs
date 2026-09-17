@@ -65,7 +65,9 @@
           {
             "group": "Building presets",
             "icon": "layer-group",
-            "pages": []
+            "pages": [
+              "cartpresets/building/items"
+            ]
           },
           {
             "group": "Links and the cart",
