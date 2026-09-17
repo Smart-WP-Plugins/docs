@@ -96,6 +96,8 @@
             ]
           },
           "cartpresets/analytics",
+          "cartpresets/import-export",
+          "cartpresets/licence",
           {
             "group": "Developers",
             "icon": "code",
@@ -107,8 +109,6 @@
               "cartpresets/developers/javascript"
             ]
           },
-          "cartpresets/import-export",
-          "cartpresets/licence",
           "cartpresets/faq"
         ]
       }
