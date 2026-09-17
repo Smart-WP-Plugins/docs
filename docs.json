@@ -94,6 +94,7 @@
               "cartpresets/settings/carrier-product"
             ]
           },
+          "cartpresets/analytics",
           {
             "group": "Developers",
             "icon": "code",
