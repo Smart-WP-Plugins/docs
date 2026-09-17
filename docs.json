@@ -68,7 +68,8 @@
             "pages": [
               "cartpresets/building/items",
               "cartpresets/building/pricing",
-              "cartpresets/building/health-checks"
+              "cartpresets/building/health-checks",
+              "cartpresets/building/scheduling"
             ]
           },
           {
