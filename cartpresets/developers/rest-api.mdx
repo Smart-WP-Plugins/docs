@@ -1,0 +1,115 @@
+---
+title: "REST API"
+description: "Every route under cartpresets/v1, and which tier registers it"
+icon: "code-branch"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Namespace: **`cartpresets/v1`**.
+
+<Warning>
+  **There are no public endpoints.** Every route requires the `manage_woocommerce` capability and a valid nonce. These exist to serve the admin panel, not to be a storefront API — a preset reaches a customer through its link, not through REST.
+</Warning>
+
+The capability is filterable through `cartpresets_admin_capability`, which is safety-clamped.
+
+## Presets
+
+| Method | Route | Does |
+| --- | --- | --- |
+| `GET` | `/presets` | List, with search, filters, sort and pagination |
+| `POST` | `/presets` | Create |
+| `GET` | `/presets/<id>` | Read one |
+| `PUT` | `/presets/<id>` | Update |
+| `DELETE` | `/presets/<id>` | Delete |
+| `POST` | `/presets/<id>/duplicate` | Copy, inactive |
+| `POST` | `/presets/bulk` | Act on several at once |
+| `GET` | `/presets/slug-check` | Whether a slug is available |
+| `GET` | `/presets/export`<Pro /> | Export as JSON |
+| `POST` | `/presets/import`<Pro /> | Import from JSON |
+
+### Listing parameters
+
+`GET /presets` accepts `search`, `status`, `sort`, `dir`, `page`, `per_page`, and `filters`, plus the pre-builder arguments `added_after`, `added_before`, `price_op`, `price`, `price_max`, `orders_op`, `orders`, `orders_max`, `product`, `stock_problem` and `has_coupon`.
+
+The full grammar is documented under [`cartpresets_list_args`](/cartpresets/developers/hooks-reference#listing), which receives exactly these arguments after they are resolved.
+
+```bash
+curl -s 'https://yourstore.com/wp-json/cartpresets/v1/presets?status=active&sort=price&dir=asc&per_page=5' \
+  -H 'X-WP-Nonce: <nonce>' \
+  --cookie 'wordpress_logged_in_...=<cookie>'
+```
+
+## Settings
+
+| Method | Route | Does |
+| --- | --- | --- |
+| `GET` | `/settings` | Read all store settings |
+| `POST` | `/settings` | Save them |
+| `POST` | `/settings/carrier` | Create, link or unlink the carrier product |
+| `GET` | `/settings/carrier-options` | Products eligible to be a carrier |
+
+## Supporting routes
+
+| Method | Route | Does |
+| --- | --- | --- |
+| `GET` | `/products` | The editor's product picker |
+| `GET` | `/reference` | Shipping classes, roles, order statuses, system status |
+| `GET` | `/prefs` | Per-user panel preferences |
+| `POST` | `/prefs` | Save them |
+
+## Reporting<Pro />
+
+| Method | Route | Does |
+| --- | --- | --- |
+| `GET` | `/sales` | Rows and the orders drill-down |
+| `GET` | `/sales/stats` | Totals and the time series |
+| `GET` | `/sales/presets` | Preset names, for the report's filters |
+
+## Licensing<Pro />
+
+| Method | Route | Does |
+| --- | --- | --- |
+| `GET` | `/licence` | Current state — never the key itself |
+| `POST` | `/licence` | Activate |
+| `DELETE` | `/licence` | Deactivate |
+| `POST` | `/licence/sync` | Re-check now |
+| `DELETE` | `/licence/notice` | Dismiss the licence notice |
+
+<Note>
+  A licence key travels **in** and never back out. `GET /licence` returns status, plan, expiry and seat counts — not the key.
+</Note>
+
+## Absent, not refusing
+
+On the free build the Pro routes are **not registered at all**. A request to `/sales` or `/presets/import` returns a plain 404, exactly like a route that never existed.
+
+That is deliberate. A route that exists and refuses tells an attacker the feature is there; a route that does not exist tells them nothing, and it means the free build ships no premium code to refuse with.
+
+```php
+if ( ! \SmartWP\CartPresets\Support\Tier::is_pro() ) {
+	// Do not call /sales here — it will 404.
+}
+```
+
+## Adding your own routes
+
+Register on `cartpresets_register_rest_routes`, which fires once the plugin's own controllers are up. That is the same seam Pro uses, so nothing about the premium routes is privileged.
+
+```php
+add_action( 'cartpresets_register_rest_routes', function () {
+	register_rest_route( 'cartpresets/v1', '/my-thing', array(
+		'methods'             => 'GET',
+		'callback'            => 'my_plugin_handler',
+		'permission_callback' => function () {
+			return current_user_can( 'manage_woocommerce' );
+		},
+	) );
+} );
+```
+
+<Warning>
+  Supply your own `permission_callback`. Registering inside this action does not inherit the plugin's capability check.
+</Warning>

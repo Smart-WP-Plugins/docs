@@ -100,7 +100,8 @@
             "icon": "code",
             "pages": [
               "cartpresets/developers/architecture",
-              "cartpresets/developers/hooks-reference"
+              "cartpresets/developers/hooks-reference",
+              "cartpresets/developers/rest-api"
             ]
           },
           "cartpresets/licence"
