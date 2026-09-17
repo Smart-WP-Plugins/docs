@@ -89,7 +89,9 @@
           {
             "group": "Store settings",
             "icon": "sliders",
-            "pages": []
+            "pages": [
+              "cartpresets/settings/reference"
+            ]
           },
           {
             "group": "Developers",
