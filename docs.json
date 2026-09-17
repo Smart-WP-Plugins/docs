@@ -70,7 +70,8 @@
               "cartpresets/building/pricing",
               "cartpresets/building/health-checks",
               "cartpresets/building/scheduling",
-              "cartpresets/building/purchase-limits"
+              "cartpresets/building/purchase-limits",
+              "cartpresets/building/eligibility"
             ]
           },
           {
