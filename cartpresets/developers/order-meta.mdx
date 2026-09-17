@@ -1,0 +1,110 @@
+---
+title: "Order line item meta"
+description: "What every preset order line carries, and why the shipping keys exist"
+icon: "receipt"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+Order lines created by a preset carry these meta keys. **The names will not change**, within a major version or across one — they are the stable integration surface for packing slips, shipping labels, fulfilment and accounting.
+
+## Always present
+
+```
+_cartpresets_preset_id
+_cartpresets_preset_name       snapshotted at order time
+_cartpresets_instance_id
+```
+
+| Key | Holds |
+| --- | --- |
+| `_cartpresets_preset_id` | The preset's numeric ID |
+| `_cartpresets_preset_name` | Its name **as it was when the order was placed** |
+| `_cartpresets_instance_id` | Which copy of the preset this line belongs to |
+
+### Why the name is snapshotted
+
+Renaming a preset next year must not rewrite what last year's orders say they were. An order is a historical record, and reading the name live would silently rewrite history every time you tidied up a title.
+
+The ID stays live, so you can still find the preset. The two together let you say *"this was bought as Summer Kit, which is now called Seasonal Bundle"*.
+
+### Why the instance ID is there
+
+Two copies of the same preset in one order are two sets of lines with the same preset ID. The instance ID is what separates them — without it you cannot tell a customer who bought one preset with quantity 2 from one who bought it twice.
+
+## Custom items that ship<Pro />
+
+```
+_cartpresets_custom_weight
+_cartpresets_custom_length
+_cartpresets_custom_width
+_cartpresets_custom_height
+_cartpresets_custom_shipping_class_id
+```
+
+Present only on shippable custom item lines.
+
+### Why they exist
+
+Reading a line back calls `$order_item->get_product()`, which re-fetches the real [carrier product](/cartpresets/settings/carrier-product) — generic, virtual and weightless. The clone that carried the actual weight existed for one cart calculation and was never persisted.
+
+Without this snapshot, a packing-slip or shipping-label plugin reading a custom preset item gets nothing usable: a 2kg item reads as 0kg because the product it points at genuinely weighs nothing.
+
+### The values are raw
+
+Numbers and a term ID. No unit strings, no formatting.
+
+A consuming integration needs the value, not a pre-formatted display string — and the units are your store's own, readable from WooCommerce settings.
+
+## Reading them
+
+```php
+foreach ( $order->get_items() as $item ) {
+	$preset_id = $item->get_meta( '_cartpresets_preset_id' );
+
+	if ( ! $preset_id ) {
+		continue;  // Not a preset line.
+	}
+
+	$name     = $item->get_meta( '_cartpresets_preset_name' );
+	$instance = $item->get_meta( '_cartpresets_instance_id' );
+	$weight   = $item->get_meta( '_cartpresets_custom_weight' );  // '' unless a shippable custom item
+}
+```
+
+### Grouping an order by preset instance
+
+```php
+$groups = array();
+
+foreach ( $order->get_items() as $item_id => $item ) {
+	$instance = $item->get_meta( '_cartpresets_instance_id' );
+
+	if ( $instance ) {
+		$groups[ $instance ][ $item_id ] = $item;
+	}
+}
+
+// Each $groups entry is one claim of one preset.
+```
+
+## Adding your own
+
+```php
+apply_filters( 'cartpresets_order_line_item_meta', array $meta, array $cart_item );
+```
+
+**Additive only.** Append keys; the plugin's own are re-applied afterwards. Prefix yours with your own namespace so the two sets never collide.
+
+## They survive uninstall
+
+Order line meta is **never** removed, whatever you switch on under Data control.
+
+It is part of your order history, and an order that recorded which preset it came from should keep recording it after the plugin is gone. Deleting it would damage records you may be legally required to keep.
+
+## The report reads these
+
+The [Presets report](/cartpresets/analytics)<Pro /> joins WooCommerce's own lookup tables against `_cartpresets_preset_id`. That is the whole mechanism — the meta is stamped at checkout for reasons unrelated to reporting, and reporting is a consumer of it like any other integration.
+
+It also means an integration needing sales figures on **both** tiers can do exactly what the report does, without the report.
