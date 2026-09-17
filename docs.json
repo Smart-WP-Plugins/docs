@@ -106,7 +106,8 @@
               "cartpresets/developers/javascript"
             ]
           },
-          "cartpresets/licence"
+          "cartpresets/licence",
+          "cartpresets/faq"
         ]
       }
     ]
