@@ -1,0 +1,136 @@
+---
+title: "The admin interface"
+description: "Every screen CartPresets adds, and what each control does"
+icon: "window"
+---
+
+import { Pro } from '/snippets/pro.mdx';
+import { Media } from '/snippets/media.mdx';
+
+CartPresets adds a top-level **Cart Presets** menu in wp-admin, plus one entry under **Products** and, on Pro, one report under **Analytics**.
+
+| Menu entry | What it is |
+| --- | --- |
+| Cart Presets → All Presets | The listing |
+| Cart Presets → Add New Preset | The editor, empty |
+| Cart Presets → Settings | Store-wide settings |
+| Cart Presets → License<Pro /> | Licence key, status, updates |
+| Cart Presets → Upgrade to Pro | Free builds only — what Pro adds |
+| Products → Cart Presets | The same listing, where you would look for it |
+| Analytics → Cart Presets<Pro /> | The Presets report |
+
+<Media>The wp-admin sidebar with the Cart Presets menu expanded</Media>
+
+## The listing
+
+<Media>The All Presets screen in table view, showing the search, filter, status tabs and layout toggle</Media>
+
+### Finding a preset
+
+**Search** matches preset names and the names of products inside them — so searching "hoodie" finds every preset containing a hoodie, not just presets called hoodie.
+
+**Status tabs** across the top count and filter by derived status. The count beside each is live.
+
+**Filter** opens a query builder. Each row is a field, an operator and a value, and rows combine with AND:
+
+| Field | Type | Operators |
+| --- | --- | --- |
+| Product name | text | is, contains, does not contain, starts with |
+| Coupon | text | is, contains, does not contain, starts with |
+| Price | number | is, greater than, less than |
+| Order value | number | is, greater than, less than |
+| Orders | number | is, greater than, less than |
+| Stock problem | yes/no | is |
+
+<Tip>
+  **Order value** means revenue, not a count of orders. The count is the separate **Orders** field.
+</Tip>
+
+**Layout toggle** switches between cards and a table. Which one you are in is part of the URL, so a link to a filtered table arrives as a filtered table.
+
+### The columns
+
+| Column | Shows |
+| --- | --- |
+| Preset | Name, overlapping product chips, and the item and unit count |
+| Status | Active, Scheduled or Inactive — derived, not stored |
+| Price | What a customer pays, computed from live product prices |
+| Revenue<Pro /> | Net revenue recorded against this preset |
+| Date | Publish date and state |
+| Link | The preset URL, with a copy button |
+| Actions | Edit, and the row menu |
+
+On the free build the Revenue column is still drawn, with a crown in place of the figure. Clicking it explains what Pro would show there.
+
+### The row menu
+
+| Action | Notes |
+| --- | --- |
+| Edit preset | Opens the editor |
+| Copy link | The preset URL, to the clipboard |
+| Duplicate | Copies everything and opens the copy, inactive |
+| Clear end date<Pro /> | Only shown when there is one. Puts an ended preset back on sale |
+| Export as JSON<Pro /> | Downloads this one preset |
+| Activate / Deactivate | Flips the status |
+| Delete preset | Asks first, and cannot be undone |
+
+### Bulk actions
+
+Tick the checkbox on any row — or **Select all on this page** — to act on several at once. Bulk delete asks for confirmation and names how many rows it will remove.
+
+## The editor
+
+<Media>The full preset editor, main column and sidebar visible</Media>
+
+The editor is one page, a main column and a sidebar that both update as you type.
+
+### Main column
+
+| Card | What it holds |
+| --- | --- |
+| Preset details | Title, slug, publish date<Pro />, internal description |
+| Items | Every item in the preset, each expandable |
+| Additional discount | The preset-wide discount |
+| After the items are added | Where this preset sends the customer |
+| Availability<Pro /> | End date, purchase limits, and what happens when it ends |
+| Who can use this link<Pro /> | Sign-in requirement, roles, rejection message |
+
+### Sidebar
+
+**Pricing summary** recalculates on every keystroke: regular value, item discounts, the additional discount, average per unit, and the preset total. Every figure is what the customer's cart will hold.
+
+**Health checks** asks about a dozen questions of the draft. A `fail` blocks the save; a `warn` does not. Clicking a check scrolls to the control it is about and highlights it. See [Health checks](/cartpresets/building/health-checks).
+
+**Preset link** shows the live URL with a copy button, and says so if the preset has not been saved yet.
+
+### The save bar
+
+Pinned to the bottom, and it always says which of three states you are in: **All changes saved**, **Unsaved changes**, or the number of blocking problems. **Discard** reverts to the last save.
+
+<Note>
+  Leaving with unsaved changes asks first — whether you click a link inside the panel or one in wp-admin's own sidebar.
+</Note>
+
+## Settings
+
+<Media>The Settings screen, carrier product card and cart behaviour section</Media>
+
+Five sections, one save bar:
+
+| Section | Covers |
+| --- | --- |
+| The carrier product | The hidden product custom items ride on |
+| Cart behavior | What a link does to the cart it finds, what happens when an item cannot be added, which order statuses consume a purchase-limit slot, and where customers land |
+| Cart notices and labels | All nineteen customer-facing strings |
+| Links & fallbacks | URL parameter, permalink base, the not-found fallback, UTM handling |
+| Data control | The three uninstall opt-ins |
+
+The sidebar carries a **System status** card — plugin version, WordPress, WooCommerce, PHP, permalink structure, preset base, and tier — with a **Copy system report** button. That report is read from your own install and sent nowhere; it is there so you can paste it into a support thread.
+
+Full detail: [Settings reference](/cartpresets/settings/reference).
+
+## Where a preset shows up elsewhere
+
+- **The cart and checkout** — each line carries a **Part of preset** label with the preset name. Both labels are editable.
+- **The order** — the same label, plus hidden meta a developer can read. See [Order line item meta](/cartpresets/developers/order-meta).
+- **Order emails** — the order label, with the preset name as it was when the order was placed.

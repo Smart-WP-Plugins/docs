@@ -60,7 +60,28 @@
         "pages": [
           "cartpresets/introduction",
           "cartpresets/installation",
-          "cartpresets/quickstart"
+          "cartpresets/quickstart",
+          "cartpresets/interface",
+          {
+            "group": "Building presets",
+            "icon": "layer-group",
+            "pages": []
+          },
+          {
+            "group": "Links and the cart",
+            "icon": "link",
+            "pages": []
+          },
+          {
+            "group": "Store settings",
+            "icon": "sliders",
+            "pages": []
+          },
+          {
+            "group": "Developers",
+            "icon": "code",
+            "pages": []
+          }
         ]
       }
     ]
