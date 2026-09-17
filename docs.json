@@ -59,7 +59,8 @@
         "product": "CartPresets",
         "pages": [
           "cartpresets/introduction",
-          "cartpresets/installation"
+          "cartpresets/installation",
+          "cartpresets/quickstart"
         ]
       }
     ]
