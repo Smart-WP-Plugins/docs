@@ -88,22 +88,22 @@ Set in the editor, on one preset.
 
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
-| Publish date | `created_at` | Now | Pro to edit |
-| Ends on | `end_at` | Empty | Pro to edit |
-| Total purchase limit | `max_total` | Empty | Pro to edit, honoured on both |
-| Per-customer limit | `max_per` | `0` | Pro to edit, honoured on both |
+| Date (publish) | `created_at` | Now | Pro to edit |
+| Ends | `end_at` | Empty | Pro to edit |
+| Maximum purchases | `max_total` | Empty | Pro to edit, honoured on both |
+| Maximum per customer | `max_per` | `0` | Pro to edit, honoured on both |
 | Destination after add | `redirect` | `global` | Both |
 | Custom URL | `custom_url` | Empty | Both |
-| Presets already in the cart | `clear_cart` | `global` | Both |
+| Presets already in the cart | `allow_duplicate` | `global` | Both |
 | Coupon code | `coupon` | Empty | Pro — not applied on free |
-| Require sign-in | `logged_in` | Off | Pro |
+| Signed-in customers only | `logged_in` | Off | Pro |
 | Allowed roles | `roles` | Empty | Pro |
 | Rejection message | `reject_message` | Empty | Pro |
 | When this preset reaches its limit or its end date | `unavailable_action` | `global` | Pro to edit |
 | Redirect to | `unavailable_url` | Empty (falls through to the fallback link) | Pro to edit |
 | Show a notice that it is unavailable | `unavailable_notice` | On | Pro to edit |
 
-`redirect`, `clear_cart` and `unavailable_action` accept `global` (**Use the Settings default**). `clear_cart` otherwise accepts `yes` or `no`; `unavailable_action` accepts `notice` or `redirect`.
+`redirect`, `allow_duplicate` and `unavailable_action` accept `global` (**Use the Settings default**). `allow_duplicate` otherwise accepts `no` (**Replace it**) or `yes` (**Add another copy**); `unavailable_action` accepts `notice` or `redirect`.
 
 ## Item settings
 
@@ -113,11 +113,11 @@ Set on one item inside a preset.
 | --- | --- | --- | --- |
 | Discount type | `disc_type` | None | Both |
 | Discount value | `disc_value` | `0` | Both |
-| Use the regular price | `use_regular` | Off | Both |
+| Use the regular price instead of the sale price | `use_regular` | Off | Both |
 | Payments a discount covers | `sub_payments` | `0` (all) | Pro — free reads as first only |
 | Waive the sign-up fee | `sub_waive_fee` | Off | Pro — free charges the fee |
-| Allow coupons on this item | `allow_coupons` | Off | Both |
-| Customer can change quantity | `allow_qty` | Off | Both |
+| Allow coupon discounts on this item | `allow_coupons` | Off | Both |
+| Let the customer change the quantity in the cart | `allow_qty` | Off | Both |
 | Minimum quantity | `qty_min` | `1` | Both |
 | Maximum quantity | `qty_max` | `0` (no limit) | Both |
 | Customer can remove this item | `removable` | Off | Both |

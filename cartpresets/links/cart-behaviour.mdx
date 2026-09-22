@@ -77,8 +77,16 @@ Notices needed specific work: the blocks on a classic theme never print WooComme
 
 ## Per-preset override
 
-In the editor, **Presets already in the cart** overrides the store-wide **Clear the existing cart** for one preset: **Use the Settings default** (the default), **Replace it** (stored as `yes`, which empties the cart before this preset is added), or **Add another copy** (`no`, which leaves the cart standing and falls back to the store's other two switches). Key: `clear_cart` on the preset.
+In the editor, **Presets already in the cart** overrides the store-wide **Allow the same preset twice** for one preset:
+
+- **Use the Settings default** (the default) follows the store.
+- **Replace it** (stored as `no`) removes this preset's earlier copy before adding a fresh one.
+- **Add another copy** (`yes`) leaves the earlier copy where it is, so following the link twice adds it twice.
+
+It only ever decides copies of this preset. The customer's own shopping and other presets are still the store switches' business, so **Replace it** never empties the cart. Key: `allow_duplicate` on the preset.
+
+While **Clear the existing cart** is on, the editor locks this choice and says why: an emptied cart has no earlier copy to replace or keep.
 
 ## For developers
 
-`cartpresets_clear_cart` filters the resolved outright-clear decision. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings are read only when it resolves false. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).
+`cartpresets_clear_cart` filters the resolved outright-clear decision, which is the store's alone. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings are read only when it resolves false. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).

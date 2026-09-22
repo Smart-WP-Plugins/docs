@@ -108,7 +108,7 @@ apply_filters( 'cartpresets_notice_text',         string $text, string $id, bool
 
 `cartpresets_cart_group_id` is applied on **both sides** of every comparison, so overriding it changes what "the rest of this preset" means consistently rather than only where the trigger line is read.
 
-`cartpresets_clear_cart` decides the outright clear — the whole cart, the customer's own shopping included. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings it outranks are read only when it resolves false.
+`cartpresets_clear_cart` decides the outright clear — the whole cart, the customer's own shopping included. It is seeded with the store's **Clear the existing cart**; a preset has no say in it, because a preset's own choice is about copies of itself. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings it outranks are read only when it resolves false.
 
 `cartpresets_preset_coupon` is **seeded empty**, and shared code never reads the stored setting itself — so with nothing attached a preset applies no coupon. Honouring the stored code is Pro.
 
