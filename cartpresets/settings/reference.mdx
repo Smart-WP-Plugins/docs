@@ -94,7 +94,10 @@ Set in the editor, on one preset.
 | Maximum per customer | `max_per` | `0` | Pro to edit, honoured on both |
 | Destination after add | `redirect` | `global` | Both |
 | Custom URL | `custom_url` | Empty | Both |
-| Presets already in the cart | `allow_duplicate` | `global` | Both |
+| Use the Settings default (the cart this link finds) | `cart_override` | Off (follow Settings) | Both |
+| Clear the existing cart | `clear_cart` | Off | Both |
+| Allow the same preset twice | `allow_duplicate` | Off | Both |
+| Keep the customer's own items | `keep_existing` | On | Both |
 | Coupon code | `coupon` | Empty | Pro — not applied on free |
 | Signed-in customers only | `logged_in` | Off | Pro |
 | Allowed roles | `roles` | Empty | Pro |
@@ -103,7 +106,9 @@ Set in the editor, on one preset.
 | Redirect to | `unavailable_url` | Empty (falls through to the fallback link) | Pro to edit |
 | Show a notice that it is unavailable | `unavailable_notice` | On | Pro to edit |
 
-`redirect`, `allow_duplicate` and `unavailable_action` accept `global` (**Use the Settings default**). `allow_duplicate` otherwise accepts `no` (**Replace it**) or `yes` (**Add another copy**); `unavailable_action` accepts `notice` or `redirect`.
+`redirect` and `unavailable_action` accept `global` (**Use the Settings default**); `unavailable_action` otherwise accepts `notice` or `redirect`.
+
+The three cart switches are read only while `cart_override` is on. With it off the store's own answers apply, and the editor draws them disabled — see [Cart behaviour](/cartpresets/links/cart-behaviour#per-preset-override).
 
 ## Item settings
 

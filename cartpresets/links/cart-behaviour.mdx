@@ -77,16 +77,21 @@ Notices needed specific work: the blocks on a classic theme never print WooComme
 
 ## Per-preset override
 
-In the editor, **Presets already in the cart** overrides the store-wide **Allow the same preset twice** for one preset:
+The editor asks the same three questions again, for one preset, under **The cart this link finds**.
 
-- **Use the Settings default** (the default) follows the store.
-- **Replace it** (stored as `no`) removes this preset's earlier copy before adding a fresh one.
-- **Add another copy** (`yes`) leaves the earlier copy where it is, so following the link twice adds it twice.
+**Use the Settings default** is on to begin with. While it is on, the three switches below it show what the store says and cannot be edited, and the note reads that answer back to you.
 
-It only ever decides copies of this preset. The customer's own shopping and other presets are still the store switches' business, so **Replace it** never empties the cart. Key: `allow_duplicate` on the preset.
+Turn it off and they become yours for this preset, starting from the store's current answers so nothing changes under your hands. **Clear the existing cart** settles the other two here exactly as it does store-wide — and because it sits beside them, you can turn it off again to get them back.
 
-While **Clear the existing cart** is on, the editor locks this choice and says why: an emptied cart has no earlier copy to replace or keep.
+| Key on the preset | Holds |
+| --- | --- |
+| `cart_override` | Whether this preset answers for itself. Off by default |
+| `clear_cart`, `allow_duplicate`, `keep_existing` | Its answers, read only when `cart_override` is on |
+
+A preset overrides all three or none of them. There is no half-following: a cart is predicted from one screen, not two.
+
+Another preset already in the cart is never swept out by a link that does not empty the cart — those lines are somebody else's offer.
 
 ## For developers
 
-`cartpresets_clear_cart` filters the resolved outright-clear decision, which is the store's alone. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings are read only when it resolves false. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).
+`cartpresets_clear_cart` filters the resolved outright-clear decision — the store's answer, or the preset's own when it overrides. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings are read only when it resolves false. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).
