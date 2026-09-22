@@ -110,9 +110,15 @@ Before reporting, check the obvious causes:
 
 ### An item is missing from the cart
 
-Check the notice the customer got. Out of stock, sold individually, or deleted each have their own message.
+Check the notice the customer got. Out of stock, no longer purchasable, or deleted each have their own message.
 
 Whether a failure skips the item or refuses the whole preset is **Settings → Cart behaviour → Unavailable items**.
+
+### The cart charged for one when my preset says three
+
+That product is marked **Sold individually** in WooCommerce, which allows one per order however many are asked for. The cart trims the line to one and charges for one, and the customer gets a notice saying the quantity was adjusted.
+
+Nothing is broken, but the preset is quoting a price nobody will pay. Open the preset: the item shows a **Sold one at a time** badge and the sidebar warns about it. Set that item's quantity to 1, or untick **Sold individually** on the product if selling several was the intention. See [Health checks](/cartpresets/building/health-checks#sold-individually).
 
 ### Notices are not appearing
 

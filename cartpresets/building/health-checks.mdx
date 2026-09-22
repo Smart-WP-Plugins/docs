@@ -38,6 +38,7 @@ Clicking any check scrolls to the control it is about and highlights it.
 
 | Check | What it means |
 | --- | --- |
+| Some items are sold one at a time | The item asks for more than one of a product your store sells individually. The cart trims the line to one and charges for one — see [Sold individually](#sold-individually) |
 | Some items may not reach the cart | Out of stock, fewer left than the preset adds, or not published. The detail says what your **Unavailable items** setting will do about it — **Skip the item** and fill with the rest, or **Refuse the preset** |
 | Custom items are not added on the free version | The preset carries custom items this version cannot add. Free version only |
 | A custom item has no price<Pro /> | It will be added to the cart free of charge |
@@ -62,6 +63,16 @@ Suppressed on free: the custom-item price, name and weight checks, the end-date 
 <Note>
   The free version is **not** quiet about a custom item *existing*. Whether an item reaches the cart is a fact about the preset, not a field filled in wrong — so it warns, and says how many items will not be added.
 </Note>
+
+## Sold individually
+
+WooCommerce lets you mark a product **Sold individually**: one per order, whatever the customer asks for. A preset that asks for three of one is the one case where the editor and the cart could quietly disagree — the summary would price three, the cart would add one, and the customer would be charged for one with nothing saying why.
+
+So the editor says it instead. The item card carries a **Sold one at a time** badge, and the sidebar warns once for every item affected:
+
+> The cart trims the quantity to one and charges for one. Set the quantity to 1 so the preset quotes what the customer will pay.
+
+It is deliberately not filed with the stock problems below. Those say an item _may not reach the cart_; this one does reach it, trimmed. The quantity is yours to fix from here, which is exactly what the stock warnings are not — and a customer who follows the link still gets the preset, plus a notice explaining the adjustment. That notice is editable, like every other: it is `item_qty_capped` under [Messages and labels](/cartpresets/links/wording).
 
 ## Stock problems
 
