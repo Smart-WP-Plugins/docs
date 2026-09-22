@@ -56,7 +56,7 @@ CartPresets comes in two versions that share the same database tables, the same 
 | --- | --- | --- |
 | Build presets from store products and variations | Yes | Yes |
 | Per-item discounts | Yes | Yes |
-| Preset links, redirects, and fallbacks | Yes | Yes |
+| Preset links, redirects, and what a refused link does | Yes | Yes |
 | Cart behaviour and quantity rules | Yes | Yes |
 | Editable customer-facing wording | Yes | Yes |
 | Publish and expire on a schedule | — | Yes |
@@ -80,7 +80,7 @@ Being clear about this saves you an evaluation:
 
 - **It is not a product bundle plugin.** A preset has no product page, no add-to-cart button on your store, and no presence in your catalogue. If you need customers to *discover* a combination by browsing, you need a bundle product, not a preset.
 - **It does not let the customer configure anything.** A preset is fixed when you save it. Customers follow the link and get what you chose.
-- **It tracks nothing.** No analytics of its own, no scripts or styles on your storefront, no data leaving your site.
+- **It tracks nothing.** No analytics of its own, no scripts or styles on your storefront, no data leaving your site. A preset carrying a purchase limit does record who claimed it, because a limit cannot be counted otherwise — see [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Where to go next
 

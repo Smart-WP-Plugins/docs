@@ -7,17 +7,17 @@ icon: "cart-shopping"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-A customer following your link often already has a cart. Three switches decide what happens to it, under **Settings → Cart behaviour**.
+A customer following your link often already has a cart. Three switches decide what happens to it, under **Settings → Cart behaviour → Existing cart**.
 
-<Media>The Cart behaviour section with all three switches, the lower two disabled because the first is on</Media>
+<Media>The Existing cart block with all three switches, the lower two disabled because the first is on</Media>
 
 ## The three switches
 
 | Switch | Key | Default | Effect |
 | --- | --- | --- | --- |
 | Clear the existing cart | `clear_cart` | Off | The link empties the cart before adding. Nothing survives |
-| Allow the same preset twice | `allow_duplicate` | Off | Whether a second visit adds a second copy or replaces the first |
-| Keep the customer's own items | `keep_existing` | On | Whether their non-preset lines survive |
+| Allow duplicate presets | `allow_duplicate` | Off | Whether a second visit adds a second copy or replaces the first |
+| Keep existing items | `keep_existing` | On | Whether their non-preset lines survive |
 
 **Clear the existing cart** answers the other two on their behalf, so the settings screen draws them disabled with the reason rather than hiding them. A control that vanishes takes its explanation with it.
 
@@ -31,7 +31,7 @@ Use it when the link is the whole offer and you want the customer to arrive hold
   This deletes things the customer chose themselves. On a store where people browse and accumulate over several visits, it is an aggressive default to take.
 </Warning>
 
-### Allow the same preset twice
+### Allow duplicate presets
 
 With the cart left standing, what happens when someone follows the same link twice.
 
@@ -39,9 +39,9 @@ With the cart left standing, what happens when someone follows the same link twi
 
 **On** means they end up with two.
 
-### Keep the customer's own items
+### Keep existing items
 
-With the cart left standing, whether their non-preset lines survive. On by default.
+With the cart left standing, whether the customer's own non-preset lines survive. On by default.
 
 Another preset's lines are somebody else's offer, and a link never sweeps those out unless the whole cart goes.
 
@@ -77,7 +77,7 @@ Notices needed specific work: the blocks on a classic theme never print WooComme
 
 ## Per-preset override
 
-The editor asks the same three questions again, for one preset, under **The cart this link finds**.
+The editor asks the same three questions again, for one preset, in its **Cart behaviour** card under **Existing cart**.
 
 **Use the Settings default** is on to begin with. While it is on, the three switches below it show what the store says and cannot be edited, and the note reads that answer back to you.
 

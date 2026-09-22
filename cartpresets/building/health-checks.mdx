@@ -7,7 +7,7 @@ icon: "heart-pulse"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-The editor's sidebar asks seventeen questions of your preset on every keystroke, and answers each one. It is the difference between finding out a preset is broken now and finding out from a customer.
+The editor's sidebar asks the same questions of your preset on every keystroke, and answers each one. It is the difference between finding out a preset is broken now and finding out from a customer.
 
 The checks are listed in screen order — name, items, discounts, destination, limits, status — so working down the sidebar is working down the form. Each item card also carries a badge naming its own problems, from the same rules.
 
@@ -31,14 +31,14 @@ Clicking any check scrolls to the control it is about and highlights it.
 | A store item has no product | Choose a product or delete the row |
 | A variation has an option not chosen | Every attribute must be set before the preset can be saved |
 | An item asks for a combination the store does not sell | Every option is answered, but no variation matches. Choose options that match a variation on sale |
-| Custom URL is empty | A custom destination is chosen with no address to send anyone to |
-| End redirect is empty<Pro /> | Redirect is chosen for the end of the preset with no address set |
+| Custom URL is empty | A custom destination is chosen under **Redirect after adding** with no address to send anyone to |
+| A custom refusal link is empty | The preset sends refused customers to a custom link under **Unavailable links**, but no address is set |
 
 ## What only asks to be looked at
 
 | Check | What it means |
 | --- | --- |
-| Some items may not reach the cart | Out of stock, fewer left than the preset adds, or not published. The detail says what your **If an item cannot be added** setting will do about it — skip the line, or refuse the whole preset |
+| Some items may not reach the cart | Out of stock, fewer left than the preset adds, or not published. The detail says what your **Unavailable items** setting will do about it — **Skip the item** and fill with the rest, or **Refuse the preset** |
 | Custom items are not added on the free version | The preset carries custom items this version cannot add. Free version only |
 | A custom item has no price<Pro /> | It will be added to the cart free of charge |
 | A custom item has no name<Pro /> | The cart line would read as untitled |
@@ -51,7 +51,7 @@ Clicking any check scrolls to the control it is about and highlights it.
 | Preset has expired | Its end date has passed. Move the end date to run it again |
 | Preset has sold out | Its purchase limit is used up. Raise the limit to sell more |
 
-Two answers are informational: whether the slug is set or will be generated, and — on a scheduled preset — the date it goes live.
+Three answers are informational rather than problems: whether the slug is set or will be generated, how many items and units the preset holds, and — on a scheduled preset — the date it goes live.
 
 ## Checks the free version stays quiet about
 

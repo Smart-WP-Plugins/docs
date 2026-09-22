@@ -109,11 +109,13 @@ apply_filters( 'cartpresets_order_line_item_meta', array $meta, array $cart_item
 
 **Additive only.** Append keys; the plugin's own are re-applied afterwards. Prefix yours with your own namespace so the two sets never collide.
 
-## They survive uninstall
+## They survive uninstall, and a data-erasure request
 
-Order line meta is **never** removed, whatever you switch on under Data control.
+Order line meta is **never** removed, whatever you switch on under **Settings → Data management**.
 
 It is part of your order history, and an order that recorded which preset it came from should keep recording it after the plugin is gone. Deleting it would damage records you may be legally required to keep.
+
+The same holds for WordPress's **Erase Personal Data** tool. The plugin's eraser touches the redemption row that counts a purchase limit, never an order line — an order is WooCommerce's record to anonymise, and it has its own eraser for exactly that. See [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## The report reads these
 

@@ -1,21 +1,23 @@
 ---
 title: "Cart notices and wording"
-description: "All nineteen customer-facing strings, their defaults, and how to translate them"
+description: "All twenty-one customer-facing strings, their defaults, and how to translate them"
 icon: "comment"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-Every sentence and label a customer reads is editable, under **Settings → Cart notices and labels → Edit wording**. There are nineteen, in four groups.
+Every sentence and label a customer reads is editable, under **Settings → Messages and labels → Edit wording**. There are twenty-one, in four groups.
+
+The screen draws twenty-two fields for them: `limit_customer` changes with the number, so it is edited as a singular and a plural pair.
 
 Leave one blank and the shipped wording is used — so you only ever store what you actually changed, and a release that improves a default reaches you automatically.
 
-<Media>The Cart notices and labels section with the four groups, one expanded</Media>
+<Media>The Messages and labels section with the four groups, one expanded</Media>
 
-## The link is refused
+## Error messages
 
-Eight messages for a link that could not be followed.
+Ten messages for a link that could not be followed. They are the nine ways a link is refused — see [Where customers land](/cartpresets/links/destinations#unavailable-links) for where the customer goes afterwards.
 
 | ID | When | Shipped wording |
 | --- | --- | --- |
@@ -24,17 +26,23 @@ Eight messages for a link that could not be followed.
 | `unavailable` | Expired, inactive, or sold out | This preset is no longer available. |
 | `limit_total` | Total cap hit<Pro /> | This preset has reached its purchase limit and is no longer available. |
 | `limit_customer` | Per-customer cap hit<Pro /> | This preset is limited to %d purchase per customer. / This preset is limited to %d purchases per customer. |
+| `not_signed_in` | The preset is for signed-in customers only<Pro /> | Please sign in to use this preset. |
+| `role_not_allowed` | The customer does not hold one of the roles the preset allows<Pro /> | This preset is not available on your account. |
 | `no_items` | The preset has no items | This preset is not available right now. |
-| `item_blocked` | An item failed and **If an item cannot be added** is set to refuse the whole preset | This preset is unavailable because one of its items cannot be purchased right now. |
+| `item_blocked` | An item failed and **Unavailable items** is set to **Refuse the preset** | This preset is unavailable because one of its items cannot be purchased right now. |
 | `nothing_added` | Every add failed at cart time | Nothing in this preset could be added to your cart. |
 
 <Warning>
   Write `not_found` for a stranger. Anyone can guess a URL, and the shipped wording deliberately does not say whether the preset ever existed. It also cannot be switched off — an empty override falls back to the default — so it has to be safe in front of anyone.
 </Warning>
 
-## The link worked, with a caveat
+<Note>
+  **`not_signed_in` and `role_not_allowed` are store-wide.** The sentence an ineligible visitor reads used to be a field on each preset, which meant one refusal was edited somewhere none of the other nine were. It is here now, beside every other sentence a customer can see — so a wholesale link and a staff link say the same thing, and you write it once.
+</Note>
 
-Four messages for a link that worked with a caveat.
+## Warning messages
+
+Four messages for a link that worked with a caveat. Nothing here is a refusal: something reached the cart, so the customer keeps it and **Redirect after adding** decides where they land.
 
 | ID | When | Shipped wording |
 | --- | --- | --- |
@@ -43,7 +51,7 @@ Four messages for a link that worked with a caveat.
 | `item_qty_capped` | Partial add, sold individually | One item in this preset is limited to one per order, so the quantity was adjusted. |
 | `item_unavailable` | Partial add, everything else | One item in this preset is currently unavailable. |
 
-## Later, once it is in the cart
+## Cart messages
 
 Four messages about editing a preset that is already in the cart.
 
@@ -54,9 +62,9 @@ Four messages about editing a preset that is already in the cart.
 | `quantity_min` | Below the minimum | This preset item has a minimum quantity of %d. |
 | `quantity_max` | Above the maximum | This preset item has a maximum quantity of %d at the preset price. |
 
-## Labels, not notices
+## Labels
 
-Three labels, shown on the cart line, the order, and in emails.
+Three labels rather than notices, shown on the cart line, the order, and in emails.
 
 | ID | Where | Shipped wording |
 | --- | --- | --- |

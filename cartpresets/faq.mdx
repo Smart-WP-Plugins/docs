@@ -50,13 +50,15 @@ import { Media } from '/snippets/media.mdx';
   </Accordion>
 
   <Accordion title="What happens to my data on uninstall?">
-    Nothing, unless you opt in. Each category has its own switch under **Settings → Data control**, all off by default. See [Data and uninstall](/cartpresets/settings/data-and-uninstall).
+    Nothing, unless you opt in. Each category has its own switch under **Settings → Data management**, all off by default. See [Data and uninstall](/cartpresets/settings/data-and-uninstall).
+
+    For a customer asking what you hold about them, or asking you to delete it, the plugin answers WordPress's own **Tools → Export Personal Data** and **Erase Personal Data**. See [Privacy and personal data](/cartpresets/settings/privacy).
   </Accordion>
 
   <Accordion title="Is a preset link secret?">
     No. Anyone holding the link can follow it, and a slug is guessable.
 
-    If a preset should not be public, use [Eligibility](/cartpresets/building/eligibility)<Pro /> to require sign-in or particular roles. Obscurity is not a restriction.
+    If a preset should not be public, use **Customer access**<Pro /> in the editor's Usage restrictions card to require sign-in, or to limit the link to particular roles. See [Eligibility](/cartpresets/building/eligibility). Obscurity is not a restriction.
   </Accordion>
 
   <Accordion title="How many presets can I have?">
@@ -70,16 +72,20 @@ import { Media } from '/snippets/media.mdx';
 
 ## Troubleshooting
 
-### The link goes to my shop page instead of filling the cart
+### The link lands somewhere without filling the cart
 
 The preset was refused. Work through, in order:
 
-1. **Is the slug right?** A typo, a deleted preset, or a rename more than 30 days old all fall through to the fallback.
+1. **Is the slug right?** A typo, a deleted preset, or a rename more than 30 days old all match no preset.
 2. **Is the preset active?** Check the status badge in the listing. Anything other than Active refuses.
 3. **Has a cap filled, or an end date passed?**<Pro /> The status badge reads Sold out or Expired.
-4. **Is there an eligibility rule?**<Pro /> Test in a private window as the customer would arrive.
+4. **Is there a customer access rule?**<Pro /> Test in a private window as the customer would arrive.
 
-If there is no notice explaining which of these it was, check **Settings → Links and fallbacks → Show a notice that it is unavailable** is on, and that **Redirect to the fallback link** is not sending the customer away first.
+Where they landed is **Settings → Cart behaviour → Unavailable links** — the cart by default, or a custom URL if you set one. If there was no message explaining which of the above it was, check **Show an error message** in that same block is on.
+
+<Note>
+  A custom URL only shows the reason if the page it points at prints WooCommerce notices. The cart always does; a landing page built by a page builder often does not.
+</Note>
 
 ### The link works for me but not for customers
 
@@ -106,7 +112,7 @@ Before reporting, check the obvious causes:
 
 Check the notice the customer got. Out of stock, sold individually, or deleted each have their own message.
 
-Whether a failure skips the item or refuses the whole preset is **Settings → Cart behaviour → If an item cannot be added**.
+Whether a failure skips the item or refuses the whole preset is **Settings → Cart behaviour → Unavailable items**.
 
 ### Notices are not appearing
 
@@ -126,7 +132,7 @@ If you are on the free version, custom items are not added at all — that is ex
 
 ### Purchase limits are counting orders I did not expect<Pro />
 
-Check **Settings → Cart behaviour → Order statuses that use up a purchase limit**. The default includes **On hold**, because a bank-transfer order is a real commitment.
+Check **Settings → Usage limits → Count orders with these statuses**. The default includes **On hold**, because a bank-transfer order is a real commitment.
 
 Remember that limits and the Presets report answer different questions and will not agree: an on-hold order consumes a slot before it counts as a sale.
 

@@ -108,7 +108,9 @@ apply_filters( 'cartpresets_notice_text',         string $text, string $id, bool
 
 `cartpresets_cart_group_id` is applied on **both sides** of every comparison, so overriding it changes what "the rest of this preset" means consistently rather than only where the trigger line is read.
 
-`cartpresets_clear_cart` decides the outright clear — the whole cart, the customer's own shopping included. It is seeded with the store's **Clear the existing cart**; a preset has no say in it, because a preset's own choice is about copies of itself. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings it outranks are read only when it resolves false.
+`cartpresets_clear_cart` decides the outright clear — the whole cart, the customer's own shopping included. It is seeded with the **resolved** answer: the store's **Clear the existing cart**, or the preset's own when its `cart_override` is on. It fires once per link, before the limit check, so the filter and the removal cannot reach different conclusions. The two narrower settings it outranks are read only when it resolves false.
+
+A preset answers all three cart questions or none of them: `cart_override` decides which level is read, and `clear_cart`, `allow_duplicate` and `keep_existing` are its answers when it is on. There is no half-following, so a cart can be predicted from one screen.
 
 `cartpresets_preset_coupon` is **seeded empty**, and shared code never reads the stored setting itself — so with nothing attached a preset applies no coupon. Honouring the stored code is Pro.
 
@@ -171,7 +173,9 @@ Both are seeded with the values **already stored**. A listener returns the submi
 
 Written this way round on purpose: a tier without a control neither sets the field nor disturbs what another tier stored.
 
-`cartpresets_preset_premium_fields` covers `created_at`, `end_at`, `max_total`, `max_per`, `unavailable_action`, `unavailable_url`, `unavailable_notice` and `coupon`. `cartpresets_premium_settings` covers the store-wide `unavailable_action`, `unavailable_notice` and `redemption_statuses`.
+`cartpresets_preset_premium_fields` covers `created_at`, `end_at`, `max_total`, `max_per`, `refused_action`, `refused_url`, `refused_notice` and `coupon`. `cartpresets_premium_settings` covers one store-wide key: `redemption_statuses`.
+
+That list is short for a reason. Narrowing which order statuses consume a slot makes a stored cap count fewer orders than the merchant asked it to, which puts a sold-out run back on sale — so it is gated. Where a refused customer lands cannot do that, whichever way it is set, so the store-wide refusal setting ships free. The per-preset one stays gated, because a downgrade must not silently move a customer a merchant chose to send somewhere.
 
 Neither is a validation step — a rejected value is silently the stored one, and the rest of the same save goes through.
 

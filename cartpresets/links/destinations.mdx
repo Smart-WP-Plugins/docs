@@ -1,34 +1,36 @@
 ---
 title: "Where customers land"
-description: "The destination after a successful add, and every way a link can be refused"
+description: "Where a link sends the customer when it works, and when it is refused"
 icon: "signs-post"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-Following a preset link always ends in a redirect. Where to depends on whether the preset could be added.
+Following a preset link always ends in a redirect. Where to depends on one thing: whether anything reached the cart.
 
-## After a successful add
+If something did, the link worked — whole or in part — and **Redirect after adding** decides. If nothing did, the link was refused, and **Unavailable links** decides. Both live under **Settings → Cart behaviour**, and a preset can answer either for itself.
 
-Set store-wide under **Settings → Cart behaviour → After a successful add**, and overridable per preset.
+## Redirect after adding
+
+Set store-wide under **Settings → Cart behaviour → Redirect after adding**, and overridable per preset.
 
 | Choice | Where they go | Key |
 | --- | --- | --- |
-| The cart | Your cart page, holding the preset | `cart` |
+| Cart | Your cart page, holding the preset | `cart` |
 | Checkout | Straight to checkout | `checkout` |
 | Stay on the page | Back where they came from | `stay` |
-| A custom URL | An address you choose, in the **Custom URL** field below the choices | `custom` |
+| Custom URL | An address you choose, in the **Custom URL** field below the choices | `custom` |
 
-The same four choices, in the same words and each with its own explanation, appear store-wide and on a single preset.
+The same four choices, in the same words, appear store-wide and on a single preset.
 
-**The cart** is the default and the safe choice: the customer sees what they got before they commit to it.
+**Cart** is the default and the safe choice: the customer sees what they got before they commit to it.
 
 **Checkout** shortens the path for a campaign where the offer is already understood.
 
 **Stay on the page** is for links embedded in your own content. A button inside a blog post can fill the cart and leave the reader exactly where they were reading.
 
-<Media>The "After a successful add" section with the four options, Custom URL selected and an address entered</Media>
+<Media>The "Redirect after adding" block with the four choices, Custom URL selected and an address entered</Media>
 
 ### How "stay" decides where that is
 
@@ -40,35 +42,56 @@ No referer at all — a link pasted into the address bar, or a browser that send
 
 ### Per-preset override
 
-Each preset can choose its own destination in the editor's **Cart behaviour** card, under **After the items are added, send the customer to**, or leave it on **Use the Settings default**. That row names the store's current choice, so you can see what following the default means without leaving the page.
+Each preset can choose its own destination in the editor's **Cart behaviour** card, under **Redirect after adding**, or leave it on **Use the Settings default**. That row names the store's current choice, so you can see what following the default means without leaving the page.
 
-## When a link is refused
+## Unavailable links
 
-Nine situations. Eight have their own editable message; the ninth shows the rejection message you wrote on the preset. See [Cart notices and wording](/cartpresets/links/wording).
+A link can be refused nine ways, and they all share one answer.
 
-| Situation | Where they land | Notice ID |
+They used to travel two paths that disagreed: three were configurable and left the customer on the cart, six were hard-coded to a fallback URL nobody could set per preset. A merchant could redirect a sold-out preset and not an ineligible one, for no reason they could have predicted.
+
+| Setting | Choices | Key |
 | --- | --- | --- |
-| The link matches no preset | Fallback URL | `not_found` |
-| Not started yet<Pro /> | Cart | `scheduled` |
-| Ended, inactive, or sold out | Cart, or your redirect | `unavailable` |
-| Not enough room left under the total cap<Pro /> | Fallback URL | `limit_total` |
-| Per-customer cap reached<Pro /> | Fallback URL | `limit_customer` |
-| The preset has no items | Fallback URL | `no_items` |
-| An item cannot be bought, and your rule is "refuse the whole preset" | Fallback URL | `item_blocked` |
-| Every item failed at cart time | Fallback URL | `nothing_added` |
-| Not eligible<Pro /> | Fallback URL | your rejection message |
+| Send them to | **Cart** · **Custom URL** | `refused_action` |
+| Custom URL | Required when a custom link is chosen | `refused_url` |
+| Show an error message | On by default | `refused_notice` |
 
-### The fallback URL
+Each reason keeps its own sentence — "sold out" is not "please sign in". What is shared is where the customer goes and whether they are told anything at all.
 
-**Settings → Links and fallbacks → Fallback link**. Leave it empty and refused customers go to your shop page.
+| Situation | Notice ID |
+| --- | --- |
+| The link matches no preset | `not_found` |
+| Not started yet<Pro /> | `scheduled` |
+| Ended, inactive, or sold out | `unavailable` |
+| Not enough room left under the total cap<Pro /> | `limit_total` |
+| Per-customer cap reached<Pro /> | `limit_customer` |
+| The preset is for signed-in customers only<Pro /> | `not_signed_in` |
+| The customer holds none of the roles the preset allows<Pro /> | `role_not_allowed` |
+| The preset has no items | `no_items` |
+| An item cannot be bought, and your rule is "refuse the preset" | `item_blocked` |
+| Every item failed at cart time | `nothing_added` |
 
-### Ended and sold-out presets can redirect instead
+All ten sentences are yours to rewrite — see [Cart notices and wording](/cartpresets/links/wording).
 
-A preset whose schedule ended or whose cap filled can send customers elsewhere rather than to the cart. Store-wide, under **Settings → Links and fallbacks → When a preset reaches its limit or its end date**, **Redirect to the fallback link** sends them to your fallback link. On a single preset, **Redirect to a link** takes an address of its own — typically a landing page explaining the offer has closed. Whether they are also told why is the separate **Show a notice that it is unavailable** switch. That is the `unavailable_action` setting, covered under [Scheduling](/cartpresets/building/scheduling)<Pro />.
+<Note>
+  **The store's Fallback link is gone**, and the chain behind it — fallback link, then shop page, then home. Two ways to answer one question was the confusion. A merchant who wants refused customers on the shop page pastes the shop page as the custom URL, and can see that they did.
+</Note>
 
-## Partial adds
+### Telling them why
 
-Sometimes most of a preset works. Four messages cover the cases where something was skipped or trimmed:
+The reason is shown as a WooCommerce notice, which the **theme** prints rather than this plugin.
+
+The cart always prints them, and so do the Cart and Checkout blocks. A custom landing page often does not: a page template that never calls `woocommerce_output_all_notices` shows nothing, however the switch is set. Worth testing the page you chose before a campaign goes out.
+
+### Overriding it on one preset
+
+A preset carries the same three keys, where `refused_action` also accepts `global` to follow the store. It is set in the editor's **Cart behaviour** card, under **Unavailable links**, and is Pro to edit — a stored answer is still honoured on the free version.
+
+A custom destination with no address resolves to the cart. Both screens refuse to save an empty one, so that is a floor under corrupted data rather than something you can configure.
+
+## A refusal is not a partial success
+
+Sometimes most of a preset works. That is a **success**, and none of the settings above about refusals apply to it: the customer keeps what could be added, **Redirect after adding** decides where they land, an automatic coupon still applies, and the caveat message explains what was skipped.
 
 | Situation | Notice ID |
 | --- | --- |
@@ -77,11 +100,11 @@ Sometimes most of a preset works. Four messages cover the cases where something 
 | One item is limited to one per order, so the quantity was trimmed | `item_qty_capped` |
 | One item is unavailable for any other reason | `item_unavailable` |
 
-The customer keeps what could be added. Whether a failure skips the item or refuses the whole preset is the **If an item cannot be added** setting — see [Items](/cartpresets/building/items).
+Whether a failing item is skipped or refuses the whole preset is the **Unavailable items** setting — see [Items](/cartpresets/building/items). Choosing "Refuse the preset" turns that case into a refusal, `item_blocked`, and nothing reaches the cart.
 
 ## External addresses work
 
-Custom destinations, per-preset custom URLs and end-of-life redirects may all point at another domain.
+Custom destinations, per-preset custom URLs and refusal links may all point at another domain.
 
 WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp-admin — sending your customer to a dashboard login. CartPresets passes merchant-configured destinations through a helper that allow-lists the host you actually configured, so the address you typed is the address they reach.
 
@@ -93,11 +116,16 @@ WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp
 
 | Setting | Level | Key | Default |
 | --- | --- | --- | --- |
-| After a successful add | Store | `post_add` | `cart` |
+| Redirect after adding | Store | `post_add` | `cart` |
 | Custom URL | Store | `post_add_url` | Empty |
 | Destination | Preset | `redirect` | `global` |
 | Custom URL | Preset | `custom_url` | Empty |
-| Fallback link | Store | `not_found_url` | Empty (shop page) |
+| Unavailable links | Store | `refused_action` | `cart` |
+| Custom URL | Store | `refused_url` | Empty |
+| Show an error message | Store | `refused_notice` | On |
+| Unavailable links | Preset | `refused_action` | `global` |
+| Custom URL | Preset | `refused_url` | Empty |
+| Show an error message | Preset | `refused_notice` | On |
 
 ## For developers
 
