@@ -79,4 +79,6 @@ The string comes from Subscriptions' own templates, built before the preset's te
 
 ## For developers
 
-Both are resolved through `cartpresets_item_subscription_terms`, returning `[ 'scope' => 'first'|'all', 'waive_fee' => bool ]`. Seeded conservatively — `first`, fee charged — and safety-clamped: a returned scope that is not exactly `all` reads as `first`, so no listener can make a subscription cheaper by accident. See the [hooks reference](/cartpresets/developers/hooks-reference#pricing).
+Both are resolved through `cartpresets_item_subscription_terms`, returning `[ 'payments' => int, 'waive_fee' => bool ]`, where `payments` counts the payments the discount covers **including the one being made now** and `0` means every payment for the life of the subscription.
+
+Seeded conservatively — one payment, fee charged — and safety-clamped: an array with no `payments` key reads as `1` rather than `0`, and the value goes through `absint()`, so no listener can grant an endless discount by accident. See the [hooks reference](/cartpresets/developers/hooks-reference#pricing).
