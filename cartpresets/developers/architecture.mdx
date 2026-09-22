@@ -85,7 +85,7 @@ Prices never are. A cached price goes stale the moment a product is edited, a sa
 
 One admin page, one bundle. The whole route lives in the query string, so a view survives a reload, can be shared as a link, and comes back intact through the browser's back button.
 
-The server hands the panel everything it needs at boot — REST base, tier, currency, store settings, the wording catalogue — in one inline payload, so the panel makes no request just to find out what it is. Every key in it is read by the panel; the ones that were not were removed rather than left as a surface to keep working. See [the boot payload](/cartpresets/developers/javascript).
+The server hands the panel everything it needs at boot — REST base, tier, currency, store settings, the wording catalogue — in one inline payload, so the panel makes no request just to find out what it is. [The boot payload](/cartpresets/developers/javascript) lists every key.
 
 That payload is filterable through `cartpresets_admin_boot`, which is how Pro publishes state shared code must not know about.
 
@@ -101,7 +101,7 @@ See [Order line item meta](/cartpresets/developers/order-meta).
 
 A preset link can be refused nine ways: no such slug, not started, ended, switched off, sold out, either cap full, not eligible, an item that cannot be bought, or nothing addable at all.
 
-They used to travel two code paths that disagreed about where the customer ended up. `Support\Refusal::resolve()` is the single answer now, and `PresetUrlHandler::refuse()` the single caller. The keys are `refused_action` (`cart` or `custom`), `refused_url` and `refused_notice`, at store level and on each preset, where the action also takes `global` to follow the store. One level answers all three questions — a destination read from the preset and a notice switch read from the store would be a combination neither screen ever showed.
+`Support\Refusal::resolve()` is the single answer, and `PresetUrlHandler::refuse()` the single caller. The keys are `refused_action` (`cart` or `custom`), `refused_url` and `refused_notice`, at store level and on each preset, where the action also takes `global` to follow the store. One level answers all three questions — a destination read from the preset and a notice switch read from the store would be a combination neither screen ever showed.
 
 **A refusal is not a partial success.** The split is `empty( $added )`: nothing reached the cart, or something did. Anything that reached it keeps the post-add destination, its own caveat notice, the automatic coupon and `cartpresets_after_add_to_cart`.
 

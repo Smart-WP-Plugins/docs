@@ -55,16 +55,12 @@ const mine = window.cartPresetsBoot.myPlugin;
 
 ## Nothing else is exported
 
-Two things used to be published here, and both are gone.
+The panel's pricing, status and formatting helpers are internal, and there is no component library to import: the interface is transcribed from a design file rather than built on a component system, so its pieces are shaped by the screens they belong to.
 
-**A component library**, removed earlier: the panel is transcribed from a design file rather than built on a component system, and its pieces are shaped by the screens they belong to. Publishing them would have promised an API the next design round would break.
+If you need what those helpers compute, ask the server. It is the better source anyway, because it is the same code the cart runs:
 
-**`window.CartPresetsAdmin`**, removed on 23 September 2026. It exposed the pricing, status and formatting helpers the panel uses internally. It was written for a sibling plugin that was never built, neither version of CartPresets read it, and a global nobody calls is still an API that has to keep working. Those helpers are internal again.
-
-If you were reading it, the shapes it exposed are documented elsewhere, and the server is the better source for all of them:
-
-| You were reading | Ask instead |
+| You want | Ask for |
 | --- | --- |
-| `pricing.presetTotals()` | The `totals` block on a preset from [`GET /presets`](/cartpresets/developers/rest-api) — the same arithmetic, computed by the PHP the cart itself uses |
-| `status.statusOf()` | `derived_status` on the same payload |
-| `format.money()`, `format.shortDate()` | WooCommerce's own `wc_price()` and `wc_format_datetime()`, which is where the panel's currency and date settings come from |
+| A preset's totals | The `totals` block on a preset from [`GET /presets`](/cartpresets/developers/rest-api) |
+| A preset's derived status | `derived_status` on the same payload |
+| Money or a date formatted to store settings | WooCommerce's own `wc_price()` and `wc_format_datetime()`, which is where the panel's currency and date settings come from |

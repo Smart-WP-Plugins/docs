@@ -38,7 +38,7 @@ The role picker appears **only while the sign-in switch is on**, and turning tha
 
 Both are facts WordPress knows with certainty on every request.
 
-Ship-to region was considered and removed. A visitor's country is frequently unknowable at the moment they click a link, and a restriction that silently holds for some visitors and not others is worse than no restriction at all — you would believe the preset was protected when it was not.
+There is deliberately no ship-to region restriction. A visitor's country is frequently unknowable at the moment they click a link, and a restriction that silently holds for some visitors and not others is worse than no restriction at all — you would believe the preset was protected when it was not.
 
 ## What a rejected visitor reads
 
@@ -50,10 +50,6 @@ Two sentences, both store-wide, both editable under **Settings → Messages and 
 | An account holds none of the allowed roles | This preset is not available on your account. | `role_not_allowed` |
 
 A guest meeting a role-restricted preset reads the **sign-in** sentence, not the account one: roles imply sign-in, and that gate is asked first. It is also the more useful message for somebody who is not signed in.
-
-<Note>
-  These used to be one message set on each preset, in a field none of the other eight refusal sentences lived beside. They are part of the wording catalogue now, so every sentence a customer can read is edited in one place.
-</Note>
 
 <Warning>
   Write them for a stranger. Anyone with the link can trigger them, so they should not confirm what the preset contains or who it is for.
