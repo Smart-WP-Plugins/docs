@@ -41,6 +41,12 @@ Every item has a quantity — how many the link adds. Beyond that, you decide wh
   Quantity rules cap what one claim holds. They are a different question from [purchase limits](/cartpresets/building/purchase-limits)<Pro />, which cap how many times the offer may be claimed at all.
 </Note>
 
+### Products sold one at a time
+
+If a product is marked **Sold individually** in WooCommerce, a customer may have one per order however many the preset asks for. Set the quantity above one and the cart trims the line to one, and charges for one.
+
+The editor warns rather than letting the two disagree: the item card shows a **Sold one at a time** badge and the sidebar raises a warning — see [Health checks](/cartpresets/building/health-checks#sold-individually). Set the quantity to 1 and the preset quotes what the customer will actually pay.
+
 ## Removable
 
 By default, removing one item of a preset from the cart removes the whole preset — and says so. That is deliberate: the price was quoted for the set, and letting a customer delete the expensive half of a discounted pair would hand them the discount without the bundle.
@@ -59,7 +65,7 @@ Turn on **Allow coupon discounts on this item** where you do want it, for exampl
 
 ## When an item cannot be added
 
-Products go out of stock, get deleted, or are limited to one per order. What the link does then is a store-wide setting under **Settings → Cart behaviour → Unavailable items**:
+Products go out of stock, get deleted, or stop being purchasable. What the link does then is a store-wide setting under **Settings → Cart behaviour → Unavailable items**:
 
 | Choice | What happens | Key |
 | --- | --- | --- |
@@ -71,6 +77,10 @@ Products go out of stock, get deleted, or are limited to one per order. What the
 **Refuse** is for sets that only make sense whole: a machine and the one cable that fits it.
 
 The wording in each case is yours to change. See [Cart notices and wording](/cartpresets/links/wording).
+
+<Note>
+  A product sold one at a time is **not** one of these cases. Nothing is refused and nothing is skipped: the line is added with its quantity trimmed to one, and the customer gets the `item_qty_capped` notice explaining it. This setting never sees it.
+</Note>
 
 ## Custom items<Pro />
 

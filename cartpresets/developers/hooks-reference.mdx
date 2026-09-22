@@ -243,7 +243,7 @@ External, grouped and composite types are excluded because they cannot be added 
 apply_filters( 'cartpresets_admin_boot', array $data );
 ```
 
-Everything the React panel is handed at boot — REST URL and nonce, capability, tier, upgrade URL, the wording catalogue. Append a key and your own screen can read it without a second request on every page load.
+Everything the React panel is handed at boot — REST base, tier, currency, the store's settings, the wording catalogue. Append a key and your own screen can read it without a second request on every page load. [The boot payload](/cartpresets/developers/javascript) lists every key the panel is given.
 
 **Additive only.** A listener that removes or rewrites an existing key is breaking the panel rather than extending it, and nothing downstream checks.
 

@@ -85,7 +85,7 @@ Prices never are. A cached price goes stale the moment a product is edited, a sa
 
 One admin page, one bundle. The whole route lives in the query string, so a view survives a reload, can be shared as a link, and comes back intact through the browser's back button.
 
-The server hands the panel everything it needs at boot — REST URL, nonce, capability, tier, currency, the wording catalogue — in one inline payload, so the panel makes no request just to find out what it is.
+The server hands the panel everything it needs at boot — REST base, tier, currency, store settings, the wording catalogue — in one inline payload, so the panel makes no request just to find out what it is. Every key in it is read by the panel; the ones that were not were removed rather than left as a surface to keep working. See [the boot payload](/cartpresets/developers/javascript).
 
 That payload is filterable through `cartpresets_admin_boot`, which is how Pro publishes state shared code must not know about.
 
@@ -107,7 +107,7 @@ They used to travel two code paths that disagreed about where the customer ended
 
 ## Personal data
 
-One row holds it: a redemption, written when a customer claims a preset that carries a purchase limit. A signed-in customer is recorded as their account, a guest by their billing email — the only way to recognise the same guest twice.
+One row holds it: a redemption, written for every preset instance in an order that reaches a counted status — capped or not, because the count is what a cap would later read. A signed-in customer is recorded as their account, a guest by their billing email, which is the only way to recognise the same guest twice.
 
 `Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser **anonymises** rather than deletes, because a redemption row says both who claimed a preset and that it was claimed, and removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
 
