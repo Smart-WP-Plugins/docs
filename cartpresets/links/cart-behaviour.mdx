@@ -90,8 +90,6 @@ Turn it off and they become yours for this preset. They start from the store's c
 
 A preset overrides all three or none of them. There's no half-following, so you can work out the cart from one screen instead of two.
 
-A link that doesn't empty the cart never sweeps out another preset already in it. Those lines are somebody else's offer.
-
 ## For developers
 
 `cartpresets_clear_cart` filters the resolved outright-clear decision: the store's answer, or the preset's own when it overrides. It fires once per link, before the limit check, so the filter and the removal can't reach different conclusions. The two narrower settings are read only when it resolves false. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).

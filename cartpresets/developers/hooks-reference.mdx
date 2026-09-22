@@ -5,7 +5,6 @@ icon: "plug"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
-import { Media } from '/snippets/media.mdx';
 
 Hooks are a public API once shipped. Within a major version, none of these will be removed and none will change argument order or count.
 
@@ -82,6 +81,8 @@ apply_filters( 'cartpresets_item_source_price', float $base, object $item );
 apply_filters( 'cartpresets_item_unit_price',   float $unit, object $item );
 apply_filters( 'cartpresets_item_subscription_terms', array $terms, object $item, array $settings );
 ```
+
+`cartpresets_item_source_price` changes the price the discount is worked out from — the product's regular or sale price, before any preset discount is applied. It runs before the discount formulas, so what you return is discounted exactly as a real price would be.
 
 `cartpresets_item_unit_price` is the last word on what a line costs. **Safety-clamped**: `max( 0, ... )` is re-applied afterwards, so no listener can produce a negative price and hand the customer money.
 
@@ -202,6 +203,8 @@ apply_filters( 'cartpresets_carrier_product_id',      int $product_id );
 
 `cartpresets_redemption_customer_key` decides how "the same customer" is recognised for per-customer limits. Default: `user:<ID>` for a signed-in customer, and `email:<billing email>`, lower-cased, for a guest. Return a stable key per real person.
 
+`cartpresets_carrier_product_id` points custom items at a carrier product other than the configured one. **Safety-clamped**: whatever you return still has to pass the same existence and purchasability checks as a configured ID, so an invalid override is rejected the same way an invalid setting is, instead of producing a broken cart line.
+
 ## Listing
 
 ```php
@@ -260,6 +263,8 @@ apply_filters( 'cartpresets_admin_capability',           string $capability );
 ```
 
 `cartpresets_order_line_item_meta` is **additive only**. `cartpresets_custom_item_shipping_data` and `cartpresets_admin_capability` are **safety-clamped**.
+
+`cartpresets_badge_text` rewords the "part of a preset" badge. One filter covers all four places it appears — `$context` is `cart`, `checkout`, `order` or `email` — so rewording it once covers the lot. `$name` is the preset name; in the `order` and `email` contexts that's the name as it was snapshotted when the order was placed, not the preset's name today.
 
 `cartpresets_preset_url` shapes **output only**. It doesn't affect how an incoming request is parsed. That read path is separate and this filter doesn't rewire it, so changing one keeps the other working.
 
