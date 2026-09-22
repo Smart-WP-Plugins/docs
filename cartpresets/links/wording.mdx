@@ -7,13 +7,13 @@ icon: "comment"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-Every sentence and label a customer reads is editable, under **Settings → Cart notices and labels**. There are nineteen, in four groups.
+Every sentence and label a customer reads is editable, under **Settings → Cart notices and labels → Edit wording**. There are nineteen, in four groups.
 
 Leave one blank and the shipped wording is used — so you only ever store what you actually changed, and a release that improves a default reaches you automatically.
 
 <Media>The Cart notices and labels section with the four groups, one expanded</Media>
 
-## Refusals
+## The link is refused
 
 Eight messages for a link that could not be followed.
 
@@ -23,16 +23,16 @@ Eight messages for a link that could not be followed.
 | `scheduled` | Status is scheduled<Pro /> | This preset is not available yet. |
 | `unavailable` | Expired, inactive, or sold out | This preset is no longer available. |
 | `limit_total` | Total cap hit<Pro /> | This preset has reached its purchase limit and is no longer available. |
-| `limit_customer` | Per-customer cap hit<Pro /> | Uses `%d` — see [Placeholders](#placeholders) |
+| `limit_customer` | Per-customer cap hit<Pro /> | This preset is limited to %d purchase per customer. / This preset is limited to %d purchases per customer. |
 | `no_items` | The preset has no items | This preset is not available right now. |
-| `item_blocked` | An item failed and your rule is "refuse the whole preset" | This preset is unavailable because one of its items cannot be purchased right now. |
+| `item_blocked` | An item failed and **If an item cannot be added** is set to refuse the whole preset | This preset is unavailable because one of its items cannot be purchased right now. |
 | `nothing_added` | Every add failed at cart time | Nothing in this preset could be added to your cart. |
 
 <Warning>
   Write `not_found` for a stranger. Anyone can guess a URL, and the shipped wording deliberately does not say whether the preset ever existed. It also cannot be switched off — an empty override falls back to the default — so it has to be safe in front of anyone.
 </Warning>
 
-## Partial adds
+## The link worked, with a caveat
 
 Four messages for a link that worked with a caveat.
 
@@ -43,7 +43,7 @@ Four messages for a link that worked with a caveat.
 | `item_qty_capped` | Partial add, sold individually | One item in this preset is limited to one per order, so the quantity was adjusted. |
 | `item_unavailable` | Partial add, everything else | One item in this preset is currently unavailable. |
 
-## Later, in the cart
+## Later, once it is in the cart
 
 Four messages about editing a preset that is already in the cart.
 
@@ -54,7 +54,7 @@ Four messages about editing a preset that is already in the cart.
 | `quantity_min` | Below the minimum | This preset item has a minimum quantity of %d. |
 | `quantity_max` | Above the maximum | This preset item has a maximum quantity of %d at the preset price. |
 
-## Labels
+## Labels, not notices
 
 Three labels, shown on the cart line, the order, and in emails.
 
@@ -62,7 +62,7 @@ Three labels, shown on the cart line, the order, and in emails.
 | --- | --- | --- |
 | `cart_line` | On the cart line, ahead of the preset name | Part of preset |
 | `order_line` | On the order and in emails | Part of preset: %s |
-| `cart_details` | The second cart row on a custom item<Pro /> | — |
+| `cart_details` | The second cart row on a custom item<Pro />, heading its description | Details |
 
 <Tip>
   `cart_line` is the one most stores change. "Part of preset" is accurate and a little technical — "Bundle", "Included in your kit" or your campaign's own name often reads better to a customer.
@@ -70,7 +70,7 @@ Three labels, shown on the cart line, the order, and in emails.
 
 ## Placeholders
 
-Four messages contain a placeholder that carries a value:
+Five messages contain a placeholder that carries a value:
 
 | ID | Placeholder | Becomes |
 | --- | --- | --- |

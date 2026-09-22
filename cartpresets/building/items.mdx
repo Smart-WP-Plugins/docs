@@ -19,7 +19,7 @@ The picker offers simple products, variable products, and their subscription equ
 
 ### Variations
 
-Pick a variable product and the row asks you to answer every attribute.
+Choose a variable product and its row in the editor asks you to answer every attribute. If the answers match no variation your store sells, the row says so and the save is blocked.
 
 This is not optional. A variation with an attribute left as "Any" passes WooCommerce's own catalogue checks and then fails at `add_to_cart()` with *"Size is a required field"* — and a preset has nobody to ask. Answering at build time is the only point where somebody can.
 
@@ -33,7 +33,7 @@ Every item has a quantity — how many the link adds. Beyond that, you decide wh
 
 | Control | Default | Effect |
 | --- | --- | --- |
-| Let the customer change the quantity | Off | When off, the quantity box in the cart is locked and shows a notice if they try |
+| Let the customer change the quantity in the cart | Off | When off, the quantity box in the cart is locked and shows a notice if they try |
 | Minimum | 1 | The lowest they may go, when changing is allowed |
 | Maximum | 0 (no limit) | The highest they may go at the preset price |
 
@@ -51,7 +51,7 @@ Turn on **Customer can remove this item** on a specific row to exempt it. Useful
 
 Each item decides whether store coupons may discount it. The default is **no** — a preset price is already a discount, and stacking a coupon on top is usually not what you meant.
 
-Turn on **Allow coupons on this item** where you do want it, for example a full-price add-on inside an otherwise discounted set.
+Turn on **Allow coupon discounts on this item** where you do want it, for example a full-price add-on inside an otherwise discounted set.
 
 <Tip>
   This is per item, so one preset can have coupon-able and coupon-proof lines side by side.
@@ -59,13 +59,12 @@ Turn on **Allow coupons on this item** where you do want it, for example a full-
 
 ## When an item cannot be added
 
-Products go out of stock, get deleted, or are limited to one per order. What the link does then is a store-wide setting under **Settings → Cart behavior → If an item cannot be added**:
+Products go out of stock, get deleted, or are limited to one per order. What the link does then is a store-wide setting under **Settings → Cart behaviour → If an item cannot be added**:
 
 | Choice | What happens | Key |
 | --- | --- | --- |
 | Skip the item | Everything else is added, with a cart notice | `skip` |
 | Refuse the whole preset | Nothing is added, and the preset reads as unavailable | `none` |
-| Allow a backorder | The item is added anyway, where your store already allows backorders | `backorder` |
 
 **Skip** is the default, and the right answer for most stores — a customer who wanted five things should not leave with none because one was out of stock.
 
@@ -95,9 +94,9 @@ WooCommerce cannot put a line in a cart without a product behind it, so custom i
 Two custom items in one cart are two lines on the same carrier product, priced independently. See [The carrier product](/cartpresets/settings/carrier-product).
 
 <Warning>
-  On the free build, a custom item left behind by a Pro build stays with the preset but is **not added to the cart**. The editor marks it with a <Pro /> badge, leaves it out of the pricing summary and unit count, and the health panel says so — rather than quoting you a total the cart will not charge.
+  On the free version, a custom item left behind by Pro stays with the preset but is **not added to the cart**. The editor marks it with a <Pro /> badge, leaves it out of the pricing summary and unit count, and the health panel says so — rather than quoting you a total the cart will not charge.
 </Warning>
 
 ## Item discounts
 
-Each item can carry its own discount before the preset-wide one is applied. That is covered in full under [Pricing and discounts](/cartpresets/building/pricing).
+Each item can carry its own discount, and the preset's total is the sum of its discounted lines. That is covered in full under [Pricing and discounts](/cartpresets/building/pricing).

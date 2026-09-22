@@ -10,7 +10,7 @@ import { Media } from '/snippets/media.mdx';
 Hooks are a public API once shipped. Within a major version none of these will be removed, and none will change argument order or count.
 
 <Note>
-  Every hook on this page exists in **both** builds unless it is marked <Pro />. The tables, the REST namespace and the stored values are identical too.
+  Every hook on this page exists in **both** the free version and Pro unless it is marked <Pro />. The tables, the REST namespace and the stored values are identical too.
 </Note>
 
 ## Three words used throughout
@@ -73,7 +73,7 @@ add_action( 'cartpresets_after_redemption_recorded', function ( $preset_id, $ord
 }, 10, 2 );
 ```
 
-No registration step, no interface, and it degrades to a no-op if CartPresets is not installed.
+No registration step, no interface, and it degrades to a no-op if CartPresets for WooCommerce is not installed.
 
 ## Pricing
 
@@ -85,13 +85,12 @@ apply_filters( 'cartpresets_item_subscription_terms', array $terms, object $item
 
 `cartpresets_item_unit_price` is the last word on what a line costs. **Safety-clamped**: `max( 0, ... )` is re-applied afterwards, so no listener can produce a negative price and hand the customer money.
 
-`cartpresets_item_subscription_terms` decides how far a preset discount reaches into a subscription, as `[ 'scope' => 'first'|'all', 'waive_fee' => bool ]`.
+`cartpresets_item_subscription_terms` decides how far a preset discount reaches into a subscription, as `[ 'payments' => int, 'waive_fee' => bool ]`.
 
-- `first` spends the discount on the payment being made now and bills renewals at the product's own price.
-- `all` holds the preset's price on every renewal.
+- `payments` counts the payments the discount covers, **including the one being made now**. `1` buys the first payment and bills renewals at the product's own price. `3` is one purchase and two discounted renewals. `0` holds the preset's price on every payment for the life of the subscription.
 - `waive_fee` zeroes the product's sign-up fee for that line.
 
-**Seeded conservatively** — `first`, fee charged — so a discount cannot become permanent by default. **Safety-clamped**: a returned `scope` that is not exactly `all` reads as `first`.
+**Seeded conservatively** (`1`, fee charged) so a discount cannot become permanent by default. **Safety-clamped**: a returned array with no `payments` key reads as `1`, never as `0`, and the value goes through `absint()`.
 
 ## Cart
 
@@ -155,7 +154,7 @@ Priority 20 runs after the plugin's own listener, so this has the last word.
 apply_filters( 'cartpresets_is_pro', bool $is_pro );
 ```
 
-Whether the Pro tier is active. The unfiltered answer is whether the Pro code is installed at all. Filtering it false makes a Pro build behave as the free one does, which is how the free experience is tested without deleting files.
+Whether the Pro tier is active. The unfiltered answer is whether the Pro code is installed at all. Filtering it false makes Pro behave as the free version does, which is how the free experience is tested without deleting files.
 
 <Warning>
   Read this through `Support\Tier::is_pro()` rather than calling the filter yourself, and read it **at the moment you decide something** rather than when you register. Code that filters the tier can load after your listener was attached.
@@ -172,7 +171,7 @@ Both are seeded with the values **already stored**. A listener returns the submi
 
 Written this way round on purpose: a tier without a control neither sets the field nor disturbs what another tier stored.
 
-`cartpresets_preset_premium_fields` covers `created_at`, `end_at`, `max_total`, `max_per`, `unavailable_action`, `unavailable_url` and `coupon`. `cartpresets_premium_settings` covers the store-wide `unavailable_action` and `redemption_statuses`.
+`cartpresets_preset_premium_fields` covers `created_at`, `end_at`, `max_total`, `max_per`, `unavailable_action`, `unavailable_url`, `unavailable_notice` and `coupon`. `cartpresets_premium_settings` covers the store-wide `unavailable_action`, `unavailable_notice` and `redemption_statuses`.
 
 Neither is a validation step — a rejected value is silently the stored one, and the rest of the same save goes through.
 
@@ -197,7 +196,7 @@ apply_filters( 'cartpresets_carrier_product_id',      int $product_id );
 
 `cartpresets_generated_slug` runs before uniquification and its result is sanitised — a listener shapes the slug, it cannot break the URL.
 
-`cartpresets_redemption_customer_key` decides how "the same customer" is recognised for per-customer limits. Default: user ID for members, a hashed fingerprint for guests. Return a stable key per real person.
+`cartpresets_redemption_customer_key` decides how "the same customer" is recognised for per-customer limits. Default: `user:<ID>` for a signed-in customer, and `email:<billing email>`, lower-cased, for a guest. Return a stable key per real person.
 
 ## Listing
 
@@ -244,7 +243,7 @@ Everything the React panel is handed at boot — REST URL and nonce, capability,
 
 **Additive only.** A listener that removes or rewrites an existing key is breaking the panel rather than extending it, and nothing downstream checks.
 
-This is also the seam premium code uses to publish state shared code must not know about: the licence notice adds a `licence` key here, because shared code cannot name a class the free build does not ship.
+This is also the seam premium code uses to publish state shared code must not know about: the licence notice adds a `licence` key here, because shared code cannot name a class the free version does not ship.
 
 ## Order and display
 
@@ -281,7 +280,7 @@ Both fire from Pro only. On free they never fire and the `cartpresets/v1/sales` 
 apply_filters( 'cartpresets_update_manifest_url', string $url );
 ```
 
-Where the Pro build looks for its release manifest. Point it elsewhere to run a site on a pre-release channel, or return an empty string to switch automatic updates off for that site entirely.
+Where Pro looks for its release manifest. The default is `https://smartwpplugins.com/updates/cartpresets-for-woocommerce-pro.json`. Point it elsewhere to run a site on a pre-release channel, or return an empty string to switch automatic updates off for that site entirely.
 
 Fired from the admin and cron only — the storefront never reaches it. The licence is checked **before** the manifest is fetched, so a filter returning a different URL changes which release a licensed site is offered rather than bypassing licensing.
 

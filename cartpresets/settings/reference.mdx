@@ -15,6 +15,10 @@ All store settings live in a single option, `cartpresets_settings`. Preset and i
 
 ## Store settings
 
+### Licence<Pro />
+
+On Pro the first card on Settings is **Licence**, above the carrier product. It holds the key, its status, and the Activate, Sync and Deactivate buttons. Those buttons act immediately and sit outside the save bar, so there is nothing to save. The licence has no stored setting keys in `cartpresets_settings`. See [Licence and updates](/cartpresets/licence).
+
 ### Carrier product
 
 | Setting | Key | Default | Tier |
@@ -23,7 +27,7 @@ All store settings live in a single option, `cartpresets_settings`. Preset and i
 
 The hidden product custom items ride on. See [The carrier product](/cartpresets/settings/carrier-product).
 
-### Cart behavior
+### Cart behaviour
 
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
@@ -32,12 +36,10 @@ The hidden product custom items ride on. See [The carrier product](/cartpresets/
 | Keep the customer's own items | `keep_existing` | On | Both |
 | If an item cannot be added | `invalid_item` | `skip` | Both |
 | Order statuses that use up a purchase limit | `redemption_statuses` | on-hold, processing, completed | Pro to edit, honoured on both |
-| When a preset stops selling | `unavailable_action` | `deactivate` | Pro to edit, honoured on both |
-| Tell the customer why | `unavailable_notice` | On | Both |
 | After a successful add | `post_add` | `cart` | Both |
 | Custom URL | `post_add_url` | Empty | Both |
 
-`invalid_item` accepts `skip`, `none` or `backorder`. `unavailable_action` accepts `leave`, `deactivate` or `redirect`. `post_add` accepts `cart`, `checkout`, `stay` or `custom`.
+`invalid_item` accepts `skip` (**Skip the item**) or `none` (**Refuse the whole preset**). `post_add` accepts `cart`, `checkout`, `stay` or `custom`.
 
 ### Cart notices and labels
 
@@ -52,17 +54,31 @@ Only the ones you have rewritten are stored. See [Cart notices and wording](/car
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
 | URL parameter | `url_param` | `preset` | Both |
-| Permalink base | `permalink_base` | `/preset/` | Both |
-| Fallback URL | `not_found_url` | Empty (shop page) | Both |
-| Keep UTM parameters | `utm` | Off | Both |
+| Pretty permalink base | `permalink_base` | `/preset/` | Both |
+| Fallback link | `not_found_url` | Empty (shop page) | Both |
+| Append the preset name as a UTM campaign | `utm` | Off | Both |
+| When a preset reaches its limit or its end date | `unavailable_action` | `notice` | Pro to edit, honoured on both |
+| Show a notice that it is unavailable | `unavailable_notice` | On | Pro to edit, honoured on both |
+
+`unavailable_action` accepts `notice` (stay on the cart) or `redirect` (**Redirect to the fallback link**).
+
+### Admin menu
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| Where you reach this panel from | `menu_location` | `own` | Both |
+
+`own` is a top-level **Cart Presets** menu with All Presets, Add New Preset and Settings beneath it. `products` is a single **Cart Presets** entry under **Products**, with no submenu; Add New and Settings stay reachable from the listing screen. Saving this reloads the page to move the menu.
 
 ### Data control
 
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
-| Delete presets on uninstall | `delete_links` | Off | Both |
-| Delete settings on uninstall | `delete_settings` | Off | Both |
-| Delete the carrier product on uninstall | `delete_carrier` | Off | Both |
+| Remove presets and their settings on uninstall | `delete_links` | Off | Both |
+| Remove cart notice and label wording (every store setting) on uninstall | `delete_settings` | Off | Both |
+| Remove the carrier product on uninstall | `delete_carrier` | Off | Both |
+
+The section also carries **Preset data → Export presets / Import presets**<Pro /> — see [Import and export](/cartpresets/import-export).
 
 See [Data and uninstall](/cartpresets/settings/data-and-uninstall).
 
@@ -78,19 +94,16 @@ Set in the editor, on one preset.
 | Per-customer limit | `max_per` | `0` | Pro to edit, honoured on both |
 | Destination after add | `redirect` | `global` | Both |
 | Custom URL | `custom_url` | Empty | Both |
-| Clear the cart | `clear_cart` | `global` | Both |
+| Presets already in the cart | `clear_cart` | `global` | Both |
 | Coupon code | `coupon` | Empty | Pro — not applied on free |
-| Additional discount on | `discount_on` | Off | Both |
-| Additional discount type | `discount_type` | Percentage | Both |
-| Additional discount value | `discount_value` | `0` | Both |
 | Require sign-in | `logged_in` | Off | Pro |
 | Allowed roles | `roles` | Empty | Pro |
 | Rejection message | `reject_message` | Empty | Pro |
-| When this preset stops selling | `unavailable_action` | `global` | Pro to edit |
-| Redirect address | `unavailable_url` | Empty | Pro to edit |
-| Tell the customer why | `unavailable_notice` | On | Both |
+| When this preset reaches its limit or its end date | `unavailable_action` | `global` | Pro to edit |
+| Redirect to | `unavailable_url` | Empty (falls through to the fallback link) | Pro to edit |
+| Show a notice that it is unavailable | `unavailable_notice` | On | Pro to edit |
 
-`redirect` and `clear_cart` accept `global` to follow the store setting.
+`redirect`, `clear_cart` and `unavailable_action` accept `global` (**Use the Settings default**). `clear_cart` otherwise accepts `yes` or `no`; `unavailable_action` accepts `notice` or `redirect`.
 
 ## Item settings
 
@@ -113,14 +126,17 @@ Set on one item inside a preset.
 | Custom item price | `custom_price` | `0` | Pro |
 | Description | `description` | Empty | Pro |
 | Image | `image_id` | `0` | Pro |
+| Needs shipping | `requires_shipping` | Off | Pro |
+| Weight, length, width, height | `weight`, `length`, `width`, `height` | Empty | Pro |
+| Shipping class | `shipping_class_id` | `0` | Pro |
 
 `disc_type` accepts `none`, `pct`, `fixed` or `custom`.
 
 ## What "Pro to edit, honoured on both" means
 
-Some settings can only be *set* on Pro, but are *enforced* on both builds.
+Some settings can only be *set* on Pro, but are *enforced* in both versions.
 
-Purchase limits are the clearest case. Setting a cap needs Pro. Counting claims against one, and refusing a link once it fills, happens on both — because moving to the free build must never put a sold-out link back on sale.
+Purchase limits are the clearest case. Setting a cap needs Pro. Counting claims against one, and refusing a link once it fills, happens on both — because moving to the free version must never put a sold-out link back on sale.
 
 The same logic covers schedules. The general rule: **honour the restriction, drop the enhancement.**
 

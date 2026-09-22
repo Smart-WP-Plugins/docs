@@ -7,15 +7,14 @@ icon: "window"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-CartPresets adds a top-level **Cart Presets** menu in wp-admin, plus one entry under **Products** and, on Pro, one report under **Analytics**.
+CartPresets for WooCommerce adds a top-level **Cart Presets** menu in wp-admin, plus one entry under **Products** and, on Pro, one report under **Analytics**. If you would rather it took one line of the menu, **Settings → Admin menu → One entry under Products** removes the top-level menu and leaves only **Products → Cart Presets**; Add New and Settings are then reached from the listing.
 
 | Menu entry | What it is |
 | --- | --- |
 | Cart Presets → All Presets | The listing |
 | Cart Presets → Add New Preset | The editor, empty |
-| Cart Presets → Settings | Store-wide settings |
-| Cart Presets → License<Pro /> | Licence key, status, updates |
-| Cart Presets → Upgrade to Pro | Free builds only — what Pro adds |
+| Cart Presets → Settings | Store-wide settings, and on Pro the licence |
+| Cart Presets → Upgrade to Pro | Free version only — what Pro adds |
 | Products → Cart Presets | The same listing, where you would look for it |
 | Analytics → Cart Presets<Pro /> | The Presets report |
 
@@ -23,7 +22,7 @@ CartPresets adds a top-level **Cart Presets** menu in wp-admin, plus one entry u
 
 ## The listing
 
-<Media>The All Presets screen in table view, showing the search, filter, status tabs and layout toggle</Media>
+<Media>The All Presets screen, showing the search, filter, status tabs and listing settings</Media>
 
 ### Finding a preset
 
@@ -35,32 +34,35 @@ CartPresets adds a top-level **Cart Presets** menu in wp-admin, plus one entry u
 
 | Field | Type | Operators |
 | --- | --- | --- |
-| Product name | text | is, contains, does not contain, starts with |
-| Coupon | text | is, contains, does not contain, starts with |
-| Price | number | is, greater than, less than |
-| Order value | number | is, greater than, less than |
-| Orders | number | is, greater than, less than |
+| Status | choice | is, is not |
+| Product name | text | equals, contains, does not contain, starts with |
+| Coupon | text | equals, contains, does not contain, starts with |
+| Price | number | equals, greater than, less than |
+| Order revenue | number | equals, greater than, less than |
+| Orders | number | equals, greater than, less than |
 | Stock problem | yes/no | is |
 
 <Tip>
-  **Order value** means revenue, not a count of orders. The count is the separate **Orders** field.
+  **Order revenue** means money, not a count of orders. The count is the separate **Orders** field.
 </Tip>
 
-**Layout toggle** switches between cards and a table. Which one you are in is part of the URL, so a link to a filtered table arrives as a filtered table.
+**Listing settings** sets the sort (date, name, status, items, price or orders, ascending or descending), how many presets a page shows, and which columns are visible. On a narrow screen the table stacks each row into a block.
 
 ### The columns
 
 | Column | Shows |
 | --- | --- |
 | Preset | Name, overlapping product chips, and the item and unit count |
-| Status | Active, Scheduled or Inactive — derived, not stored |
+| Status | Active, Scheduled, Expired, Sold out or Inactive — derived, not stored |
 | Price | What a customer pays, computed from live product prices |
 | Revenue<Pro /> | Net revenue recorded against this preset |
 | Date | Publish date and state |
 | Link | The preset URL, with a copy button |
-| Actions | Edit, and the row menu |
+| Items | How many items and units (hidden by default) |
+| Description | The internal description (hidden by default) |
+| Actions | The row menu; Edit, Duplicate and Delete also sit under the preset's name |
 
-On the free build the Revenue column is still drawn, with a crown in place of the figure. Clicking it explains what Pro would show there.
+On the free version the Revenue column is still drawn, with a crown in place of the figure. Clicking it explains what Pro would show there.
 
 ### The row menu
 
@@ -68,7 +70,7 @@ On the free build the Revenue column is still drawn, with a crown in place of th
 | --- | --- |
 | Edit preset | Opens the editor |
 | Copy link | The preset URL, to the clipboard |
-| Duplicate | Copies everything and opens the copy, inactive |
+| Duplicate | Copies everything; the copy is inactive until you turn it on |
 | Clear end date<Pro /> | Only shown when there is one. Puts an ended preset back on sale |
 | Export as JSON<Pro /> | Downloads this one preset |
 | Activate / Deactivate | Flips the status |
@@ -76,7 +78,7 @@ On the free build the Revenue column is still drawn, with a crown in place of th
 
 ### Bulk actions
 
-Tick the checkbox on any row — or **Select all on this page** — to act on several at once. Bulk delete asks for confirmation and names how many rows it will remove.
+Tick the checkbox on any row — or **Select all presets on this page** — and choose from **Bulk actions**: Activate, Deactivate, Duplicate or Delete. Bulk delete asks for confirmation and names how many rows it will remove.
 
 ## The editor
 
@@ -88,18 +90,17 @@ The editor is one page, a main column and a sidebar that both update as you type
 
 | Card | What it holds |
 | --- | --- |
-| Preset details | Title, slug, publish date<Pro />, internal description |
+| Preset details | Name, slug, publish date<Pro />, internal description |
 | Items | Every item in the preset, each expandable |
-| Additional discount | The preset-wide discount |
-| After the items are added | Where this preset sends the customer |
-| Availability<Pro /> | End date, purchase limits, and what happens when it ends |
+| After the items are added | Where this preset sends the customer, what happens if it is already in the cart, and an automatic coupon<Pro /> |
+| Limits and schedule<Pro /> | End date, purchase limits, and what happens when it ends |
 | Who can use this link<Pro /> | Sign-in requirement, roles, rejection message |
 
 ### Sidebar
 
-**Pricing summary** recalculates on every keystroke: regular value, item discounts, the additional discount, average per unit, and the preset total. Every figure is what the customer's cart will hold.
+**Pricing summary** recalculates on every keystroke: items, regular value, item discounts, average per unit, and the preset total. Every figure is what the customer's cart will hold.
 
-**Health checks** asks about a dozen questions of the draft. A `fail` blocks the save; a `warn` does not. Clicking a check scrolls to the control it is about and highlights it. See [Health checks](/cartpresets/building/health-checks).
+**Health checks** asks a series of questions of the draft. A `fail` blocks the save; a `warn` does not. Clicking a check scrolls to the control it is about and highlights it. See [Health checks](/cartpresets/building/health-checks).
 
 **Preset link** shows the live URL with a copy button, and says so if the preset has not been saved yet.
 
@@ -115,15 +116,17 @@ Pinned to the bottom, and it always says which of three states you are in: **All
 
 <Media>The Settings screen, carrier product card and cart behaviour section</Media>
 
-Five sections, one save bar:
+Six sections share one save bar, and on Pro the Licence card sits above them:
 
 | Section | Covers |
 | --- | --- |
-| The carrier product | The hidden product custom items ride on |
-| Cart behavior | What a link does to the cart it finds, what happens when an item cannot be added, which order statuses consume a purchase-limit slot, and where customers land |
+| Licence<Pro /> | Licence key, status, updates — acts immediately, outside the save bar |
+| Carrier product | The hidden product custom items ride on |
+| Cart behaviour | What a link does to the cart it finds, what happens when an item cannot be added, which order statuses consume a purchase-limit slot, and where customers land |
 | Cart notices and labels | All nineteen customer-facing strings |
-| Links & fallbacks | URL parameter, permalink base, the not-found fallback, UTM handling |
-| Data control | The three uninstall opt-ins |
+| Links and fallbacks | URL parameter, pretty permalink base, the fallback link, UTM handling, and what happens when a preset reaches its limit or end date<Pro /> |
+| Admin menu | Its own Cart Presets menu, or one entry under Products |
+| Data control | The three uninstall opt-ins, and exporting and importing presets<Pro /> |
 
 The sidebar carries a **System status** card — plugin version, WordPress, WooCommerce, PHP, permalink structure, preset base, and tier — with a **Copy system report** button. That report is read from your own install and sent nowhere; it is there so you can paste it into a support thread.
 

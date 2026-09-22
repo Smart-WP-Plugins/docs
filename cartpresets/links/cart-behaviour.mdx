@@ -7,9 +7,9 @@ icon: "cart-shopping"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-A customer following your link often already has a cart. Three independent switches decide what happens to it, under **Settings → Cart behavior**.
+A customer following your link often already has a cart. Three switches decide what happens to it, under **Settings → Cart behaviour**.
 
-<Media>The Cart behavior section with all three switches, the lower two disabled because the first is on</Media>
+<Media>The Cart behaviour section with all three switches, the lower two disabled because the first is on</Media>
 
 ## The three switches
 
@@ -77,7 +77,7 @@ Notices needed specific work: the blocks on a classic theme never print WooComme
 
 ## Per-preset override
 
-A preset can override the store-wide clear-cart setting with **Yes**, **No**, or **Follow the store setting** (the default). Key: `clear_cart` on the preset.
+In the editor, **Presets already in the cart** overrides the store-wide **Clear the existing cart** for one preset: **Use the Settings default** (the default), **Replace it** (stored as `yes`, which empties the cart before this preset is added), or **Add another copy** (`no`, which leaves the cart standing and falls back to the store's other two switches). Key: `clear_cart` on the preset.
 
 ## For developers
 

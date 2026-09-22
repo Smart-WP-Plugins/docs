@@ -56,7 +56,7 @@
         ]
       },
       {
-        "product": "CartPresets",
+        "product": "CartPresets for WooCommerce",
         "pages": [
           "cartpresets/introduction",
           "cartpresets/installation",

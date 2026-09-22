@@ -1,6 +1,6 @@
 ---
 title: "Installation"
-description: "Requirements, installing either build, and what happens on activation"
+description: "Requirements, installing either version, and what happens on activation"
 icon: "download"
 ---
 
@@ -15,35 +15,35 @@ import { Media } from '/snippets/media.mdx';
 | WooCommerce | 8.0 |
 | PHP | 7.4 |
 
-Tested up to WordPress 7.1. CartPresets supports High-Performance Order Storage, and works with both the classic and block-based cart and checkout.
+Tested up to WordPress 7.1 and WooCommerce 11.0. CartPresets for WooCommerce supports High-Performance Order Storage, and works with both the classic and block-based cart and checkout.
 
 WooCommerce Subscriptions is optional. With it, presets can contain subscription products and you get control over how far a discount reaches into renewals — see [Subscriptions](/cartpresets/building/subscriptions).
 
-## Installing the free build
+## Installing the free version
 
-Search for **CartPresets** under **Plugins → Add New**, install, and activate. Or download the zip and upload it under **Plugins → Add New → Upload Plugin**.
+Search for **CartPresets for WooCommerce** under **Plugins → Add New Plugin**, install, and activate. Or download the zip and upload it under **Plugins → Add New Plugin → Upload Plugin**.
 
 ## Installing Pro<Pro />
 
-Pro ships as a separate zip from your purchase email or account area.
+Pro ships as a separate zip from your purchase email or account area. It installs as **CartPresets for WooCommerce Pro**, in the folder `cartpresets-for-woocommerce-pro`.
 
 <Steps>
-  <Step title="Deactivate and delete the free build, if you have it">
-    Your presets and settings live in database tables, not in the plugin folder, so deleting the free build does not touch them. Leave the uninstall cleanup options alone — they are opt-in and off by default, but check before you delete.
+  <Step title="Deactivate and delete the free version, if you have it">
+    Your presets and settings live in database tables, not in the plugin folder, so deleting the free version does not touch them. Leave the uninstall cleanup options alone — they are opt-in and off by default, but check before you delete.
   </Step>
   <Step title="Upload the Pro zip">
-    **Plugins → Add New → Upload Plugin**, choose the zip, install, activate.
+    **Plugins → Add New Plugin → Upload Plugin**, choose the zip, install, activate.
   </Step>
   <Step title="Activate your licence">
-    **Cart Presets → License**, paste the key from your purchase email, and click Activate. See [Licence and updates](/cartpresets/licence).
+    **Cart Presets → Settings**. The **Licence** card is at the top: paste the key from your purchase email and click **Activate**. See [Licence and updates](/cartpresets/licence).
   </Step>
 </Steps>
 
 <Warning>
-  Run one build at a time. If both are active, the second to load refuses to start and says so, rather than letting two copies fight over the same tables.
+  Run one version at a time. Activating one while the other is active is refused, with a message naming both. If both somehow end up active, the second to load stands down and says so, rather than letting two copies fight over the same tables.
 </Warning>
 
-<Media>The Plugins screen with CartPresets Pro active and the licence notice above it</Media>
+<Media>The Plugins screen with CartPresets for WooCommerce Pro active and the licence notice above it</Media>
 
 ## What activation does
 
@@ -58,11 +58,11 @@ Activation creates four database tables, carrying your site's table prefix:
 
 It also registers the `/preset/` rewrite rule and flushes permalinks once.
 
-No settings are written at activation. Everything falls back to its shipped default until you save the settings screen for the first time, which means a fresh install and a reset install behave identically.
+On a first activation it also stores the shipped default for every setting. A store that already has settings — a reinstall, or a switch between versions — keeps them untouched. The carrier product is not created at activation; the Settings screen offers to create one when you need it.
 
-## Moving between builds
+## Moving between versions
 
-Both builds read and write the same tables, so switching either way migrates nothing and loses nothing.
+Both versions read and write the same tables, so switching either way migrates nothing and loses nothing.
 
 **Free to Pro.** Your existing presets are untouched. Any Pro setting you were never able to reach is still at its default, ready to set.
 
@@ -73,7 +73,7 @@ Two things stop *applying* rather than staying on, because leaving them running 
 - **An automatic coupon** is no longer applied. A discount you can no longer see or switch off would keep discounting orders.
 - **Custom items** are not added to the cart. They stay with the preset and come back if you upgrade, and the editor marks them so rather than quietly pricing something the cart will drop.
 
-A schedule already set and a cap already filled are still honoured. Those switch a link **off**, and moving to the free build must not put a link back on sale that your own schedule or cap had stopped.
+A schedule already set and a cap already filled are still honoured. Those switch a link **off**, and moving to the free version must not put a link back on sale that your own schedule or cap had stopped.
 
 ## Uninstalling
 

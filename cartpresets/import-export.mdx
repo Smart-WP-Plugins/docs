@@ -9,7 +9,7 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Import and export are Pro features. On the free build the routes are not registered at all — a request 404s like any unknown route.
+  Import and export are Pro features. On the free version the routes are not registered at all — a request 404s like any unknown route. The Settings screen still shows the buttons, locked, so you can see what CartPresets for WooCommerce Pro adds.
 </Info>
 
 Presets export as JSON and import somewhere else. The obvious use is carrying a staging store's work to production without rebuilding it by hand.
@@ -20,7 +20,7 @@ Presets export as JSON and import somewhere else. The obvious use is carrying a 
 
 **One preset** — **Export as JSON** in the row menu.
 
-**Several** — tick the rows you want and use the bulk export.
+**All of them** — **Settings → Data control → Preset data → Export presets**. One file holds up to 200 presets.
 
 The file contains the presets, their items, and every setting on both. It does not contain your store settings, your wording overrides, or any order data.
 
@@ -30,7 +30,7 @@ The file contains the presets, their items, and every setting on both. It does n
 
 ## Importing
 
-Upload the file on the destination store.
+On the destination store, go to **Settings → Data control → Preset data → Import presets** and choose the file. One import takes up to 500 presets; anything beyond that is reported as skipped rather than silently dropped.
 
 ### How products are matched
 
@@ -42,10 +42,12 @@ SKU first is the important half. Product IDs almost never line up between two st
 | --- | --- |
 | A product with a matching SKU | Matched |
 | No SKU match, but the ID exists | Matched by ID |
-| Neither | The item is imported with no product, and the health panel flags it |
+| Neither | The item keeps the source store's product ID. If no product has that ID here, the health panel flags it |
 
 <Warning>
   An ID-only match is a guess. If your two stores have unrelated product IDs, an import can silently attach the wrong product. Check imported presets before activating them — which is what the next section makes easy.
+
+  **Variations always travel by ID.** Only the parent product is matched by SKU, so a variation item imported into a different store almost always needs choosing again.
 </Warning>
 
 ### Every import arrives inactive

@@ -7,7 +7,7 @@ icon: "code-branch"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-Namespace: **`cartpresets/v1`**.
+Every route CartPresets for WooCommerce registers lives under one namespace: **`cartpresets/v1`**.
 
 <Warning>
   **There are no public endpoints.** Every route requires the `manage_woocommerce` capability and a valid nonce. These exist to serve the admin panel, not to be a storefront API — a preset reaches a customer through its link, not through REST.
@@ -56,7 +56,7 @@ curl -s 'https://yourstore.com/wp-json/cartpresets/v1/presets?status=active&sort
 | Method | Route | Does |
 | --- | --- | --- |
 | `GET` | `/products` | The editor's product picker |
-| `GET` | `/reference` | Shipping classes, roles, order statuses, system status |
+| `GET` | `/reference` | Shipping classes, roles, the store's weight and dimension units, and the system status report |
 | `GET` | `/prefs` | Per-user panel preferences |
 | `POST` | `/prefs` | Save them |
 
@@ -84,9 +84,9 @@ curl -s 'https://yourstore.com/wp-json/cartpresets/v1/presets?status=active&sort
 
 ## Absent, not refusing
 
-On the free build the Pro routes are **not registered at all**. A request to `/sales` or `/presets/import` returns a plain 404, exactly like a route that never existed.
+On the free version the Pro routes are **not registered at all**. A request to `/sales` or `/presets/import` returns a plain 404, exactly like a route that never existed.
 
-That is deliberate. A route that exists and refuses tells an attacker the feature is there; a route that does not exist tells them nothing, and it means the free build ships no premium code to refuse with.
+That is deliberate. A route that exists and refuses tells an attacker the feature is there; a route that does not exist tells them nothing, and it means the free version ships no premium code to refuse with.
 
 ```php
 if ( ! \SmartWP\CartPresets\Support\Tier::is_pro() ) {
