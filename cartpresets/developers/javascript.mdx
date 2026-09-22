@@ -6,10 +6,10 @@ icon: "square-js"
 
 import { Pro } from '/snippets/pro.mdx';
 
-The admin panel is a bundle of its own, and it publishes **no JavaScript API**. One global exists, and it is data rather than code: the payload the panel is handed before its first fetch.
+The admin panel is a bundle of its own, and it publishes **no JavaScript API**. There's one global, and it's data rather than code: the payload the panel is handed before its first fetch.
 
 <Warning>
-  This exists on the plugin's **admin page only**. Nothing is enqueued on your storefront, so there is no front-end equivalent and there will not be one.
+  This exists on the plugin's **admin page only**. Nothing is enqueued on your storefront, so there's no front-end equivalent and there won't be one.
 </Warning>
 
 ## The boot payload
@@ -31,7 +31,7 @@ Everything the panel is handed at load time is on `window.cartPresetsBoot`:
 | `notices` | The wording catalogue, as `groups` and `items` |
 | `licence`<Pro /> | `status`, `expires` and `dismissed`, added by Pro through `cartpresets_admin_boot` |
 
-`now` is there for a reason worth knowing if you read it: a preset's status is derived live, and `new Date()` answers in the visitor's timezone. A merchant abroad, or anyone near midnight, would otherwise see a status the server disagrees with.
+`now` is worth knowing about if you read it. A preset's status is derived live, and `new Date()` answers in the visitor's timezone. A merchant abroad, or anyone near midnight, would otherwise see a status the server disagrees with.
 
 ## Adding your own keys
 
@@ -55,16 +55,12 @@ const mine = window.cartPresetsBoot.myPlugin;
 
 ## Nothing else is exported
 
-Two things used to be published here, and both are gone.
+The panel's pricing, status and formatting helpers are internal, and there's no component library to import.
 
-**A component library**, removed earlier: the panel is transcribed from a design file rather than built on a component system, and its pieces are shaped by the screens they belong to. Publishing them would have promised an API the next design round would break.
+If you need the same values, ask the server. It's the code the cart itself runs:
 
-**`window.CartPresetsAdmin`**, removed on 23 September 2026. It exposed the pricing, status and formatting helpers the panel uses internally. It was written for a sibling plugin that was never built, neither version of CartPresets read it, and a global nobody calls is still an API that has to keep working. Those helpers are internal again.
-
-If you were reading it, the shapes it exposed are documented elsewhere, and the server is the better source for all of them:
-
-| You were reading | Ask instead |
+| You want | Ask for |
 | --- | --- |
-| `pricing.presetTotals()` | The `totals` block on a preset from [`GET /presets`](/cartpresets/developers/rest-api) — the same arithmetic, computed by the PHP the cart itself uses |
-| `status.statusOf()` | `derived_status` on the same payload |
-| `format.money()`, `format.shortDate()` | WooCommerce's own `wc_price()` and `wc_format_datetime()`, which is where the panel's currency and date settings come from |
+| A preset's totals | The `totals` block on a preset from [`GET /presets`](/cartpresets/developers/rest-api) |
+| A preset's derived status | `derived_status` on the same payload |
+| Money or a date formatted to store settings | WooCommerce's own `wc_price()` and `wc_format_datetime()`, which is where the panel's currency and date settings come from |

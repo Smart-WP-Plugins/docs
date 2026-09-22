@@ -9,10 +9,10 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Import and export are Pro features. On the free version the routes are not registered at all — a request 404s like any unknown route. The Settings screen still shows the buttons, locked, so you can see what CartPresets for WooCommerce Pro adds.
+  Import and export are Pro features. On the free version the routes aren't registered at all, so a request 404s like any unknown route. The Settings screen still shows the buttons, locked, so you can see what CartPresets for WooCommerce Pro adds.
 </Info>
 
-Presets export as JSON and import somewhere else. The obvious use is carrying a staging store's work to production without rebuilding it by hand.
+Presets export as JSON and import somewhere else. The obvious use is moving a staging store's work to production without rebuilding it by hand.
 
 <Media>The listing with several presets selected and the export action visible</Media>
 
@@ -22,21 +22,21 @@ Presets export as JSON and import somewhere else. The obvious use is carrying a 
 
 **All of them** — **Settings → Data management → Preset data → Export presets**. One file holds up to 200 presets.
 
-The file contains the presets, their items, and every setting on both. It does not contain your store settings, your wording overrides, or any order data.
+The file holds the presets, their items, and every setting on both. It doesn't include your store settings, your wording overrides or any order data.
 
 <Tip>
-  The export is plain JSON, so it diffs readably. Committing it to a repository gives you a version history of your presets, which the plugin itself does not keep.
+  The export is plain JSON, so it diffs readably. Commit it to a repository and you get a version history of your presets, which the plugin itself doesn't keep.
 </Tip>
 
 ## Importing
 
-On the destination store, go to **Settings → Data management → Preset data → Import presets** and choose the file. One import takes up to 500 presets; anything beyond that is reported as skipped rather than silently dropped.
+On the destination store, go to **Settings → Data management → Preset data → Import presets** and choose the file. One import takes up to 500 presets. Anything beyond that is reported as skipped, not quietly dropped.
 
 ### How products are matched
 
 **By SKU first, falling back to product ID.**
 
-SKU first is the important half. Product IDs almost never line up between two stores — the same hoodie is #412 on staging and #1908 on production. A SKU is a name you chose, and it usually survives the move.
+SKU first is the important half. Product IDs almost never line up between two stores: the same hoodie is #412 on staging and #1908 on production. A SKU is a name you chose, so it usually survives the move.
 
 | The import finds | Result |
 | --- | --- |
@@ -45,23 +45,23 @@ SKU first is the important half. Product IDs almost never line up between two st
 | Neither | The item keeps the source store's product ID. If no product has that ID here, the health panel flags it |
 
 <Warning>
-  An ID-only match is a guess. If your two stores have unrelated product IDs, an import can silently attach the wrong product. Check imported presets before activating them — which is what the next section makes easy.
+  An ID-only match is a guess. If your two stores have unrelated product IDs, an import can quietly attach the wrong product. Check imported presets before you activate them. The next section makes that easy.
 
-  **Variations always travel by ID.** Only the parent product is matched by SKU, so a variation item imported into a different store almost always needs choosing again.
+  **Variations always travel by ID.** Only the parent product is matched by SKU, so a variation item imported into a different store nearly always needs choosing again.
 </Warning>
 
 ### Every import arrives inactive
 
 Whatever the status was on export, imported presets land **inactive**.
 
-No link goes live unasked. You get to open each one, check the items matched the products you expected, look at the health panel, and activate deliberately.
+No link goes live unasked. You get to open each one, check the items matched the products you expected, look at the health panel, and activate when you're ready.
 
 ### Slugs
 
-An imported slug already taken on the destination store gets a numbered suffix, the same way a manually created one does. The import never overwrites an existing preset.
+An imported slug that's already taken on the destination store gets a numbered suffix, the same way a manually created one does. The import never overwrites an existing preset.
 
 <Note>
-  That means importing the same file twice gives you two copies rather than an update. Import is a copy operation, not a sync.
+  So importing the same file twice gives you two copies, not an update. Import is a copy, not a sync.
 </Note>
 
 ## What does not travel
@@ -77,7 +77,7 @@ An imported slug already taken on the destination store gets a numbered suffix, 
 | The carrier product | No | Set one up on the destination store first |
 
 <Warning>
-  Import presets containing custom items **after** linking a carrier product on the destination store. Without one, those items cannot be added and the health panel will flag every affected preset.
+  Link a carrier product on the destination store **before** you import presets containing custom items. Without one, those items can't be added, and the health panel will flag every affected preset.
 </Warning>
 
 ## For developers

@@ -9,10 +9,10 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Setting a limit is a Pro feature. **Counting and enforcing one is not** — both versions record claims and honour a cap that is already set, so moving to the free version never puts a sold-out link back on sale.
+  Setting a limit is a Pro feature. **Counting and enforcing one is not.** Both versions record claims and honour a cap that's already set, so moving to the free version never puts a sold-out link back on sale.
 </Info>
 
-A limit caps how many times the offer may be claimed. Set a total, a per-customer cap, or both.
+A limit caps how many times the offer can be claimed. Set a total, a per-customer cap, or both.
 
 <Media>The Usage restrictions card showing Maximum orders, Maximum orders per customer and the usage meter</Media>
 
@@ -23,13 +23,13 @@ This is the distinction worth getting right:
 - **A limit** caps how many times the preset is claimed. A total of 50 means 50 people can follow the link and buy.
 - **A quantity rule** caps what one claim holds. A maximum of 3 means one person can take up to three of that item.
 
-They are different questions, and they multiply. A total of 50 with a quantity of 3 can move 150 units.
+They're different questions, and they multiply. A total of 50 with a quantity of 3 can move 150 units.
 
 ## Which orders consume a slot
 
-A slot is taken when an order enters one of the statuses you nominate, under **Settings → Usage limits → Count orders with these statuses**.
+A slot is taken when an order enters one of the statuses you choose, under **Settings → Usage limits → Count orders with these statuses**.
 
-The default is **On hold**, **Processing** and **Completed**. On hold is in the set because a bank-transfer order is a real commitment — leaving it out would let a limited run be oversold by everyone who pays by transfer.
+The default is **On hold**, **Processing** and **Completed**. On hold is in there because a bank-transfer order is a real commitment. Leave it out and everyone who pays by transfer could oversell a limited run.
 
 | Status | In the default set |
 | --- | --- |
@@ -43,27 +43,27 @@ The default is **On hold**, **Processing** and **Completed**. On hold is in the 
 
 ## Slots come back
 
-Recording is reversible. An order that leaves the counted statuses releases its slot, so a cancelled or refunded order does not permanently eat part of a limited run.
+Recording is reversible. An order that leaves the counted statuses releases its slot, so a cancelled or refunded order doesn't permanently eat part of a limited run.
 
 This matters more than it sounds. Without it, a run of 50 with ten cancellations sells 40 and reports itself sold out. It also means a sold-out preset goes back on sale when a slot is freed, and the listing says so.
 
 <Note>
-  Renewal orders never consume a slot. A subscription renewing monthly would otherwise exhaust a capped preset by itself.
+  Renewal orders never consume a slot. Otherwise a subscription renewing monthly would use up a capped preset on its own.
 </Note>
 
 ## Sold out versus you already have one
 
-The limit check counts what will survive, not what is in the cart right now.
+The limit check counts what will survive, not what's in the cart right now.
 
-If a customer follows the link while already holding the last slot, they are told *that preset is already in your cart* — not *sold out*. The check asks whether one claim would fit on its own, which separates the two cases.
+If a customer follows the link while already holding the last slot, they're told *that preset is already in your cart*, not *sold out*. The check asks whether one claim would fit on its own, which keeps the two cases apart.
 
-Which of the two they meet also depends on your [cart behaviour](/cartpresets/links/cart-behaviour) settings: an earlier copy counts against the cap only when the cart is left standing **and** duplicates are allowed.
+Which of the two they meet also depends on your [cart behaviour](/cartpresets/links/cart-behaviour) settings. An earlier copy counts against the cap only when the cart is left standing **and** duplicates are allowed.
 
 ## Per-customer caps and who counts as a customer
 
-For signed-in customers, the account. For guests, the billing email — the same identification WooCommerce's own per-user coupon limits use.
+For signed-in customers, the account. For guests, the billing email — the same way WooCommerce's own per-user coupon limits identify people.
 
-A guest email is a best effort, not an identity. Someone determined to get around it can. A per-customer cap is there to keep an honest introductory offer to one per person, not to be a security boundary.
+A guest email is a best effort, not an identity. Someone determined to get around it can. A per-customer cap is there to keep an honest introductory offer to one per person, not to act as a security boundary.
 
 Developers can change how a customer is recognised through `cartpresets_redemption_customer_key` — see the [hooks reference](/cartpresets/developers/hooks-reference#identity-and-keys).
 
@@ -76,7 +76,7 @@ Two separate messages, both editable:
 | Total cap hit | This preset has reached its purchase limit and is no longer available. | `limit_total` |
 | Per-customer cap hit | This preset is limited to %d purchase per customer. (plural: …%d purchases per customer.) | `limit_customer` |
 
-A preset whose total is used up reads as **Sold out**. Both messages land the same way every refusal does now: the **Unavailable links** setting decides where the customer goes — the cart, or a custom link — and whether they are told why at all. See [Where customers land](/cartpresets/links/destinations).
+A preset whose total is used up reads as **Sold out**. Both messages land the same way every refusal does. The **Unavailable links** setting decides where the customer goes — the cart, or a custom link — and whether they're told why at all. See [Where customers land](/cartpresets/links/destinations).
 
 ## Settings reference
 

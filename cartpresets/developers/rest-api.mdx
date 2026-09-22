@@ -5,12 +5,11 @@ icon: "code-branch"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
-import { Media } from '/snippets/media.mdx';
 
 Every route CartPresets for WooCommerce registers lives under one namespace: **`cartpresets/v1`**.
 
 <Warning>
-  **There are no public endpoints.** Every route requires the `manage_woocommerce` capability and a valid nonce. These exist to serve the admin panel, not to be a storefront API — a preset reaches a customer through its link, not through REST.
+  **There are no public endpoints.** Every route requires the `manage_woocommerce` capability and a valid nonce. They exist to serve the admin panel, not to be a storefront API. A preset reaches a customer through its link, not through REST.
 </Warning>
 
 The capability is filterable through `cartpresets_admin_capability`, which is safety-clamped.
@@ -34,7 +33,7 @@ The capability is filterable through `cartpresets_admin_capability`, which is sa
 
 `GET /presets` accepts `search`, `status`, `sort`, `dir`, `page`, `per_page`, and `filters`, plus the pre-builder arguments `added_after`, `added_before`, `price_op`, `price`, `price_max`, `orders_op`, `orders`, `orders_max`, `product`, `stock_problem` and `has_coupon`.
 
-The full grammar is documented under [`cartpresets_list_args`](/cartpresets/developers/hooks-reference#listing), which receives exactly these arguments after they are resolved.
+[`cartpresets_list_args`](/cartpresets/developers/hooks-reference#listing) documents the full grammar. It receives exactly these arguments once they're resolved.
 
 ```bash
 curl -s 'https://yourstore.com/wp-json/cartpresets/v1/presets?status=active&sort=price&dir=asc&per_page=5' \
@@ -79,14 +78,14 @@ curl -s 'https://yourstore.com/wp-json/cartpresets/v1/presets?status=active&sort
 | `DELETE` | `/licence/notice` | Dismiss the licence notice |
 
 <Note>
-  A licence key travels **in** and never back out. `GET /licence` returns status, plan, expiry and seat counts — not the key.
+  A licence key travels **in** and never back out. `GET /licence` returns status, plan, expiry and seat counts, not the key.
 </Note>
 
 ## Absent, not refusing
 
 On the free version the Pro routes are **not registered at all**. A request to `/sales` or `/presets/import` returns a plain 404, exactly like a route that never existed.
 
-That is deliberate. A route that exists and refuses tells an attacker the feature is there; a route that does not exist tells them nothing, and it means the free version ships no premium code to refuse with.
+That's deliberate. A route that exists and refuses tells an attacker the feature is there; a route that doesn't exist tells them nothing. It also means the free version ships no premium code to refuse with.
 
 ```php
 if ( ! \SmartWP\CartPresets\Support\Tier::is_pro() ) {
@@ -96,7 +95,7 @@ if ( ! \SmartWP\CartPresets\Support\Tier::is_pro() ) {
 
 ## Adding your own routes
 
-Register on `cartpresets_register_rest_routes`, which fires once the plugin's own controllers are up. That is the same seam Pro uses, so nothing about the premium routes is privileged.
+Register on `cartpresets_register_rest_routes`, which fires once the plugin's own controllers are up. Pro uses the same seam, so nothing about the premium routes is privileged.
 
 ```php
 add_action( 'cartpresets_register_rest_routes', function () {
@@ -111,5 +110,5 @@ add_action( 'cartpresets_register_rest_routes', function () {
 ```
 
 <Warning>
-  Supply your own `permission_callback`. Registering inside this action does not inherit the plugin's capability check.
+  Supply your own `permission_callback`. Registering inside this action doesn't inherit the plugin's capability check.
 </Warning>

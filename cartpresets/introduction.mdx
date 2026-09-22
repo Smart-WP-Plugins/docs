@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-description: "What CartPresets for WooCommerce does, the problem it solves, and how the free and Pro versions differ"
+description: "What CartPresets for WooCommerce does, and how the free and Pro versions differ"
 icon: "house"
 ---
 
@@ -9,17 +9,17 @@ import { Media } from '/snippets/media.mdx';
 
 CartPresets for WooCommerce turns a set of products into a shareable link. A customer who follows it lands with the whole set already in their cart, at the price you set.
 
-There is no bundle product to build, no product page to design, and no configuration step for the customer to work through. You choose the items, set the price, and share the link.
+There's no bundle product to build and nothing for the customer to set up. You choose the items, set the price, and share the link.
 
 <Media>The preset editor with three items and the live pricing summary, 1440px wide</Media>
 
 ## The problem it solves
 
-Selling a combination of products in WooCommerce normally means creating a new product to represent it. That product needs a title, an image, a description, a price, and a place in your catalogue. It shows up in search and in category listings. If you want ten combinations, you maintain ten products.
+Selling a combination of products in WooCommerce normally means creating a new product for it. That product needs a title, an image, a description, a price and a place in your catalogue. It shows up in search and in category listings. If you want ten combinations, that's ten products to maintain.
 
-Worse, the combination is frozen. Changing what is inside means editing the product, and every customer who sees it gets the same set.
+The combination is also locked in. To change what's inside you have to edit the product, and every customer sees the same set.
 
-A preset is not a product. It is an instruction: *put these items in the cart at this price*. Nothing is added to your catalogue, nothing appears in search, and the link is the only way in.
+A preset is an instruction: *put these items in the cart at this price*. It adds nothing to your catalogue and doesn't appear in search. The link is the only way in.
 
 ## What a preset is made of
 
@@ -44,13 +44,13 @@ Say you sell coffee equipment and want a starter kit: a grinder, a kettle, and a
 
 You create a preset, add the three products, give each one a 15% discount, and save. You get back a link like `https://yourstore.com/preset/starter-kit`.
 
-Share that link in a newsletter. A customer clicks it, and their cart already holds the grinder, the kettle, and the beans, priced at 15% off the total. They go straight to checkout.
+Share that link in a newsletter. A customer clicks it and their cart already holds the grinder, the kettle and the beans, priced at 15% off the total. They go straight to checkout.
 
-Your catalogue still has three products in it. Not four.
+Your catalogue still has three products in it, not four.
 
 ## Free and Pro
 
-CartPresets comes in two versions that share the same database tables, the same settings, and the same hooks. The free version is not Pro with features switched off — it never had them.
+CartPresets comes in two versions that share the same database tables, settings and hooks. The free version isn't Pro with features switched off — it never had them.
 
 | | Free | Pro |
 | --- | --- | --- |
@@ -68,19 +68,19 @@ CartPresets comes in two versions that share the same database tables, the same 
 | Import and export | — | Yes |
 | The Presets report in WooCommerce Analytics | — | Yes |
 
-Pro features are marked with a <Pro /> badge throughout these docs — in the sidebar, in the page headings, and in the tier column of reference tables.
+A <Pro /> badge marks Pro features throughout these docs: in the sidebar, in page headings and in the tier column of reference tables.
 
 <Note>
-  On the free version, Pro controls are still visible in the editor. They are locked, and clicking one explains what it does. Nothing is hidden, so you can see what you would be buying before you buy it.
+  On the free version you can still see the Pro controls in the editor. They're locked, and clicking one explains what it does. Nothing is hidden, so you can see what you'd be buying before you buy it.
 </Note>
 
 ## What it does not do
 
 Being clear about this saves you an evaluation:
 
-- **It is not a product bundle plugin.** A preset has no product page, no add-to-cart button on your store, and no presence in your catalogue. If you need customers to *discover* a combination by browsing, you need a bundle product, not a preset.
-- **It does not let the customer configure anything.** A preset is fixed when you save it. Customers follow the link and get what you chose.
-- **It tracks nothing.** No analytics of its own, no scripts or styles on your storefront, no data leaving your site. A preset carrying a purchase limit does record who claimed it, because a limit cannot be counted otherwise — see [Privacy and personal data](/cartpresets/settings/privacy).
+- **It's not a product bundle plugin.** A preset has no product page, no add-to-cart button on your store and no presence in your catalogue. If customers need to *find* a combination by browsing, you want a bundle product, not a preset.
+- **It doesn't let the customer configure anything.** A preset is fixed when you save it. Customers follow the link and get what you chose.
+- **It runs no analytics of its own.** No scripts or styles on your storefront, and no data leaving your site. One thing is recorded: when an order reaches a status you count, the plugin stores who claimed which preset. That's what makes purchase limits countable. See [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Where to go next
 

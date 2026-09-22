@@ -5,7 +5,6 @@ icon: "sitemap"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
-import { Media } from '/snippets/media.mdx';
 
 CartPresets for WooCommerce ships as two plugins built from one source tree:
 
@@ -14,7 +13,7 @@ CartPresets for WooCommerce ships as two plugins built from one source tree:
 | Free | CartPresets for WooCommerce | `cartpresets-for-woocommerce/cartpresets-for-woocommerce.php` |
 | Pro | CartPresets for WooCommerce Pro | `cartpresets-for-woocommerce-pro/cartpresets-for-woocommerce-pro.php` |
 
-Both use the text domain `cartpresets-for-woocommerce`. That is the free plugin's wordpress.org slug, which is what language packs are keyed on, so one set of translations serves either. Every data-bearing identifier is tier-neutral: tables, options, hooks and the `cartpresets/v1` REST namespace are the same on both, which is why moving between them migrates nothing.
+Both use the text domain `cartpresets-for-woocommerce`. That's the free plugin's wordpress.org slug, and language packs are keyed on the slug, so one set of translations serves both. Every data-bearing identifier is tier-neutral too: tables, options, hooks and the `cartpresets/v1` REST namespace are the same on both. That's why moving between them migrates nothing.
 
 ## Storage
 
@@ -27,21 +26,21 @@ Four custom tables, not custom post types.
 | `cartpresets_redemptions` | One row per claim |
 | `cartpresets_slug_history` | Old slugs and when they expire |
 
-Presets are queried by shape — "active, containing this product, above this price, sorted by revenue" — and that is a job for SQL with indexes on the columns being filtered. The same queries against post meta would be a pile of joins on a table shared with every other plugin on the site.
+Presets are queried by shape: "active, containing this product, above this price, sorted by revenue". That's a job for SQL, with indexes on the columns you filter by. The same queries against post meta would be a pile of joins on a table shared with every other plugin on the site.
 
-Settings that do not need indexing ride in a JSON blob on the row. Anything the listing filters or sorts by has a real column.
+Settings that don't need indexing sit in a JSON blob on the row. Anything the listing filters or sorts by gets a real column.
 
 ## The tier boundary
 
 **`src/Pro/` and `assets/src/pro/` are the entire premium footprint.** The free version is built from the same tree with those two directories deleted.
 
-Nothing in shared code names a Pro class. Pro attaches to the same public filters documented in the [hooks reference](/cartpresets/developers/hooks-reference) that any third-party plugin would use.
+Nothing in shared code names a Pro class. Pro attaches to the same public filters any third-party plugin would use, documented in the [hooks reference](/cartpresets/developers/hooks-reference).
 
-That has a cost worth understanding: a premium feature must have a filter to attach to. Where one did not exist, the shared code grew the filter. The alternative — `if ( is_pro() )` at every decision point — would be a worse codebase and a leakier boundary.
+That has a cost: a premium feature needs a filter to attach to, so shared code carries filters that exist only for Pro to attach to. The alternative is `if ( is_pro() )` at every decision point, which means worse code and a leakier boundary.
 
 ### Which way the gates point
 
-Shared code performs the **conservative** reading unaided, and Pro relaxes it:
+On its own, shared code takes the **conservative** reading. Pro relaxes it:
 
 | Question | Shared code answers | Pro listener |
 | --- | --- | --- |
@@ -51,71 +50,71 @@ Shared code performs the **conservative** reading unaided, and Pro relaxes it:
 | Which coupon applies? | None | Honours the stored code |
 | Is this visitor eligible? | Yes | Honours the rules |
 
-Written the other way round — shared code being generous and Pro tightening — the premium behaviour would ship in the free version.
+Round the other way, with shared code being generous and Pro tightening, the premium behaviour would ship in the free version.
 
 ### The tier is the build, never the licence
 
 `Tier::is_pro()` reads whether the Pro code is on disk. It never reads licence state.
 
-An expired licence leaves every Pro file where it was, so every gate keeps answering yes. A test enforces that no entitlement check can reach the tier decision.
+An expired licence leaves every Pro file where it was, so every gate keeps answering yes. A test makes sure no entitlement check can reach the tier decision.
 
 ## The storefront footprint
 
 **No styles and no scripts are enqueued on the front end. Ever.**
 
-An ordinary front-end page view costs **zero database queries** from this plugin, because settings are one autoloaded option. It parses 27 PHP files, about 1.6% of what a WooCommerce request already loads. The cart-integrity hooks (price override, quantity lock, cascade removal) attach only when a cart actually contains a preset. A shopper browsing your catalogue runs none of this plugin's code beyond the check that decides there is nothing to do.
+An ordinary front-end page view costs **zero database queries** from this plugin, because the settings are one autoloaded option. It parses 27 PHP files, about 1.6% of what a WooCommerce request already loads. The cart-integrity hooks (price override, quantity lock, cascade removal) only attach when a cart actually holds a preset. A shopper browsing your catalogue runs none of this plugin's code beyond the check that decides there's nothing to do.
 
-That is also why there is no analytics subsystem: a preset hit performs zero writes. Sales enter the books when WooCommerce processes the order, on hooks that never run on the storefront.
+It's also why there's no analytics subsystem: a preset hit writes nothing. Sales enter the books when WooCommerce processes the order, on hooks that never run on the storefront.
 
 ## Pricing runs twice, in two languages
 
-`Support\Pricing` and `Support\Totals` in PHP are the authority. `assets/src/lib/pricing.js` is a mirror, and it exists only because the editor's live summary has to recompute a total in the browser as you type — it cannot call PHP for that.
+`Support\Pricing` and `Support\Totals` in PHP are the authority. `assets/src/lib/pricing.js` mirrors them. It's there only because the editor's live summary has to recompute a total in the browser as you type, and it can't call PHP for that.
 
-Two hand-maintained copies of the same arithmetic drift. Both run against a shared fixture table in the test suite, so a formula changed on one side and not the other fails a test rather than silently charging the wrong amount.
+Two hand-maintained copies of the same arithmetic will drift. Both run against a shared fixture table in the test suite, so changing a formula on one side and not the other fails a test instead of quietly charging the wrong amount.
 
 Changing a formula means changing three things: the PHP, the JS, and the fixture.
 
 ## Prices are never cached
 
-Item definitions are cached, because they change only through the plugin's own save paths — a closed set to invalidate.
+Item definitions are cached, because they only change through the plugin's own save paths. That's a closed set to invalidate.
 
-Prices never are. A cached price goes stale the moment a product is edited, a sale starts, or a tax rate changes, and a stale price in a cart is a wrong charge.
+Prices never are. A cached price goes stale the moment a product is edited, a sale starts or a tax rate changes. A stale price in a cart is a wrong charge.
 
 ## The admin is a React app
 
-One admin page, one bundle. The whole route lives in the query string, so a view survives a reload, can be shared as a link, and comes back intact through the browser's back button.
+One admin page, one bundle. The whole route lives in the query string, so a view survives a reload, you can share it as a link, and the browser's back button brings it back intact.
 
-The server hands the panel everything it needs at boot — REST base, tier, currency, store settings, the wording catalogue — in one inline payload, so the panel makes no request just to find out what it is. Every key in it is read by the panel; the ones that were not were removed rather than left as a surface to keep working. See [the boot payload](/cartpresets/developers/javascript).
+At boot the server hands the panel everything it needs in one inline payload: REST base, tier, currency, store settings, the wording catalogue. The panel never has to make a request just to find out what it is. [The boot payload](/cartpresets/developers/javascript) lists every key.
 
-That payload is filterable through `cartpresets_admin_boot`, which is how Pro publishes state shared code must not know about.
+You can filter that payload through `cartpresets_admin_boot`. It's how Pro publishes state that shared code must not know about.
 
 ## Order lines carry their own record
 
 At checkout, every preset line is stamped with the preset ID, the preset name **as it was at that moment**, the instance ID, and the ID of the preset item the line came from.
 
-Snapshotting the name matters: renaming a preset next year must not rewrite what last year's orders say they were.
+The name is a snapshot for a reason: renaming a preset next year must not rewrite what last year's orders say they were.
 
 See [Order line item meta](/cartpresets/developers/order-meta).
 
 ## One answer for a refused link
 
-A preset link can be refused nine ways: no such slug, not started, ended, switched off, sold out, either cap full, not eligible, an item that cannot be bought, or nothing addable at all.
+A preset link can be refused ten ways, each with its own message: no such slug, not started, unavailable (ended, switched off or sold out), the total cap full, the per-customer cap full, not signed in, the wrong role, no items at all, an item that can't be bought, or nothing addable at cart time.
 
-They used to travel two code paths that disagreed about where the customer ended up. `Support\Refusal::resolve()` is the single answer now, and `PresetUrlHandler::refuse()` the single caller. The keys are `refused_action` (`cart` or `custom`), `refused_url` and `refused_notice`, at store level and on each preset, where the action also takes `global` to follow the store. One level answers all three questions — a destination read from the preset and a notice switch read from the store would be a combination neither screen ever showed.
+`Support\Refusal::resolve()` gives the single answer, and `PresetUrlHandler::refuse()` is the single caller. The keys are `refused_action` (`cart` or `custom`), `refused_url` and `refused_notice`, at store level and on each preset, where the action also takes `global` to follow the store. One level answers all three questions. Reading the destination from the preset and the notice switch from the store would be a combination neither screen ever shows.
 
 **A refusal is not a partial success.** The split is `empty( $added )`: nothing reached the cart, or something did. Anything that reached it keeps the post-add destination, its own caveat notice, the automatic coupon and `cartpresets_after_add_to_cart`.
 
 ## Personal data
 
-One row holds it: a redemption, written for every preset instance in an order that reaches a counted status — capped or not, because the count is what a cap would later read. A signed-in customer is recorded as their account, a guest by their billing email, which is the only way to recognise the same guest twice.
+One row holds it: a redemption. It's written for every preset instance in an order that reaches a counted status, capped or not, because the count is what a cap reads later. A signed-in customer is recorded as their account, and a guest by their billing email, which is the only way to recognise the same guest twice.
 
-`Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser **anonymises** rather than deletes, because a redemption row says both who claimed a preset and that it was claimed, and removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
+`Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser **anonymises** rather than deletes. A redemption row says both who claimed a preset and that it was claimed, so removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Licensing and updates<Pro />
 
-Licences are sold and checked through Freemius, but the Freemius SDK is **not** bundled. Pro talks to the Freemius REST API directly from one small client. The SDK would have to initialise on every request, front end included; this client runs from wp-admin and cron only, so licensing adds nothing to a storefront request.
+Licences are sold and checked through Freemius, but the Freemius SDK is **not** bundled. Pro talks to the Freemius REST API directly from one small client. The SDK would have to start up on every request, front end included. This client runs from wp-admin and cron only, so licensing adds nothing to a storefront request.
 
-Freemius answers _may this site update?_ The package itself comes from a release manifest at `smartwpplugins.com/updates/cartpresets-for-woocommerce-pro.json`. The licence is checked before the manifest is fetched, and a failure on either side is silent: the Plugins screen shows what it would have shown anyway.
+Freemius answers _may this site update?_ The package itself comes from a release manifest at `smartwpplugins.com/updates/cartpresets-for-woocommerce-pro.json`. The licence is checked before the manifest is fetched, and if either side fails it fails quietly: the Plugins screen shows what it would have shown anyway.
 
 Licence state never decides the tier. See [the tier is the build](#the-tier-is-the-build-never-the-licence).
 
@@ -128,4 +127,4 @@ These are guarantees, not gaps:
 - No filter bypasses purchase-limit enforcement at either stage.
 - No filter disables cascade removal or weakens instance isolation.
 - No filter sits between a query and `$wpdb->prepare()`.
-- No PHP filter registers anything the React admin renders. A client-rendered extension point has to be registered client-side; a PHP filter that looks like it works and silently does nothing is worse than no extension point at all.
+- No PHP filter registers anything the React admin renders. A client-rendered extension point has to be registered client-side. A PHP filter that looks like it works and quietly does nothing is worse than no extension point at all.

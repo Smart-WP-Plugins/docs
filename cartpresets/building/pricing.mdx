@@ -1,13 +1,13 @@
 ---
 title: "Pricing and discounts"
-description: "How a preset's configuration becomes the number a customer is charged"
+description: "How a preset's settings become the number a customer is charged"
 icon: "tag"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-A discount belongs to an item. Each item resolves a source price and applies its own discount, producing a unit price. The preset's total is the sum of its lines, and nothing is taken off after that.
+A discount belongs to an item. Each item works out a source price and applies its own discount, which gives a unit price. The preset's total is the sum of its lines, and nothing is taken off after that.
 
 <Media>The pricing summary sidebar: regular value, item discounts, average per unit, preset total</Media>
 
@@ -19,7 +19,7 @@ base = custom item      → its configured price
        otherwise        → the sale price if there is one, else regular
 ```
 
-**Use the regular price instead of the sale price** exists because a sale and a preset discount otherwise stack into a margin nobody agreed to. A merchant running 20% off a product and putting it in a preset at 20% off is usually expecting the second 20%, not both.
+**Use the regular price instead of the sale price** is there because a sale and a preset discount otherwise stack into a margin nobody agreed to. If you're running 20% off a product and you put it in a preset at 20% off, you probably expect the second 20%, not both.
 
 The control hides itself on a custom item, where it would mean nothing.
 
@@ -35,24 +35,24 @@ The control hides itself on a custom item, where it would mean nothing.
 Everything is clamped to zero. A 50 fixed discount on a 45 product gives 0, never −5.
 
 <Tip>
-  Fixed being per-unit is deliberate. It is consistent with percentage, which is inherently per-unit whatever the quantity is. Two of an item at 5 off is 10 off, not 5.
+  Fixed being per-unit is on purpose. It matches percentage, which is per-unit whatever the quantity is. Two of an item at 5 off is 10 off, not 5.
 </Tip>
 
-A discount type chosen with no amount is flagged by the health panel, as a warning rather than a failure.
+The health panel flags a discount type chosen with no amount, as a warning rather than a failure.
 
 ## The summary agrees with the cart
 
-The editor's pricing summary is computed in your browser, so it can update as you type. The cart's price is computed in PHP.
+The editor's pricing summary is worked out in your browser, so it can update as you type. The cart's price is worked out in PHP.
 
-Those are two implementations of the same arithmetic, and two implementations drift. They are pinned to each other by a shared fixture table that both run against in the test suite, so a formula changed on one side and not the other fails a test rather than silently charging the wrong amount.
+That's two implementations of the same arithmetic, and two implementations drift. A shared fixture table pins them to each other, and both run against it in the test suite. Change a formula on one side and not the other and a test fails, rather than the cart quietly charging the wrong amount.
 
-If the editor and the cart ever disagree, that is a bug worth reporting.
+If the editor and the cart ever disagree, that's a bug worth reporting.
 
 ## Prices are never cached
 
 Item definitions are cached. Prices never are.
 
-A cached price goes stale the moment you edit a product, run a sale, or change a tax rate — and a stale price in a cart is a wrong charge. Every figure is computed from live product prices at the moment it is needed, including the Price column in the listing.
+A cached price goes stale the moment you edit a product, run a sale, or change a tax rate, and a stale price in a cart is a wrong charge. Every figure is worked out from live product prices at the moment it's needed, including the Price column in the listing.
 
 ## Coupons on top
 
@@ -62,6 +62,6 @@ A preset can also apply a coupon of its own, automatically, the moment the link 
 
 ## Subscriptions
 
-A preset discount on a subscription product raises a question a one-off purchase does not: does the discount buy the first payment, or every renewal for the life of the subscription?
+A preset discount on a subscription product raises a question a one-off purchase doesn't: does the discount buy the first payment, or every renewal for the life of the subscription?
 
 The free version always reads it as **the first payment**, with the sign-up fee charged. Pro lets you choose per item. See [Subscriptions](/cartpresets/building/subscriptions).

@@ -5,7 +5,6 @@ icon: "database"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
-import { Media } from '/snippets/media.mdx';
 
 ## What is stored
 
@@ -22,9 +21,9 @@ Plus the `cartpresets_settings` option, and meta on order line items — see [Or
 
 ### The one row with personal data in it
 
-A redemption records who claimed a preset, so a per-customer cap can be enforced. For a signed-in customer that is their user ID. For a guest it is their billing email address, lowercased — the only stable way to recognise the same guest twice. No IP address is recorded. A developer can change how customers are identified with `cartpresets_redemption_customer_key`.
+A redemption records who claimed a preset, so a per-customer cap can be enforced. For a signed-in customer that's their user ID. For a guest it's their billing email address, lowercased — the only stable way to recognise the same guest twice. No IP address is recorded. A developer can change how customers are identified with `cartpresets_redemption_customer_key`.
 
-Without it a per-customer limit cannot exist — there is no way to know somebody has already claimed something if you do not record that they did.
+Without it there can be no per-customer limit. You can't know somebody has already claimed something if you don't record that they did.
 
 A customer can ask for that record, and ask for it to be forgotten: see [Privacy and personal data](/cartpresets/settings/privacy).
 
@@ -32,19 +31,19 @@ A customer can ask for that record, and ask for it to be forgotten: see [Privacy
 
 **Nothing, on the free version.** No analytics, no phone-home, no scripts or styles enqueued on your storefront at all.
 
-**On CartPresets for WooCommerce Pro**, one thing: a licence check. Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates. It runs from wp-admin and cron only — never from your storefront, so a customer browsing your shop never triggers it.
+**On CartPresets for WooCommerce Pro**, one thing: a licence check. Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates. It runs from wp-admin and cron only, never from your storefront, so a customer browsing your shop never triggers it.
 
 The Presets report reads your own WooCommerce order tables. Those figures never leave your site.
 
 <Note>
-  The **Copy system report** button on the Settings sidebar reads your install and puts the result on your clipboard. It sends nothing. It is there so you can paste it into a support thread yourself.
+  The **Copy system report** button on the Settings sidebar reads your install and puts the result on your clipboard. It sends nothing. It's there so you can paste it into a support thread yourself.
 </Note>
 
 ## Uninstalling
 
 Deleting the plugin removes **nothing** by default.
 
-That is the opposite of most plugins, and deliberate: a merchant who deactivates to test something, or who deletes and reinstalls to fix a bad upload, should not lose a year of work to a routine action.
+That's the opposite of most plugins, and it's on purpose. If you deactivate to test something, or delete and reinstall to fix a bad upload, you shouldn't lose a year of work to a routine action.
 
 Each category has its own opt-in under **Settings → Data management**:
 
@@ -52,26 +51,26 @@ Each category has its own opt-in under **Settings → Data management**:
 | --- | --- | --- |
 | Presets and their settings | `delete_links` | All four tables |
 | Store settings, wording and licence | `delete_settings` | Every store setting (wording included), the stored licence record, each administrator's listing preferences, and cached preset data |
-| The carrier product | `delete_carrier` | The hidden product, if it is still virtual and hidden |
+| The carrier product | `delete_carrier` | The hidden product, if it's still virtual and hidden |
 
 <Warning>
-  These fire on **delete**, not on deactivate, and they cannot be undone. Turning one on does nothing immediately — it arms the deletion for whenever you next delete the plugin.
+  These fire on **delete**, not on deactivate, and they can't be undone. Turning one on does nothing straight away. It arms the deletion for whenever you next delete the plugin.
 </Warning>
 
 ### What is never removed
 
-Order line item meta stays, whatever you switch on. It is part of your order history, and an order that recorded which preset it came from should keep recording it after the plugin is gone.
+Order line item meta stays, whatever you switch on. It's part of your order history, and an order that recorded which preset it came from should keep that record after the plugin is gone.
 
-The carrier product is also left alone unless you opt in specifically. It is a WooCommerce product that may be attached to old orders, and deleting it would damage order history.
+The carrier product is also left alone unless you opt in for it specifically. It's a WooCommerce product that may be attached to old orders, and deleting it would damage your order history.
 
 ## GDPR and data requests
 
 The only personal data is the redemption record — a user ID or billing email against an order ID.
 
-WordPress's own tools answer for it. **Tools → Export Personal Data** returns every preset an address claimed, and **Tools → Erase Personal Data** anonymises those claims rather than deleting them, so a spent purchase limit stays spent. Full detail, including why erasure keeps the row: [Privacy and personal data](/cartpresets/settings/privacy).
+WordPress's own tools answer for it. **Tools → Export Personal Data** returns every preset an address claimed. **Tools → Erase Personal Data** anonymises those claims rather than deleting them, so a spent purchase limit stays spent. For the full detail, including why erasure keeps the row, see [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Moving to a new site
 
 Presets are database rows, so a full database migration carries them.
 
-If you are moving between separate stores, use [Import and export](/cartpresets/import-export)<Pro /> instead — it matches products by SKU on the way in, which a raw table copy cannot do.
+If you're moving between separate stores, use [Import and export](/cartpresets/import-export)<Pro /> instead. It matches products by SKU on the way in, which a raw table copy can't do.

@@ -5,9 +5,8 @@ icon: "receipt"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
-import { Media } from '/snippets/media.mdx';
 
-Order lines created by a CartPresets for WooCommerce preset carry these meta keys. **The names will not change**, within a major version or across one — they are the stable integration surface for packing slips, shipping labels, fulfilment and accounting.
+Order lines created by a CartPresets for WooCommerce preset carry these meta keys. **The names won't change**, within a major version or across one. They're the stable integration surface for packing slips, shipping labels, fulfilment and accounting.
 
 ## Always present
 
@@ -27,13 +26,13 @@ _cartpresets_item_id
 
 ### Why the name is snapshotted
 
-Renaming a preset next year must not rewrite what last year's orders say they were. An order is a historical record, and reading the name live would silently rewrite history every time you tidied up a title.
+Renaming a preset next year must not rewrite what last year's orders say they were. An order is a historical record. If the name were read live, tidying up a title would quietly rewrite history.
 
 The ID stays live, so you can still find the preset. The two together let you say *"this was bought as Summer Kit, which is now called Seasonal Bundle"*.
 
 ### Why the instance ID is there
 
-Two copies of the same preset in one order are two sets of lines with the same preset ID. The instance ID is what separates them — without it you cannot tell a customer who bought one preset with quantity 2 from one who bought it twice.
+Two copies of the same preset in one order are two sets of lines with the same preset ID. The instance ID separates them. Without it you can't tell a customer who bought one preset with quantity 2 from one who bought it twice.
 
 ## Custom items that ship<Pro />
 
@@ -49,7 +48,7 @@ Present only on shippable custom item lines.
 
 ### Why they exist
 
-Reading a line back calls `$order_item->get_product()`, which re-fetches the real [carrier product](/cartpresets/settings/carrier-product) — generic, virtual and weightless. The clone that carried the actual weight existed for one cart calculation and was never persisted.
+Reading a line back calls `$order_item->get_product()`, which re-fetches the real [carrier product](/cartpresets/settings/carrier-product): generic, virtual and weightless. The clone that carried the actual weight only existed for one cart calculation, and was never saved.
 
 Without this snapshot, a packing-slip or shipping-label plugin reading a custom preset item gets nothing usable: a 2kg item reads as 0kg because the product it points at genuinely weighs nothing.
 
@@ -57,7 +56,7 @@ Without this snapshot, a packing-slip or shipping-label plugin reading a custom 
 
 Numbers and a term ID. No unit strings, no formatting.
 
-A consuming integration needs the value, not a pre-formatted display string — and the units are your store's own, readable from WooCommerce settings.
+An integration needs the value, not a pre-formatted display string. The units are your store's own, and you can read them from WooCommerce settings.
 
 ## Subscription lines with a limited discount<Pro />
 
@@ -67,7 +66,7 @@ _cartpresets_sub_full_price    the price renewals return to afterwards
 _cartpresets_sub_restored      set once that price has been restored
 ```
 
-These are written onto the **subscription's** line, not the order's, when a preset item's discount lasts a set number of payments. They are stamped at sign-up rather than read from the preset at renewal time, so editing the preset months later cannot rewrite what an existing customer agreed to. See [Subscriptions](/cartpresets/building/subscriptions).
+These go on the **subscription's** line, not the order's, when a preset item's discount lasts a set number of payments. They're stamped at sign-up rather than read from the preset at renewal time, so editing the preset months later can't change what an existing customer agreed to. See [Subscriptions](/cartpresets/building/subscriptions).
 
 ## Reading them
 
@@ -113,12 +112,12 @@ apply_filters( 'cartpresets_order_line_item_meta', array $meta, array $cart_item
 
 Order line meta is **never** removed, whatever you switch on under **Settings → Data management**.
 
-It is part of your order history, and an order that recorded which preset it came from should keep recording it after the plugin is gone. Deleting it would damage records you may be legally required to keep.
+It's part of your order history, and an order that recorded which preset it came from should keep recording it after the plugin is gone. Deleting it would damage records you may be legally required to keep.
 
-The same holds for WordPress's **Erase Personal Data** tool. The plugin's eraser touches the redemption row that counts a purchase limit, never an order line — an order is WooCommerce's record to anonymise, and it has its own eraser for exactly that. See [Privacy and personal data](/cartpresets/settings/privacy).
+The same holds for WordPress's **Erase Personal Data** tool. The plugin's eraser touches the redemption row that counts a purchase limit, never an order line. An order is WooCommerce's record to anonymise, and WooCommerce has its own eraser for that. See [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## The report reads these
 
-The [Presets report](/cartpresets/analytics)<Pro /> joins WooCommerce's own lookup tables against `_cartpresets_preset_id`. That is the whole mechanism — the meta is stamped at checkout for reasons unrelated to reporting, and reporting is a consumer of it like any other integration.
+The [Presets report](/cartpresets/analytics)<Pro /> joins WooCommerce's own lookup tables against `_cartpresets_preset_id`. That's the whole mechanism. The meta is stamped at checkout for reasons that have nothing to do with reporting, and the report reads it like any other integration would.
 
-It also means an integration needing sales figures on **both** tiers can do exactly what the report does, without the report.
+So an integration that needs sales figures on **both** tiers can do exactly what the report does, without the report.
