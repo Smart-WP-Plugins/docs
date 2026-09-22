@@ -9,7 +9,7 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  The Presets report is a Pro feature. On the free build there is no menu entry and no report — it is absent rather than switched off.
+  The Presets report is a Pro feature. On the free version there is no menu entry and no report — it is absent rather than switched off.
 </Info>
 
 ## Where to find it
@@ -24,10 +24,11 @@ That is the only way in, deliberately. A report that lives in WooCommerce Analyt
 
 | | |
 | --- | --- |
-| Summary cards | Net revenue, orders, items sold, and average order value for the period |
+| Summary cards | Preset net sales, preset orders, items sold via presets, and average preset revenue per order, for the period |
 | Chart | Revenue or orders over time, by day, week or month, with period comparison |
-| Table | One row per preset — revenue, orders, items sold |
-| Drill-down | The individual orders behind a preset |
+| Show | All presets, a single preset, or a comparison of the presets you choose |
+| Table | One row per preset — net sales, orders, items sold, average revenue per order |
+| Drill-down | The orders behind a preset — date, order number, status, customer and customer type, products, items sold, coupons, net sales and attribution |
 
 The date-range picker, the comparison, the chart controls and CSV export are all WooCommerce's own components, so the page behaves exactly like the reports beside it.
 
@@ -61,7 +62,7 @@ Because the report reads WooCommerce's own books rather than a record of its own
 
 ## The Revenue column in the listing
 
-The preset listing has a Revenue column on both builds. On free it shows a crown instead of a figure; clicking it explains what Pro would show.
+The preset listing has a Revenue column in both versions. On free it shows a crown instead of a figure; clicking it explains what Pro would show.
 
 The column is drawn on both tiers on purpose. A column that appears and disappears with the tier is a worse answer than one that explains itself.
 
@@ -77,4 +78,4 @@ The two answer different questions: *may this link still be used?* versus *how d
 
 `cartpresets_sales_payload` runs after totals, series, rows and the drill-down are assembled — append figures of your own or reshape what the report receives. `cartpresets_sales_orders_cap` raises how many orders the drill-down lists.
 
-Both fire from Pro only, and the `cartpresets/v1/sales` routes are not registered on free — a request 404s like any unknown route. Check the tier before assuming they exist. See the [hooks reference](/cartpresets/developers/hooks-reference#reporting-pro-only).
+Both fire from CartPresets for WooCommerce Pro only, and the `cartpresets/v1/sales` routes are not registered on the free version — a request 404s like any unknown route. Check the tier before assuming they exist. See the [hooks reference](/cartpresets/developers/hooks-reference#reporting-pro-only).

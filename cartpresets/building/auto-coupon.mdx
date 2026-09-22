@@ -9,7 +9,7 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Automatic coupons are a Pro feature. On the free build the stored code is kept but **not applied** — see [What the free build does with a stored code](#what-the-free-build-does-with-a-stored-code).
+  Automatic coupons are a Pro feature. On the free version the stored code is kept but **not applied** — see [What the free version does with a stored code](#what-the-free-version-does-with-a-stored-code).
 </Info>
 
 Name a coupon code on a preset and it is applied the moment the preset reaches the cart. The customer types nothing.
@@ -18,7 +18,7 @@ Name a coupon code on a preset and it is applied the moment the preset reaches t
 
 ## Setting one
 
-In the editor, enter an existing WooCommerce coupon code. It is applied as though the customer had entered it, which means every rule you set on the coupon itself still holds — usage limits, expiry, minimum spend, product restrictions, individual-use.
+In the editor, under **After the items are added**, turn on **Apply a coupon automatically** and enter an existing WooCommerce coupon code. It is applied as though the customer had entered it, which means every rule you set on the coupon itself still holds — usage limits, expiry, minimum spend, product restrictions, individual-use.
 
 <Tip>
   One link then carries both the products and the price you promised. A newsletter can say "click here for the starter kit at 20% off" and be literally true.
@@ -26,7 +26,7 @@ In the editor, enter an existing WooCommerce coupon code. It is applied as thoug
 
 ## A code that no longer exists
 
-Ignored. The preset still works and the rest of the cart is unaffected.
+The preset still works and the rest of the cart is unaffected. WooCommerce shows its own notice that the coupon could not be applied, as it would for a code typed by hand.
 
 This is deliberate: a deleted or expired coupon is a reason for the discount not to apply, not a reason for the whole link to fail in front of a customer who did nothing wrong.
 
@@ -36,7 +36,7 @@ These are two independent layers and they stack unless you stop them.
 
 A preset's own discount is applied to its lines. A coupon then applies on top, to whichever lines allow it. By default **preset items refuse coupons** — so an automatic coupon on a preset whose items all refuse coupons will apply, and discount nothing.
 
-Turn on **Allow coupons on this item** for the lines you want the coupon to reach. See [Items](/cartpresets/building/items#coupons).
+Turn on **Allow coupon discounts on this item** for the lines you want the coupon to reach. See [Items](/cartpresets/building/items#coupons).
 
 <Warning>
   Worth testing before you send the link. The combination of a preset discount and a coupon is easy to get wrong in the generous direction.
@@ -44,13 +44,13 @@ Turn on **Allow coupons on this item** for the lines you want the coupon to reac
 
 ## Customers entering codes by hand
 
-Unaffected, on both builds. This feature is about codes the preset applies for them, not about whether coupons work at all.
+Unaffected, on both versions. This feature is about codes the preset applies for them, not about whether coupons work at all.
 
-## What the free build does with a stored code
+## What the free version does with a stored code
 
 It is kept and not applied.
 
-This is the one place where moving to the free build changes what a stored setting *does*, and the reasoning is worth stating: an automatic coupon you can no longer see or switch off would keep discounting every order that followed the link, indefinitely, with no control anywhere in your admin to stop it.
+This is the one place where moving to the free version changes what a stored setting *does*, and the reasoning is worth stating: an automatic coupon you can no longer see or switch off would keep discounting every order that followed the link, indefinitely, with no control anywhere in your admin to stop it.
 
 The code stays on the record. Reinstalling Pro turns it back on rather than asking you to set it up again.
 
@@ -61,7 +61,7 @@ The editor on free shows the field locked, with a note saying the answer is kept
 | Setting | Level | Key | Default |
 | --- | --- | --- | --- |
 | Coupon code | Preset | `coupon` | Empty |
-| Allow coupons on this item | Item | `allow_coupons` | Off |
+| Allow coupon discounts on this item | Item | `allow_coupons` | Off |
 
 ## For developers
 

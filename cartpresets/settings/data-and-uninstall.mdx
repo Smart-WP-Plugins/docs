@@ -15,22 +15,22 @@ Four tables and one option:
 | --- | --- | --- |
 | `cartpresets_presets` | Presets — name, slug, status, dates, caps, settings | None |
 | `cartpresets_items` | The items inside each preset | None |
-| `cartpresets_redemptions` | One row per claim, for purchase limits | A user ID, or a hashed guest fingerprint |
+| `cartpresets_redemptions` | One row per claim, for purchase limits | The order ID, and a user ID or a guest's billing email |
 | `cartpresets_slug_history` | Old slugs, for 30-day redirects | None |
 
 Plus the `cartpresets_settings` option, and meta on order line items — see [Order line item meta](/cartpresets/developers/order-meta).
 
 ### The one row with personal data in it
 
-A redemption records who claimed a preset, so a per-customer cap can be enforced. For a signed-in customer that is their user ID. For a guest it is a hashed fingerprint, not an email address or an IP you could read back.
+A redemption records who claimed a preset, so a per-customer cap can be enforced. For a signed-in customer that is their user ID. For a guest it is their billing email address, lowercased — the only stable way to recognise the same guest twice. No IP address is recorded. A developer can change how customers are identified with `cartpresets_redemption_customer_key`.
 
 Without it a per-customer limit cannot exist — there is no way to know somebody has already claimed something if you do not record that they did.
 
 ## What leaves your site
 
-**Nothing, on the free build.** No analytics, no phone-home, no scripts or styles enqueued on your storefront at all.
+**Nothing, on the free version.** No analytics, no phone-home, no scripts or styles enqueued on your storefront at all.
 
-**On Pro**, one thing: a licence check. Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates. It runs from wp-admin and cron only — never from your storefront, so a customer browsing your shop never triggers it.
+**On CartPresets for WooCommerce Pro**, one thing: a licence check. Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates. It runs from wp-admin and cron only — never from your storefront, so a customer browsing your shop never triggers it.
 
 The Presets report reads your own WooCommerce order tables. Those figures never leave your site.
 
@@ -49,8 +49,8 @@ Each category has its own opt-in under **Settings → Data control**:
 | Switch | Key | Removes |
 | --- | --- | --- |
 | Presets and their settings | `delete_links` | All four tables |
-| Cart notice and label wording | `delete_settings` | The settings option |
-| The carrier product | `delete_carrier` | The hidden product |
+| Cart notice and label wording | `delete_settings` | Every store setting (wording included), the stored licence record, each admin's listing preferences, and cached preset data |
+| The carrier product | `delete_carrier` | The hidden product, if it is still virtual and hidden |
 
 <Warning>
   These fire on **delete**, not on deactivate, and they cannot be undone. Turning one on does nothing immediately — it arms the deletion for whenever you next delete the plugin.
@@ -64,7 +64,7 @@ The carrier product is also left alone unless you opt in specifically. It is a W
 
 ## GDPR and data requests
 
-The only personal data is the redemption record. If you need to erase a customer's data, deleting their rows releases any per-customer cap they were holding — which is the correct outcome: with no record of their claim, there is no claim.
+The only personal data is the redemption record — a user ID or billing email against an order ID. The plugin registers no WordPress personal-data exporter or eraser, so a data request has to be handled in the `cartpresets_redemptions` table directly. Deleting a customer's rows releases any per-customer cap they were holding — which is the correct outcome: with no record of their claim, there is no claim.
 
 ## Moving to a new site
 

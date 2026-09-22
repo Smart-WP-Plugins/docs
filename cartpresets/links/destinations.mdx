@@ -11,7 +11,7 @@ Following a preset link always ends in a redirect. Where to depends on whether t
 
 ## After a successful add
 
-Set store-wide under **Settings → Cart behavior → After a successful add**, and overridable per preset.
+Set store-wide under **Settings → Cart behaviour → After a successful add**, and overridable per preset.
 
 | Choice | Where they go | Key |
 | --- | --- | --- |
@@ -38,31 +38,31 @@ No referer at all — a link pasted into the address bar, or a browser that send
 
 ### Per-preset override
 
-Each preset can pick its own destination, or follow the store setting. The editor shows what the store setting currently is, so you can see what "follow the store setting" means without leaving the page.
+Each preset can choose its own destination under **After the items are added, send the customer to**, or **Use the Settings default**. The editor shows what the store setting currently is, so you can see what "follow the store setting" means without leaving the page.
 
 ## When a link is refused
 
-Eight situations, each with its own message and all of them editable. See [Cart notices and wording](/cartpresets/links/wording).
+Nine situations. Eight have their own editable message; the ninth shows the rejection message you wrote on the preset. See [Cart notices and wording](/cartpresets/links/wording).
 
 | Situation | Where they land | Notice ID |
 | --- | --- | --- |
 | The link matches no preset | Fallback URL | `not_found` |
 | Not started yet<Pro /> | Cart | `scheduled` |
 | Ended, inactive, or sold out | Cart, or your redirect | `unavailable` |
-| Total cap reached<Pro /> | Cart, or your redirect | `limit_total` |
-| Per-customer cap reached<Pro /> | Cart, or your redirect | `limit_customer` |
-| The preset has no items | Cart | `no_items` |
-| An item cannot be bought, and your rule is "refuse the whole preset" | Cart | `item_blocked` |
-| Every item failed at cart time | Cart | `nothing_added` |
+| Not enough room left under the total cap<Pro /> | Fallback URL | `limit_total` |
+| Per-customer cap reached<Pro /> | Fallback URL | `limit_customer` |
+| The preset has no items | Fallback URL | `no_items` |
+| An item cannot be bought, and your rule is "refuse the whole preset" | Fallback URL | `item_blocked` |
+| Every item failed at cart time | Fallback URL | `nothing_added` |
 | Not eligible<Pro /> | Fallback URL | your rejection message |
 
 ### The fallback URL
 
-**Settings → Links & fallbacks → Fallback URL**. Leave it empty and refused customers go to your shop page.
+**Settings → Links and fallbacks → Fallback link**. Leave it empty and refused customers go to your shop page.
 
 ### Ended and sold-out presets can redirect instead
 
-A preset whose schedule ended or whose cap filled can send customers to an address of your choice rather than the cart — typically a landing page explaining the offer has closed. That is the `unavailable_action` setting, covered under [Scheduling](/cartpresets/building/scheduling)<Pro />.
+A preset whose schedule ended or whose cap filled can send customers elsewhere rather than to the cart. Store-wide, under **Settings → Links and fallbacks → When a preset reaches its limit or its end date**, **Redirect to the fallback link** sends them to your fallback link. On a single preset, **Redirect to a link** takes an address of its own — typically a landing page explaining the offer has closed. Whether they are also told why is the separate **Show a notice that it is unavailable** switch. That is the `unavailable_action` setting, covered under [Scheduling](/cartpresets/building/scheduling)<Pro />.
 
 ## Partial adds
 
@@ -95,7 +95,7 @@ WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp
 | Custom URL | Store | `post_add_url` | Empty |
 | Destination | Preset | `redirect` | `global` |
 | Custom URL | Preset | `custom_url` | Empty |
-| Fallback URL | Store | `not_found_url` | Empty (shop page) |
+| Fallback link | Store | `not_found_url` | Empty (shop page) |
 
 ## For developers
 

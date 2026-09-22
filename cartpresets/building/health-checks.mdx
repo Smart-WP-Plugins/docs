@@ -7,7 +7,9 @@ icon: "heart-pulse"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-The editor's sidebar asks a set of questions of your draft on every keystroke, and answers each one. It is the difference between finding out a preset is broken now and finding out from a customer.
+The editor's sidebar asks seventeen questions of your preset on every keystroke, and answers each one. It is the difference between finding out a preset is broken now and finding out from a customer.
+
+The checks are listed in screen order — name, items, discounts, destination, limits, status — so working down the sidebar is working down the form. Each item card also carries a badge naming its own problems, from the same rules.
 
 <Media>The health checks panel with one failure and two warnings, the failure expanded to show its detail</Media>
 
@@ -17,47 +19,52 @@ The editor's sidebar asks a set of questions of your draft on every keystroke, a
 
 **A warning does not.** The preset will work, and may not do what you meant. Refusing a save over one of these would be refusing a decision that is yours to make.
 
-Clicking any check scrolls to the control it is about and highlights it. A check that names a problem always names where it is.
+Clicking any check scrolls to the control it is about and highlights it.
 
 ## What blocks a save
 
 | Check | Why it blocks |
 | --- | --- |
-| No title or slug | The slug is generated from the title, so one of the two is needed before a link exists at all |
+| No name yet | A preset is saved under its name, and its link is generated from it. The slug is optional — leave it empty and one is made from the name |
 | No items yet | A preset with no items is refused at cart time |
-| Nothing here can be added | Every item is a custom item, which this build does not add — the link would be refused. Free build only |
-| An item has no product | A store item with nothing chosen cannot be priced or added |
-| A variation has an unanswered attribute | It would fail at `add_to_cart()` with "X is a required field" |
-| A custom item has no name<Pro /> | The cart line would have nothing to call itself |
-| A custom item has no price<Pro /> | |
-| Additional discount has no value | The discount is switched on and set to nothing |
-| Custom URL is empty | A custom destination is selected with no address to send anyone to |
-| End redirect is empty<Pro /> | Same, for where an ended preset sends people |
+| Nothing here can be added | Every item is a custom item, which the free version does not add — the link would be refused. Free version only |
+| A store item has no product | Choose a product or delete the row |
+| A variation has an option not chosen | Every attribute must be set before the preset can be saved |
+| An item asks for a combination the store does not sell | Every option is answered, but no variation matches. Choose options that match a variation on sale |
+| Custom URL is empty | A custom destination is chosen with no address to send anyone to |
+| End redirect is empty<Pro /> | Redirect is chosen for the end of the preset with no address set |
 
 ## What only asks to be looked at
 
 | Check | What it means |
 | --- | --- |
-| A custom item is free<Pro /> | Priced at zero. Legitimate for a freebie, usually a typo |
-| A shippable custom item has no weight<Pro /> | Shipping rates that use weight will read it as weightless |
-| A starting quantity is outside its own range | The item starts at 5 with a maximum of 3 |
+| Some items may not reach the cart | Out of stock, fewer left than the preset adds, or not published. The detail says what your **If an item cannot be added** setting will do about it — skip the line, or refuse the whole preset |
+| Custom items are not added on the free version | The preset carries custom items this version cannot add. Free version only |
+| A custom item has no price<Pro /> | It will be added to the cart free of charge |
+| A custom item has no name<Pro /> | The cart line would read as untitled |
+| A shippable item has no weight<Pro /> | Shipping rates based on weight will be wrong |
+| A quantity range is invalid | The starting quantity sits outside its own minimum and maximum |
+| A discount has no value | The discount type is set but the amount is zero |
 | End date is before the start date<Pro /> | The preset would never be live |
-| Per-customer cap exceeds the total cap<Pro /> | The per-customer number can never be reached |
-| Preset is inactive | It will not sell. Often correct while you are still building |
-| Some items will not be added | The preset carries custom items this build cannot add. Free build only |
+| Per-customer cap exceeds the total cap<Pro /> | One customer could take the whole run |
+| Preset is inactive | Its switch is off, and the link is refused until you turn it on |
+| Preset has expired | Its end date has passed. Move the end date to run it again |
+| Preset has sold out | Its purchase limit is used up. Raise the limit to sell more |
 
-## Checks the free build stays quiet about
+Two answers are informational: whether the slug is set or will be generated, and — on a scheduled preset — the date it goes live.
 
-Five of these name controls the free build does not have. On free they are suppressed, because complaining forever about a field you cannot reach is worse than saying nothing — you would be locked out of your own preset over a problem with no fix.
+## Checks the free version stays quiet about
+
+Five of these name controls the free version does not have. On free they are suppressed, because complaining forever about a field you cannot reach is worse than saying nothing — you would be locked out of your own preset over a problem with no fix.
 
 Suppressed on free: the custom-item price, name and weight checks, the end-date ordering check, and the cap comparison.
 
 <Note>
-  The free build is **not** quiet about a custom item *existing*. Whether an item reaches the cart is a fact about the preset, not a field filled in wrong — so it warns, and says how many items will not be added.
+  The free version is **not** quiet about a custom item *existing*. Whether an item reaches the cart is a fact about the preset, not a field filled in wrong — so it warns, and says how many items will not be added.
 </Note>
 
 ## Stock problems
 
-Separately from the health panel, the listing flags presets whose items have a stock problem — out of stock, deleted, unpublished, or a variation whose attributes no longer match. You can filter the listing by it.
+Stock is a fact about your shop rather than your preset, so it only ever warns: a supplier running late must not lock you out of your own work.
 
-This is checked against live product data rather than stored with the preset, so a product coming back into stock clears the flag without you touching the preset.
+The listing flags presets whose items have a stock problem too, and you can filter by it. Both read live product data rather than anything stored with the preset, so a product coming back into stock clears the flag without you touching the preset.

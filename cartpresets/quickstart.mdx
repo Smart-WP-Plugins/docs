@@ -7,53 +7,52 @@ icon: "bolt"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-This walks through one preset end to end: three products, a discount, and a link you can paste into a newsletter. Everything here works on the free build.
+This walks through one preset end to end: three products, a discount, and a link you can paste into a newsletter. Everything here works on the free version.
 
 ## 1. Create the preset
 
 Go to **Cart Presets → Add New Preset**.
 
-Give it a title. The slug fills itself in from the title as you type, and the slug is what appears in the link — "Starter Kit" becomes `starter-kit`. You can edit the slug directly if you want something shorter.
+Give it a name. The slug is what appears in the link — "Starter Kit" becomes `starter-kit`. Leave the slug empty and it is generated from the name when you save; type your own if you want something shorter. If a slug is already taken a number is added, so a save is never refused over it.
 
 The internal description is for your team. Customers never see it.
 
-<Media>The Preset details card with a title, slug and description filled in</Media>
+<Media>The Preset details card with a name, slug and description filled in</Media>
 
 ## 2. Add items
 
-In the **Items** card, click **Add store product** and pick a product. Repeat for each one you want in the set.
+In the **Items** card, click **Add store product** and choose a product. Repeat for each one you want in the set.
 
 For a variable product, the picker asks you to choose the variation. Every attribute has to be answered — a preset has nobody to ask at cart time, so "Any" is not an option here.
 
 Expand a row to set:
 
 - **Quantity** — how many of this item the link adds.
-- **A per-item discount** — a percentage, a fixed amount off, or a flat price that replaces the product's own.
+- **A discount** — a percentage, a fixed amount off each unit, or a custom price that replaces the product's own.
 - **Quantity rules** — whether the customer may change the amount in the cart, and between what bounds.
 
 <Media>The Items card with three products, one row expanded showing the discount and quantity controls</Media>
 
 ## 3. Set the price
 
-Each item can carry its own discount, and the preset as a whole can carry one on top.
+Each item carries its own discount, and the preset's total is the sum of its lines. There is no second discount on top.
 
-Turn on **Additional discount** and choose:
-
-| Type | What you type | What happens |
+| Discount | What you type | What happens |
 | --- | --- | --- |
-| Percentage | `15` | 15% comes off the subtotal |
-| Fixed amount | `20` | 20 comes off the subtotal |
-| Target total | `99` | The discount is whatever brings the preset to 99 |
+| None | — | The product's own price |
+| Percentage | `15` | 15% comes off this item |
+| Fixed amount | `5` | 5 comes off each unit |
+| Custom price | `20` | 20 replaces the product's price |
 
-**Target total** is the useful one for a kit: you name the price you advertised and the plugin works out the discount.
+**Custom price** is the useful one for a kit you have advertised at a set price: give each item the price you want it to carry.
 
 The **Pricing summary** on the right recalculates as you type, and it shows the same numbers the customer's cart will. If they disagree, that is a bug — they are pinned to each other by a shared test fixture.
 
-<Media>The pricing summary sidebar showing regular value, item discounts, additional discount and the preset total</Media>
+<Media>The pricing summary sidebar showing regular value, item discounts, average per unit and the preset total</Media>
 
 ## 4. Check the health panel
 
-Below the summary, **Health checks** asks about a dozen questions of the preset and answers each one.
+In the sidebar, **Health checks** asks a series of questions of the preset and answers each one. Before the first save the card is titled **Before your link exists**.
 
 A **warning** is something that will work but may not be what you meant. A **failure** blocks the save — a variation with an unanswered attribute, a discount switched on with no amount, no items at all. Click any check to jump to the control it is about.
 
@@ -63,7 +62,7 @@ A **warning** is something that will work but may not be what you meant. A **fai
 
 Click **Save preset**. The **Preset link** card fills in with the live URL:
 
-```
+```text
 https://yourstore.com/preset/starter-kit
 ```
 

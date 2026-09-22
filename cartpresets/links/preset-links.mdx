@@ -13,7 +13,7 @@ Every preset has a link, and that link is the only way to a preset. There is no 
 
 Both of these resolve to the same preset, and both work at all times:
 
-```
+```text
 https://yourstore.com/preset/starter-kit      pretty permalink
 https://yourstore.com/?preset=starter-kit     query string
 ```
@@ -24,17 +24,17 @@ The pretty form needs pretty permalinks enabled in WordPress. The query form wor
 
 ## Changing the base and the parameter
 
-Both halves are yours, under **Settings → Links & fallbacks**:
+Both halves are yours, under **Settings → Links and fallbacks**:
 
 | Setting | Key | Default | Controls |
 | --- | --- | --- | --- |
 | URL parameter | `url_param` | `preset` | The `?preset=` half |
-| Permalink base | `permalink_base` | `/preset/` | The `/preset/` half |
+| Pretty permalink base | `permalink_base` | `/preset/` | The `/preset/` half |
 
-Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. Changing it flushes permalinks for you.
+Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. The change takes effect when you save; permalinks are flushed for you.
 
 <Warning>
-  Changing the base does **not** leave a redirect behind. Links already shared in the old form stop resolving. Renaming a *preset* does leave a redirect — that is the next section — but the base is a store-wide change, so set it before you start sharing links, not after.
+  Changing the base or the parameter does **not** leave a redirect behind. Links already shared in the old form stop resolving immediately. Renaming a _preset_ does leave a redirect — that is the next section — but the base is a store-wide change, so set it before you start sharing links, not after.
 </Warning>
 
 The parameter name is checked against names WordPress and WooCommerce already own, and a collision is refused. It subtracts the plugin's own registered parameter from that list first, so saving the settings screen twice does not accuse you of colliding with yourself.
@@ -59,7 +59,7 @@ Check the **Preset link** card after saving if the exact slug matters to you.
 
 ## When a link does not resolve
 
-A mistyped slug, a deleted preset, or a rename older than 30 days all reach the same place: your **fallback URL**, under **Settings → Links & fallbacks**. Leave it empty and customers go to your shop page.
+A mistyped slug, a deleted preset, or a rename older than 30 days all reach the same place: your **fallback link**, under **Settings → Links and fallbacks**. Leave it empty and customers go to your shop page.
 
 They also get a notice — *That link is not valid. It may have been changed or removed.*
 
@@ -67,16 +67,18 @@ The shipped wording deliberately does not say whether the preset ever existed. A
 
 ## UTM parameters
 
-Campaign parameters on a preset link — `?utm_source=newsletter` and friends — can be carried through the redirect to the cart, so your analytics still attribute the visit. Off by default; turn it on under **Settings → Links & fallbacks**.
+Any query parameters on a preset link — `?utm_source=newsletter` and friends — are always carried through the redirect to wherever the customer lands, so your analytics still attribute the visit.
+
+**Append the preset name as a UTM campaign** (**Settings → Links and fallbacks**, off by default) also adds `utm_campaign=<preset slug>` to the destination, so every preset is separable in your analytics without tagging links by hand.
 
 ## Settings reference
 
 | Setting | Key | Default |
 | --- | --- | --- |
 | URL parameter | `url_param` | `preset` |
-| Permalink base | `permalink_base` | `/preset/` |
-| Fallback URL | `not_found_url` | Empty (shop page) |
-| Keep UTM parameters | `utm` | Off |
+| Pretty permalink base | `permalink_base` | `/preset/` |
+| Fallback link | `not_found_url` | Empty (shop page) |
+| Append the preset name as a UTM campaign | `utm` | Off |
 
 ## For developers
 

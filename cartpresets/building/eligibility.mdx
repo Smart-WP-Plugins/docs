@@ -9,7 +9,7 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Eligibility is a Pro feature. On the free build the two settings are stored but not enforced — every visitor is eligible. The controls are visible and locked.
+  Eligibility is a Pro feature. On the free version the two settings are stored but not enforced — every visitor is eligible. The controls are visible and locked.
 </Info>
 
 By default anyone holding the link can use it. Eligibility narrows that to signed-in customers, or to particular roles.
@@ -18,11 +18,11 @@ By default anyone holding the link can use it. Eligibility narrows that to signe
 
 ## Two gates
 
-**Require sign-in.** A guest following the link is sent to sign in, and returned to the link afterwards — so the preset still fills their cart once they are in, rather than dropping them on an account page with no idea why.
+**Signed-in customers only.** A guest following the link is turned away with a notice asking them to sign in, and sent to your store's fallback link. Once signed in, they can follow the link again.
 
-**Limit to roles.** Pick one or more WordPress roles. A visitor whose account does not hold one of them is turned away.
+**Limit to roles.** Choose one or more WordPress roles. A visitor whose account does not hold one of them is turned away.
 
-Selecting roles implies sign-in: a logged-out visitor has no role to match.
+Choosing roles implies sign-in: a logged-out visitor has no role to match.
 
 <Tip>
   This is how a wholesale or staff preset stays out of public reach even though the link itself is not secret.
@@ -38,7 +38,7 @@ Ship-to region was considered and removed. A visitor's country is frequently unk
 
 Your own message, as a notice, and then your store's fallback URL.
 
-The **rejection message** is per preset, so a wholesale link can say something different from a staff one. Leave it empty and the shipped wording is used.
+The message is set per preset under **If a visitor is not eligible**, so a wholesale link can say something different from a staff one. Leave it empty and the shipped wording is used: _Please sign in to use this preset._ for a guest, _This preset is not available on your account._ for a missing role.
 
 <Warning>
   Write the message for a stranger. Anyone with the link can trigger it, so it should not confirm what the preset contains or who it is for.
@@ -46,7 +46,7 @@ The **rejection message** is per preset, so a wholesale link can say something d
 
 ## Where they land
 
-The store's **not-found fallback**, under **Settings → Links & fallbacks**. Leave it empty and they go to your shop page.
+The store's **not-found fallback**, under **Settings → Links and fallbacks**. Leave it empty and they go to your shop page.
 
 External addresses work. A merchant-configured destination passes through a redirect helper that allow-lists the host you configured — WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp-admin, which would send a rejected customer to your dashboard login.
 
@@ -60,7 +60,7 @@ CartPresets prepends the pending queue to both blocks through WooCommerce's own 
 
 | Setting | Level | Key | Default |
 | --- | --- | --- | --- |
-| Require sign-in | Preset | `logged_in` | Off |
+| Signed-in customers only | Preset | `logged_in` | Off |
 | Allowed roles | Preset | `roles` | Empty (all) |
 | Rejection message | Preset | `reject_message` | Empty (shipped wording) |
 | Fallback URL | Store | `not_found_url` | Empty (shop page) |

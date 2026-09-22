@@ -7,7 +7,7 @@ icon: "square-js"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-`window.CartPresetsAdmin` is set on CartPresets' own admin page. It exposes three helpers — the things another plugin extending this admin would otherwise reimplement and get subtly wrong.
+`window.CartPresetsAdmin` is set on the CartPresets for WooCommerce admin page. It exposes three helpers — the things another plugin extending this admin would otherwise reimplement and get subtly wrong.
 
 <Warning>
   This exists on the plugin's **admin page only**. Nothing is enqueued on your storefront, so there is no front-end equivalent and there will not be one.
@@ -22,12 +22,14 @@ const { pricing, status, format, version } = window.CartPresetsAdmin;
 The same arithmetic the editor and the cart both use, pinned to the PHP by a shared fixture table.
 
 ```js
-pricing.presetTotals( items, settings );
+pricing.presetTotals( items, decimals );   // decimals defaults to 2
 ```
 
-Returns the whole computation: per-row unit and line prices, the subtotal, the item discount total, the preset-level discount and the final total. It is what the editor's live summary draws.
+Returns the whole computation: `rows` (each with `base`, `unit`, `line`, `listLine`, `saved`, `qty`), plus `list`, `after`, `itemDiscount`, `total`, `saved` and `pct`. It is what the editor's live summary draws.
 
-Use it rather than reimplementing the two-pass model — source price, per-item discount, then a pro-rata distributed preset discount with the rounding drift placed on the largest line. Getting that last part wrong by a penny is easy, and invisible until a customer notices.
+There is one level of discount, each item's own, so `total` is the sum of the lines. Use this rather than reimplementing it: the source-price rule (custom price, regular price, or the sale price when there is one) and the three item discount types are easy to get subtly wrong.
+
+The smaller pieces are exported too: `basePrice( regular, sale, useRegular )`, `unitPrice( base, type, value )`, `round()` and `toNumber()`.
 
 See [Pricing and discounts](/cartpresets/building/pricing) for the model itself.
 
@@ -36,9 +38,10 @@ See [Pricing and discounts](/cartpresets/building/pricing) for the model itself.
 The derived status ladder, and what a rung means.
 
 ```js
-status.statusOf( preset );      // 'active' | 'scheduled' | 'inactive'
-status.isLive( 'scheduled' );   // false
-status.isPurchasable( preset );
+status.statusOf( preset );          // 'active' | 'scheduled' | 'expired' | 'sold_out' | 'inactive'
+status.isLive( 'scheduled' );       // false: takes a status, not a preset
+status.isPurchasable( status.statusOf( preset ) );
+status.isSpent( 'expired' );        // true: stopped selling on its own
 ```
 
 Status is derived from the status switch, the dates and the caps every time it is read — never stored. Asking these rather than reading a field is what keeps your answer the same as the plugin's.
@@ -52,6 +55,8 @@ format.money( 42.5 );                // in the store's currency, symbol position
 format.shortDate( '2026-09-10' );    // in the store's date format
 ```
 
+Also exported: `count()`, `percent( part, whole )`, `shortDateTime()` and `slugify()`.
+
 The currency parts come from WooCommerce settings through the boot payload, so these match what the cart will print.
 
 ## The boot payload
@@ -61,6 +66,9 @@ Everything the panel is handed at load time is on `window.cartPresetsBoot`:
 | Key | Holds |
 | --- | --- |
 | `restUrl` | The REST base for `cartpresets/v1` |
+| `nonce` | A `wp_rest` nonce for those requests |
+| `adminUrl` | The panel's own admin URL |
+| `homeUrl` | The site's home URL |
 | `version` | Plugin version |
 | `now` | The store's current time |
 | `currency` | Symbol, position, decimals, separators |
@@ -69,9 +77,12 @@ Everything the panel is handed at load time is on `window.cartPresetsBoot`:
 | `filterFields` | The listing's filter grammar |
 | `settings` | Resolved store settings |
 | `links` | URL parameter and permalink base |
-| `isPro` | Which build is running |
+| `capability` | The capability the panel requires |
+| `canManage` | Whether the current user has it |
+| `isPro` | Whether Pro is running |
 | `upgradeUrl` | Where the upgrade call to action points |
-| `notices` | The wording catalogue |
+| `notices` | The wording catalogue, as `groups` and `items` |
+| `licence`<Pro /> | Licence state for the notice, added by Pro through `cartpresets_admin_boot` |
 
 Add your own keys from PHP through [`cartpresets_admin_boot`](/cartpresets/developers/hooks-reference#the-admin-panel), and read them here without a second request.
 

@@ -7,6 +7,15 @@ icon: "sitemap"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
+CartPresets for WooCommerce ships as two plugins built from one source tree:
+
+|  | Plugin name | Folder and main file |
+| --- | --- | --- |
+| Free | CartPresets for WooCommerce | `cartpresets-for-woocommerce/cartpresets-for-woocommerce.php` |
+| Pro | CartPresets for WooCommerce Pro | `cartpresets-for-woocommerce-pro/cartpresets-for-woocommerce-pro.php` |
+
+Both use the text domain `cartpresets-for-woocommerce`. That is the free plugin's wordpress.org slug, which is what language packs are keyed on, so one set of translations serves either. Every data-bearing identifier is tier-neutral: tables, options, hooks and the `cartpresets/v1` REST namespace are the same on both, which is why moving between them migrates nothing.
+
 ## Storage
 
 Four custom tables, not custom post types.
@@ -24,7 +33,7 @@ Settings that do not need indexing ride in a JSON blob on the row. Anything the 
 
 ## The tier boundary
 
-**`src/Pro/` and `assets/src/pro/` are the entire premium footprint.** The free build is this plugin with those two directories deleted.
+**`src/Pro/` and `assets/src/pro/` are the entire premium footprint.** The free version is built from the same tree with those two directories deleted.
 
 Nothing in shared code names a Pro class. Pro attaches to the same public filters documented in the [hooks reference](/cartpresets/developers/hooks-reference) that any third-party plugin would use.
 
@@ -42,7 +51,7 @@ Shared code performs the **conservative** reading unaided, and Pro relaxes it:
 | Which coupon applies? | None | Honours the stored code |
 | Is this visitor eligible? | Yes | Honours the rules |
 
-Written the other way round — shared code being generous and Pro tightening — the premium behaviour would ship in the free build.
+Written the other way round — shared code being generous and Pro tightening — the premium behaviour would ship in the free version.
 
 ### The tier is the build, never the licence
 
@@ -54,13 +63,13 @@ An expired licence leaves every Pro file where it was, so every gate keeps answe
 
 **No styles and no scripts are enqueued on the front end. Ever.**
 
-Cart pricing hooks attach only when a cart actually contains a preset. A shopper browsing your catalogue runs none of this plugin's code beyond the check that decides there is nothing to do.
+An ordinary front-end page view costs **zero database queries** from this plugin, because settings are one autoloaded option. It parses 27 PHP files, about 1.6% of what a WooCommerce request already loads. The cart-integrity hooks (price override, quantity lock, cascade removal) attach only when a cart actually contains a preset. A shopper browsing your catalogue runs none of this plugin's code beyond the check that decides there is nothing to do.
 
 That is also why there is no analytics subsystem: a preset hit performs zero writes. Sales enter the books when WooCommerce processes the order, on hooks that never run on the storefront.
 
 ## Pricing runs twice, in two languages
 
-`Support\Pricing` in PHP is the authority. `assets/src/lib/pricing.js` is a mirror, and it exists only because the editor's live summary has to recompute a total in the browser as you type — it cannot call PHP for that.
+`Support\Pricing` and `Support\Totals` in PHP are the authority. `assets/src/lib/pricing.js` is a mirror, and it exists only because the editor's live summary has to recompute a total in the browser as you type — it cannot call PHP for that.
 
 Two hand-maintained copies of the same arithmetic drift. Both run against a shared fixture table in the test suite, so a formula changed on one side and not the other fails a test rather than silently charging the wrong amount.
 
@@ -82,11 +91,19 @@ That payload is filterable through `cartpresets_admin_boot`, which is how Pro pu
 
 ## Order lines carry their own record
 
-At checkout, every preset line is stamped with the preset ID, the preset name **as it was at that moment**, and the instance ID.
+At checkout, every preset line is stamped with the preset ID, the preset name **as it was at that moment**, the instance ID, and the ID of the preset item the line came from.
 
 Snapshotting the name matters: renaming a preset next year must not rewrite what last year's orders say they were.
 
 See [Order line item meta](/cartpresets/developers/order-meta).
+
+## Licensing and updates<Pro />
+
+Licences are sold and checked through Freemius, but the Freemius SDK is **not** bundled. Pro talks to the Freemius REST API directly from one small client. The SDK would have to initialise on every request, front end included; this client runs from wp-admin and cron only, so licensing adds nothing to a storefront request.
+
+Freemius answers _may this site update?_ The package itself comes from a release manifest at `smartwpplugins.com/updates/cartpresets-for-woocommerce-pro.json`. The licence is checked before the manifest is fetched, and a failure on either side is silent: the Plugins screen shows what it would have shown anyway.
+
+Licence state never decides the tier. See [the tier is the build](#the-tier-is-the-build-never-the-licence).
 
 ## What is deliberately not extensible
 
