@@ -7,69 +7,69 @@ icon: "link"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-Every preset has a link, and that link is the only way to a preset. There is no product page and no catalogue entry.
+Every preset has a link, and that link is the only way to reach it. There's no product page and no catalogue entry.
 
 ## Two forms, one preset
 
-Both of these resolve to the same preset, and both work at all times:
+Both of these go to the same preset, and both always work:
 
 ```text
 https://yourstore.com/preset/starter-kit      pretty permalink
 https://yourstore.com/?preset=starter-kit     query string
 ```
 
-The pretty form needs pretty permalinks enabled in WordPress. The query form works regardless, which makes it the reliable fallback on a site with plain permalinks.
+The pretty form needs pretty permalinks turned on in WordPress. The query form works either way, so it's the safe fallback on a site with plain permalinks.
 
 <Media>The Preset link card in the editor sidebar, with the copy button</Media>
 
 ## Changing the base and the parameter
 
-Both halves are yours, under **Settings → Link settings**:
+You control both halves, under **Settings → Link settings**:
 
 | Setting | Key | Default | Controls |
 | --- | --- | --- | --- |
 | URL parameter | `url_param` | `preset` | The `?preset=` half |
 | Pretty permalink base | `permalink_base` | `/preset/` | The `/preset/` half |
 
-Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. The change takes effect when you save; permalinks are flushed for you.
+Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. It takes effect when you save, and permalinks are flushed for you.
 
 <Warning>
-  Changing the base or the parameter does **not** leave a redirect behind. Links already shared in the old form stop resolving immediately. Renaming a _preset_ does leave a redirect — that is the next section — but the base is a store-wide change, so set it before you start sharing links, not after.
+  Changing the base or the parameter does **not** leave a redirect behind. Links you've already shared in the old form stop working straight away. Renaming a _preset_ does leave a redirect, and that's the next section. But the base is a store-wide change, so set it before you start sharing links, not after.
 </Warning>
 
-The parameter name is checked against names WordPress and WooCommerce already own, and a collision is refused. It subtracts the plugin's own registered parameter from that list first, so saving the settings screen twice does not accuse you of colliding with yourself.
+The parameter name is checked against names WordPress and WooCommerce already own, and a collision is refused. The plugin leaves its own parameter out of that check, so saving the settings screen twice won't accuse you of colliding with yourself.
 
 ## Renaming a preset
 
 Change a preset's slug and the old one keeps working for **30 days**, as a permanent redirect to the new one.
 
-That window exists because a link, once shared, is out of your hands. A newsletter sent last week cannot be edited. Thirty days is long enough for traffic from an existing campaign to drain.
+Once you share a link it's out of your hands. You can't edit a newsletter you sent last week. Thirty days is long enough for traffic from a campaign already out there to drain away.
 
-After 30 days the old slug stops resolving and is refused like any other link that matches no preset.
+After 30 days the old slug stops working, and it's refused like any other link that matches no preset.
 
 <Tip>
-  Each rename adds its own entry, so a preset renamed twice has both old slugs redirecting — each expiring 30 days from its own rename.
+  Each rename adds its own entry. Rename a preset twice and both old slugs redirect, each one expiring 30 days after its own rename.
 </Tip>
 
 ## Slug collisions
 
-Two presets cannot share a slug. If you type one that is taken, the new preset gets a numbered suffix — `starter-kit-2` — and saves. It does not refuse the save and make you think of another name.
+Two presets can't share a slug. If you type one that's taken, the new preset gets a number on the end, `starter-kit-2`, and saves. It won't refuse the save and make you think of another name.
 
-Check the **Preset link** card after saving if the exact slug matters to you.
+If the exact slug matters to you, check the **Preset link** card after saving.
 
 ## When a link does not resolve
 
-A mistyped slug, a deleted preset, or a rename older than 30 days are all refused, and go wherever **Settings → Cart behaviour → Unavailable links** sends a refused customer: the cart by default, or a custom URL of your own. That one setting answers for every way a link can be refused — see [Where customers land](/cartpresets/links/destinations#unavailable-links).
+A mistyped slug, a deleted preset, or a rename older than 30 days are all refused. They go wherever **Settings → Cart behaviour → Unavailable links** sends a refused customer: the cart by default, or a custom URL of your own. That one setting covers every way a link can be refused. See [Where customers land](/cartpresets/links/destinations#unavailable-links).
 
-They also get a notice, while **Show an error message** is on — _That link is not valid. It may have been changed or removed._
+They also get a notice, as long as **Show an error message** is on — _That link is not valid. It may have been changed or removed._
 
-The shipped wording deliberately does not say whether the preset ever existed. Anyone can guess a URL, and a message confirming what used to be there tells a stranger more than it tells your customer. You can reword it; see [Cart notices and wording](/cartpresets/links/wording).
+That wording deliberately doesn't say whether the preset ever existed. Anyone can guess a URL, and a message that confirms what was there tells a stranger more than it tells your customer. You can reword it. See [Cart notices and wording](/cartpresets/links/wording).
 
 ## UTM parameters
 
-Any query parameters on a preset link — `?utm_source=newsletter` and friends — are always carried through the redirect to wherever the customer lands, so your analytics still attribute the visit.
+Any query parameters on a preset link, such as `?utm_source=newsletter`, are always carried through the redirect to wherever the customer lands. Your analytics still attribute the visit.
 
-**Append the preset name as a UTM campaign** (**Settings → Link settings**, off by default) also adds `utm_campaign=<preset slug>` to the destination, so every preset is separable in your analytics without tagging links by hand.
+**Append the preset name as a UTM campaign** (**Settings → Link settings**, off by default) also adds `utm_campaign=<preset slug>` to the destination. That way you can tell presets apart in your analytics without tagging links by hand.
 
 ## Settings reference
 
@@ -79,8 +79,8 @@ Any query parameters on a preset link — `?utm_source=newsletter` and friends �
 | Pretty permalink base | `permalink_base` | `/preset/` |
 | Append the preset name as a UTM campaign | `utm` | Off |
 
-Where a link that resolves to nothing sends the customer is **Unavailable links**, under Cart behaviour rather than here — it answers for every refusal, not only a bad slug.
+**Unavailable links** decides where a link that resolves to nothing sends the customer. It sits under Cart behaviour rather than here, because it answers for every refusal, not just a bad slug.
 
 ## For developers
 
-`cartpresets_preset_url` shapes the URL a preset **outputs**. It does not affect how an incoming request is parsed — that read path is independent, so changing one keeps the other working. See the [hooks reference](/cartpresets/developers/hooks-reference#order-and-display).
+`cartpresets_preset_url` shapes the URL a preset **outputs**. It doesn't affect how an incoming request is parsed. That read path is separate, so changing one keeps the other working. See the [hooks reference](/cartpresets/developers/hooks-reference#order-and-display).

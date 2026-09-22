@@ -6,10 +6,10 @@ icon: "square-js"
 
 import { Pro } from '/snippets/pro.mdx';
 
-The admin panel is a bundle of its own, and it publishes **no JavaScript API**. One global exists, and it is data rather than code: the payload the panel is handed before its first fetch.
+The admin panel is a bundle of its own, and it publishes **no JavaScript API**. There's one global, and it's data rather than code: the payload the panel is handed before its first fetch.
 
 <Warning>
-  This exists on the plugin's **admin page only**. Nothing is enqueued on your storefront, so there is no front-end equivalent and there will not be one.
+  This exists on the plugin's **admin page only**. Nothing is enqueued on your storefront, so there's no front-end equivalent and there won't be one.
 </Warning>
 
 ## The boot payload
@@ -31,7 +31,7 @@ Everything the panel is handed at load time is on `window.cartPresetsBoot`:
 | `notices` | The wording catalogue, as `groups` and `items` |
 | `licence`<Pro /> | `status`, `expires` and `dismissed`, added by Pro through `cartpresets_admin_boot` |
 
-`now` is there for a reason worth knowing if you read it: a preset's status is derived live, and `new Date()` answers in the visitor's timezone. A merchant abroad, or anyone near midnight, would otherwise see a status the server disagrees with.
+`now` is worth knowing about if you read it. A preset's status is derived live, and `new Date()` answers in the visitor's timezone. A merchant abroad, or anyone near midnight, would otherwise see a status the server disagrees with.
 
 ## Adding your own keys
 

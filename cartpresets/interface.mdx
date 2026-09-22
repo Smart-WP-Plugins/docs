@@ -7,7 +7,7 @@ icon: "window"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-CartPresets for WooCommerce adds a top-level **Cart Presets** menu in wp-admin, plus one entry under **Products** and, on Pro, one report under **Analytics**. If you would rather it took one line of the menu, **Settings → Menu location → Under Products** removes the top-level menu and leaves only **Products → Cart Presets**; Add New and Settings are then reached from the listing.
+CartPresets for WooCommerce adds a top-level **Cart Presets** menu in wp-admin, plus one entry under **Products** and, on Pro, one report under **Analytics**. If you'd rather it took one line of the menu, **Settings → Menu location → Under Products** removes the top-level menu and leaves only **Products → Cart Presets**. You then reach Add New and Settings from the listing.
 
 | Menu entry | What it is |
 | --- | --- |
@@ -26,7 +26,7 @@ CartPresets for WooCommerce adds a top-level **Cart Presets** menu in wp-admin, 
 
 ### Finding a preset
 
-**Search** matches preset names and the names of products inside them — so searching "hoodie" finds every preset containing a hoodie, not just presets called hoodie.
+**Search** matches preset names and the names of products inside them. Search for "hoodie" and you get every preset containing a hoodie, not just presets called hoodie.
 
 **Status tabs** across the top count and filter by derived status. The count beside each is live.
 
@@ -62,7 +62,7 @@ CartPresets for WooCommerce adds a top-level **Cart Presets** menu in wp-admin, 
 | Description | The internal description (hidden by default) |
 | Actions | The row menu; Edit, Duplicate and Delete also sit under the preset's name |
 
-On the free version the Revenue column is still drawn, with a crown in place of the figure. Clicking it explains what Pro would show there.
+On the free version the Revenue column is still there, with a crown in place of the figure. Clicking it explains what Pro would show.
 
 ### The row menu
 
@@ -78,13 +78,13 @@ On the free version the Revenue column is still drawn, with a crown in place of 
 
 ### Bulk actions
 
-Tick the checkbox on any row — or **Select all presets on this page** — and choose from **Bulk actions**: Activate, Deactivate, Duplicate or Delete. Bulk delete asks for confirmation and names how many rows it will remove.
+Tick the checkbox on any row, or **Select all presets on this page**, then choose from **Bulk actions**: Activate, Deactivate, Duplicate or Delete. Bulk delete asks for confirmation and names how many rows it will remove.
 
 ## The editor
 
 <Media>The full preset editor, main column and sidebar visible</Media>
 
-The editor is one page, a main column and a sidebar that both update as you type.
+The editor is one page: a main column and a sidebar, both updating as you type.
 
 ### Main column
 
@@ -96,30 +96,30 @@ The editor is one page, a main column and a sidebar that both update as you type
 | Cart behaviour | The three questions Settings asks, for this preset: **Existing cart**, **Redirect after adding**, **Unavailable links** |
 | Usage restrictions<Pro /> | **Purchase limits** — maximum orders, maximum orders per customer, the end date — and **Customer access** |
 
-The editor's cards follow the Settings screen's own order and wording, so a question you have answered store-wide reads the same when you answer it again for one preset. Each of the three Cart behaviour blocks opens with **Use the Settings default**; turn that off and the controls beneath it are this preset's own.
+The editor's cards follow the Settings screen's own order and wording, so a question you've answered store-wide reads the same when you answer it again for one preset. Each of the three Cart behaviour blocks opens with **Use the Settings default**. Turn that off and the controls beneath it belong to this preset.
 
 #### Customer access
 
-**Signed-in customers only** refuses a guest — there is no sign-in form and no returning them afterwards, so where they land is whatever **Unavailable links** says.
+**Signed-in customers only** refuses a guest. There's no sign-in form and nothing brings them back afterwards, so where they land is whatever **Unavailable links** says.
 
-**Limit to roles** appears only while that switch is on, because a role list is a narrowing of "signed in" rather than a rule of its own: a guest holds no roles, so a list without the switch would refuse everyone while the screen showed no sign-in requirement. Turning the switch off clears the roles, and saving a preset with roles set turns the switch on.
+**Limit to roles** appears only while that switch is on. A role list narrows "signed in" rather than being a rule of its own: a guest holds no roles, so a list without the switch would refuse everyone while the screen showed no sign-in requirement. Turning the switch off clears the roles, and saving a preset with roles set turns the switch on.
 
-What a turned-away visitor reads is store-wide wording, under **Settings → Messages and labels** — a preset no longer carries a rejection message of its own.
+What a turned-away visitor reads is store-wide wording, under **Settings → Messages and labels**. A preset doesn't carry a rejection message of its own.
 
 ### Sidebar
 
-**Pricing summary** recalculates on every keystroke: items, regular value, item discounts, average per unit, and the preset total. Every figure is what the customer's cart will hold.
+**Pricing summary** recalculates on every keystroke: items, regular value, item discounts, average per unit and the preset total. Every figure is what the customer's cart will hold.
 
-**Health checks** asks a series of questions of the draft. A `fail` blocks the save; a `warn` does not. Clicking a check scrolls to the control it is about and highlights it. See [Health checks](/cartpresets/building/health-checks).
+**Health checks** asks a series of questions about the draft. A `fail` blocks the save; a `warn` doesn't. Clicking a check scrolls to the control it's about and highlights it. See [Health checks](/cartpresets/building/health-checks).
 
-**Preset link** shows the live URL with a copy button, and says so if the preset has not been saved yet.
+**Preset link** shows the live URL with a copy button, and says so if the preset hasn't been saved yet.
 
 ### The save bar
 
-Pinned to the bottom, and it always says which of three states you are in: **All changes saved**, **Unsaved changes**, or the number of blocking problems. **Discard** reverts to the last save.
+Pinned to the bottom, always showing which of three states you're in: **All changes saved**, **Unsaved changes**, or the number of blocking problems. **Discard** reverts to the last save.
 
 <Note>
-  Leaving with unsaved changes asks first — whether you click a link inside the panel or one in wp-admin's own sidebar.
+  Leaving with unsaved changes asks first, whether you click a link inside the panel or one in wp-admin's own sidebar.
 </Note>
 
 ## Settings
@@ -148,7 +148,7 @@ Seven sections share one save bar, and on Pro the Licence card sits above them:
 | Redirect after adding | Cart, Checkout, Stay on the page, or a Custom URL, once the link works |
 | Unavailable links | Cart or a Custom URL when the link cannot be used at all, plus **Show an error message** |
 
-The sidebar carries a **System status** card — plugin version, WordPress, WooCommerce, PHP, permalink structure, preset base, and tier — with a **Copy system report** button. That report is read from your own install and sent nowhere; it is there so you can paste it into a support thread.
+The sidebar carries a **System status** card — plugin version, WordPress, WooCommerce, PHP, permalink structure, preset base and tier — with a **Copy system report** button. The report is read from your own install and sent nowhere. It's there so you can paste it into a support thread.
 
 Full detail: [Settings reference](/cartpresets/settings/reference).
 

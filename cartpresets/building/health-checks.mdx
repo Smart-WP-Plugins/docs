@@ -7,19 +7,19 @@ icon: "heart-pulse"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-The editor's sidebar asks the same questions of your preset on every keystroke, and answers each one. It is the difference between finding out a preset is broken now and finding out from a customer.
+The editor's sidebar asks the same questions of your preset on every keystroke, and answers each one. It's the difference between finding out a preset is broken now and hearing it from a customer.
 
-The checks are listed in screen order — name, items, discounts, destination, limits, status — so working down the sidebar is working down the form. Each item card also carries a badge naming its own problems, from the same rules.
+The checks are listed in screen order — name, items, discounts, destination, limits, status — so working down the sidebar is working down the form. Each item card also carries a badge naming its own problems, using the same rules.
 
 <Media>The health checks panel with one failure and two warnings, the failure expanded to show its detail</Media>
 
 ## Two severities
 
-**A failure blocks the save.** The preset cannot work as configured — it would produce a broken cart or no link at all.
+**A failure blocks the save.** The preset can't work as it stands. It would give you a broken cart, or no link at all.
 
-**A warning does not.** The preset will work, and may not do what you meant. Refusing a save over one of these would be refusing a decision that is yours to make.
+**A warning doesn't.** The preset will work, and may not do what you meant. Refusing a save over one of these would be refusing a decision that's yours to make.
 
-Clicking any check scrolls to the control it is about and highlights it.
+Clicking any check scrolls to the control it's about and highlights it.
 
 ## What blocks a save
 
@@ -27,11 +27,11 @@ Clicking any check scrolls to the control it is about and highlights it.
 | --- | --- |
 | No name yet | A preset is saved under its name, and its link is generated from it. The slug is optional — leave it empty and one is made from the name |
 | No items yet | A preset with no items is refused at cart time |
-| Nothing here can be added | Every item is a custom item, which the free version does not add — the link would be refused. Free version only |
+| Nothing here can be added | Every item is a custom item, and the free version doesn't add those, so the link would be refused. Free version only |
 | A store item has no product | Choose a product or delete the row |
-| A variation has an option not chosen | Every attribute must be set before the preset can be saved |
+| A variation has an option not chosen | Set every attribute before you save the preset |
 | An item asks for a combination the store does not sell | Every option is answered, but no variation matches. Choose options that match a variation on sale |
-| Custom URL is empty | A custom destination is chosen under **Redirect after adding** with no address to send anyone to |
+| Custom URL is empty | You've chosen a custom destination under **Redirect after adding** but given no address to send anyone to |
 | A custom refusal link is empty | The preset sends refused customers to a custom link under **Unavailable links**, but no address is set |
 
 ## What only asks to be looked at
@@ -40,7 +40,7 @@ Clicking any check scrolls to the control it is about and highlights it.
 | --- | --- |
 | Some items are sold one at a time | The item asks for more than one of a product your store sells individually. The cart trims the line to one and charges for one — see [Sold individually](#sold-individually) |
 | Some items may not reach the cart | Out of stock, fewer left than the preset adds, or not published. The detail says what your **Unavailable items** setting will do about it — **Skip the item** and fill with the rest, or **Refuse the preset** |
-| Custom items are not added on the free version | The preset carries custom items this version cannot add. Free version only |
+| Custom items are not added on the free version | The preset carries custom items this version can't add. Free version only |
 | A custom item has no price<Pro /> | It will be added to the cart free of charge |
 | A custom item has no name<Pro /> | The cart line would read as untitled |
 | A shippable item has no weight<Pro /> | Shipping rates based on weight will be wrong |
@@ -52,30 +52,30 @@ Clicking any check scrolls to the control it is about and highlights it.
 | Preset has expired | Its end date has passed. Move the end date to run it again |
 | Preset has sold out | Its purchase limit is used up. Raise the limit to sell more |
 
-Three answers are informational rather than problems: whether the slug is set or will be generated, how many items and units the preset holds, and — on a scheduled preset — the date it goes live.
+Three answers are information rather than problems: whether the slug is set or will be generated, how many items and units the preset holds, and, on a scheduled preset, the date it goes live.
 
 ## Checks the free version stays quiet about
 
-Five of these name controls the free version does not have. On free they are suppressed, because complaining forever about a field you cannot reach is worse than saying nothing — you would be locked out of your own preset over a problem with no fix.
+Five of these checks point at controls the free version doesn't have. Free hides them, because complaining forever about a field you can't reach is worse than saying nothing. You'd be locked out of your own preset over a problem you have no way to fix.
 
-Suppressed on free: the custom-item price, name and weight checks, the end-date ordering check, and the cap comparison.
+Hidden on free: the custom-item price, name and weight checks, the end-date ordering check, and the cap comparison.
 
 <Note>
-  The free version is **not** quiet about a custom item *existing*. Whether an item reaches the cart is a fact about the preset, not a field filled in wrong — so it warns, and says how many items will not be added.
+  The free version is **not** quiet about a custom item *existing*. Whether an item reaches the cart is a fact about the preset, not a field filled in wrong. So it warns, and says how many items won't be added.
 </Note>
 
 ## Sold individually
 
-WooCommerce lets you mark a product **Sold individually**: one per order, whatever the customer asks for. A preset that asks for three of one is the one case where the editor and the cart could quietly disagree — the summary would price three, the cart would add one, and the customer would be charged for one with nothing saying why.
+WooCommerce lets you mark a product **Sold individually**: one per order, whatever the customer asks for. A preset that asks for three of one is the one case where the editor and the cart could quietly disagree. The summary would price three, the cart would add one, and the customer would be charged for one with nothing saying why.
 
 So the editor says it instead. The item card carries a **Sold one at a time** badge, and the sidebar warns once for every item affected:
 
 > The cart trims the quantity to one and charges for one. Set the quantity to 1 so the preset quotes what the customer will pay.
 
-It is deliberately not filed with the stock problems below. Those say an item _may not reach the cart_; this one does reach it, trimmed. The quantity is yours to fix from here, which is exactly what the stock warnings are not — and a customer who follows the link still gets the preset, plus a notice explaining the adjustment. That notice is editable, like every other: it is `item_qty_capped` under [Messages and labels](/cartpresets/links/wording).
+It's deliberately not filed with the stock problems below. Those say an item _may not reach the cart_; this one does reach it, trimmed. The quantity is yours to fix from here; a stock problem isn't. A customer who follows the link still gets the preset, plus a notice explaining the adjustment. That notice is editable like every other: it's `item_qty_capped` under [Messages and labels](/cartpresets/links/wording).
 
 ## Stock problems
 
-Stock is a fact about your shop rather than your preset, so it only ever warns: a supplier running late must not lock you out of your own work.
+Stock is a fact about your shop rather than your preset, so it only ever warns. A supplier running late mustn't lock you out of your own work.
 
 The listing flags presets whose items have a stock problem too, and you can filter by it. Both read live product data rather than anything stored with the preset, so a product coming back into stock clears the flag without you touching the preset.

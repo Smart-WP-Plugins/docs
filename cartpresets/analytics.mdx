@@ -9,14 +9,14 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  The Presets report is a Pro feature. On the free version there is no menu entry and no report — it is absent rather than switched off.
+  The Presets report is a Pro feature. On the free version there's no menu entry and no report. It's absent, not switched off.
 </Info>
 
 ## Where to find it
 
 **Analytics → Cart Presets**, beside WooCommerce's own reports.
 
-That is the only way in, deliberately. A report that lives in WooCommerce Analytics should be reached the way every other WooCommerce report is reached, so CartPresets' own admin carries no link to it.
+That's the only way in, on purpose. A report that lives in WooCommerce Analytics should be reached the way every other WooCommerce report is reached, so CartPresets' own admin carries no link to it.
 
 <Media>The Presets report with the date range picker, summary cards, chart and table</Media>
 
@@ -30,52 +30,52 @@ That is the only way in, deliberately. A report that lives in WooCommerce Analyt
 | Table | One row per preset — net sales, orders, items sold, average revenue per order |
 | Drill-down | The orders behind a preset — date, order number, status, customer and customer type, products, items sold, coupons, net sales and attribution |
 
-The date-range picker, the comparison, the chart controls and CSV export are all WooCommerce's own components, so the page behaves exactly like the reports beside it.
+The date-range picker, the comparison and the chart controls are all WooCommerce's own components, and the export uses WooCommerce's own CSV exporter, so the page behaves just like the reports beside it.
 
 ## Where the numbers come from
 
 WooCommerce's own order tables, joined against the preset ID stamped on every preset order line at checkout.
 
-That has three consequences worth knowing:
+Three things follow from that:
 
 **Revenue is net of refunds.** A refund carries negative revenue and its line items carry the preset meta, so the subtraction lands on the right preset. Order counts use parent orders only, so a refunded order is one order, not two.
 
-**A sale is whatever WooCommerce says it is.** The excluded-status list is WooCommerce's own, so this page agrees with every other page under Analytics rather than keeping a second opinion.
+**A sale is whatever WooCommerce says it is.** The excluded-status list is WooCommerce's own, so this page agrees with every other page under Analytics instead of keeping its own opinion.
 
-**A deleted preset keeps its history**, listed as *Deleted preset #N*. The money was real, and a report whose rows vanish with a preset disagrees with your accounts.
+**A deleted preset keeps its history**, listed as *Deleted preset #N*. The money was real, and a report whose rows vanish with the preset won't match your accounts.
 
 ## What is not tracked
 
-Link opens, add-to-carts, and checkout-reached are recorded nowhere.
+Nothing records link opens, add-to-carts or checkout-reached.
 
-Following a preset link performs **zero analytics writes**. Sales enter the books when WooCommerce processes the order, on hooks that never run on your storefront. That is why the plugin can claim a near-zero storefront footprint and mean it.
+Following a preset link makes **zero analytics writes**. Sales enter the books when WooCommerce processes the order, on hooks that never run on your storefront. That's how the plugin keeps a near-zero storefront footprint.
 
-If you want click-level attribution, put UTM parameters on your preset links and read them in your existing analytics — see [Preset links](/cartpresets/links/preset-links#utm-parameters).
+If you want click-level attribution, put UTM parameters on your preset links and read them in your existing analytics. See [Preset links](/cartpresets/links/preset-links#utm-parameters).
 
 <Note>
-  A store with WooCommerce Analytics disabled gets no Presets page, and the plugin keeps no parallel record. Whether sales are tracked at all is your WooCommerce decision, and CartPresets follows it.
+  If WooCommerce Analytics is disabled, there's no Presets page, and the plugin keeps no record of its own. Whether sales are tracked at all is your WooCommerce decision, and CartPresets follows it.
 </Note>
 
 ## Upgrading starts with history
 
-Because the report reads WooCommerce's own books rather than a record of its own, upgrading from free does not start you at zero. The figures have been accumulating all along — the report simply had nowhere to appear.
+The report reads WooCommerce's own books rather than a record of its own, so upgrading from free doesn't start you at zero. The figures have been adding up all along; there was just nowhere to see them.
 
 ## The Revenue column in the listing
 
-The preset listing has a Revenue column in both versions. On free it shows a crown instead of a figure; clicking it explains what Pro would show.
+The preset listing has a Revenue column in both versions. On free it shows a crown instead of a figure, and clicking it explains what Pro would show.
 
-The column is drawn on both tiers on purpose. A column that appears and disappears with the tier is a worse answer than one that explains itself.
+The column is there on both tiers on purpose. A column that appears and disappears with the tier is worse than one that explains itself.
 
 ## Reporting and purchase limits are different systems
 
 Purchase limits never read any of this.
 
-Limits count rows in the redemptions table, under **Settings → Usage limits → Count orders with these statuses** (`redemption_statuses`) — so an on-hold order can consume a slot before it counts as a sale on this page.
+Limits count rows in the redemptions table, under **Settings → Usage limits → Count orders with these statuses** (`redemption_statuses`). So an on-hold order can take a slot before it counts as a sale on this page.
 
-The two answer different questions: *may this link still be used?* versus *how did this preset do?* A bank-transfer order is a real commitment for the first question and not yet revenue for the second.
+The two answer different questions: *may this link still be used?* versus *how did this preset do?* A bank-transfer order is a real commitment for the first question, and not yet revenue for the second.
 
 ## For developers
 
-`cartpresets_sales_payload` runs after totals, series, rows and the drill-down are assembled — append figures of your own or reshape what the report receives. `cartpresets_sales_orders_cap` raises how many orders the drill-down lists.
+`cartpresets_sales_payload` runs after totals, series, rows and the drill-down are assembled. Use it to append figures of your own, or to reshape what the report receives. `cartpresets_sales_orders_cap` raises how many orders the drill-down lists.
 
-Both fire from CartPresets for WooCommerce Pro only, and the `cartpresets/v1/sales` routes are not registered on the free version — a request 404s like any unknown route. Check the tier before assuming they exist. See the [hooks reference](/cartpresets/developers/hooks-reference#reporting-pro-only).
+Both fire from CartPresets for WooCommerce Pro only, and the `cartpresets/v1/sales` routes aren't registered on the free version, so a request 404s like any unknown route. Check the tier before assuming they exist. See the [hooks reference](/cartpresets/developers/hooks-reference#reporting-pro-only).

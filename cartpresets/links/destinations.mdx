@@ -1,19 +1,19 @@
 ---
 title: "Where customers land"
-description: "Where a link sends the customer when it works, and when it is refused"
+description: "Where a link sends the customer when it works, and when it's refused"
 icon: "signs-post"
 ---
 
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-Following a preset link always ends in a redirect. Where to depends on one thing: whether anything reached the cart.
+Following a preset link always ends in a redirect. Where it goes depends on one thing: whether anything reached the cart.
 
-If something did, the link worked — whole or in part — and **Redirect after adding** decides. If nothing did, the link was refused, and **Unavailable links** decides. Both live under **Settings → Cart behaviour**, and a preset can answer either for itself.
+If something did, the link worked, in whole or in part, and **Redirect after adding** decides. If nothing did, the link was refused, and **Unavailable links** decides. Both live under **Settings → Cart behaviour**, and a preset can answer either one for itself.
 
 ## Redirect after adding
 
-Set store-wide under **Settings → Cart behaviour → Redirect after adding**, and overridable per preset.
+Set this store-wide under **Settings → Cart behaviour → Redirect after adding**. A preset can override it.
 
 | Choice | Where they go | Key |
 | --- | --- | --- |
@@ -26,7 +26,7 @@ The same four choices, in the same words, appear store-wide and on a single pres
 
 **Cart** is the default and the safe choice: the customer sees what they got before they commit to it.
 
-**Checkout** shortens the path for a campaign where the offer is already understood.
+**Checkout** shortens the path for a campaign where the customer already knows the offer.
 
 **Stay on the page** is for links embedded in your own content. A button inside a blog post can fill the cart and leave the reader exactly where they were reading.
 
@@ -34,19 +34,19 @@ The same four choices, in the same words, appear store-wide and on a single pres
 
 ### How "stay" decides where that is
 
-From the referring page, and only if it is one of yours.
+From the referring page, and only if it's one of yours.
 
-A referer from another site is ignored and the customer goes to your home page instead. Otherwise any site could embed your preset link and bounce your customers back to themselves.
+A referer from another site is ignored, and the customer goes to your home page instead. Otherwise any site could embed your preset link and bounce your customers back to itself.
 
-No referer at all — a link pasted into the address bar, or a browser that sends none — also goes to your home page.
+No referer at all also goes to your home page. That's a link pasted into the address bar, or a browser that sends none.
 
 ### Per-preset override
 
-Each preset can choose its own destination in the editor's **Cart behaviour** card, under **Redirect after adding**, or leave it on **Use the Settings default**. That row names the store's current choice, so you can see what following the default means without leaving the page.
+Each preset can choose its own destination in the editor's **Cart behaviour** card, under **Redirect after adding**. Or leave it on **Use the Settings default**: that row names the store's current choice, so you can see what the default means without leaving the page.
 
 ## Unavailable links
 
-A link can be refused nine ways, and they all share one answer. Set it once and sold out, expired and not allowed are handled the same.
+A link can be refused ten ways, and they all share one answer. Set it once, and sold out, expired and not allowed are handled the same.
 
 | Setting | Choices | Key |
 | --- | --- | --- |
@@ -54,7 +54,7 @@ A link can be refused nine ways, and they all share one answer. Set it once and 
 | Custom URL | Required when a custom link is chosen | `refused_url` |
 | Show an error message | On by default | `refused_notice` |
 
-Each reason keeps its own sentence — "sold out" is not "please sign in". What is shared is where the customer goes and whether they are told anything at all.
+Each reason keeps its own sentence: "sold out" is not "please sign in". What they share is where the customer goes, and whether they're told anything at all.
 
 | Situation | Notice ID |
 | --- | --- |
@@ -69,7 +69,7 @@ Each reason keeps its own sentence — "sold out" is not "please sign in". What 
 | An item cannot be bought, and your rule is "refuse the preset" | `item_blocked` |
 | Every item failed at cart time | `nothing_added` |
 
-All ten sentences are yours to rewrite — see [Cart notices and wording](/cartpresets/links/wording).
+You can rewrite all ten sentences. See [Cart notices and wording](/cartpresets/links/wording).
 
 <Note>
   **The cart or a custom URL. That's the whole list.** There's no separate fallback link sitting behind these. If you want refused customers on your shop page, paste the shop page in as the custom URL, and then you can see where they land.
@@ -77,19 +77,19 @@ All ten sentences are yours to rewrite — see [Cart notices and wording](/cartp
 
 ### Telling them why
 
-The reason is shown as a WooCommerce notice, which the **theme** prints rather than this plugin.
+The reason is shown as a WooCommerce notice, and it's the **theme** that prints it, not this plugin.
 
-The cart always prints them, and so do the Cart and Checkout blocks. A custom landing page often does not: a page template that never calls `woocommerce_output_all_notices` shows nothing, however the switch is set. Worth testing the page you chose before a campaign goes out.
+The cart always prints them, and so do the Cart and Checkout blocks. A custom landing page often doesn't: a page template that never calls `woocommerce_output_all_notices` shows nothing, whatever the switch is set to. Test the page you chose before a campaign goes out.
 
 ### Overriding it on one preset
 
-A preset carries the same three keys, where `refused_action` also accepts `global` to follow the store. It is set in the editor's **Cart behaviour** card, under **Unavailable links**, and is Pro to edit — a stored answer is still honoured on the free version.
+A preset carries the same three keys, and on a preset `refused_action` also accepts `global`, which follows the store. You set it in the editor's **Cart behaviour** card, under **Unavailable links**. Editing it is Pro, but a stored answer is still honoured on the free version.
 
-A custom destination with no address resolves to the cart. Both screens refuse to save an empty one, so that is a floor under corrupted data rather than something you can configure.
+A custom destination with no address falls back to the cart. Both screens refuse to save an empty one, so this is a floor under corrupted data rather than something you can set up.
 
 ## A refusal is not a partial success
 
-Sometimes most of a preset works. That is a **success**, and none of the settings above about refusals apply to it: the customer keeps what could be added, **Redirect after adding** decides where they land, an automatic coupon still applies, and the caveat message explains what was skipped.
+Sometimes most of a preset works. That's a **success**, so none of the refusal settings above apply. The customer keeps what could be added, **Redirect after adding** decides where they land, an automatic coupon still applies, and the caveat message explains what was skipped.
 
 | Situation | Notice ID |
 | --- | --- |
@@ -98,13 +98,13 @@ Sometimes most of a preset works. That is a **success**, and none of the setting
 | One item is limited to one per order, so the quantity was trimmed | `item_qty_capped` |
 | One item is unavailable for any other reason | `item_unavailable` |
 
-Whether a failing item is skipped or refuses the whole preset is the **Unavailable items** setting — see [Items](/cartpresets/building/items). Choosing "Refuse the preset" turns that case into a refusal, `item_blocked`, and nothing reaches the cart.
+The **Unavailable items** setting decides whether a failing item is skipped or refuses the whole preset. See [Items](/cartpresets/building/items). Choose "Refuse the preset" and that case becomes a refusal, `item_blocked`, with nothing reaching the cart.
 
 ## External addresses work
 
-Custom destinations, per-preset custom URLs and refusal links may all point at another domain.
+Custom destinations, per-preset custom URLs and refusal links can all point at another domain.
 
-WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp-admin — sending your customer to a dashboard login. CartPresets passes merchant-configured destinations through a helper that allow-lists the host you actually configured, so the address you typed is the address they reach.
+WordPress's own `wp_safe_redirect()` would quietly rewrite an outside host to wp-admin, sending your customer to a dashboard login. CartPresets runs the destinations you configured through a helper that allow-lists that host, so the address you typed is the address they reach.
 
 <Note>
   This applies only to addresses **you** configured in settings. A host arriving in a request is never trusted.

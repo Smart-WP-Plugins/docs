@@ -9,44 +9,44 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Licensing applies to Pro only. The free version has no Licence card, because there is nothing to license.
+  Licensing applies to Pro only. The free version has no Licence card, because there's nothing to license.
 </Info>
 
 ## Activating
 
-**Cart Presets → Settings → Licence** — the card at the top of the Settings screen, above Carrier product. Paste the key from your purchase email and click **Activate**.
+**Cart Presets → Settings → Licence**. The card sits at the top of the Settings screen, above Carrier product. Paste the key from your purchase email and click **Activate**.
 
 <Media>The Licence card at the top of Settings, showing plan, expiry, sites used and the Sync and Deactivate this site buttons</Media>
 
-Once active the card shows your plan, the expiry date, how many of your activations are in use, and when the licence was last checked.
+Once active, the card shows your plan, the expiry date, how many of your activations are in use, and when the licence was last checked.
 
 | Button | Does |
 | --- | --- |
-| Sync | Re-checks with the licensing service now, rather than waiting for the next scheduled check |
+| Sync | Checks with the licensing service now, instead of waiting for the next scheduled check |
 | Deactivate this site | Releases this site's activation so you can use it elsewhere |
-| Renew / Buy a licence | Opens the store, when the licence has lapsed or was never bought |
+| Renew / Buy a licence | Opens the store, if the licence has lapsed or was never bought |
 
-The card's buttons act immediately. They are not part of the Settings save bar, so there is nothing to save afterwards, and **Discard** does not undo them.
+The card's buttons act immediately. They're not part of the Settings save bar, so there's nothing to save afterwards, and **Discard** won't undo them.
 
 <Tip>
-  Deactivate before migrating a site or tearing down a staging install. It frees the activation rather than leaving it held by a site that no longer exists.
+  Deactivate before you move a site or tear down a staging install. That frees the activation instead of leaving it held by a site that no longer exists.
 </Tip>
 
 ## What a licence buys
 
 **Updates and support.** Not the right to keep running what you already have.
 
-This is worth being explicit about, because plugins differ on it:
+Plugins differ on this, so it's worth spelling out:
 
 <Note>
-  **When your licence expires, the plugin carries on working exactly as installed.** Nothing switches off. Nothing is deleted. No setting stops applying. You stop receiving new versions until you renew.
+  **When your licence expires, the plugin carries on working exactly as installed.** Nothing switches off, nothing is deleted, and no setting stops applying. You just stop getting new versions until you renew.
 </Note>
 
-The tier is decided by which version is on disk, never by licence state. An expired licence leaves every Pro file exactly where it was, so every Pro feature keeps working.
+Which version is on disk decides the tier, never licence state. An expired licence leaves every Pro file exactly where it was, so every Pro feature keeps working.
 
 ## What is sent, and when
 
-Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates.
+Your licence key and site URL go to the licensing service: to activate, to check in periodically, and to look for updates.
 
 It runs from **wp-admin and cron only**. Your storefront never reaches it, so a customer browsing your shop never triggers a licence check.
 
@@ -54,17 +54,17 @@ The key is never written to a log, never returned in an API response, and never 
 
 ## Updates
 
-With an active licence, Pro updates appear on your Plugins screen like any other plugin. Update in place; your presets, items and settings are database rows and are untouched by the swap.
+With an active licence, Pro updates show up on your Plugins screen like any other plugin. Update in place. Your presets, items and settings are database rows, and the swap doesn't touch them.
 
-WordPress checks for updates on its own schedule — roughly twice a day, more often while you are sitting on the Updates screen.
+WordPress checks for updates on its own schedule: roughly twice a day, and more often while you're sitting on the Updates screen.
 
 ## The licence notice
 
-Without an active licence you get a dismissible warning — once inside the CartPresets panel, styled to match it, and once as a standard WordPress notice elsewhere in wp-admin. Both carry a **Manage licence** button that opens Settings scrolled to the Licence card. The in-panel copy is not shown on Settings itself, where the card is already in front of you.
+Without an active licence you get a dismissible warning. Inside the CartPresets panel it's styled to match the panel, and elsewhere in wp-admin it's a standard WordPress notice. Both carry a **Manage licence** button that opens Settings scrolled to the Licence card. You won't see the in-panel version on Settings itself, where the card is already in front of you.
 
-They are one message, not two. Dismissing either dismisses both, and it stays dismissed for that licence state. If the state changes — an expiry, a detached site — it returns, because it is now telling you something new.
+They're one message, not two. Dismiss either and both go, and they stay dismissed for that licence state. If the state changes, say an expiry or a detached site, the message comes back, because now it's telling you something new.
 
-The notice leads with what stopped and closes with what did not, because the true answer to *my licence lapsed* is that almost nothing changed.
+The notice leads with what stopped and ends with what didn't, because the honest answer to *my licence lapsed* is that almost nothing changed.
 
 ## Licence states
 
@@ -79,10 +79,10 @@ In all four, every Pro feature keeps working.
 
 ## Moving a site
 
-Staging and production count as separate activations. If you are out of activations:
+Staging and production count as separate activations. If you've run out:
 
 <Steps>
-  <Step title="Deactivate on the site you are leaving">
+  <Step title="Deactivate on the site you're leaving">
     **Cart Presets → Settings → Licence → Deactivate this site**.
   </Step>
   <Step title="Activate on the new one">
@@ -90,10 +90,10 @@ Staging and production count as separate activations. If you are out of activati
   </Step>
 </Steps>
 
-If the old site is already gone and still holding an activation, contact support — it can be released from our side.
+If the old site is already gone and still holding an activation, contact support. We can release it from our side.
 
 ## For developers
 
 `cartpresets_update_manifest_url` changes where a site looks for its release manifest. Point it elsewhere to run a pre-release channel, or return an empty string to switch automatic updates off for that site entirely.
 
-The licence is checked **before** the manifest is fetched, so the filter changes which release a licensed site is offered rather than bypassing licensing. See the [hooks reference](/cartpresets/developers/hooks-reference#updates-pro-only).
+The licence is checked **before** the manifest is fetched, so the filter changes which release a licensed site is offered. It doesn't bypass licensing. See the [hooks reference](/cartpresets/developers/hooks-reference#updates-pro-only).

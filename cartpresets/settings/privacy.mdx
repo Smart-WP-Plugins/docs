@@ -7,13 +7,13 @@ icon: "user-shield"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-CartPresets records one piece of personal data: a **redemption row**, written when an order containing a preset reaches one of the statuses that count towards purchase limits — on hold, processing or completed by default.
+CartPresets records one piece of personal data: a **redemption row**. It's written when an order containing a preset reaches one of the statuses that count towards purchase limits — on hold, processing or completed by default.
 
-Nothing is recorded while a customer is browsing, and nothing is recorded by following a preset link. The row is written at the order, and it is **removed again** if that order leaves the counted statuses, so a cancelled order does not leave a claim behind.
+Nothing is recorded while a customer is browsing, and nothing is recorded when they follow a preset link. The row is written at the order, and it's **removed again** if that order leaves the counted statuses, so a cancelled order doesn't leave a claim behind.
 
 ## What is recorded, and why
 
-A purchase limit has to recognise the same customer twice, or it cannot count.
+A purchase limit has to recognise the same customer twice, or it can't count.
 
 | Customer | Recorded as | Why |
 | --- | --- | --- |
@@ -26,7 +26,7 @@ A developer can change how customers are identified with `cartpresets_redemption
 
 ## Export Personal Data
 
-**Tools → Export Personal Data**, WordPress's own screen, lists CartPresets among its sources.
+WordPress's own **Tools → Export Personal Data** screen lists CartPresets among its sources.
 
 An export returns every preset that address claimed, under the heading **Preset claims**:
 
@@ -36,29 +36,29 @@ An export returns every preset that address claimed, under the heading **Preset 
 | Claimed on | The date and time of the claim |
 | Order | The order the claim belongs to, when there is one |
 
-An address answers for **both** keys it can have. Somebody who bought once as a guest and later opened an account with the same address is one person, whatever the table says, so both the guest rows and the account rows come back.
+An address answers for **both** keys it can have. Somebody who bought once as a guest and later opened an account with the same address is one person, whatever the table says, so you get back the guest rows and the account rows.
 
 ## Erase Personal Data
 
-**Tools → Erase Personal Data** anonymises the claim rather than deleting it. The customer key is replaced with a value derived from nothing about them, and WordPress reports the rows as **retained**, with a message explaining why.
+**Tools → Erase Personal Data** anonymises the claim rather than deleting it. The customer key is replaced with a value derived from nothing about them. WordPress reports the rows as **retained**, with a message explaining why.
 
 <Note>
   A redemption row says two things at once: **who** claimed a preset, and **that** the preset was claimed. The first is personal data. The second is stock.
 </Note>
 
-Deleting the row would give a limited run its slot back. A preset capped at fifty would be free to sell a fifty-first, because the record of one sale had gone — so one customer exercising their rights would quietly change what another customer can buy. Anonymising keeps the count honest and leaves nothing that identifies anyone.
+Deleting the row would give a limited run its slot back. A preset capped at fifty could sell a fifty-first, because the record of one sale had gone. One customer exercising their rights would quietly change what another customer can buy. Anonymising keeps the count honest and leaves nothing that identifies anyone.
 
 After an erasure:
 
 - The address is gone from the plugin's tables.
 - The claim still counts against the preset's total limit.
-- The person can claim that preset again, because nothing links the old claim to them — which is the correct reading of a forgotten customer.
+- The person can claim that preset again, because nothing links the old claim to them. That's the right result for a customer who has been forgotten.
 
 ## What the tools do not touch
 
-**Order line item meta stays.** Every preset order line carries the preset's ID and its name as it was at the time, and that is order history rather than personal data — it names a preset, not a person. See [Order line item meta](/cartpresets/developers/order-meta).
+**Order line item meta stays.** Every preset order line carries the preset's ID and its name as it was at the time. That's order history, not personal data: it names a preset, not a person. See [Order line item meta](/cartpresets/developers/order-meta).
 
-WooCommerce's own exporters and erasers still handle the order itself, the customer record and any downloads, exactly as they did before.
+WooCommerce's own exporters and erasers still handle the order itself, the customer record and any downloads, just as they always do.
 
 ## Nothing on your storefront
 
@@ -66,4 +66,4 @@ Both handlers register in wp-admin only. A shopper browsing your store never loa
 
 ## Uninstalling
 
-Erasing a customer is not the same as removing the tables. What an uninstall deletes is a separate, opt-in decision — see [Data and uninstall](/cartpresets/settings/data-and-uninstall).
+Erasing a customer isn't the same as removing the tables. What an uninstall deletes is a separate, opt-in decision — see [Data and uninstall](/cartpresets/settings/data-and-uninstall).

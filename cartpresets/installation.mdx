@@ -15,9 +15,9 @@ import { Media } from '/snippets/media.mdx';
 | WooCommerce | 8.0 |
 | PHP | 7.4 |
 
-Tested up to WordPress 7.1 and WooCommerce 11.0. CartPresets for WooCommerce supports High-Performance Order Storage, and works with both the classic and block-based cart and checkout.
+Tested up to WordPress 7.1 and WooCommerce 11.0. It supports High-Performance Order Storage and works with both the classic and block-based cart and checkout.
 
-WooCommerce Subscriptions is optional. With it, presets can contain subscription products and you get control over how far a discount reaches into renewals — see [Subscriptions](/cartpresets/building/subscriptions).
+WooCommerce Subscriptions is optional. With it, presets can contain subscription products and you can control how far a discount reaches into renewals. See [Subscriptions](/cartpresets/building/subscriptions).
 
 ## Installing the free version
 
@@ -29,7 +29,7 @@ Pro ships as a separate zip from your purchase email or account area. It install
 
 <Steps>
   <Step title="Deactivate and delete the free version, if you have it">
-    Your presets and settings live in database tables, not in the plugin folder, so deleting the free version does not touch them. Leave the uninstall cleanup options alone — they are opt-in and off by default, but check before you delete.
+    Your presets and settings live in database tables, not in the plugin folder, so deleting the free version doesn't touch them. Leave the uninstall cleanup options alone. They're opt-in and off by default, but check before you delete.
   </Step>
   <Step title="Upload the Pro zip">
     **Plugins → Add New Plugin → Upload Plugin**, choose the zip, install, activate.
@@ -40,14 +40,14 @@ Pro ships as a separate zip from your purchase email or account area. It install
 </Steps>
 
 <Warning>
-  Run one version at a time. Activating one while the other is active is refused, with a message naming both. If both somehow end up active, the second to load stands down and says so, rather than letting two copies fight over the same tables.
+  Run one version at a time. If one is already active, activating the other is refused with a message naming both. If both do end up active, the second to load stands down and says so, rather than letting two copies fight over the same tables.
 </Warning>
 
 <Media>The Plugins screen with CartPresets for WooCommerce Pro active and the licence notice above it</Media>
 
 ## What activation does
 
-Activation creates four database tables, carrying your site's table prefix:
+Activation creates four database tables, each with your site's table prefix:
 
 | Table | Holds |
 | --- | --- |
@@ -58,23 +58,23 @@ Activation creates four database tables, carrying your site's table prefix:
 
 It also registers the `/preset/` rewrite rule and flushes permalinks once.
 
-On a first activation it also stores the shipped default for every setting. A store that already has settings — a reinstall, or a switch between versions — keeps them untouched. The carrier product is not created at activation; the Settings screen offers to create one when you need it.
+On a first activation it stores the shipped default for every setting. A store that already has settings keeps them untouched, whether that's a reinstall or a switch between versions. The carrier product isn't created at activation; the Settings screen offers to create one when you need it.
 
 ## Moving between versions
 
 Both versions read and write the same tables, so switching either way migrates nothing and loses nothing.
 
-**Free to Pro.** Your existing presets are untouched. Any Pro setting you were never able to reach is still at its default, ready to set.
+**Free to Pro.** Your existing presets are untouched. Any Pro setting you couldn't reach before is still at its default, ready to set.
 
-**Pro to free.** Your presets, items and settings stay exactly as they are. The Pro controls stop being editable, and your stored answers stay on the record — reinstalling Pro turns them back on rather than asking you to set them up again.
+**Pro to free.** Your presets, items and settings stay exactly as they are. The Pro controls stop being editable, and your stored answers stay on the record. Reinstalling Pro turns them back on rather than asking you to set them up again.
 
 Two things stop *applying* rather than staying on, because leaving them running would be worse:
 
-- **An automatic coupon** is no longer applied. A discount you can no longer see or switch off would keep discounting orders.
-- **Custom items** are not added to the cart. They stay with the preset and come back if you upgrade, and the editor marks them so rather than quietly pricing something the cart will drop.
+- **An automatic coupon** is no longer applied. A discount you can't see or switch off would go on discounting orders.
+- **Custom items** aren't added to the cart. They stay with the preset and come back if you upgrade, and the editor marks them rather than quietly pricing something the cart will drop.
 
 A schedule already set and a cap already filled are still honoured. Those switch a link **off**, and moving to the free version must not put a link back on sale that your own schedule or cap had stopped.
 
 ## Uninstalling
 
-Deleting the plugin removes nothing by default — not your presets, not your settings, not the carrier product. Each category has its own opt-in switch under **Settings → Data management**. See [Data and uninstall](/cartpresets/settings/data-and-uninstall).
+Deleting the plugin removes nothing by default: not your presets, not your settings, not the carrier product. Each category has its own opt-in switch under **Settings → Data management**. See [Data and uninstall](/cartpresets/settings/data-and-uninstall).

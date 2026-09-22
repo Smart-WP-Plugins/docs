@@ -11,15 +11,15 @@ Presets work with WooCommerce Subscriptions products on both versions. What diff
 
 ## The question a subscription raises
 
-A 20% discount on a one-off product is unambiguous. On a subscription it is not: does it buy the **first payment**, or **every renewal for the life of the subscription**?
+A 20% discount on a one-off product is clear enough. On a subscription it isn't: does it buy the **first payment**, or **every renewal for the life of the subscription**?
 
-Get that wrong in the generous direction and you discover, from a subscription that has been renewing for a year, that a link you made once granted a permanent discount.
+Get that wrong in the generous direction and you find out a year later, from a subscription that's still renewing, that a link you made once granted a permanent discount.
 
 ## What the free version does
 
 **The first payment, with the sign-up fee charged.** Always, whatever the item's stored settings say.
 
-That is the conservative reading, and it is what shared code performs with nothing attached. The asymmetry is the point: a merchant who cannot see the controls must not be surprised by a permanent discount.
+That's the cautious reading, and it's what shared code does with nothing attached. It leans one way on purpose: if you can't see the controls, a permanent discount mustn't take you by surprise.
 
 <Note>
   The two settings are **stored** on both versions. Upgrading turns your existing answers on rather than asking you to set them up again.
@@ -40,15 +40,19 @@ Each subscription item in the editor gets a **Payments** field and a **Waive the
 
 Payments are counted the way WooCommerce Subscriptions counts them, **including the first one**. "Three payments" means the initial order and two renewals.
 
+<Warning>
+  **An empty Payments field means every payment, so check it before you upgrade.** On the free version a subscription item is always discounted for the first payment only. On Pro the field is read, and left empty it means the life of the subscription. An item you never filled in therefore discounts one payment on free and every payment on Pro. If you built subscription items before upgrading, set a number on each one first.
+</Warning>
+
 <Tip>
-  This is what an introductory offer actually needs: three months at a discount, then the normal price, without anybody having to intervene.
+  This is what an introductory offer actually needs: three months at a discount, then the normal price, with nobody having to step in.
 </Tip>
 
 ### When the discount runs out
 
-The line is actively restored to the product's own live price — restored, not merely skipped, because the initial pass has already stamped the discounted price onto the line.
+The line is actively restored to the product's own live price. Restored, not just skipped, because the first pass has already stamped the discounted price onto the line.
 
-The price renewals return to is the same baseline the editor quoted. If the item uses **Use the regular price instead of the sale price**, renewals bill the regular price even if a sale is running at the time, so a sale cannot stamp a lower renewal price than you configured.
+The price renewals return to is the same baseline the editor quoted. If the item uses **Use the regular price instead of the sale price**, renewals bill the regular price even if a sale is running at the time, so a sale can't stamp a lower renewal price than you set.
 
 ### Waive the sign-up fee
 
@@ -60,15 +64,15 @@ On the free version the switch shows **off**, because the fee is always charged 
 
 Three things hold automatically:
 
-- **Renewal orders never consume a purchase-limit slot.** They inherit the preset's meta from the subscription, and without the guard one subscriber's renewals would exhaust a capped preset alone.
+- **Renewal orders never consume a purchase-limit slot.** They inherit the preset's meta from the subscription, and without the guard one subscriber's renewals would use up a capped preset on their own.
 - **A renewal paid through the cart is never repriced.** The subscription decides what a renewal costs, not the preset.
-- **Products that may only be bought as a subscription plan** — All Products for Subscriptions' forced mode — are refused as preset items. A preset adds by product ID with no plan, and two pricing engines fighting over one line means one of the two prices shown is a lie.
+- **Products that can only be bought as a subscription plan** — All Products for Subscriptions' forced mode — are refused as preset items. A preset adds by product ID with no plan, and when two pricing engines fight over one line, one of the two prices shown is wrong.
 
 ## A known limitation
 
-Where a discount covers a fixed number of payments, WooCommerce's cart line still renders a recurring price string — "36.00 every month" — that the discount will not hold for the whole life of the subscription.
+Where a discount covers a fixed number of payments, WooCommerce's cart line still shows a recurring price string — "36.00 every month" — that the discount won't hold for the whole life of the subscription.
 
-The string comes from Subscriptions' own templates, built before the preset's terms are resolved. The order confirmation and the subscription record are correct. Say so in your offer copy if the distinction matters to your customers.
+The string comes from Subscriptions' own templates, built before the preset's terms are worked out. The order confirmation and the subscription record are correct. Say so in your offer copy if the difference matters to your customers.
 
 ## Settings reference
 
@@ -81,4 +85,4 @@ The string comes from Subscriptions' own templates, built before the preset's te
 
 Both are resolved through `cartpresets_item_subscription_terms`, returning `[ 'payments' => int, 'waive_fee' => bool ]`, where `payments` counts the payments the discount covers **including the one being made now** and `0` means every payment for the life of the subscription.
 
-Seeded conservatively — one payment, fee charged — and safety-clamped: an array with no `payments` key reads as `1` rather than `0`, and the value goes through `absint()`, so no listener can grant an endless discount by accident. See the [hooks reference](/cartpresets/developers/hooks-reference#pricing).
+Seeded cautiously — one payment, fee charged — and clamped for safety. An array with no `payments` key reads as `1` rather than `0`, and the value goes through `absint()`, so no listener can grant an endless discount by accident. See the [hooks reference](/cartpresets/developers/hooks-reference#pricing).

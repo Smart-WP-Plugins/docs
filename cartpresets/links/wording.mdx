@@ -7,33 +7,33 @@ icon: "comment"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-Every sentence and label a customer reads is editable, under **Settings → Messages and labels → Edit wording**. There are twenty-one, in four groups.
+You can edit every sentence and label a customer reads, under **Settings → Messages and labels → Edit wording**. There are twenty-one, in four groups.
 
-The screen draws twenty-two fields for them: `limit_customer` changes with the number, so it is edited as a singular and a plural pair.
+The screen shows twenty-two fields for them: `limit_customer` changes with the number, so you edit it as a singular and plural pair.
 
-Leave one blank and the shipped wording is used — so you only ever store what you actually changed, and a release that improves a default reaches you automatically.
+Leave one blank and the shipped wording is used. You only ever store what you changed, so an improved default reaches you automatically.
 
 <Media>The Messages and labels section with the four groups, one expanded</Media>
 
 ## Error messages
 
-Ten messages for a link that could not be followed. They are the nine ways a link is refused — see [Where customers land](/cartpresets/links/destinations#unavailable-links) for where the customer goes afterwards.
+Ten messages for a link that couldn't be followed, one for each of the ten ways a link is refused. See [Where customers land](/cartpresets/links/destinations#unavailable-links) for where the customer goes next.
 
 | ID | When | Shipped wording |
 | --- | --- | --- |
-| `not_found` | The link matches no preset — mistyped, deleted, or renamed more than 30 days ago | That link is not valid. It may have been changed or removed. |
+| `not_found` | The link matches no preset: mistyped, deleted, or renamed more than 30 days ago | That link is not valid. It may have been changed or removed. |
 | `scheduled` | Status is scheduled<Pro /> | This preset is not available yet. |
 | `unavailable` | Expired, inactive, or sold out | This preset is no longer available. |
 | `limit_total` | Total cap hit<Pro /> | This preset has reached its purchase limit and is no longer available. |
 | `limit_customer` | Per-customer cap hit<Pro /> | This preset is limited to %d purchase per customer. / This preset is limited to %d purchases per customer. |
 | `not_signed_in` | The preset is for signed-in customers only<Pro /> | Please sign in to use this preset. |
-| `role_not_allowed` | The customer does not hold one of the roles the preset allows<Pro /> | This preset is not available on your account. |
+| `role_not_allowed` | The customer doesn't hold one of the roles the preset allows<Pro /> | This preset is not available on your account. |
 | `no_items` | The preset has no items | This preset is not available right now. |
 | `item_blocked` | An item failed and **Unavailable items** is set to **Refuse the preset** | This preset is unavailable because one of its items cannot be purchased right now. |
 | `nothing_added` | Every add failed at cart time | Nothing in this preset could be added to your cart. |
 
 <Warning>
-  Write `not_found` for a stranger. Anyone can guess a URL, and the shipped wording deliberately does not say whether the preset ever existed. It also cannot be switched off — an empty override falls back to the default — so it has to be safe in front of anyone.
+  Write `not_found` for a stranger. Anyone can guess a URL, and the shipped wording deliberately doesn't say whether the preset ever existed. You can't switch it off either, because an empty override falls back to the default, so it has to be safe in front of anyone.
 </Warning>
 
 <Note>
@@ -53,7 +53,7 @@ Four messages for a link that worked with a caveat. Nothing here is a refusal: s
 
 ## Cart messages
 
-Four messages about editing a preset that is already in the cart.
+Four messages about editing a preset that's already in the cart.
 
 | ID | When | Shipped wording |
 | --- | --- | --- |
@@ -73,7 +73,7 @@ Three labels rather than notices, shown on the cart line, the order, and in emai
 | `cart_details` | The second cart row on a custom item<Pro />, heading its description | Details |
 
 <Tip>
-  `cart_line` is the one most stores change. "Part of preset" is accurate and a little technical — "Bundle", "Included in your kit" or your campaign's own name often reads better to a customer.
+  `cart_line` is the one most stores change. "Part of preset" is accurate but a little technical. "Bundle", "Included in your kit" or your campaign's own name often reads better to a customer.
 </Tip>
 
 ## Placeholders
@@ -90,41 +90,41 @@ Five messages contain a placeholder that carries a value:
 
 These are checked when you save, in both directions:
 
-- **Dropping one** leaves a sentence that reads as a typo — *"limited to purchases per customer"*.
+- **Dropping one** leaves a sentence that reads like a typo: *"limited to purchases per customer"*.
 - **Adding one** would break the cart page in front of a customer.
 
-Either is refused with the offending row named, so you cannot save a message that would fail later.
+Either one is refused, and the row at fault is named, so you can't save a message that would fail later.
 
 ## The one plural
 
-`limit_customer` is the only message whose grammar changes with the number, so it is stored as a pair — singular and plural. Each falls back on its own, so rewriting only the plural gives you your sentence for two and the shipped one for one, rather than *"1 purchases"*.
+`limit_customer` is the only message whose grammar changes with the number, so it's stored as a pair: singular and plural. Each one falls back on its own. Rewrite only the plural and you get your sentence for two and the shipped one for one, rather than *"1 purchases"*.
 
 <Note>
-  If your store translates into a language with more than two plural forms, leaving this one at its default is genuinely better than rewriting it. The default path keeps proper plural handling in every locale; an override has exactly two forms in any language.
+  If your store translates into a language with more than two plural forms, you're better off leaving this one at its default. The default keeps proper plural handling in every locale. An override has exactly two forms, whatever the language.
 </Note>
 
 ## Translating
 
-Two halves, and they translate differently.
+There are two halves, and they translate differently.
 
-**Wording you have not touched** goes through WordPress's normal translation functions and is in the `.pot` file like everything else. Nothing special is needed.
+**Wording you haven't touched** goes through WordPress's normal translation functions, and it's in the `.pot` file like everything else. Nothing special needed.
 
-**Wording you have rewritten** is a value in an option, and an option value is data rather than a translatable string. CartPresets ships a `wpml-config.xml` naming every key so a translation plugin can pick it up.
+**Wording you've rewritten** is a value in an option, and an option value is data, not a translatable string. CartPresets ships a `wpml-config.xml` that names every key, so a translation plugin can pick it up.
 
 <Warning>
-  **WPML needs String Translation, not just WPML core.** Verified against WPML 4.9.7. Core parses the config block, but the class that registers and translates those keys ships with the **WPML String Translation** add-on. Without it the config file is read and then ignored — no error, no notice, just untranslated wording on a store that believes it is set up.
+  **WPML needs String Translation, not just WPML core.** Checked against WPML 4.9.7. Core parses the config block, but the class that registers and translates those keys ships with the **WPML String Translation** add-on. Without it the config file is read and then ignored. No error, no notice, just untranslated wording on a store you think is set up.
 </Warning>
 
 **Polylang** reads the same file through its own WPML-config compatibility and needs no add-on.
 
 ### Why String Translation only lists some of them
 
-It lists the ones you have actually rewritten, and that is correct rather than a gap.
+It lists the ones you've actually rewritten. That's correct, not a gap.
 
-WPML builds its list by intersecting the keys named in the config against the keys the option currently holds — and CartPresets stores only your overrides. A notice still at its shipped wording has nothing to translate there because it is translated through gettext instead.
+WPML builds its list from the keys that are named in the config and held in the option, and CartPresets stores only your overrides. A notice still at its shipped wording has nothing to translate there, because gettext translates it instead.
 
 So the list grows as you edit. A store that has reworded nothing sees nothing.
 
 ## For developers
 
-`cartpresets_notice_text` filters one customer-facing sentence before its values are put in, receiving the wording, the notice ID, and whether this is the plural form of a pair. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).
+`cartpresets_notice_text` filters one customer-facing sentence before its values are put in. It receives the wording, the notice ID, and whether this is the plural form of a pair. See the [hooks reference](/cartpresets/developers/hooks-reference#cart).
