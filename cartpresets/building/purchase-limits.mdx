@@ -14,7 +14,7 @@ import { Media } from '/snippets/media.mdx';
 
 A limit caps how many times the offer may be claimed. Set a total, a per-customer cap, or both.
 
-<Media>The Availability card showing the total cap, the per-customer cap, and the usage meter</Media>
+<Media>The Usage restrictions card showing Maximum orders, Maximum orders per customer and the usage meter</Media>
 
 ## Claims, not units
 
@@ -27,7 +27,7 @@ They are different questions, and they multiply. A total of 50 with a quantity o
 
 ## Which orders consume a slot
 
-A slot is taken when an order enters one of the statuses you nominate, under **Settings → Cart behaviour → Order statuses that use up a purchase limit**.
+A slot is taken when an order enters one of the statuses you nominate, under **Settings → Usage limits → Count orders with these statuses**.
 
 The default is **On hold**, **Processing** and **Completed**. On hold is in the set because a bank-transfer order is a real commitment — leaving it out would let a limited run be oversold by everyone who pays by transfer.
 
@@ -76,12 +76,14 @@ Two separate messages, both editable:
 | Total cap hit | This preset has reached its purchase limit and is no longer available. | `limit_total` |
 | Per-customer cap hit | This preset is limited to %d purchase per customer. (plural: …%d purchases per customer.) | `limit_customer` |
 
-A preset whose total is used up reads as **Sold out**, and what the customer meets is the same choice a [schedule](/cartpresets/building/scheduling) uses: the cart with a notice, or a redirect. A customer turned away by the per-customer cap gets its message and is sent to your store's fallback link.
+A preset whose total is used up reads as **Sold out**. Both messages land the same way every refusal does now: the **Unavailable links** setting decides where the customer goes — the cart, or a custom link — and whether they are told why at all. See [Where customers land](/cartpresets/links/destinations).
 
 ## Settings reference
 
 | Setting | Level | Key | Default |
 | --- | --- | --- | --- |
-| Maximum purchases | Preset | `max_total` | Empty (no cap) |
-| Maximum per customer | Preset | `max_per` | `0` (no cap) |
-| Statuses that consume a slot | Store | `redemption_statuses` | on-hold, processing, completed |
+| Maximum orders | Preset | `max_total` | Empty (no cap) |
+| Maximum orders per customer | Preset | `max_per` | `0` (no cap) |
+| Count orders with these statuses | Store | `redemption_statuses` | on-hold, processing, completed |
+
+Both caps sit in the **Usage restrictions** card, in the **Purchase limits** row beside **Preset ends on**.

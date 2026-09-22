@@ -92,7 +92,8 @@
             "pages": [
               "cartpresets/settings/reference",
               "cartpresets/settings/carrier-product",
-              "cartpresets/settings/data-and-uninstall"
+              "cartpresets/settings/data-and-uninstall",
+              "cartpresets/settings/privacy"
             ]
           },
           "cartpresets/analytics",

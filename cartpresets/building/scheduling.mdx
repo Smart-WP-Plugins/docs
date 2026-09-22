@@ -12,9 +12,9 @@ import { Media } from '/snippets/media.mdx';
   Scheduling is a Pro feature. On the free version a preset goes live the moment you save it with the status switch on, and never ends on its own. The date controls are visible but locked — and a date already stored still holds a preset back or ends it.
 </Info>
 
-A schedule is two dates and a decision about what a customer meets once the second one has passed.
+A schedule is two dates, and what a customer meets once the second one has passed is the same answer every other refused link gets.
 
-<Media>The Preset details card with the Date field, and the Limits and schedule card with the Ends field</Media>
+<Media>The Preset details card with the Date field, and the Usage restrictions card with Preset ends on</Media>
 
 ## The start date
 
@@ -30,7 +30,9 @@ Dates are whole days, on your store's clock. A start date opens at the first mom
 
 ## The end date
 
-Set **Ends**, in the **Limits and schedule** card, and the preset stops selling once that day is over. It reads as **Expired** afterwards.
+Set **Preset ends on**, in the **Usage restrictions** card, and the preset stops selling once that day is over. It reads as **Expired** afterwards.
+
+It is the third field in the **Purchase limits** row, beside the two caps — the three answer one question between them: when does this link stop selling, and after how many orders.
 
 A seasonal offer closes itself instead of relying on someone remembering.
 
@@ -38,24 +40,30 @@ A cart filled before the deadline cannot check out after it: checkout asks the s
 
 ## What happens when it ends
 
-An ended preset is not a broken link. What a customer meets is your choice, set store-wide under **Settings → Links and fallbacks** and overridable per preset. The same choice covers a preset whose purchase limit is used up.
+An ended preset is not a broken link, and it is not a special case either. Where the customer lands is the store's **Unavailable links** setting, which answers for every way a link can be refused — expired, sold out, switched off, used up, restricted, or pointing at no preset at all.
 
-| Level | Choices |
-| --- | --- |
-| Store | **Show a notice that it is unavailable** — on by default. **Redirect to the fallback link** — off by default, which sends the customer to the cart |
-| Preset | **Use the Settings default**, or its own pair: the notice switch, and **Redirect to a link** with an address of its own |
+| Level | Where | Choices |
+| --- | --- | --- |
+| Store | **Settings → Cart behaviour → Unavailable links** | **Cart** (the default) or **Custom URL**, plus **Show an error message** |
+| Preset<Pro /> | The editor's **Cart behaviour** card, under **Unavailable links** | **Use the Settings default**, or its own answer and its own **Custom link** |
 
-The notice and the redirect are separate questions. The redirect decides where the customer lands; the notice decides whether they are told why. The notice defaults to **on**, and that default is deliberate: a customer who follows a link they were given, arrives at an empty cart, and is told nothing has been told your store is broken.
+The destination and the message are separate questions. **Show an error message** defaults to on, and that default is deliberate: a customer who follows a link they were given, arrives holding nothing new, and is told nothing has been told your store is broken.
 
-Turn it off once you have somewhere better to send them — typically alongside a redirect to a landing page that explains the offer has closed and shows what else you sell. A preset redirect left without an address falls through to the store's fallback link, and then to your shop page.
+Turn it off once you have somewhere better to send them — typically alongside a custom link to a landing page that explains the offer has closed and shows what else you sell.
 
-<Media>The Limits and schedule card showing the end date and the end-of-life choices</Media>
+<Warning>
+  A custom page only shows the reason if it prints WooCommerce notices. Most themes do on WooCommerce pages; a landing page often does not. The cart always does.
+</Warning>
+
+Full detail: [Where customers land](/cartpresets/links/destinations).
+
+<Media>The editor's Cart behaviour card showing Unavailable links and its custom link field</Media>
 
 ## Putting an ended preset back on sale
 
 Clearing the end date brings it back. Two ways in:
 
-- The **Ends** field in the editor — clear it and save.
+- The **Preset ends on** field in the editor — clear it and save.
 - **Clear end date** in the listing's row menu, which only appears on presets that have one.
 
 <Note>
@@ -83,9 +91,12 @@ That is why a preset can go live on a site nobody visited overnight: there is no
 | Setting | Level | Key | Default |
 | --- | --- | --- | --- |
 | Date (publish) | Preset | `created_at` | Now |
-| Ends | Preset | `end_at` | Empty |
-| When a preset reaches its limit or end date | Store | `unavailable_action` | `notice` |
-| When a preset reaches its limit or end date | Preset | `unavailable_action` | `global` |
-| Redirect address | Preset | `unavailable_url` | Empty |
-| Show a notice that it is unavailable | Store | `unavailable_notice` | On |
-| Show a notice that it is unavailable | Preset | `unavailable_notice` | On |
+| Preset ends on | Preset | `end_at` | Empty |
+| Unavailable links | Store | `refused_action` | `cart` |
+| Custom link | Store | `refused_url` | Empty |
+| Show an error message | Store | `refused_notice` | On |
+| Unavailable links | Preset | `refused_action` | `global` |
+| Custom link | Preset | `refused_url` | Empty |
+| Show an error message | Preset | `refused_notice` | On |
+
+The store-wide answer is editable on both versions. Setting one on a single preset needs Pro, and one already stored is honoured on either.

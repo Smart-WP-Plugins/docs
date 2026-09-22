@@ -97,6 +97,20 @@ Snapshotting the name matters: renaming a preset next year must not rewrite what
 
 See [Order line item meta](/cartpresets/developers/order-meta).
 
+## One answer for a refused link
+
+A preset link can be refused nine ways: no such slug, not started, ended, switched off, sold out, either cap full, not eligible, an item that cannot be bought, or nothing addable at all.
+
+They used to travel two code paths that disagreed about where the customer ended up. `Support\Refusal::resolve()` is the single answer now, and `PresetUrlHandler::refuse()` the single caller. The keys are `refused_action` (`cart` or `custom`), `refused_url` and `refused_notice`, at store level and on each preset, where the action also takes `global` to follow the store. One level answers all three questions — a destination read from the preset and a notice switch read from the store would be a combination neither screen ever showed.
+
+**A refusal is not a partial success.** The split is `empty( $added )`: nothing reached the cart, or something did. Anything that reached it keeps the post-add destination, its own caveat notice, the automatic coupon and `cartpresets_after_add_to_cart`.
+
+## Personal data
+
+One row holds it: a redemption, written when a customer claims a preset that carries a purchase limit. A signed-in customer is recorded as their account, a guest by their billing email — the only way to recognise the same guest twice.
+
+`Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser **anonymises** rather than deletes, because a redemption row says both who claimed a preset and that it was claimed, and removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
+
 ## Licensing and updates<Pro />
 
 Licences are sold and checked through Freemius, but the Freemius SDK is **not** bundled. Pro talks to the Freemius REST API directly from one small client. The SDK would have to initialise on every request, front end included; this client runs from wp-admin and cron only, so licensing adds nothing to a storefront request.

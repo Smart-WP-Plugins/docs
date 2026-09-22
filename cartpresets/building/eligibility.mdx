@@ -9,20 +9,26 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Eligibility is a Pro feature. On the free version the two settings are stored but not enforced — every visitor is eligible. The controls are visible and locked.
+  Eligibility is a Pro feature. On the free version the two settings are stored but not enforced — every visitor is eligible. The sign-in switch is drawn off and locked, and the role picker does not appear at all.
 </Info>
 
 By default anyone holding the link can use it. Eligibility narrows that to signed-in customers, or to particular roles.
 
-<Media>The "Link restrictions" card with the sign-in switch on, two roles chosen, and a rejection message</Media>
+It lives in the editor's **Usage restrictions** card, under **Customer access**.
 
-## Two gates
+<Media>The Customer access block with the sign-in switch on and two roles chosen</Media>
 
-**Signed-in customers only.** A guest following the link is turned away with a notice asking them to sign in, and sent to your store's fallback link. Once signed in, they can follow the link again.
+## Two gates, and one belongs to the other
 
-**Limit to roles.** Choose one or more WordPress roles. A visitor whose account does not hold one of them is turned away.
+**Signed-in customers only.** A guest following the link is refused, exactly as any other refused visitor is: they are told why, and go wherever your **Unavailable links** setting sends them. Once signed in, they can follow the link again.
 
-Choosing roles implies sign-in: a logged-out visitor has no role to match.
+**Limit to roles.** Choose one or more WordPress roles. A visitor whose account holds none of them is turned away.
+
+The role picker appears **only while the sign-in switch is on**, and turning that switch off clears the roles it held. Roles are a narrowing of "signed in", never a rule of their own — a guest holds no roles, so a role list without the switch would refuse every visitor while the screen showed no sign-in requirement at all.
+
+<Note>
+  The same rule holds below the screen: a role list stored without the switch turns the switch on when it is saved. An import or a filter cannot smuggle in a restriction the editor has no way to show you.
+</Note>
 
 <Tip>
   This is how a wholesale or staff preset stays out of public reach even though the link itself is not secret.
@@ -34,19 +40,30 @@ Both are facts WordPress knows with certainty on every request.
 
 Ship-to region was considered and removed. A visitor's country is frequently unknowable at the moment they click a link, and a restriction that silently holds for some visitors and not others is worse than no restriction at all — you would believe the preset was protected when it was not.
 
-## What a rejected visitor sees
+## What a rejected visitor reads
 
-Your own message, as a notice, and then your store's fallback URL.
+Two sentences, both store-wide, both editable under **Settings → Messages and labels**:
 
-The message is set per preset under **If a visitor is not eligible**, so a wholesale link can say something different from a staff one. Leave it empty and the shipped wording is used: _Please sign in to use this preset._ for a guest, _This preset is not available on your account._ for a missing role.
+| Situation | Shipped wording | Notice ID |
+| --- | --- | --- |
+| A guest meets a signed-in-only preset | Please sign in to use this preset. | `not_signed_in` |
+| An account holds none of the allowed roles | This preset is not available on your account. | `role_not_allowed` |
+
+A guest meeting a role-restricted preset reads the **sign-in** sentence, not the account one: roles imply sign-in, and that gate is asked first. It is also the more useful message for somebody who is not signed in.
+
+<Note>
+  These used to be one message set on each preset, in a field none of the other eight refusal sentences lived beside. They are part of the wording catalogue now, so every sentence a customer can read is edited in one place.
+</Note>
 
 <Warning>
-  Write the message for a stranger. Anyone with the link can trigger it, so it should not confirm what the preset contains or who it is for.
+  Write them for a stranger. Anyone with the link can trigger them, so they should not confirm what the preset contains or who it is for.
 </Warning>
 
 ## Where they land
 
-The store's **not-found fallback**, under **Settings → Links and fallbacks**. Leave it empty and they go to your shop page.
+Wherever every refused visitor lands: the **Unavailable links** setting, under **Settings → Cart behaviour**, overridable per preset. The cart, or a custom link of your own. See [Where customers land](/cartpresets/links/destinations).
+
+There is **no sign-in redirect**. A guest is not sent to a login form and returned — the plugin refuses the link and says why, and where they go next is your setting rather than a special case.
 
 External addresses work. A merchant-configured destination passes through a redirect helper that allow-lists the host you configured — WordPress's own `wp_safe_redirect()` would silently rewrite a foreign host to wp-admin, which would send a rejected customer to your dashboard login.
 
@@ -56,14 +73,17 @@ WooCommerce's Cart and Checkout **blocks** on a classic theme never print the cl
 
 CartPresets prepends the pending queue to both blocks through WooCommerce's own notice templates, so your rejection message arrives whichever cart your theme uses.
 
+<Warning>
+  A custom link is the one place a message can go unseen: the page you send them to has to print WooCommerce notices, and a landing page often does not.
+</Warning>
+
 ## Settings reference
 
 | Setting | Level | Key | Default |
 | --- | --- | --- | --- |
 | Signed-in customers only | Preset | `logged_in` | Off |
-| Allowed roles | Preset | `roles` | Empty (all) |
-| Rejection message | Preset | `reject_message` | Empty (shipped wording) |
-| Fallback URL | Store | `not_found_url` | Empty (shop page) |
+| Limit to roles | Preset | `roles` | Empty (any signed-in customer) |
+| Unavailable links | Store | `refused_action` | `cart` |
 
 ## For developers
 

@@ -24,7 +24,7 @@ The pretty form needs pretty permalinks enabled in WordPress. The query form wor
 
 ## Changing the base and the parameter
 
-Both halves are yours, under **Settings → Links and fallbacks**:
+Both halves are yours, under **Settings → Link settings**:
 
 | Setting | Key | Default | Controls |
 | --- | --- | --- | --- |
@@ -45,7 +45,7 @@ Change a preset's slug and the old one keeps working for **30 days**, as a perma
 
 That window exists because a link, once shared, is out of your hands. A newsletter sent last week cannot be edited. Thirty days is long enough for traffic from an existing campaign to drain.
 
-After 30 days the old slug stops resolving and meets the not-found fallback.
+After 30 days the old slug stops resolving and is refused like any other link that matches no preset.
 
 <Tip>
   Each rename adds its own entry, so a preset renamed twice has both old slugs redirecting — each expiring 30 days from its own rename.
@@ -59,9 +59,9 @@ Check the **Preset link** card after saving if the exact slug matters to you.
 
 ## When a link does not resolve
 
-A mistyped slug, a deleted preset, or a rename older than 30 days all reach the same place: your **fallback link**, under **Settings → Links and fallbacks**. Leave it empty and customers go to your shop page.
+A mistyped slug, a deleted preset, or a rename older than 30 days are all refused, and go wherever **Settings → Cart behaviour → Unavailable links** sends a refused customer: the cart by default, or a custom URL of your own. That one setting answers for every way a link can be refused — see [Where customers land](/cartpresets/links/destinations#unavailable-links).
 
-They also get a notice — *That link is not valid. It may have been changed or removed.*
+They also get a notice, while **Show an error message** is on — _That link is not valid. It may have been changed or removed._
 
 The shipped wording deliberately does not say whether the preset ever existed. Anyone can guess a URL, and a message confirming what used to be there tells a stranger more than it tells your customer. You can reword it; see [Cart notices and wording](/cartpresets/links/wording).
 
@@ -69,7 +69,7 @@ The shipped wording deliberately does not say whether the preset ever existed. A
 
 Any query parameters on a preset link — `?utm_source=newsletter` and friends — are always carried through the redirect to wherever the customer lands, so your analytics still attribute the visit.
 
-**Append the preset name as a UTM campaign** (**Settings → Links and fallbacks**, off by default) also adds `utm_campaign=<preset slug>` to the destination, so every preset is separable in your analytics without tagging links by hand.
+**Append the preset name as a UTM campaign** (**Settings → Link settings**, off by default) also adds `utm_campaign=<preset slug>` to the destination, so every preset is separable in your analytics without tagging links by hand.
 
 ## Settings reference
 

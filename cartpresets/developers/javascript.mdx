@@ -46,6 +46,10 @@ status.isSpent( 'expired' );        // true: stopped selling on its own
 
 Status is derived from the status switch, the dates and the caps every time it is read — never stored. Asking these rather than reading a field is what keeps your answer the same as the plugin's.
 
+`siteToday()` is exported alongside them: today's date in the **store's** timezone, which is what the ladder compares against. A browser's own date would read midnight differently for a merchant abroad.
+
+The five names are also exported as constants — `ACTIVE`, `SCHEDULED`, `EXPIRED`, `SOLD_OUT`, `INACTIVE`.
+
 ## format
 
 Your store's own currency and date settings, already resolved.
@@ -55,7 +59,7 @@ format.money( 42.5 );                // in the store's currency, symbol position
 format.shortDate( '2026-09-10' );    // in the store's date format
 ```
 
-Also exported: `count()`, `percent( part, whole )`, `shortDateTime()` and `slugify()`.
+Also exported: `count()`, `percent( part, whole )`, `shortDateTime()`, `slugify()` and `slugTyping()` — the last one being the forgiving variant the editor uses while a merchant is still typing a slug.
 
 The currency parts come from WooCommerce settings through the boot payload, so these match what the cart will print.
 

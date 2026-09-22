@@ -26,6 +26,8 @@ A redemption records who claimed a preset, so a per-customer cap can be enforced
 
 Without it a per-customer limit cannot exist — there is no way to know somebody has already claimed something if you do not record that they did.
 
+A customer can ask for that record, and ask for it to be forgotten: see [Privacy and personal data](/cartpresets/settings/privacy).
+
 ## What leaves your site
 
 **Nothing, on the free version.** No analytics, no phone-home, no scripts or styles enqueued on your storefront at all.
@@ -44,12 +46,12 @@ Deleting the plugin removes **nothing** by default.
 
 That is the opposite of most plugins, and deliberate: a merchant who deactivates to test something, or who deletes and reinstalls to fix a bad upload, should not lose a year of work to a routine action.
 
-Each category has its own opt-in under **Settings → Data control**:
+Each category has its own opt-in under **Settings → Data management**:
 
 | Switch | Key | Removes |
 | --- | --- | --- |
 | Presets and their settings | `delete_links` | All four tables |
-| Cart notice and label wording | `delete_settings` | Every store setting (wording included), the stored licence record, each admin's listing preferences, and cached preset data |
+| Store settings, wording and licence | `delete_settings` | Every store setting (wording included), the stored licence record, each administrator's listing preferences, and cached preset data |
 | The carrier product | `delete_carrier` | The hidden product, if it is still virtual and hidden |
 
 <Warning>
@@ -64,7 +66,9 @@ The carrier product is also left alone unless you opt in specifically. It is a W
 
 ## GDPR and data requests
 
-The only personal data is the redemption record — a user ID or billing email against an order ID. The plugin registers no WordPress personal-data exporter or eraser, so a data request has to be handled in the `cartpresets_redemptions` table directly. Deleting a customer's rows releases any per-customer cap they were holding — which is the correct outcome: with no record of their claim, there is no claim.
+The only personal data is the redemption record — a user ID or billing email against an order ID.
+
+WordPress's own tools answer for it. **Tools → Export Personal Data** returns every preset an address claimed, and **Tools → Erase Personal Data** anonymises those claims rather than deleting them, so a spent purchase limit stays spent. Full detail, including why erasure keeps the row: [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Moving to a new site
 
