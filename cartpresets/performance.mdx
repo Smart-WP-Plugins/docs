@@ -1,0 +1,90 @@
+---
+title: "Performance"
+description: "What the plugin costs a server, measured on a real store rather than estimated"
+icon: "gauge-high"
+---
+
+Every number here was measured, not estimated. The method is at the bottom so you can check it against your own store.
+
+## Your storefront pays nothing
+
+A shopper browsing your catalogue runs **zero database queries** from this plugin.
+
+```
+Front-end page view, empty cart
+  database queries                 0
+  PHP files parsed                 27  (357 KB)
+  share of all files WooCommerce
+  already loads                    1.6%  (27 of 1,656)
+```
+
+Settings live in a single autoloaded option of 584 bytes, read once per request and remembered. A product page, a category, a blog post and your home page all cost this plugin nothing in database work.
+
+No scripts and no styles are enqueued on the front end, so there is nothing for a shopper's browser to download either.
+
+<Note>
+  You can check the query count yourself with Query Monitor, or any profiler you already use. Open a product page and look for queries against the `cartpresets_` tables. There won't be any.
+</Note>
+
+## It doesn't matter how many presets you have
+
+This is the part worth knowing before you commit to a plugin. We seeded a store to **59,815 presets, 229,296 items and 500,000 redemption records** and measured the customer-facing path again.
+
+| Store size | Front-end queries | Resolving a link |
+| --- | --- | --- |
+| 104 presets | 0 | 0.07 ms, 2 queries |
+| 10,015 presets | 0 | 0.07 ms, 2 queries |
+| 59,815 presets | 0 | 0.07 ms, 2 queries |
+
+**575 times the catalogue, identical cost.** A link is an indexed lookup on its slug, so it finds one row whether there are a hundred or sixty thousand. Once resolved, the preset is cached and the second visitor costs no queries at all:
+
+```
+resolve slug, cold cache     0.07 ms    2 queries
+resolve slug, warm cache     0.00 ms    0 queries
+read its items               0.00 ms    0 queries
+work out its status          0.00 ms    0 queries
+read store settings          0.00 ms    0 queries
+```
+
+## Following a link is cheaper than loading a page
+
+Measured over real HTTP against the development store, eight runs each:
+
+```
+preset link request      82 ms
+ordinary shop page      103 ms
+```
+
+A preset link never renders a template. It resolves the slug, checks the preset, fills the cart and redirects, which is less work than drawing a page. Your campaign traffic is landing on the *cheapest* request your store serves.
+
+## Once a preset is in the cart
+
+This is the only place the plugin touches a shopper's request after the link. Measured against the same products added as ordinary cart lines, so the comparison is preset lines versus normal lines rather than a full cart versus an empty one:
+
+```
+10 ordinary lines    13.19 ms    1.32 ms per line
+13 preset lines      17.86 ms    1.37 ms per line
+```
+
+**About 0.05 ms extra per line**, and only for a customer who followed a link, only while those items are in their cart.
+
+The cart-integrity hooks — price override, quantity lock, cascade removal — don't attach at all unless the cart actually holds a preset. A shopper who has never seen one of your links runs none of that code.
+
+## The admin listing reads in two queries
+
+However many rows you show, and however many presets you have:
+
+| Store size | 20 rows | Queries |
+| --- | --- | --- |
+| 104 presets | 0.73 ms | 2 |
+| 10,015 presets | 43.5 ms | 2 |
+
+The derived status, the redemption count and the item count all come back in the same two queries rather than one query per row. Showing 50 rows instead of 20 costs the same two.
+
+## How this was measured
+
+Captured on the development store: WordPress 7.1, WooCommerce 11.0, PHP 8.0.30, MySQL over a local socket. The large-store figures come from seeding that same store to the sizes shown and re-running the identical measurements.
+
+**Read the shape, not the milliseconds.** Timings move with the machine, the PHP version and whatever else is on the box. What holds everywhere is the shape: zero queries on an ordinary page view, a link that costs less than a template render, a listing that reads in two queries rather than one per row, and a customer-facing cost that doesn't grow with your catalogue.
+
+The counts exclude development tooling. A built release contains the plugin and Composer's class loader, nothing else.

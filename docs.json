@@ -99,6 +99,7 @@
           "cartpresets/analytics",
           "cartpresets/import-export",
           "cartpresets/licence",
+          "cartpresets/performance",
           {
             "group": "Developers",
             "icon": "code",
