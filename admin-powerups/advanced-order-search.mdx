@@ -3,3 +3,79 @@ title: "Advanced order search"
 description: "Search orders by customer, phone, SKU, total, coupon, notes and more"
 icon: "magnifying-glass"
 ---
+
+Advanced order search adds 18 search types to the **Search by** dropdown on the Orders list, so you can find an order by the detail you actually have.
+
+**Shows in:** Orders list
+
+<Warning>
+This power-up needs WooCommerce's High-performance order storage. Turn it on in **WooCommerce → Settings → Advanced → Features**. Until then the power-up won't switch on.
+</Warning>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Advanced order search**.
+2. Open **WooCommerce → Orders**, pick a type from the **Search by** dropdown next to the search box, and search.
+
+{/* Screenshot: the Orders list Search by dropdown open, showing the search types */}
+
+## Search types
+
+| Type | What it matches | Examples |
+|---|---|---|
+| **Order number** | The order number, including custom numbers from sequential-number plugins | `1234`, `#1234`, `INV-7781` |
+| **Customer** | Billing or shipping name, account username, display name or email | `Jane Smith` |
+| **Billing email** | Part of the billing email | `@example.com` |
+| **Billing phone** | The billing phone. Spaces, dashes and brackets are ignored. At least 3 digits. | `555 0199` |
+| **Company** | Billing or shipping company | `Acme` |
+| **Product** | Product name or product ID | `Hoodie`, `412` |
+| **SKU** | Part of a current product SKU | `HD-` |
+| **Variation** | An attribute value or a variation ID | `XL`, `418` |
+| **Exact total** | Orders with this total (optionally within a tolerance) | `49.99`, `$1,299.00` |
+| **Total range** | Orders with a total in a range | `50-100`, `50 to 100`, `>200`, `<=20` |
+| **Coupon** | Coupon code used on the order | `SUMMER10` |
+| **Shipping method** | Shipping method name or ID | `flat_rate` |
+| **Payment method** | Payment method ID or title | `cod`, `Cash on delivery` |
+| **Transaction ID** | The payment transaction ID | |
+| **Order status** | Status label or slug | `On hold`, `on-hold` |
+| **Customer ID** | The customer's user ID | `57` |
+| **Custom metadata** | A value, a key and value, or "has this key" | `value`, `key=value`, `key=` |
+| **Order notes** | Text in the order's notes | `refund` |
+
+Each type matches only what it says. For example, `150` as **Exact total** finds orders totalling 150, not also order #150. WooCommerce's own options and "All" still match a typed number against order IDs, as WooCommerce always has.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Search by** | All 18 types | Which types appear in the dropdown. Types marked **Slower** look inside text. |
+| **Hide the WooCommerce options these replace** | On | Hides WooCommerce's Order ID, Customer email, Customers, Products and Transaction ID options. |
+| **Exact total: match within** | 0 | Also find totals this close to your search. Use 0 for exact. |
+| **Custom metadata: only these keys** | Empty | One key per line. Empty searches any key. |
+
+## Performance
+
+Types marked **Slower** look inside text and can't use database indexes: Customer, Billing email, Billing phone, Company, Product, SKU, Variation, Coupon, Shipping method, Payment method, Transaction ID, Custom metadata and Order notes. On stores with many orders, a search can take several seconds. **Order number**, the totals, **Order status** and **Customer ID** stay fast.
+
+- With no keys listed under **Custom metadata: only these keys**, a metadata search reads every order's metadata. On large stores, list the keys you need.
+- **Product**, **SKU** and **Variation** use WooCommerce's order–product lookup table, which WooCommerce Analytics keeps. That keeps them fast on big stores. Orders missing from that table are still checked, but if very many are missing (Analytics off, or history never imported), these searches read every order's items and get slow. You can import history in **WooCommerce → Analytics → Settings**.
+- In the Trash view, Product and SKU searches always take the slow path, because Analytics doesn't import trashed orders.
+- If a SKU matches more than 5,000 products and the Analytics data is missing, the search is refused with a notice: "More than 5,000 products match this SKU, too many to check every order. Type more of the SKU, or import historical data in WooCommerce → Analytics → Settings."
+
+## Masked fields stay hidden
+
+**Custom metadata** and **Variation** searches never match fields that the [Order meta inspector](/admin-powerups/order-meta) masks for you, such as tokens, secrets and card data, so masked values can't be guessed by searching. Look-alike keys (different case, accents, full-width letters, zero-width characters) are caught too. Staff who are allowed to reveal masked values search them normally.
+
+To keep this fast, a background job checks your store's metadata keys, at most once a day.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. Deleting them brings back the defaults. |
+| **Checked metadata keys** | Order metadata keys already checked against the sensitive fields. Rebuilt in the background. |
+| **Background job history** | Finished and failed background jobs, kept by WooCommerce for troubleshooting. |
+
+## Known limitations
+
+- Metadata keys added since the last daily check, or rarely used keys (beyond the 1,000 most used), rely on a database check that can't fold every Unicode form. A field listed exactly (without `*`) doesn't hide a stored key with a trailing line break from search unless that key is on the checked list. The Order meta box still masks it. These keys are set by code (plugins, gateways), not by shoppers.
