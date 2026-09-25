@@ -1,0 +1,36 @@
+---
+title: "Performance"
+description: "What the amber warnings and Slower badges mean, and the fast alternatives"
+icon: "gauge-high"
+---
+
+Power-ups that are off add nothing to your store. Settings are saved per power-up and only load on every request when a power-up that needs them is on.
+
+## Warnings and Slower badges
+
+Some settings can slow a screen on stores with many orders or customers. They're marked in two ways:
+
+- An **amber warning** under the setting explains the cost.
+- A **Slower** badge marks the slow options in a list.
+
+The choice still works. It just takes longer on big stores.
+
+{/* Screenshot: the Advanced order search Search by setting with Slower badges */}
+
+## Slow choices and fast alternatives
+
+| Power-up | Slower choice | Why | Faster alternative |
+|---|---|---|---|
+| [Advanced order search](/admin-powerups/advanced-order-search) | Customer, Billing email, Billing phone, Company, Product, SKU, Variation, Coupon, Shipping method, Payment method, Transaction ID, Custom metadata, Order notes | They look inside text and can't use database indexes. | Order number, Customer ID, Order status, Exact total, Total range |
+| Advanced order search | Custom metadata with no keys listed | Reads every order's metadata. | List the keys you need under **Custom metadata: only these keys**. |
+| [Advanced customer search](/admin-powerups/advanced-customer-search) | Name, Email, Phone, Company, Address, City, Postcode, Number of orders, Lifetime spend | They look inside customer details or add up orders. | Order number, SKU purchased, Product purchased, Customer tag, Ordered in |
+| [Customer table columns](/admin-powerups/customer-table-columns) | Orders, Lifetime spend, Average order, Last order, when High-performance order storage is off | They search all order data for each page of users. | Turn on High-performance order storage. |
+| [Duplicate customer finder](/admin-powerups/duplicate-customers) | A scan | Reads every customer account in batches. | It only runs when you click Scan. |
+
+## High-performance order storage
+
+Several power-ups are faster, or only work, with WooCommerce's High-performance order storage. Turn it on in **WooCommerce → Settings → Advanced → Features**.
+
+## WooCommerce Analytics data
+
+Product, SKU and Variation searches use WooCommerce's order–product lookup table, which Analytics keeps. If you turned Analytics off or never imported your order history, those searches read every order's items. Import history in **WooCommerce → Analytics → Settings**.

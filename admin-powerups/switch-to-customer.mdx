@@ -1,0 +1,76 @@
+---
+title: "Switch to customer"
+description: "Log in as a customer to see the store as they do, then switch back"
+icon: "people-arrows"
+---
+
+Switch to customer lets you see the store exactly as a customer does, then switch back to your own account without logging in again.
+
+**Shows in:** Users list, order page
+
+## Turn it on
+
+Go to **WooCommerce → Powerups** and switch on **Switch to customer**.
+
+<Note>
+If the User Switching plugin is active, this power-up stays off. Use one or the other.
+</Note>
+
+## Switch to a customer
+
+You'll find a switch link in three places:
+
+- **Users list**: **Switch to** under the user's name.
+- **User profile**: **Switch to this customer**.
+- **Order page**: **Switch to customer** opens that order in the customer's My Account.
+
+After switching, you land on the page picked in **After switching, open**. From an order, you land on that order in My Account. Links that point off this site are ignored, and you land on the settings page instead.
+
+{/* Screenshot: the "Viewing as" banner with the Switch back link */}
+
+## Switch back
+
+While switched, a banner at the bottom right says who you're viewing as. Switch back from:
+
+- the banner (**Switch back to …**),
+- the admin bar,
+- the My Account menu.
+
+## Who you can switch to
+
+- Only users with a role you tick under **Who you can switch to**.
+- Never admins, and never anyone with more access than you.
+- You need permission to manage WooCommerce and to edit that user.
+
+<Note>
+On multisite, only super admins can switch, because WordPress only lets them edit other accounts. Shop managers and site admins don't get the links.
+</Note>
+
+If another staff member is already switched into that customer, you're warned and asked to confirm (**Switch anyway**).
+
+## How long a switch lasts
+
+- Your cart and the customer's cart are kept separate.
+- A switch ends when you log out or log in again.
+- It expires after 12 hours.
+- Changing your password ends it.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Who you can switch to** | Subscriber, Customer | Roles staff can switch to. Admins are never included. Other options: Editor, Author, Contributor, Shop manager. |
+| **After switching, open** | My account | Or **Shop**, **Cart** or **Home page**. |
+| **Show a switch link on orders** | On | Adds **Switch to customer** to the order page. |
+
+## Audit log
+
+Every switch is logged under **WooCommerce → Status → Logs**, source `admin-powerups-switch-user`.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+
+Records of switches that are still active expire on their own within 12 hours, even after the plugin is deleted.

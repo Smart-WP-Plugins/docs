@@ -1,0 +1,85 @@
+---
+title: "Duplicate customer finder"
+description: "Find customer accounts that look like the same person"
+icon: "clone"
+---
+
+Duplicate customer finder scans your customer accounts for people who signed up more than once: the same email, phone or address, or a similar name at a similar address. It only lists them. Nothing on the accounts is changed.
+
+**Shows in:** Powerups, Find duplicates tab
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Duplicate customer finder**.
+2. Open the **Find duplicates** tab (also linked from the Powerups list) and click **Scan customers**.
+
+## Scanning
+
+A progress bar shows while customer accounts are checked in small batches: "Checked X of Y customers…", then "Comparing likely matches…", then "Grouping results…". At 99% it says "Finishing…" while the scan tidies up.
+
+- Big stores (tens of thousands of customers) scan without timeouts. If a step is still running on a slow server, the next one waits and retries by itself.
+- If the connection drops at the last step, the tab still shows the results with "Scan finished."
+- Starting a scan in another tab stops the first one: "Another scan started. Scan again."
+- Results stay until the next scan. Click **Scan again** to refresh them.
+
+{/* Screenshot: the Find duplicates tab with a result group and its match score */}
+
+## What counts as a match
+
+| Match | How it's compared |
+|---|---|
+| **The same email** | Gmail dots and "+tags" are ignored. |
+| **The same phone** | Country code and leading zeros are ignored. |
+| **The same address** | "Street" = "St", postcode spaces ignored, and the names must be close too. |
+| **A similar name at a similar address** | Typos, word order, names that sound alike (Catherine and Kathryn) and initials. |
+
+Families at one address aren't flagged: when surnames match, first names must match too.
+
+Only customer accounts are checked: not staff, and not guests.
+
+## Results
+
+Each group shows a match score, the reasons, and each account's email, phone, address, orders and join date, with links to the accounts.
+
+- The **Orders** column leaves out checkout drafts and trashed orders.
+- The tab shows the 100 most likely groups at a time. Mark groups **Not a duplicate** to see more.
+- With very many matches, the strongest are kept and the tab says "Showing the strongest matches. There were too many to list them all."
+
+### Not a duplicate
+
+**Not a duplicate** hides the group for good. It covers the whole group as shown (up to 200 accounts). If the group has changed since (after a newer scan), you're asked to use the current results: "That group is no longer in the results."
+
+You can bring dismissed matches back by deleting **Marked "Not a duplicate"** in the Data section.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Match customers with** | All four | **The same email**, **The same phone**, **The same address**, **A similar name at a similar address**. |
+| **How close names must be** | Balanced | **Strict**, **Balanced** or **Loose**. Looser finds more, with more false matches. |
+
+<Warning>
+A scan reads every customer account in batches. On stores with many customers it can take a few minutes. It runs only when you click Scan.
+</Warning>
+
+## Multisite
+
+Only this site's customer accounts are checked and shown. Accounts removed from the site drop out of the results.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Last scan results** | The groups found by the last scan. Scan again to rebuild them. |
+| **Scan in progress** | Where a running scan is up to, so two scans at once don't mix. Removed when a scan finishes. |
+| **Marked "Not a duplicate"** | Pairs you dismissed. Deleting them lets those matches show again on the next scan. |
+| **Scan work tables** | Small database tables used while scanning. Emptied after each scan; deleting them is safe, the next scan creates them again. |
+
+## Known limitations
+
+- Names in non-Latin scripts are compared exactly. Sound-alike matching works for Latin names.
+- At most 1,000 groups are kept, strongest first.
+- If the server kills a scan step, the next step can start after 2 minutes.
+- "Not a duplicate" pairs are kept in one list that grows with every dismissal. Clear it in the Data section.
+- A scan abandoned while tidying up is cleared by one larger delete when the next scan starts.

@@ -1,0 +1,79 @@
+---
+title: "Payment method rules"
+description: "Hide or only offer payment methods by cart total, category, country, customer role and more"
+icon: "credit-card"
+---
+
+Payment method rules hides payment methods, or only offers them, when the cart matches your conditions. For example: no Cash on delivery over $1,000, or bank transfer only for wholesale customers.
+
+**Shows in:** Checkout
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and click **Configure** on **Payment method rules**.
+2. Add your rules, click **Save changes**, and switch the power-up on.
+
+With no rules, every method is offered as set up in WooCommerce.
+
+## Build a rule
+
+Click **Add rule**. Each rule reads like a sentence:
+
+> **When** [all / any] **of these are true** … **Then** [hide / only offer] [payment methods]
+
+<Steps>
+  <Step title="Pick all or any">
+    Choose whether **all** conditions or **any** of them must be true.
+  </Step>
+  <Step title="Add conditions">
+    Click **Add condition**, then pick a condition, a comparison and a value.
+  </Step>
+  <Step title="Pick the action and methods">
+    Choose **hide** or **only offer**, and pick the payment methods.
+  </Step>
+</Steps>
+
+{/* Screenshot: a rule that hides Cash on delivery when Cart total is more than 1000 */}
+
+### Conditions
+
+| Condition | Comparisons | Notes |
+|---|---|---|
+| **Cart total** | is more than, is at least, is less than, is at most | Items after discounts, with tax, without shipping. |
+| **Items in cart** | is more than, is at least, is less than, is at most | |
+| **Product category** | is any of, is none of | Includes subcategories. |
+| **Product type** | is any of, is none of | Includes **Virtual** and **Downloadable**. |
+| **Shipping class** | is any of, is none of | |
+| **Chosen shipping method** | is any of, is none of | |
+| **Country** | is any of, is none of | |
+| **State** | is any of, is none of | |
+| **Customer role** | is any of, is none of | Includes **Guest (not logged in)**. |
+
+### Hide or only offer
+
+- **Hide** removes the methods when the conditions match.
+- **Only offer** shows the methods only when the conditions match.
+
+Rules only ever remove methods, so their order doesn't matter.
+
+## Examples
+
+- **No Cash on delivery over $1,000**: When all of these are true: Cart total is more than 1000. Then hide Cash on delivery.
+- **Bank transfer only for wholesale**: When all of these are true: Customer role is any of Wholesale. Then only offer Direct bank transfer.
+
+## Where the rules apply
+
+- The classic checkout and the block checkout.
+- The "Pay for order" page (classic or block). There the rules check that order's total and items, not the cart.
+- Admin screens always see every method.
+
+## Saving
+
+- A rule without methods, or with a condition missing its value, shows "Not saved until it has at least one method and a value in every condition." and isn't saved.
+- If the rules can't be read when saving (a broken browser request), your saved rules are kept instead of being wiped.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings, including the rules. |

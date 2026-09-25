@@ -134,18 +134,38 @@
           {
             "group": "Customers",
             "icon": "users",
-            "pages": []
+            "pages": [
+              "admin-powerups/guest-accounts",
+              "admin-powerups/switch-to-customer",
+              "admin-powerups/customer-table-columns",
+              "admin-powerups/customer-tags",
+              "admin-powerups/advanced-customer-search",
+              "admin-powerups/duplicate-customers"
+            ]
           },
           {
             "group": "Emails",
             "icon": "envelope",
-            "pages": []
+            "pages": [
+              "admin-powerups/email-log",
+              "admin-powerups/email-preview",
+              "admin-powerups/email-recipients"
+            ]
           },
           {
             "group": "Store operations",
             "icon": "store",
-            "pages": []
-          }
+            "pages": [
+              "admin-powerups/payment-rules",
+              "admin-powerups/shipping-rules",
+              "admin-powerups/checkout-blocklist",
+              "admin-powerups/holiday-mode",
+              "admin-powerups/high-value-orders"
+            ]
+          },
+          "admin-powerups/data-and-uninstall",
+          "admin-powerups/performance",
+          "admin-powerups/faq"
         ]
       }
     ]

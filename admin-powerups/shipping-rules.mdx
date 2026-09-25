@@ -1,0 +1,69 @@
+---
+title: "Shipping method rules"
+description: "Hide or only offer shipping methods, and hide the others when free shipping is available"
+icon: "truck"
+---
+
+Shipping method rules hides shipping methods, or only offers them, when the cart matches your conditions. It can also hide the other methods once free shipping is available.
+
+**Shows in:** Cart and checkout
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and click **Configure** on **Shipping method rules**.
+2. Set it up, click **Save changes**, and switch the power-up on.
+
+## When free shipping is available
+
+| Setting | Default | What it does |
+|---|---|---|
+| **When free shipping is available, hide the other methods** | Off | Customers only see the free option once they qualify. |
+| **Keep local pickup** | On | Still offer pickup next to free shipping. Shows when the setting above is on. |
+
+## Rules
+
+Rules work like [Payment method rules](/admin-powerups/payment-rules):
+
+> **When** [all / any] **of these are true** … **Then** [hide / only offer] [shipping methods]
+
+- **Hide** removes the methods when the conditions match.
+- **Only offer** shows the methods only when the conditions match.
+- Rules only ever remove methods, so their order doesn't matter.
+
+For the methods, pick one method in one zone, or a method type such as **Any Flat rate** to cover every flat rate.
+
+{/* Screenshot: a rule that hides Free shipping for the Heavy shipping class */}
+
+### Conditions
+
+| Condition | Comparisons | Notes |
+|---|---|---|
+| **Cart total** | is more than, is at least, is less than, is at most | Items after discounts, with tax, without shipping. |
+| **Items in cart** | is more than, is at least, is less than, is at most | |
+| **Product category** | is any of, is none of | Includes subcategories. |
+| **Product type** | is any of, is none of | Includes **Virtual** and **Downloadable**. |
+| **Shipping class** | is any of, is none of | |
+| **Country** | is any of, is none of | |
+| **State** | is any of, is none of | |
+| **Customer role** | is any of, is none of | Includes **Guest (not logged in)**. |
+
+## Examples
+
+- **Heavy items don't ship free**: When all of these are true: Shipping class is any of Heavy. Then hide Free shipping.
+- **Express only over $100**: When all of these are true: Cart total is more than 100. Then only offer Express.
+
+## Rates update straight away
+
+When you change a product's category, shipping class, type, or virtual or downloadable setting, and your rules use that condition, shoppers' cached shipping rates are refreshed so the rules apply straight away. This refreshes everyone's rates once, so live carrier rates are fetched again.
+
+Imports that write to the database directly don't trigger this. Re-save a product, or wait for WooCommerce to refresh rates.
+
+## Saving
+
+A rule without methods, or with a condition missing its value, isn't saved. If the rules can't be read when saving (a broken browser request), your saved rules are kept.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings, including the rules. |

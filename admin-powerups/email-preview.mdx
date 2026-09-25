@@ -1,0 +1,57 @@
+---
+title: "Email preview & resend"
+description: "Resend order emails from the order page, and preview or test any email with a real order"
+icon: "paper-plane"
+---
+
+Email preview & resend adds order actions to resend the Processing and Completed emails, and a **Preview & test** tab that shows any WooCommerce email exactly as it would look for a real order.
+
+**Shows in:** Order actions, Preview & test tab
+
+<Note>
+Previews need WooCommerce 9.6 or newer.
+</Note>
+
+## Turn it on
+
+Go to **WooCommerce → Powerups** and switch on **Email preview & resend**. It has no settings.
+
+## Resend from the order
+
+On the order page, open the **Order actions** dropdown and pick:
+
+- **Resend "Processing order" email**
+- **Resend "Completed order" email**
+
+Each adds an order note. For the invoice, WooCommerce already has **Send order details to customer**.
+
+## Preview & test
+
+Open the **Preview & test** tab (also linked from the Powerups list).
+
+<Steps>
+  <Step title="Pick an email and an order">
+    Choose the **Email** and type an **Order number**. With custom order numbers, type the order number, not the internal ID.
+  </Step>
+  <Step title="Preview">
+    Click **Preview** to see the email exactly as WooCommerce would send it for that order.
+  </Step>
+  <Step title="Send a test (optional)">
+    Enter an address in **Send test to** and click **Send test**.
+  </Step>
+</Steps>
+
+{/* Screenshot: the Preview & test tab showing a rendered Processing order email */}
+
+- A test goes only to the address you enter, never to Cc or Bcc recipients.
+- It sends exactly what WooCommerce would, so plain-text emails go as plain text.
+- It shows as **Test** in the [Email log](/admin-powerups/email-log).
+- The order and the customer aren't changed or emailed.
+
+<Warning>
+A test contains that real customer's order details. Send it only to your own address.
+</Warning>
+
+## Data
+
+This power-up stores nothing. Resends add order notes, which are part of your order history.

@@ -1,0 +1,66 @@
+---
+title: "Data and uninstall"
+description: "What each power-up stores, how to delete it, and what happens when you delete the plugin"
+icon: "database"
+---
+
+Every power-up lists what it stores in a **Data** section, so you can see it and delete it. Nothing is hidden, and nothing leaves your site.
+
+## Turning a power-up off
+
+Turning a power-up off keeps its settings and data. Switch it back on and everything is as you left it.
+
+Turning it off does stop its background work. For example, it cancels guest-account conversions and order completions that are still waiting.
+
+## The Data section
+
+Open a power-up with **Configure** and scroll below its settings to **Data**. It lists what the power-up stores, how much, and a button for each item:
+
+- **Delete** removes that item.
+- **Reset** on **Settings** brings back the default settings.
+- Items marked **Stays** belong to your store and are never deleted.
+
+{/* Screenshot: the Data section of a power-up with Delete, Reset and Stays rows */}
+
+Deleting asks you to confirm in two steps. Deleting all customer tags also asks you to type "delete".
+
+Big lists, such as background job history, delete in batches with a progress count. When it's done, the page reloads so the settings show the new state, and a message confirms it.
+
+### What stays
+
+These are part of your store, so they're shown as **Stays** and never deleted, not even when you delete the plugin:
+
+- Customer accounts created or linked from guest orders
+- Addresses saved to customer profiles
+- Completed orders and order notes
+
+### What each power-up stores
+
+Each power-up's page in these docs has a **Data** table. In short:
+
+| Power-up | Stores |
+|---|---|
+| Every power-up with settings | Its settings |
+| Accounts for guest orders | Welcome email markers, background job history |
+| Advanced order search | Checked metadata keys, background job history |
+| Autocomplete orders | Email markers, background job history |
+| Customer table columns | Found columns |
+| Customer tags | Tag groups and tags, background job history |
+| Duplicate customer finder | Last scan results, scan in progress, "Not a duplicate" marks, scan work tables |
+| Email log | Logged emails |
+| Checkout blocklist | Blocked attempts, background job history |
+| High-value order alerts | Email wording, alert sent markers, alert locks |
+
+## Deleting the plugin
+
+When you delete the plugin from **Plugins**, it removes its settings and data on every site.
+
+To keep them, switch on **Keep data if the plugin is deleted** in the sidebar's System card before you delete the plugin. It's set per site.
+
+Store records (accounts, saved addresses, orders and order notes) stay either way. Records of **Switch to customer** switches that are still active expire on their own within 12 hours.
+
+## Privacy
+
+- The plugin has no tracking. Your data stays on your site.
+- [Customer tags](/admin-powerups/customer-tags) and the [Email log](/admin-powerups/email-log) are included in WordPress's personal data export and erase tools.
+- [Accounts for guest orders](/admin-powerups/guest-accounts) creates user accounts from checkout data. Mention it in your privacy policy.

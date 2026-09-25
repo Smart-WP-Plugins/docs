@@ -1,0 +1,75 @@
+---
+title: "Email log"
+description: "See every WooCommerce email, whether it went out, view it as sent, and resend it"
+icon: "envelope-open-text"
+---
+
+Email log records every WooCommerce email: who got it, when, and whether it went out. You can view each email as it was sent, resend it, and see each order's emails on the order page.
+
+**Shows in:** Log tab, Order page
+
+<Note>
+It logs WooCommerce emails only. It isn't an SMTP plugin and doesn't log other email your site sends.
+</Note>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Email log**.
+2. Open the **Log** tab (also linked from the Powerups list).
+
+## What's logged
+
+For each email: its type, date, order, To, Cc and Bcc, subject, attachments, and a status:
+
+| Status | Meaning |
+|---|---|
+| **Sent** | The mail server accepted it. |
+| **Failed** | The mail server didn't accept it. The mail error is shown. |
+| **Turned off** | The email is turned off in **WooCommerce → Settings → Emails**. |
+| **Not sent** | No recipient address, or WooCommerce skipped it. |
+| **Test** | A test sent from [Email preview & resend](/admin-powerups/email-preview). |
+
+**Turned off** and **Not sent** entries are logged only when WooCommerce reports them (WooCommerce 10.9 or newer) and **Also log emails that didn't go out** is on.
+
+Account emails (new account, password reset) are logged without their content, because they contain password links.
+
+## The Log tab
+
+{/* Screenshot: the Log tab with filters and the View window open */}
+
+- **Search** by email address, subject or order number.
+- **Filter** by email type and status.
+- Each row has **View** (opens the email as sent in a window over the list), **Resend** (where possible) and **Delete** (click twice to confirm).
+- The order number opens the order.
+- Page numbers and a **Per page** choice (20, 50, 100 or 200) sit below the list.
+
+## Resending
+
+**Resend** works for order emails only: not tests, notes, refunds or account emails. It sends the current version of the email to the current recipients and adds an order note.
+
+"Order details" (the invoice or payment email) can always be resent. Other emails that are turned off in **WooCommerce → Settings → Emails** can't.
+
+## The Emails box on orders
+
+Each order gets an **Emails** box with that order's emails and a link to open them in the log.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Keep emails for (days)** | 30 | Older entries are deleted automatically once a day. 1 to 365 days. |
+| **Keep the email content** | On | Lets you view each email as it was sent. It includes customer details, so keep the period short. |
+| **Also log emails that didn't go out** | On | Emails turned off in WooCommerce settings, or with no recipient. Answers "why didn't they get it?" |
+
+On very busy stores, the daily clean-up continues in follow-up jobs until old entries are gone.
+
+## Privacy
+
+Logged emails are included in WordPress's personal data export and erase tools, however many emails an address has. The tools match whole email addresses only.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Logged emails** | Every entry, including the email content. Deleting removes the log table; it's created again when the power-up is on. |
