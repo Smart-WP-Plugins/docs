@@ -115,7 +115,10 @@
         ]
       },
       {
-        "product": "Admin Powerups for WooCommerce"
+        "product": "Admin Powerups for WooCommerce",
+        "pages": [
+          "admin-powerups/introduction"
+        ]
       }
     ]
   },
