@@ -1,0 +1,77 @@
+---
+title: "Customer table columns"
+description: "Add customer details, orders and spend to the Users list, and arrange its columns"
+icon: "table-columns"
+---
+
+Customer table columns adds billing and shipping details, order counts and spend to the Users list. You pick the columns and drag them into order, including WordPress's own columns and those other plugins add.
+
+**Shows in:** Users list
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Customer table columns**.
+2. Click **Configure**, tick the columns you want under **Columns**, drag them into order, and click **Save changes**.
+
+By default it shows **Billing address**, **Billing phone** and **Orders**.
+
+{/* Screenshot: the Columns setting with ticked and dragged columns */}
+
+## Columns you can add
+
+| Column | Shows |
+|---|---|
+| **Billing address** | The billing address |
+| **Shipping address** | The shipping address |
+| **Billing phone** | The billing phone (tap to call) |
+| **Billing email** | The billing email (click to email) |
+| **Billing city** | The billing city |
+| **Billing country** | The billing country |
+| **Shipping city** | The shipping city |
+| **Customer since** | When the account was created |
+| **Orders** | Number of orders, linked to that customer's orders |
+| **Lifetime spend** | Total of paid orders |
+| **Average order** | Lifetime spend ÷ paid orders |
+| **Last order** | The order number, linked to the order, with the date underneath |
+
+There's no Role column: WordPress already has one. You can hide it in Screen Options.
+
+While [Customer tags](/admin-powerups/customer-tags) is on, you can also add one column per tag group.
+
+### How the order columns count
+
+- **Orders** and **Last order** don't count checkout drafts or trashed orders. Custom order numbers from sequential-number plugins are shown.
+- **Lifetime spend** adds up paid orders (Processing and Completed), the same figure WooCommerce uses. Refunds aren't taken off. It's shown in the store currency.
+- **Last order** is plain text for users who can't edit orders.
+
+## WordPress and plugin columns
+
+The list also shows WordPress's columns (Name, Email, Role, Posts) and columns other plugins add, badged **WordPress** or **Plugin**. They're found automatically with a quick background check of the Users list when the settings open.
+
+- The checkbox and Username columns always stay first.
+- Unticking a WordPress or plugin column hides it for all staff. Screen Options can still hide more per person, and columns hidden there stay hidden per user.
+- Until you arrange WordPress and plugin columns, the columns you add sit right after Email.
+- A plugin column that appears later shows at the end until you arrange it. A removed plugin's column drops off the list.
+- Only their position and visibility change. Other plugins' column content and sorting stay theirs.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Columns** | Billing address, Billing phone, Orders | Tick the columns to show and drag them into order (or use the up and down buttons). |
+| **Short addresses** | Off | Address columns show city, state and country only. |
+
+## Performance
+
+Customer details cost nothing extra: they load with the users. **Orders**, **Lifetime spend**, **Average order** and **Last order** are fetched together in one query per page. That's fast with High-performance order storage.
+
+Without High-performance order storage, the order columns are marked **Slower**, with a warning: they search all order data for each page of users, which can slow the Users list on stores with many orders. Turn on High-performance order storage in **WooCommerce → Settings → Advanced → Features** to make them fast.
+
+Other plugins' columns are never marked. We can't tell what they cost.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Found columns** | WordPress and plugin columns found on the Users list, and which ones you hid. They are found again next time; hidden columns show again until you untick them. |

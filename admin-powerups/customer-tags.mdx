@@ -1,0 +1,84 @@
+---
+title: "Customer tags"
+description: "Tag customers with your own groups, tag them on their profile, and filter the Users list"
+icon: "tags"
+---
+
+Customer tags lets you label customers with your own tag groups, such as Tags, Department or Type. You tag customers on their profile, filter the Users list by tag, and can show each group as a column.
+
+**Shows in:** User profile, Users list
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Customer tags**.
+2. Open the **Tag groups** tab (also linked from the Powerups list).
+3. Click **Use these tags** to start with a **Tags** group holding VIP, Wholesale, Retail, Influencer, High value and Support issue, or create your own group.
+
+{/* Screenshot: the Tag groups tab with one group and its tags */}
+
+## Tag groups
+
+On the **Tag groups** tab you can create, rename, reorder and delete groups. Each group has:
+
+- **Group name**, for example "Department".
+- **Each customer can have**: **One value** or **Many values**.
+- **Staff can add tags while tagging**: on lets staff type new tags on a profile; off keeps a **Fixed list**.
+
+In each group you can add, rename and delete tags. Each tag shows how many customers have it. Tags have no colors, on purpose, to keep it simple.
+
+Deleting a tag or a group removes it from every customer.
+
+Group and tag names can be up to 100 characters.
+
+## Tag a customer
+
+<Steps>
+  <Step title="Open the profile">
+    Go to **Users**, open a customer, and find the **Customer tags** section.
+  </Step>
+  <Step title="Pick tags">
+    Each group is a searchable picker. Type to find a tag and press Enter to add it; click × to remove one. One-value groups pick a single tag and have a clear button.
+  </Step>
+  <Step title="Add a new tag (if allowed)">
+    Where the group allows it, type a new tag and press Enter. It shows as "New tag" and is created when you save the profile.
+  </Step>
+  <Step title="Save">
+    Click **Update User**.
+  </Step>
+</Steps>
+
+Only store managers (people who can manage WooCommerce) see and edit tags on profiles, including their own, and only on users they can edit.
+
+Only registered customers can be tagged. To turn guest orders into accounts, use [Accounts for guest orders](/admin-powerups/guest-accounts).
+
+## On the Users list
+
+- **Filter**: a tag filter above the Users list, with counts. You can turn it off in Settings.
+- **Columns**: one column per group, through [Customer table columns](/admin-powerups/customer-table-columns). Each tag in the column links to the filtered list. The Tag groups tab links there, and tells you to turn it on if it's off.
+- **Search**: [Advanced customer search](/admin-powerups/advanced-customer-search) adds a **Customer tag** search type while this power-up is on.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Filter on the Users list** | On | Adds a tag filter above the Users list. |
+
+## Privacy
+
+Tags are included in WordPress's personal data export and removed by its erase tool. Deleted users lose their tags.
+
+A daily background job removes the tags of users who are no longer on the site: deleted, deleted while the power-up was off, or (on multisite) removed from the site.
+
+## Good to know
+
+- On multisite, tags are per site.
+- Switching a group from many values to one keeps customers' existing tags until their profile is saved.
+- Tag lookups are indexed, so filtering stays fast at any store size.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Tag groups and tags** | Every group, every tag and which customers have them. This can't be undone; you're asked to type "delete" to confirm. |
+| **Background job history** | Finished and failed background jobs from the daily clean-up. |

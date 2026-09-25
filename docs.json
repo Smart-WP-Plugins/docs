@@ -115,7 +115,58 @@
         ]
       },
       {
-        "product": "Admin Powerups for WooCommerce"
+        "product": "Admin Powerups for WooCommerce",
+        "pages": [
+          "admin-powerups/introduction",
+          "admin-powerups/getting-started",
+          {
+            "group": "Orders",
+            "icon": "receipt",
+            "pages": [
+              "admin-powerups/advanced-order-search",
+              "admin-powerups/autocomplete-orders",
+              "admin-powerups/save-order-address",
+              "admin-powerups/payment-link",
+              "admin-powerups/thankyou-preview",
+              "admin-powerups/order-meta"
+            ]
+          },
+          {
+            "group": "Customers",
+            "icon": "users",
+            "pages": [
+              "admin-powerups/guest-accounts",
+              "admin-powerups/switch-to-customer",
+              "admin-powerups/customer-table-columns",
+              "admin-powerups/customer-tags",
+              "admin-powerups/advanced-customer-search",
+              "admin-powerups/duplicate-customers"
+            ]
+          },
+          {
+            "group": "Emails",
+            "icon": "envelope",
+            "pages": [
+              "admin-powerups/email-log",
+              "admin-powerups/email-preview",
+              "admin-powerups/email-recipients"
+            ]
+          },
+          {
+            "group": "Store operations",
+            "icon": "store",
+            "pages": [
+              "admin-powerups/payment-rules",
+              "admin-powerups/shipping-rules",
+              "admin-powerups/checkout-blocklist",
+              "admin-powerups/holiday-mode",
+              "admin-powerups/high-value-orders"
+            ]
+          },
+          "admin-powerups/data-and-uninstall",
+          "admin-powerups/performance",
+          "admin-powerups/faq"
+        ]
       }
     ]
   },

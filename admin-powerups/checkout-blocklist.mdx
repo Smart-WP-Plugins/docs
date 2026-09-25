@@ -1,0 +1,65 @@
+---
+title: "Checkout blocklist"
+description: "Stop orders from listed emails, domains, phone numbers, IP addresses and customer accounts"
+icon: "ban"
+---
+
+Checkout blocklist stops orders from emails, domains, phone numbers, IP addresses and customer accounts you list. Blocked shoppers see one neutral message that never says why.
+
+**Shows in:** Checkout
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and click **Configure** on **Checkout blocklist**.
+2. Fill in the lists, click **Save changes**, and switch the power-up on.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Emails and domains** | Empty | One per line. An address (`name@example.com`) or a whole domain (`example.com`, which also blocks its subdomains). Gmail dots and +tags are ignored. |
+| **Phone numbers** | Empty | One per line. Spaces, dashes and country codes don't matter. |
+| **IP addresses** | Empty | One per line. A single address or a range (`203.0.113.0/24`). |
+| **Customer accounts** | None | Blocks the account when logged in, and orders placed with its email. |
+| **Message shoppers see** | "Sorry, we can't accept this order online. Please contact us." | Keep it neutral: it doesn't say why. |
+| **Keep a list of blocked attempts** | On | Shows on the **Blocked attempts** tab. Entries are deleted after 30 days. |
+
+### How matching works
+
+- **Phone numbers**: formatting, a leading 0 or 00, and a country code in front don't matter. A different area code never matches. Numbers under 7 digits are ignored.
+- **IP addresses**: lines that aren't an address or a sensible range (wider than /8, or /16 for IPv6) are ignored and listed under the field. IPv4 addresses also match their `::ffff:` form.
+
+<Warning>
+IP addresses change and can be shared, so blocking one can stop innocent shoppers.
+</Warning>
+
+### Which IP address is checked
+
+The blocklist checks the address connecting to your site. Behind a proxy or CDN (such as Cloudflare or a load balancer), that's the proxy's address. The IP WooCommerce shows on orders comes from forwarded headers, so the two can differ.
+
+- Don't block the proxy's IP: that blocks everyone.
+- Forwarded headers aren't trusted by default, because anyone can fake them.
+- A developer can pass the real shopper IP with the `apwc_blocklist_ip` filter.
+
+## Where it checks
+
+- The classic checkout and the block checkout.
+- The classic "Pay for order" page.
+
+It doesn't check account sign-up, and it isn't fraud scoring.
+
+## Blocked attempts
+
+The **Blocked attempts** tab (also linked from the Powerups list) lists checkouts the blocklist stopped: date, what matched (**Blocked by**), email, phone, IP address and account. It keeps up to 200 entries for 30 days.
+
+Only placing the order is logged, not typing in the form.
+
+{/* Screenshot: the Blocked attempts tab */}
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings, including your lists. |
+| **Blocked attempts** | Who was stopped at checkout, with their email and IP address. |
+| **Background job history** | Finished and failed background jobs. |

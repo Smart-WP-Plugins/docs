@@ -1,0 +1,48 @@
+---
+title: "High-value order alerts"
+description: "Flag big orders in the Orders list and get an email when one is paid"
+icon: "gem"
+---
+
+High-value order alerts flags big orders in the Orders list and emails you when one is paid, so you can check it before shipping.
+
+**Shows in:** Orders list and email
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and click **Configure** on **High-value order alerts**.
+2. Set the amount and recipients, click **Save changes**, and switch the power-up on.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Orders from** | 500 | Order total, including tax and shipping, in your store currency. |
+| **Highlight in the Orders list** | On | Adds a **High value** badge next to the order number. |
+| **Email when paid** | Empty | Comma-separated addresses. Empty sends to the site admin email. |
+
+## The badge
+
+The **High value** badge shows next to the order number in the Orders list for everyone who can see the list, including staff who only have access to orders.
+
+{/* Screenshot: the Orders list with a High value badge */}
+
+## The email
+
+- One email is sent when the order is paid (Processing or Completed). An order note records it.
+- It's never sent twice for the same order, even when the payment gateway and the shopper's return arrive at the same time.
+- Change its subject, heading, wording or switch it off in **WooCommerce → Settings → Emails → High-value order**.
+- It shows in the [Email log](/admin-powerups/email-log) and can be resent from there.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Email wording** | Subject, heading and on/off for the High-value order email. |
+| **Alert sent markers** | Marks orders whose alert went out, so it isn't sent twice. Deleting them lets a paid order alert again if its status changes. |
+| **Alert locks** | Short-lived rows that stop two requests sending the same alert. One left by a request that stopped half way expires after 2 minutes. |
+
+## Known limitations
+
+- Orders in another currency (from multi-currency plugins) aren't flagged unless a developer converts them with the `apwc_high_value_order` filter.

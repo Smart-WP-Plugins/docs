@@ -1,0 +1,55 @@
+---
+title: "Holiday mode"
+description: "Pause orders while you're away, with optional dates and a store banner"
+icon: "umbrella-beach"
+---
+
+Holiday mode pauses orders while you're away. Shoppers can still browse, and a banner tells them when you're back.
+
+**Shows in:** Store and checkout
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and click **Configure** on **Holiday mode**.
+2. Pick a mode and, if you like, dates. Click **Save changes**.
+3. Switch the power-up on. Without dates, the store pauses straight away and stays paused until you switch it off.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **While on holiday** | Pause checkout | **Pause checkout**: shoppers can still fill their cart. **Pause purchases**: browsing only, no add to cart. |
+| **From** | Empty | Optional. Empty starts as soon as the power-up is on. |
+| **Until (last day closed)** | Empty | Optional. Orders open again the next morning. Empty lasts until you switch it off. |
+| **Message** | `We're on a short break and not taking orders right now. We're back {date}.` | Shown in the banner and when someone tries to order. |
+| **Show a banner on the store** | On | Uses WooCommerce's store notice while you're away. |
+
+Dates use the store's time zone. The Until day is closed all day.
+
+### The date placeholder
+
+`{date}` becomes "on" plus the day you're back (the day after **Until**), for example "on 28 December 2027". Without an Until date it becomes "soon".
+
+## Status
+
+The settings show a status line:
+
+- "On now: orders are paused until …" or "… until you switch it off."
+- "Starts on …. The store is open until then."
+- "Ended on …. The store is open."
+- "The Until date is before From, so the store never closes. Fix the dates."
+
+## What shoppers see
+
+- **Pause checkout**: the cart still works. Placing the order is refused with your message.
+- **Pause purchases**: product pages and the shop show no Add to cart button, including for products already in a cart. Items already in carts stay there for later, without errors. Checkout and "Pay for order" are refused.
+
+Staff can still create orders in the admin.
+
+{/* Screenshot: the store notice banner with the holiday message */}
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |

@@ -1,0 +1,95 @@
+---
+title: "Accounts for guest orders"
+description: "Create customer accounts from guest orders, including past ones"
+icon: "user-plus"
+---
+
+Accounts for guest orders creates a customer account when someone checks out as a guest, and can email them a link to set a password. A **Convert past orders** tool does the same for older guest orders.
+
+**Shows in:** Users list, order notes
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups**, click **Configure** on **Accounts for guest orders**, and check the settings.
+2. Switch the power-up on. New guest orders on the statuses you picked get an account after the wait.
+
+## How automatic accounts work
+
+- An account is created when a guest order reaches one of the statuses under **When an order is**, after the wait (15 minutes by default).
+- **Why the wait:** once an order belongs to an account, WooCommerce asks for a login on the thank-you page. The wait gives the shopper time to see their order confirmation first.
+- **Existing accounts are never used automatically.** If the email already has an account, the order stays a guest order and gets a private note: "An account with this email already exists, so the order stays a guest order."
+
+<Note>
+Why not link by email? WooCommerce doesn't check that people own the email they register with, so linking by email could show one customer's orders to someone else.
+</Note>
+
+Conversions run as background jobs (**WooCommerce → Status → Scheduled Actions**, group `admin-powerups`). Switching the power-up off cancels conversions that are still waiting.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Create accounts automatically** | On | Turn off to use only **Convert past orders**. |
+| **When an order is** | Processing, Completed | The statuses that create an account. |
+| **Wait (minutes)** | 15 | Gives the shopper time to see their order confirmation. |
+| **Use an existing account with the same email** | Off | Only in **Convert past orders**, never for automatic accounts. See the warning below. |
+| **Email login details to new customers** | On | Uses WooCommerce's "New account" email, with a link to set a password. |
+| **Save the order address to the account** | On | Copies the order's addresses to the new account. |
+| **Add the customer's earlier guest orders too** | On | For accounts created here. For existing accounts, only in **Convert past orders**. |
+
+<Warning>
+**Use an existing account with the same email**: WooCommerce doesn't check that people own their email, so someone could register with a customer's email and see their orders. Turn it on only if you trust how accounts get created on your store. Staff accounts and, on multisite, accounts that aren't members of this site are always skipped.
+</Warning>
+
+<Warning>
+Pick paid statuses (Processing, Completed). An account is created for any email that isn't used yet. Only the mailbox owner gets the login link, but unpaid or fake orders would still create accounts.
+</Warning>
+
+## Convert past orders
+
+The **Convert past orders** tab creates accounts for older guest orders. It needs the power-up to be on.
+
+<Steps>
+  <Step title="Pick statuses">
+    Under **Order statuses**, tick at least one status.
+  </Step>
+  <Step title="Count">
+    Click **Count orders** to see how many guest orders match.
+  </Step>
+  <Step title="Convert">
+    Click **Create accounts**. A progress bar shows accounts created, linked and skipped. Click **Stop** to stop.
+  </Step>
+</Steps>
+
+{/* Screenshot: the Convert past orders tab mid-run with the skipped orders table */}
+
+The tool runs while the tab is open, in batches of 20. Skipped orders are listed with a reason:
+
+| Reason | Meaning |
+|---|---|
+| No valid email. | The order has no usable billing email. |
+| Already has a customer. | The order already belongs to an account. |
+| An account with this email already exists. Linking is off. | Turn on **Use an existing account with the same email** to link these. |
+| Email belongs to a staff account. | Staff accounts are never linked. |
+| Email belongs to an account that is not a member of this site. | Multisite only. |
+
+<Note>
+On multisite, the tool needs permission to create users. Site admins can't use it when the network doesn't let them add users (Network settings). That's intended.
+</Note>
+
+## Privacy
+
+This power-up creates user accounts from checkout data. Mention it in your store's privacy policy.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Welcome email markers** | Short-lived notes on new accounts that stop a second welcome email. |
+| **Background job history** | Finished and failed background jobs. Jobs still waiting to run are kept. |
+| **Customer accounts it created or linked** | Stays. These are real customer accounts and their orders now belong to them. |
+
+## Known limitations
+
+- **Convert past orders** only runs while the tab is open. Very large backlogs take a while, and there is no background mode yet.

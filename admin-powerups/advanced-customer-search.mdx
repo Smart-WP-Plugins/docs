@@ -1,0 +1,63 @@
+---
+title: "Advanced customer search"
+description: "Search the Users list by name, phone, address, order, product bought, tag, spend and more"
+icon: "address-book"
+---
+
+Advanced customer search adds a **Search by** dropdown next to **Search Users** on the Users list, so you can find customers by phone, address, what they bought, how much they spent and more.
+
+**Shows in:** Users list, next to Search Users
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Advanced customer search**.
+2. Open **Users**, pick a type from the **Search by** dropdown, and search.
+
+The dropdown starts on **Default** on every visit. **Default** is WordPress's own user search, unchanged.
+
+{/* Screenshot: the Users list with the Search by dropdown next to Search Users */}
+
+## Search types
+
+For types with a special format, the search box shows an example.
+
+| Type | What it matches | Examples |
+|---|---|---|
+| **Name** | Account, billing or shipping name. All words must match. | `jane smith` |
+| **Email** | Account or billing email | `@example.com` |
+| **Phone** | Phone digits, however the number was saved | `5550199` |
+| **Company** | Company | `Acme` |
+| **Address** | Address | `High Street` |
+| **City** | City | `Leeds` |
+| **Postcode** | Postcode, spaces ignored | `LS1 4AP` |
+| **Order number** | Customers with this order (custom numbers too) | `1042` |
+| **SKU purchased** | Customers who bought this exact SKU | `HD-XL-BLK` |
+| **Product purchased** | Customers who bought a product, by name | `Hoodie` |
+| **Customer tag** | Customers with a tag (only while [Customer tags](/admin-powerups/customer-tags) is on) | `VIP` |
+| **Number of orders** | Order count | `5`, `5+`, `>3`, `2-4`, `0` for none |
+| **Lifetime spend** | Total of paid orders | `>500`, `100-300` |
+| **Ordered in** | Customers who ordered in a period | `today`, `yesterday`, `this month`, `last 30 days`, `2026`, `2026-03`, `2026-01..2026-03` |
+
+<Note>
+Order number, SKU, product, spend, number of orders and date searches need High-performance order storage.
+</Note>
+
+Only registered customers are listed, because guests have no account. To find guest orders, use [Advanced order search](/admin-powerups/advanced-order-search).
+
+SKU and product searches use WooCommerce's order–product lookup table, which updates in the background. A just-placed order can take a moment to appear.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Search by** | All types | Which types appear in the dropdown. Slower types are marked. |
+
+## Performance
+
+Types marked **Slower** look inside customer details or add up orders, which can't use database indexes: Name, Email, Phone, Company, Address, City, Postcode, Number of orders and Lifetime spend. On stores with many customers or orders, a search can take a few seconds. Order number, SKU, product, tag and order date stay fast.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |

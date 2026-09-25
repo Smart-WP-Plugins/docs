@@ -1,0 +1,79 @@
+---
+title: "FAQ and troubleshooting"
+description: "Common questions, and how to fix the usual problems"
+icon: "circle-question"
+---
+
+## Questions
+
+<AccordionGroup>
+  <Accordion title="Does a power-up change anything before I switch it on?">
+    No. Every power-up is off until you switch it on under **WooCommerce → Powerups**. You can change its settings while it's off; they apply once it's on.
+  </Accordion>
+  <Accordion title="What happens to my data if I turn a power-up off or delete the plugin?">
+    Turning a power-up off keeps its settings and data. Each power-up's page has a **Data** section where you can delete what it stores. Deleting the plugin removes its settings and data unless you switch on **Keep data if the plugin is deleted** in the System card. Customer accounts, saved addresses, order statuses and order notes are part of your store and always stay. See [Data and uninstall](/admin-powerups/data-and-uninstall).
+  </Accordion>
+  <Accordion title="Why doesn't Accounts for guest orders add orders to an account that already has the same email?">
+    WooCommerce doesn't check that people own the email they sign up with, so linking by email could show one customer's orders to someone else. Automatic conversion leaves those orders as guest orders and adds a note. If you trust how accounts get created on your store, the **Convert past orders** tool can link them when you turn on **Use an existing account with the same email**.
+  </Accordion>
+  <Accordion title="Who can change the settings?">
+    Anyone who can manage WooCommerce, including shop managers. That includes security-related settings such as the checkout blocklist, which roles staff can switch to, and who can reveal masked order meta.
+  </Accordion>
+  <Accordion title="Does it work on multisite?">
+    Yes. Each site has its own power-ups and settings. Some features that change user accounts, such as **Switch to customer** and the save-address buttons, are usually limited to super admins on multisite, because WordPress only lets them edit network users.
+  </Accordion>
+  <Accordion title="Can I use it with the User Switching plugin?">
+    Use one or the other. While User Switching is active, **Switch to customer** stays off.
+  </Accordion>
+  <Accordion title="Does the Email log replace an SMTP plugin?">
+    No. It logs WooCommerce emails only and doesn't send or log other site email.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+### A power-up won't switch on
+
+It tells you why. The usual reasons:
+
+- **Advanced order search** needs High-performance order storage. Turn it on in **WooCommerce → Settings → Advanced → Features**.
+- **Switch to customer** stays off while the User Switching plugin is active.
+
+### Waits and scheduled tasks run late
+
+Check **Background jobs** in the sidebar's System card. If it says jobs are overdue or WP-Cron is off, ask your host to run a server cron every minute. This affects **Wait before completing** in Autocomplete orders, the wait in Accounts for guest orders, and the daily clean-ups. See [Background jobs](/admin-powerups/getting-started#background-jobs).
+
+### The Checkout blocklist doesn't block an IP address shown on the order
+
+The blocklist checks the address connecting to your site. Behind a proxy or CDN such as Cloudflare, that's the proxy's address, while WooCommerce shows the shopper's address from forwarded headers. A developer can pass the real address with the `apwc_blocklist_ip` filter. Don't block the proxy's address: that blocks everyone.
+
+### A product or SKU search in the Orders list is slow
+
+Those searches use WooCommerce Analytics' order–product lookup table. If Analytics is off or your order history was never imported, they read every order's items. Import history in **WooCommerce → Analytics → Settings**. See [Performance](/admin-powerups/performance).
+
+### A new order doesn't show up in a SKU or product customer search
+
+The order–product lookup table updates in the background. Give it a moment and search again.
+
+### I don't see the Save to customer profile button or Switch to link
+
+They only show for staff who can edit that customer's account. On multisite that's usually super admins only. The save button also needs the order to be linked to a customer account.
+
+### The thank-you preview says "Preview unavailable"
+
+Preview links expire after about a day and only work for the person who opened them. Open the preview again from the order page.
+
+### Settings look reset to defaults
+
+If saved settings are in an unexpected shape (from an older version, another plugin or a manual database edit), the power-up shows its defaults instead of breaking the settings form. Check the settings and save them again.
+
+## Getting help
+
+<Steps>
+  <Step title="Copy your system info">
+    On the Powerups screen, click **Copy for support** in the sidebar's System card.
+  </Step>
+  <Step title="Ask on the forum">
+    Post on the [WordPress.org support forum](https://wordpress.org/support/plugin/admin-powerups-for-woocommerce/) and paste your system info. Threads are public, so leave out customer details.
+  </Step>
+</Steps>

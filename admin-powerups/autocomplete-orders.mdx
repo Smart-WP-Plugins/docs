@@ -1,0 +1,103 @@
+---
+title: "Autocomplete orders"
+description: "Mark orders completed automatically when your rules match"
+icon: "circle-check"
+---
+
+Autocomplete orders moves orders straight to **Completed** when your rules match, for example paid orders for virtual products. Paid orders that match skip Processing.
+
+WooCommerce on its own only completes orders where every item is both virtual and downloadable. This power-up lets you choose the rules.
+
+**Shows in:** Order status after payment
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups**, click **Configure** on **Autocomplete orders**, and tick at least one rule under **Complete an order when**.
+2. Click **Save changes**, then switch the power-up on.
+
+<Note>
+With no rules ticked, nothing changes, not even the exceptions.
+</Note>
+
+## Rules
+
+Under **Complete an order when**, tick any of:
+
+- **The order is paid**
+- **Every item is virtual**
+- **Every item is downloadable**
+- **It has selected products**
+- **It has products in selected categories** (subcategories count too)
+- **It has products with selected tags**
+- **It has products in selected shipping classes**
+- **It was paid with a selected payment method**
+
+**Rules needed** decides whether **Any checked rule** or **All checked rules** must match. The default is **Any checked rule**.
+
+<Warning>
+"The order is paid" completes every paid order, including ones you still need to ship. Every rule except the payment method rule also needs the order to be paid.
+</Warning>
+
+### Payment methods marked "Not paid yet"
+
+Methods like **Direct bank transfer**, **Check payments** and **Cash on delivery** are marked **Not paid yet**. If you pick them, orders complete before the money arrives, and completed orders unlock downloads. Only pick them if you trust those customers.
+
+"The order is paid" never counts cash on delivery orders, which reach Processing before any money arrives. Confirmed bank transfers and cheques count.
+
+## Never complete when
+
+These always win over the rules:
+
+| Setting | Default | What it does |
+|---|---|---|
+| **The order has these products** | None | Skip orders with these products. |
+| **The order has products in these categories** | None | Skip orders with products in these categories. |
+| **The total is above** | 0 (no limit) | Leave big orders for a manual check. |
+| **The customer left a note** | On | Someone should read it first. |
+| **Also complete orders staff set to Processing** | Off | Off: changing a status by hand is left alone. |
+
+The exceptions also stop WooCommerce's own completion of virtual and downloadable orders.
+
+## Timing and email
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Wait before completing (minutes)** | 0 | 0 completes right away. A wait gives fraud checks and other plugins time to act. |
+| **Send the "Order completed" email** | On | Turn off to complete orders without emailing the customer. |
+
+A wait runs as a background job. If background jobs don't run on time on your site, you'll see a warning; see [Background jobs](/admin-powerups/getting-started#background-jobs). Switching the power-up off cancels completions that are still waiting.
+
+Completing without the email doesn't stop you resending it by hand later. A completion that fails half way never silences a later "Completed order" email.
+
+## What gets recorded
+
+- Each completed order gets an order note that names the rule, starting "Completed automatically by Admin Powerups".
+- Details are logged under **WooCommerce → Status → Logs**, source `admin-powerups-autocomplete`.
+
+## When the rules run
+
+The rules act when a payment completes. When staff move an order to Processing by hand, WooCommerce records the paid date as usual and the order isn't completed, unless **Also complete orders staff set to Processing** is on. Completing such an order by hand still sends the Completed email.
+
+## Check and apply
+
+The **Check and apply** tab needs the power-up to be on.
+
+- **Check an order**: type an order number and click **Check** to see why it would or would not complete.
+- **Orders waiting in Processing**: click **Count matching orders**, then **Complete matching orders** to apply your rules to orders already waiting. Emails follow your settings.
+
+With custom order numbers, type the order number, not the internal ID.
+
+{/* Screenshot: the Check and apply tab with a checked order */}
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Email markers** | Short-lived notes on orders that stop the "Completed order" email when you turned it off. |
+| **Background job history** | Finished and failed background jobs. |
+| **Completed orders and their notes** | Stays. Order statuses and notes are part of your order history. |
+
+## Known limitations
+
+- "Every item is virtual" and "Every item is downloadable" fail if a product on the order was deleted.

@@ -1,0 +1,57 @@
+---
+title: "Email recipients & attachments"
+description: "Copy WooCommerce emails to extra addresses and attach files"
+icon: "paperclip"
+---
+
+Email recipients & attachments copies any WooCommerce email to extra addresses, such as your warehouse, accountant or supplier, and attaches files like terms, warranties or product guides.
+
+**Shows in:** WooCommerce emails
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups**, click **Configure** on **Email recipients & attachments**.
+2. Set up recipients and attachments, click **Save changes**, and switch the power-up on.
+
+## Extra recipients
+
+The **Extra recipients** table lists every WooCommerce email, split into **Store emails** and **Customer emails**. For each one you can add **To**, **Cc** and **Bcc** addresses. Separate addresses with commas. Emails turned off in WooCommerce are marked **Off in WooCommerce**.
+
+{/* Screenshot: the Extra recipients table with a Bcc address on New order */}
+
+<Warning>
+Everyone in To and Cc sees each other's address, including the customer on customer emails. Use Bcc to keep addresses private.
+</Warning>
+
+- Invalid addresses are marked and not saved.
+- Emails that are turned off, or have no recipient, stay unsent. An extra To address doesn't force them out.
+- Account emails (new account, password reset) aren't offered, because password links go only to the account holder.
+
+## Attachments
+
+Click **Add attachment rule** to attach files to emails. Each rule has:
+
+- **Files**: click **Choose files** to pick files from the Media Library.
+- **Attach to**: the emails the files go with.
+- **Only when the order has these products**, **…or products in these categories**: optional. Leave both empty to always attach.
+
+<Warning>
+Large files make emails slow to send and may be rejected by inboxes. Keep attachments small (under 5 MB in total).
+</Warning>
+
+Any Media Library file can be attached, including WooCommerce's protected downloadable files. Only store managers can set this up, but check what you attach.
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Extra recipients** | None | Extra To, Cc and Bcc per email. |
+| **Attachments** | None | Attachment rules. |
+
+If the settings can't be read when saving (a broken browser request), your saved recipients and attachments are kept.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings, including recipients and attachment rules. The attached files stay in your Media Library. |

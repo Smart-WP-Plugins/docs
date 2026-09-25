@@ -1,0 +1,41 @@
+---
+title: "Thank-you page preview"
+description: "Open an order's thank-you page without firing tracking or conversion scripts"
+icon: "eye"
+---
+
+Thank-you page preview opens any order's thank-you (order received) page from wp-admin, with scripts and tracking switched off. Previews never fire analytics or conversions again.
+
+**Shows in:** Order page, Customer pages box
+
+## Turn it on
+
+Go to **WooCommerce → Powerups** and switch on **Thank-you page preview**. It has no settings.
+
+## Use it
+
+On the order page, find the **Thank-you page** section in the **Customer pages** box and click **Preview**. The page opens in a new tab with a banner ("Scripts and tracking are off") and a **Back to order** link.
+
+{/* Screenshot: the preview banner above a thank-you page */}
+
+## What the preview does and doesn't do
+
+- Scripts, tracking pixels, analytics and conversion code don't run.
+- Other plugins' thank-you actions are skipped.
+- Your own cart is left alone.
+- The page isn't cached or indexed.
+- Payment instructions (for example bank details) and order details still show.
+- Images from other sites, such as tracking pixels, are blocked.
+
+## Links expire
+
+The preview link works for you only and expires in about a day. An old or shared link shows "Preview unavailable", never the live page. Open the preview again from the order page.
+
+## Data
+
+This power-up stores nothing.
+
+## Known limitations
+
+- The preview shows the page without scripts, so anything a script draws (some themes and blocks) won't appear. The customer sees the same page, with scripts.
+- Images from a CDN are blocked too. A developer can allow a CDN with the `apwc_thankyou_preview_img_src` filter.
