@@ -119,6 +119,7 @@
         "pages": [
           "admin-powerups/introduction",
           "admin-powerups/getting-started",
+          "admin-powerups/how-we-test",
           {
             "group": "Orders",
             "icon": "receipt",

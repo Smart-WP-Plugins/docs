@@ -1,0 +1,141 @@
+---
+title: "How we test"
+sidebarTitle: "How we test"
+description: "The reviews, automated tests, release checks and performance measurements behind each release"
+icon: "vial"
+---
+
+Admin Powerups touches orders, customer accounts, emails and checkout. This page explains how we check each release before it ships, what we measured, and what we haven't tested yet.
+
+## What "tested" means here
+
+A release is ready only when:
+
+- every automated test passes in all four setups we support,
+- every release check passes,
+- the independent security, QA, performance and code reviews have no open release-blocking findings.
+
+If a check couldn't run, we report it as **not tested**. We never count it as a pass.
+
+## How a change gets to a release
+
+<Steps>
+  <Step title="Design review">
+    Before building, the change is planned, and security, QA and performance plans are written for it.
+  </Step>
+  <Step title="Build">
+    The change ships with its own tests. Every power-up has its own test file.
+  </Step>
+  <Step title="Independent reviews">
+    Separate security, QA, performance and code reviews look at the change. Anything that touches customer data, orders, permissions, deletion, exports or account switching always gets a security and a QA review.
+  </Step>
+  <Step title="Fixes re-checked">
+    Findings are fixed, then checked again by the review that raised them.
+  </Step>
+  <Step title="Release checks">
+    All automated tests and release checks run on the final code. The result is "ready" or "not ready". Nothing ships as ready while a check is failing.
+  </Step>
+</Steps>
+
+## Automated tests
+
+The 1.0 release has about 790 automated PHPUnit tests. They run against real WordPress and WooCommerce, in four setups:
+
+| Setup | Why |
+| --- | --- |
+| High-performance order storage on | WooCommerce's default for new stores |
+| High-performance order storage with sync to posts | Stores that keep both order tables in step |
+| Legacy posts storage | Stores that haven't switched yet |
+| WordPress multisite | Per-site power-ups and stricter user permissions |
+
+Tests that need High-performance order storage, such as Advanced order search, are skipped in legacy mode with a reason.
+
+What they cover:
+
+- **Every power-up**: its rules, settings, tools, emails and background jobs.
+- **Power-ups together**: checkout and email combinations, order lifecycle, activating, deactivating and updating the plugin.
+- **Both checkouts**: anything that changes checkout is tested in the classic checkout and the block checkout.
+- **Settings in the wrong shape**: every settings form still works when stored values have an unexpected type.
+- **Switched off means off**: a power-up that's off leaves no hooks behind.
+
+### Security tests
+
+On top of the per-power-up tests, dedicated suites try to break things on purpose:
+
+- **Permission matrix**: every REST, AJAX and admin-post endpoint is called as a logged-out visitor, a customer and staff. New REST routes are picked up automatically.
+- **Input fuzzing**: endpoints and settings forms get odd input, such as quotes, HTML, emoji, very long text and huge numbers.
+- **SQL injection**: the order and customer search types are tested with injection attempts.
+- **Escaping**: output is checked for escaping, and masked order meta never appears in the page.
+- **Switch to customer**: permissions, no privilege escalation, tampering, password changes and the full switch-and-back cycle with real sessions. See [Switch to customer](/admin-powerups/switch-to-customer).
+
+## Real-browser tests
+
+58 end-to-end tests drive a real WooCommerce site in a browser with Playwright. They cover the Powerups screen, settings, payment and shipping rules, block checkout, the checkout blocklist, holiday mode, the Orders and Users lists, emails, the order screen, switching to a customer, and the customer tools.
+
+The tests snapshot the site's power-up settings before they start and restore them exactly afterwards. Everything they create is marked and removed. If the settings don't match the snapshot, the run fails.
+
+## Code quality and security checks
+
+Every release runs these checks:
+
+| Check | What it looks for |
+| --- | --- |
+| PHP lint | Syntax errors |
+| PHPCS with WordPress Coding Standards and PHPCompatibilityWP | WordPress coding rules, escaping, sanitizing, PHP version compatibility |
+| PHPStan, level 6 | Type and logic errors, with WordPress and WooCommerce stubs and no baseline of ignored errors |
+| ESLint (WordPress rules) and Stylelint | JavaScript and CSS problems |
+| Semgrep | Security patterns in PHP and JavaScript, leaked secrets, plus custom WordPress rules |
+| gitleaks | Secrets committed by mistake |
+| composer audit and npm audit | Known vulnerable dependencies |
+| Build check | No development files in the package, and every class loads |
+| Plugin Check | The official WordPress.org tool, run on the built package: 0 errors |
+
+## Performance
+
+We measure performance with a probe that counts the plugin's own database queries on each page. Results are medians of repeated warm runs, with no persistent object cache.
+
+### Your storefront
+
+With every power-up on, the plugin adds **0 database queries** to the front end and the Store API (the block cart and checkout). Page time and memory stayed within run-to-run noise.
+
+### wp-admin
+
+- Most admin pages: 1 to 4 plugin queries. The settings load in one query.
+- Orders list: 1 query.
+- Users list with every customer column on: 9 queries per page, however many users are listed.
+
+### A large store
+
+We also test on a store with **100,000 orders, 50,000 customers and 10,000 products**, using High-performance order storage. Each row compares the code before and after the release work.
+
+| What we checked | Before | After |
+| --- | --- | --- |
+| Scanning 50,000 customers for duplicates | Ran out of memory | Completes. Each step takes at most 1.34 s and 35 MB |
+| Searching orders by product ID, SKU, variation ID or shipping method | 1.4 to 5.7 s | 0.24 to 0.62 s |
+| Searching orders by variation attribute text | 6.8 s | 2.5 s (marked Slower) |
+| Searching custom order meta as staff who can't see masked keys | Up to 24.7× slower than an admin | 1.0 to 1.35× the admin's time |
+| Clearing 465,000 old email log entries | Runs that had to be stopped | 20-second runs, cleared in 5 |
+| Opening an order with 300 items | 855 ms | 428 ms |
+| Block cart with a variation | 1 plugin query | 0 |
+
+Settings that can still be slow on big stores carry a warning or a **Slower** badge. See [Performance](/admin-powerups/performance).
+
+## Privacy and your data
+
+- **Everything is declared.** Each power-up lists what it stores. The Data section on its page and the uninstall both read that list, and tests check every power-up's list. See [Data and uninstall](/admin-powerups/data-and-uninstall).
+- **Store records stay.** Customer accounts, saved addresses, order statuses and order notes are never deleted by the plugin. Tests check uninstall with and without **Keep data if the plugin is deleted**.
+- **Sensitive order meta is masked.** Keys that look like tokens, passwords, secrets or card details are hidden in the [order meta inspector](/admin-powerups/order-meta) unless you allow staff to reveal them. Staff who can't reveal them can't search them with [Advanced order search](/admin-powerups/advanced-order-search) either. Tests check that masked values never reach the page.
+- **Password links stay private.** New account and password reset emails are never stored with their content, copied to extra recipients or offered for resend.
+
+## What we haven't tested yet
+
+<Warning>
+  - **WooCommerce QIT**: WooCommerce's Quality Insights Toolkit hasn't been run on this plugin yet.
+  - **Legacy order storage at large scale**: the large-store results above use High-performance order storage. The automated tests run in legacy posts storage, but we haven't measured performance there with a large store.
+</Warning>
+
+Passing tests and reviews mean we found no known release-blocking problems. They don't guarantee there are none, so please tell us if something goes wrong.
+
+## Report a problem
+
+Post on the [WordPress.org support forum](https://wordpress.org/support/plugin/admin-powerups-for-woocommerce/) with your system info from **Copy for support** in the sidebar's System card. Threads are public, so leave out customer details. If a report would expose a security problem, don't post the details publicly; reach us through [smartwpplugins.com](https://smartwpplugins.com/) instead.
