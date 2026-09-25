@@ -122,7 +122,9 @@
           {
             "group": "Orders",
             "icon": "receipt",
-            "pages": []
+            "pages": [
+              "admin-powerups/advanced-order-search"
+            ]
           },
           {
             "group": "Customers",
