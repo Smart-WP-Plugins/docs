@@ -117,7 +117,28 @@
       {
         "product": "Admin Powerups for WooCommerce",
         "pages": [
-          "admin-powerups/introduction"
+          "admin-powerups/introduction",
+          "admin-powerups/getting-started",
+          {
+            "group": "Orders",
+            "icon": "receipt",
+            "pages": []
+          },
+          {
+            "group": "Customers",
+            "icon": "users",
+            "pages": []
+          },
+          {
+            "group": "Emails",
+            "icon": "envelope",
+            "pages": []
+          },
+          {
+            "group": "Store operations",
+            "icon": "store",
+            "pages": []
+          }
         ]
       }
     ]

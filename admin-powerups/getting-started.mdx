@@ -1,0 +1,125 @@
+---
+title: "Getting started"
+description: "Install the plugin, find the Powerups screen, and switch on your first power-up"
+icon: "rocket"
+---
+
+## Requirements
+
+- WordPress 6.7 or newer
+- PHP 8.1 or newer
+- WooCommerce 9.0 or newer
+
+A few power-ups need more:
+
+- **Advanced order search** needs WooCommerce's High-performance order storage.
+- **Advanced customer search** needs High-performance order storage for its order, product, spend and date searches.
+- **Email preview & resend** needs WooCommerce 9.6 or newer for previews.
+
+You can turn on High-performance order storage in **WooCommerce → Settings → Advanced → Features**.
+
+## Install
+
+<Steps>
+  <Step title="Add the plugin">
+    In wp-admin, go to **Plugins → Add New**, search for "Admin Powerups for WooCommerce", then click **Install Now** and **Activate**.
+  </Step>
+  <Step title="Open the Powerups screen">
+    Go to **WooCommerce → Powerups**. Every power-up is listed, and every one starts off.
+  </Step>
+  <Step title="Switch one on">
+    Use the switch on a power-up's row. It takes effect straight away.
+  </Step>
+  <Step title="Adjust its settings">
+    Click **Configure** to open the power-up's page, change what you need, and click **Save changes**.
+  </Step>
+</Steps>
+
+{/* Screenshot: the Powerups list with category chips and a switched-on row */}
+
+## The Powerups screen
+
+**WooCommerce → Powerups** lists every power-up with a short description and an on/off switch.
+
+- **Search power-ups**: type to filter the list. Press `/` to jump to the search box.
+- **Status**: show **All**, only **On**, or only **Off**.
+- **Category**: chips for **Orders**, **Customers**, **Emails** and **Store operations**.
+- **Clear filters** resets the search and filters.
+
+Some switched-on power-ups also get a direct link on their row to the tab you'll open most:
+
+| Power-up | Link |
+|---|---|
+| Email log | Log |
+| Email preview & resend | Preview & test |
+| Customer tags | Tag groups |
+| Duplicate customer finder | Find duplicates |
+| Checkout blocklist | Blocked attempts |
+
+## A power-up's page
+
+Click **Configure** on any row to open its page. The header says where the power-up shows up ("Shows in").
+
+- **Settings tab**: the power-up's options. Click **Save changes** to save.
+- **Tool tabs**: some power-ups add a tab, such as **Convert past orders** or **Check and apply**. Tool tabs need the power-up to be on.
+- **Data section**: under the settings, what the power-up stores and how to delete it. See [Data and uninstall](/admin-powerups/data-and-uninstall).
+
+<Note>
+Settings work while a power-up is off. You'll see "This power-up is off. Your settings will apply once it's on." Set it up first, then switch it on.
+</Note>
+
+### Picking products, categories and customers
+
+Fields that pick products, categories, tags or customers work the same everywhere:
+
+- Type to search. Products can be found by name, SKU or ID.
+- Use the arrow keys and Enter to pick.
+- Backspace removes the last pick; click × to remove any.
+
+### Warnings and "Slower" badges
+
+An amber warning or a **Slower** badge on a setting means the choice works but can slow a screen on stores with many orders or customers. See [Performance](/admin-powerups/performance).
+
+## Light and dark mode
+
+The Powerups screen has a light, dark and system theme. Your choice is saved for your user only.
+
+## The sidebar
+
+- **Documentation**: links to these docs.
+- **Support**: ask on the WordPress.org forum. Threads are public, so leave out customer details.
+- **System**: your WordPress, WooCommerce and PHP versions, order storage, how many power-ups are on, and background jobs. **Copy for support** copies this so you can paste it into a forum thread.
+
+The System card is checked once and saved. It shows when it was last checked ("Checked … ago"). Click the refresh icon to check everything again.
+
+The System card also has **Keep data if the plugin is deleted**. See [Data and uninstall](/admin-powerups/data-and-uninstall).
+
+### Background jobs
+
+Some power-ups run jobs in the background with WooCommerce's scheduler: the wait in **Accounts for guest orders**, **Wait before completing** in **Autocomplete orders**, and daily clean-ups. The **Background jobs** line tells you if they run on time:
+
+| Status | What it means | What to do |
+|---|---|---|
+| **Running** | Scheduled jobs are running on time. | Nothing. |
+| **N jobs overdue** | Jobs are running late. The site gets few visits, or WP-Cron is blocked. | Ask your host to run a server cron every minute. |
+| **WP-Cron off** | WP-Cron is turned off on this site, so jobs only run if your host runs a server cron. | Make sure your host runs a server cron every minute. |
+
+You can see the jobs under **WooCommerce → Status → Scheduled Actions**, in the group `admin-powerups`.
+
+## Who can use it
+
+Anyone who can manage WooCommerce, including shop managers, can switch power-ups on and off and change their settings. That includes settings that matter for security, like the checkout blocklist, which roles staff can switch to, and who can reveal masked order meta.
+
+Some actions also check the specific permission they need. For example, saving an address to a customer or switching to a customer needs permission to edit that user.
+
+## Multisite
+
+On multisite, each site has its own power-ups and settings. Switch them on per site.
+
+## After an update
+
+After a plugin update, the first wp-admin visit by a shop manager or admin finishes the update. It sets up the tables and scheduled jobs of the power-ups you have switched on.
+
+## If a power-up can't turn on
+
+If something is missing, the power-up tells you why instead of switching on. For example, **Advanced order search** asks you to turn on High-performance order storage, and **Switch to customer** stays off while the User Switching plugin is active.
