@@ -1,0 +1,53 @@
+---
+title: "Order meta inspector"
+description: "See every piece of data saved on an order and its items, with secrets masked"
+icon: "table-list"
+---
+
+Order meta inspector shows all the data stored on an order, its line items, shipping, coupons and fees. You can search it and copy it, and sensitive values stay masked.
+
+**Shows in:** Order page
+
+## Turn it on
+
+Go to **WooCommerce → Powerups** and switch on **Order meta inspector**. Open any order: the **Order meta** box starts collapsed until you open it once.
+
+On big orders (more than 50 items), the box loads its content when you open it ("Loading order meta…"), so the order page stays fast.
+
+{/* Screenshot: the Order meta box with the Line items tab open */}
+
+## Use it
+
+- **Tabs**: **Order**, **Line items**, **Shipping**, **Coupons** and **Fees**, with counts. Item tabs group by item, for example "Hoodie × 2 · Item #177".
+- **Search**: type in **Search metadata** to search keys and values across all tabs. The counts show where the matches are. Press Esc to clear.
+- **Copy**: each row has **Copy key**, **Copy value** and **Copy JSON**. **Copy tab as JSON** copies what's shown; items keep their structure.
+
+## Masked values
+
+Fields that look sensitive (tokens, secrets, passwords, card and bank data, API keys, signatures) show as `••••••`. Allowed users can click **Show** to reveal one value.
+
+- Masked values are never in the page source.
+- Copying a masked row copies the mask.
+- Masking ignores case, accents and look-alike characters in the key. For example `_access_tokén`, full-width letters and zero-width characters are masked like `_access_token`.
+
+The same fields are also hidden from [Advanced order search](/admin-powerups/advanced-order-search).
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Show hidden fields only** | Off | Hidden fields start with an underscore. Others already appear under Custom Fields. |
+| **Fields to leave out** | `_edit_lock`, `_edit_last` | One per line. Use `*` as a wildcard. |
+| **Sensitive fields to mask** | `*token*`, `*secret*`, `*password*`, `*passwd*`, `*api_key*`, `*apikey*`, `*private*`, `*signature*`, `*card_number*`, `*cvv*`, `*cvc*`, `*iban*`, `*account_number*`, `*routing*`, `*ssn*`, `*tax_id*` | One per line. Use `*` as a wildcard. |
+| **Who can show masked values** | Admins only | Or **Shop managers and admins**, or **Nobody**. |
+| **Who can see the box** | Shop managers and admins | Or **Admins only**. |
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+
+## Known limitations
+
+- On orders with hundreds of items, the content loaded when you open the box can be several MB.

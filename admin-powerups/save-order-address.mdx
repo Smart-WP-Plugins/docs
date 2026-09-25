@@ -1,0 +1,58 @@
+---
+title: "Save order address to customer"
+description: "Copy an order's billing or shipping address to the customer's profile"
+icon: "address-card"
+---
+
+Save order address to customer copies an order's billing or shipping address to the customer's profile, with a button or automatically.
+
+**Shows in:** Order page
+
+## Turn it on
+
+Go to **WooCommerce → Powerups** and switch on **Save order address to customer**.
+
+## Save an address by hand
+
+<Steps>
+  <Step title="Save the order first">
+    Edits you haven't saved aren't copied. If you changed the address, click **Update** on the order first.
+  </Step>
+  <Step title="Click the button">
+    Under the billing or shipping address, click **Save to customer profile**.
+  </Step>
+</Steps>
+
+{/* Screenshot: the Save to customer profile button under the billing address */}
+
+The button only shows for orders linked to a customer account, and only for staff who can edit that customer's account. Each save adds an order note.
+
+<Note>
+On multisite, only super admins can usually edit network users, so site admins and shop managers don't get the button.
+</Note>
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Show save buttons on orders** | On | Adds a button under each address. |
+| **Also save automatically when an order is** | Never | Save the address when an order reaches this status. Handy for orders you create for customers. |
+| **Addresses to save** | Billing, Shipping | Which addresses the automatic save copies. |
+| **Skip empty fields** | Off | On: keeps what the profile already has instead of clearing it. Off: an exact copy. |
+
+The automatic save runs whoever changes the status (checkout, payment or staff). Turning it on is the permission.
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Addresses saved to customer profiles** | Stays. They are the customers' own addresses now. |
+
+## Messages
+
+| Message | Meaning |
+|---|---|
+| Update the order first, then save. | The order has unsaved changes. |
+| This order has no customer account. | It's a guest order. |
+| You are not allowed to edit this customer. | You don't have permission to edit that user. |

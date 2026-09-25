@@ -1,0 +1,44 @@
+---
+title: "Payment link helper"
+description: "Copy, open or email the payment link for unpaid orders"
+icon: "link"
+---
+
+Payment link helper gives you an unpaid order's payment link on the order page, ready to copy, open or email. It's handy for phone and manual orders.
+
+**Shows in:** Order page, Customer pages box
+
+## Turn it on
+
+Go to **WooCommerce → Powerups** and switch on **Payment link helper**. Open any order: the **Payment link** section appears in the **Customer pages** box in the sidebar.
+
+<Note>
+The **Customer pages** box holds both the payment link and the [thank-you page preview](/admin-powerups/thankyou-preview). It only shows when one of them is on.
+</Note>
+
+{/* Screenshot: the Customer pages box with the Payment link section */}
+
+## Use it
+
+For unpaid orders you get three buttons:
+
+- **Copy** copies the link. The button turns into a tick.
+- **Open** opens the payment page in a new tab.
+- **Email** asks you to confirm ("Send the payment link to …?"), then sends WooCommerce's "Order details" email, which includes the link. The order needs a billing email.
+
+If the order belongs to a customer account, the customer is asked to log in to pay. That's a WooCommerce rule.
+
+Paid orders show "Nothing to pay".
+
+## Settings
+
+| Setting | Default | What it does |
+|---|---|---|
+| **Add an order note when the link is emailed** | On | Records who sent it and when. |
+
+## Data
+
+| Item | What it is |
+|---|---|
+| **Settings** | This power-up's saved settings. |
+| **Order notes about sent links** | Stays. Order notes are part of your order history. |

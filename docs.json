@@ -124,7 +124,11 @@
             "icon": "receipt",
             "pages": [
               "admin-powerups/advanced-order-search",
-              "admin-powerups/autocomplete-orders"
+              "admin-powerups/autocomplete-orders",
+              "admin-powerups/save-order-address",
+              "admin-powerups/payment-link",
+              "admin-powerups/thankyou-preview",
+              "admin-powerups/order-meta"
             ]
           },
           {
