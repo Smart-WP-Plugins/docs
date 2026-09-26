@@ -129,7 +129,6 @@
               "admin-powerups/save-order-address",
               "admin-powerups/payment-link",
               "admin-powerups/thankyou-preview",
-              "admin-powerups/order-meta",
               "admin-powerups/analytics-filters"
             ]
           },
@@ -171,9 +170,10 @@
             "icon": "code",
             "pages": [
               "admin-powerups/developer-tools",
+              "admin-powerups/order-meta",
               "admin-powerups/webhook-health",
-              "admin-powerups/cron-inspector",
-              "admin-powerups/scheduled-actions"
+              "admin-powerups/scheduled-actions",
+              "admin-powerups/cron-inspector"
             ]
           },
           {
