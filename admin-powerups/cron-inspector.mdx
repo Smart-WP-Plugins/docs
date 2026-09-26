@@ -1,0 +1,87 @@
+---
+title: "Cron inspector"
+description: "See every WP-Cron event, spot overdue ones and hooks with no callback, run an event now or delete one"
+icon: "alarm-clock"
+---
+
+Cron inspector lists every WP-Cron event on the site, shows which are overdue and which hooks have no callback, checks that the site can reach its own cron, and lets you run an event now or delete ones left behind by removed plugins.
+
+**Shows in:** Cron events tab
+
+<Warning>
+  Cron inspector is a Developer tool: only site admins see it. Its page carries the amber warning: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime." See [Developer and Performance tools](/admin-powerups/developer-tools).
+</Warning>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Cron inspector** in the **Developer** group.
+2. Click **Configure**, then the **Cron events** tab.
+
+There's nothing to set up. The Settings tab says "Nothing to set up. Use the Cron events tab."
+
+{/* Screenshot: the Cron events tab with an overdue event and the Loopback card */}
+
+## Status
+
+The top of the tab shows **Due now**, **Overdue**, **Events** and **Stored size**, plus:
+
+- **WP-Cron**: on (runs on page visits), alternate cron (`ALTERNATE_WP_CRON`), or off (`DISABLE_WP_CRON`, a server cron job runs it).
+- **Cron run**: not running, running, or last started and didn't finish cleanly.
+- **Oldest overdue**: the hook and how late it is. An event counts as overdue when it's more than 10 minutes late.
+- A warning when the stored cron list is over 500 KB. WordPress loads it on every page, so look for hooks with many events.
+
+### Loopback
+
+**Check loopback** (Safe) sends a request from your server to its own `wp-cron.php`. It tells you the site can reach itself, not that events run: on PHP-FPM hosts, `wp-cron.php` answers before anything runs, so the check passes even when cron itself fails. The result is kept for 12 hours.
+
+## The events list
+
+Every event, 50 per page, with **Hook**, **Next run** and **Schedule**. Filter by **All events**, **Due now**, **Overdue** or **No callback**, or search by hook name. **Details** shows the callbacks and the event's arguments.
+
+- Each event shows its owner: WordPress, WooCommerce, a plugin, a theme, or "Probably ..." when it's a guess.
+- **No callback**: no callback was found in this request. This is a hint, not proof: some plugins only add their callback while cron runs.
+- Arguments under names like token or password are shown as `[masked]`. Arguments without names are shown as they are.
+
+Below the list, **Hooks with no callback** and **Hooks with the most events** help you find leftovers.
+
+## Run now
+
+**Run now** never runs the event inside your page. It hands the event to WP-Cron and starts a cron run in the background.
+
+| Event | What happens | Confirm |
+| --- | --- | --- |
+| Already due | Left as it is; a cron run is started. | Safe (one click) |
+| One-off, in the future | Moved to now. It won't run again at its old time. | Review (click twice) |
+| Recurring, in the future | One extra run now. Its schedule stays the same. | Review (click twice) |
+| Due within 10 minutes | Left as it is. | |
+
+The result says what happened: a cron run started, WP-Cron is off so the server cron runs it, it runs on the next page visit, cron is already running, or it couldn't start.
+
+## Delete
+
+Deleting is **Advanced**: type "delete" to confirm. On multisite only a network (super) admin can delete.
+
+- **Delete** or **Delete selected**: up to 20 events at a time. A recurring event stops repeating unless its plugin schedules it again.
+- **Delete all** (under **Hooks with no callback**): every event of a hook whose plugin or theme is inactive or no longer installed.
+
+WordPress, WooCommerce, Action Scheduler, Admin Powerups and similar jobs are **Protected**. They can't be deleted here, but they can still be run.
+
+## When the list is read-only
+
+If another plugin handles cron storage on your site, the list is read-only and may not match what really runs. Use that plugin's tools to change events.
+
+## Data
+
+| Item | What it is |
+| --- | --- |
+| **Last loopback check** | The result of the last **Check loopback**, kept for 12 hours. |
+| **Run or deleted events** | Events you run now or delete change WordPress's own cron schedule. That stays when the power-up is off or removed. |
+
+## On phones
+
+On a phone, each event stacks into a block instead of scrolling sideways.
+
+## Known limitations
+
+- If another cron run saves at the same moment, a deleted or moved event can come back. The message says so. If a move can't be finished or undone, the message says the event may run twice.
+- Events whose stored data doesn't match their key can't be changed safely, so they're refused.

@@ -26,6 +26,10 @@ The choice still works. It just takes longer on big stores.
 | [Advanced customer search](/admin-powerups/advanced-customer-search) | Name, Email, Phone, Company, Address, City, Postcode, Number of orders, Lifetime spend | They look inside customer details or add up orders. | Order number, SKU purchased, Product purchased, Customer tag, Ordered in |
 | [Customer table columns](/admin-powerups/customer-table-columns) | Orders, Lifetime spend, Average order, Last order, when High-performance order storage is off | They search all order data for each page of users. | Turn on High-performance order storage. |
 | [Duplicate customer finder](/admin-powerups/duplicate-customers) | A scan | Reads every customer account in batches. | It only runs when you click Scan. |
+| [Analytics order filters](/admin-powerups/analytics-filters) | Shipping method, Customer role | They look inside order items or customer accounts. A year-long report can take 1 to 2 seconds on a store with 100,000 orders. | Country, State, City, Payment method |
+| Analytics order filters | Any filtered report | Skips WooCommerce's report cache, so it's counted fresh each time. | Remove the filters when you don't need them. |
+| [Scheduled action monitor](/admin-powerups/scheduled-actions) | A long **Keep finished actions for** period | The actions table grows, which slows queue runs. | Keep the default (31 days). |
+| [Autoloaded options](/admin-powerups/autoloaded-options) | The owner filter | Guesses the owner of every autoloaded option (tens of milliseconds on big sites). | Search by option name. |
 
 ## High-performance order storage
 

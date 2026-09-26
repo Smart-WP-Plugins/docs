@@ -4,23 +4,43 @@ description: "See every piece of data saved on an order and its items, with secr
 icon: "table-list"
 ---
 
-Order meta inspector shows all the data stored on an order and its line items, shipping, coupons and fees. You can search it and copy it, and sensitive values stay masked.
+Order meta inspector shows all the data stored on an order and its line items, shipping, coupons and fees, and the whole order as JSON. You can search it and copy it, and sensitive values stay masked.
 
 **Shows in:** Order page
 
+<Warning>
+  Order meta inspector is a Developer tool: only admins who can edit orders see the box. Store managers don't. Its page carries the amber warning: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime." See [Developer and Performance tools](/admin-powerups/developer-tools).
+</Warning>
+
 ## Turn it on
 
-Go to **WooCommerce → Powerups** and switch on **Order meta inspector**. Open any order: the **Order meta** box starts collapsed until you open it once.
+Go to **WooCommerce → Powerups** and switch on **Order meta inspector** in the **Developer** group. Open any order: the **Order meta** box starts collapsed until you open it once.
 
-On big orders (more than 50 items), the box loads its content when you open it ("Loading order meta…"), so the order page stays fast.
+The box loads its content when you open it ("Loading order meta…"). Big orders (more than 50 items) always load on open, so the order page stays fast.
 
 {/* Screenshot: the Order meta box with the Line items tab open */}
 
 ## Use it
 
 - **Tabs**: **Order**, **Line items**, **Shipping**, **Coupons** and **Fees**, with counts. Item tabs group by item, for example "Hoodie × 2 · Item #177".
-- **Search**: type in **Search metadata** to search keys and values across all tabs. The counts show where the matches are. Press Esc to clear.
+- **Search**: type in **Search keys and values** to search across all tabs. The counts show where the matches are. Press Esc to clear.
 - **Copy**: each row has **Copy key**, **Copy value** and **Copy JSON**. **Copy tab as JSON** copies what's shown; items keep their structure.
+
+## The whole order as JSON
+
+Use the **Meta | JSON** switch at the top of the box to see the whole order as JSON: the order, customer, line items, tax, shipping, fee and coupon lines, refunds and meta. The JSON loads only the first time you click **JSON** ("Loading the order as JSON…").
+
+- **Copy all** copies the whole order. **Copy section** copies one part, such as `line_items`.
+- Long JSON shows the first 200 lines; click **Show all** for the rest.
+- Sensitive values show as `[masked]` in the JSON, even for people allowed to reveal them in the meta view, so a copy never leaks secrets.
+
+A note above the JSON tells you:
+
+- how the order is stored (for example "Stored in the order tables (HPOS).")
+- how many sensitive values were masked
+- what was cut: more than 250 items of one type ("Line items: showing the first 250 of 300."), or very long values (over 10,000 characters), which end in `…[truncated: N chars]`
+
+{/* Screenshot: the Order meta box in JSON view with the note and Copy all */}
 
 ## Masked values
 
@@ -30,7 +50,7 @@ Fields that look sensitive (tokens, secrets, passwords, card and bank data, API 
 - Copying a masked row copies the mask.
 - Masking ignores case, accents and look-alike characters in the key. For example `_access_tokén`, full-width letters and zero-width characters are masked like `_access_token`.
 
-The same fields are also hidden from [Advanced order search](/admin-powerups/advanced-order-search).
+The same fields are also hidden from [Advanced order search](/admin-powerups/advanced-order-search), and the same patterns mask arguments in the [Scheduled action monitor](/admin-powerups/scheduled-actions) and [Cron inspector](/admin-powerups/cron-inspector).
 
 ## Settings
 
@@ -38,9 +58,8 @@ The same fields are also hidden from [Advanced order search](/admin-powerups/adv
 |---|---|---|
 | **Show hidden fields only** | Off | Hidden fields start with an underscore. Others already appear under Custom Fields. |
 | **Fields to leave out** | `_edit_lock`, `_edit_last` | One per line. Use `*` as a wildcard. |
-| **Sensitive fields to mask** | `*token*`, `*secret*`, `*password*`, `*passwd*`, `*api_key*`, `*apikey*`, `*private*`, `*signature*`, `*card_number*`, `*cvv*`, `*cvc*`, `*iban*`, `*account_number*`, `*routing*`, `*ssn*`, `*tax_id*` | One per line. Use `*` as a wildcard. |
-| **Who can show masked values** | Admins only | Or **Shop managers and admins**, or **Nobody**. |
-| **Who can see the box** | Shop managers and admins | Or **Admins only**. |
+| **Sensitive fields to mask** | `*token*`, `*secret*`, `*password*`, `*passwd*`, `*api_key*`, `*apikey*`, `*private*`, `*signature*`, `*card_number*`, `*cvv*`, `*cvc*`, `*iban*`, `*account_number*`, `*routing*`, `*ssn*`, `*tax_id*` | One per line. Use `*` as a wildcard. Matching values are masked in the box, always in the JSON view, and in scheduled action and cron arguments. |
+| **Who can see masked values** | Admins only | Or **Shop managers and admins**, or **Nobody**. Only admins see the box; **Shop managers and admins** also lets shop managers search masked fields in Advanced order search. |
 
 ## Data
 

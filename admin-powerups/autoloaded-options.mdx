@@ -1,0 +1,90 @@
+---
+title: "Autoloaded options"
+description: "See which options load on every page, stop autoloading heavy ones, and delete what removed plugins left behind"
+icon: "database"
+---
+
+Autoloaded options shows which options WordPress loads on every page, how big they are and who probably owns them. You can stop autoloading heavy ones, or delete options that removed plugins left behind.
+
+**Shows in:** Autoloaded options tab
+
+<Warning>
+  Autoloaded options is a Performance tool: only site admins see it. Its page carries the amber warning: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime." See [Developer and Performance tools](/admin-powerups/developer-tools).
+</Warning>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Autoloaded options** in the **Performance** group.
+2. Click **Configure**, then the **Autoloaded options** tab.
+
+There's nothing to set up. The Settings tab says "Nothing to set up. Use the Autoloaded options tab."
+
+{/* Screenshot: the Autoloaded options tab with the summary and the largest options */}
+
+## The summary
+
+- **Loaded on every page**: the total size, compared with the limit WordPress Site Health recommends.
+- **Autoloaded options**: how many there are.
+- **Large options**: options over the size WordPress would autoload on its own (150 KB by default).
+
+On multisite, only this site's options are included; network options aren't.
+
+## The list
+
+The 100 largest autoloaded options, with **Option**, **Size**, **Probable owner** and **Autoload**. Search by name, or filter by owner: **WordPress**, **WooCommerce**, **Plugins**, **Themes**, **Inactive or removed**, **Unknown owner**.
+
+- **Large** marks big options. **Forced by its plugin** means the plugin always asks for it to autoload.
+- The owner is a guess from the option name (WordPress's own list, WooCommerce, installed plugins and themes, well-known plugins). It says **Unknown** when unsure.
+
+### View a value
+
+The eye icon shows the raw value as stored. It's never run or unpacked. Long values show the first 4 KB. **Copy name** copies the option name.
+
+Values with sensitive names, or content that looks like a secret (API keys, tokens, private keys), are hidden. **Reveal value** and **Download value** (up to 1 MB) need Advanced permission: site admins, or on multisite a network (super) admin.
+
+## Stop autoloading
+
+**Stop autoloading** (Review recommended, click twice) keeps the option; WordPress just loads it only when something asks for it.
+
+If WordPress, WooCommerce or an active plugin reads the option on every page, this adds a database query to each page. The button warns you: "Click again: may add a query per page".
+
+To undo it, click **Autoload again** (Review recommended) under **Recent changes**.
+
+## Delete an option
+
+**Delete** is **Advanced**: type "delete" to confirm. The option is deleted for good; download the value first if you might need it.
+
+You can only delete options that belong to an inactive plugin or theme, or to a plugin you removed (exact known option names only). These are never deleted:
+
+- WordPress and WooCommerce options
+- Jetpack connection options (used by WooCommerce and WooPayments)
+- Action Scheduler and Admin Powerups options
+- Transients. Clear those with **WooCommerce → Status → Tools**.
+
+Only autoloaded options, or ones you switched off here, can be changed.
+
+## Recent changes
+
+Every option you stop autoloading, switch back or delete is listed with its size, owner, who did it and when. Values are never stored.
+
+## Performance
+
+<Warning>
+  The owner filter guesses the owner of every autoloaded option, which can take tens of milliseconds on big sites.
+</Warning>
+
+## On phones
+
+On a phone, each option stacks into a block instead of scrolling sideways.
+
+## Data
+
+| Item | What it is |
+| --- | --- |
+| **Change history** | The list of options you stopped autoloading or deleted here (names, sizes, who and when; never values). Deleting it doesn't undo those changes; **Autoload again** just won't be offered for them any more. |
+| **Autoload changes and deleted options** | Options you stopped autoloading stay that way, and deleted options stay deleted, when the power-up is off or removed. |
+
+## Known limitations
+
+- With a persistent object cache, changes made outside WordPress show only after that cache expires. Changes made here show straight away.
+- If two admins change options at the same moment, one history entry can be lost. The change itself is saved.

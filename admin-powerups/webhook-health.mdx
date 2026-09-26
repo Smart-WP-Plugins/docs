@@ -1,0 +1,75 @@
+---
+title: "Webhook health"
+description: "See disabled or failing WooCommerce webhooks and recent deliveries"
+icon: "satellite-dish"
+---
+
+Webhook health lists your WooCommerce webhooks with a health label, shows recent deliveries, and lets you send a test or re-enable a disabled webhook.
+
+**Shows in:** Webhooks tab
+
+<Warning>
+  Webhook health is a Developer tool: only site admins see it. Store managers don't. Like every Developer and Performance tool, its page carries this warning: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime." See [Developer and Performance tools](/admin-powerups/developer-tools).
+</Warning>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Webhook health** in the **Developer** group.
+2. Click **Webhooks** on its row (or **Configure**, then the **Webhooks** tab).
+
+There's nothing to set up. The Settings tab says "Nothing to set up. Use the Webhooks tab."
+
+{/* Screenshot: the Webhooks tab with a disabled webhook and Recent deliveries */}
+
+## The Webhooks tab
+
+The list shows disabled and failing webhooks first, then the newest, up to 100 ("Showing X of Y webhooks"). Columns: **Webhook**, **Status**, **Health** and **Last delivery**.
+
+Only the host of the delivery address is shown ("To example.com"). Secrets, signatures, payloads and the full URL never are.
+
+### Health
+
+| Health | What it means |
+| --- | --- |
+| **Healthy** | Nothing wrong found. |
+| **Failing: N in a row** | Deliveries are failing. WooCommerce disables the webhook after its failure limit plus 2 (7 in a row by default). |
+| **Disabled** | "After repeated failures." or "Turned off in WooCommerce." |
+| **Paused** | Not delivering until it's active again in WooCommerce. |
+| **No successful ping yet** | WooCommerce's test ping hasn't had a 200 answer yet. |
+| **Owner missing** | The user it runs as no longer exists. Pick a user in WooCommerce. |
+| **Owner can't read orders** (or products, coupons, customers), **Owner can't use this site** | WooCommerce builds each delivery as this user, so deliveries hold an error. Pick another user in WooCommerce. |
+
+## Send test
+
+**Send test** sends WooCommerce's own test ping to the webhook. It's **Safe**: it runs only when you click it and doesn't change failure counts or logs.
+
+The test ping only accepts HTTP 200, while real deliveries accept 2xx to 302. If the test gets a 201 or 204, the result explains that; it isn't a failure of real deliveries.
+
+## Re-enable
+
+**Re-enable** shows on disabled webhooks only. It's **Review recommended**: click once, then **Click again to re-enable**.
+
+- Deliveries restart for new events. Past events aren't re-sent.
+- If the webhook hasn't had a successful ping yet, WooCommerce also sends its test ping when it re-enables it. The result is shown.
+- Paused webhooks are left to WooCommerce's own screen. Use **Edit in WooCommerce**.
+
+## Recent deliveries
+
+Recent deliveries are read from WooCommerce's logs: time, webhook, response and duration. **Delivery logs** opens them in WooCommerce.
+
+- WooCommerce logging must be on, at **Info** level or lower, with the file or database log. If it isn't, the tab tells you what to change.
+- Entries that can't be read or checked aren't shown. The tab says how many and links to WooCommerce's logs.
+- **Delivery queue** shows pending and failed background deliveries. If the oldest pending one is late, cron probably isn't running.
+
+## Data
+
+Webhook health stores nothing of its own.
+
+| Item | What it is |
+| --- | --- |
+| **Webhook changes** | Webhooks you re-enable stay active in WooCommerce, and a successful test ping stays recorded there. They stay when the power-up is off or removed. |
+
+## Known limitations
+
+- If WooCommerce or another admin saves the same webhook at the same moment as **Re-enable**, the last save wins.
+- Multisite: WooCommerce keeps one log folder for the whole network, so file-based deliveries can include another site's webhook with the same ID. The database log is per site.

@@ -1,0 +1,93 @@
+---
+title: "Quick stock"
+description: "See and change stock for every product and variation on one screen"
+icon: "boxes-stacked"
+---
+
+Quick stock lists every product and variation with its stock on one screen. Type a number, press Enter, and the next row is ready.
+
+**Shows in:** Stock tab
+
+<Note>
+  Quick stock needs WooCommerce's stock management. Turn on **Enable stock management** in **WooCommerce → Settings → Products → Inventory**. Until then the power-up won't switch on.
+</Note>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Quick stock**.
+2. Click **Stock** on its row (or **Configure**, then the **Stock** tab).
+
+There's nothing to set up. Anyone who can manage WooCommerce and edit products can use the tab.
+
+{/* Screenshot: the Stock tab with a stock amount being edited */}
+
+## The Stock tab
+
+One table with **Product**, **SKU**, **Stock** and **Status**. Simple products and variations are listed; variations sit under their parent. Grouped and external products are left out.
+
+- **Search**: by name, SKU or ID.
+- **Filters**: stock status (**In stock**, **Low stock**, **Out of stock**, **On backorder**, **Not tracked**), product type and category. Click **Filter**; **Clear** removes them.
+- **Sort** by product name, SKU or stock.
+- **Per page**: 20, 50, 100 or 200.
+- A variable product links to its variations ("3 variations"). **Show all products** goes back to the full list.
+
+Draft, pending, scheduled and private products carry a badge. Staff who can't see other people's private or draft products in WooCommerce don't see them here either.
+
+## Change stock
+
+<Steps>
+  <Step title="Type the new amount">
+    Click a stock amount and type, for example 15 → 30.
+  </Step>
+  <Step title="Press Enter">
+    Enter saves and moves to the next row. Leaving the field saves too. Esc puts the old value back.
+  </Step>
+  <Step title="Check the toast">
+    A message confirms the change ("Hoodie: 15 → 30") with **Undo**.
+  </Step>
+</Steps>
+
+The mouse wheel never changes a focused amount. Negative amounts are allowed, since stock can already be negative after orders.
+
+### Products that don't track stock
+
+- **Status**: pick the stock status from the select.
+- **Track**: starts tracking stock. Type the amount in stock (0 or more) and press Enter.
+- Variations that use their parent's stock show **Parent's stock** and a **Track separately** button.
+- Variable products show their stock per variation. To switch tracking on or off for the parent, use the product editor.
+
+### Low stock
+
+A product is low on stock when its amount is at or below its own low-stock amount (or else its parent's, or else the store's), above the out-of-stock amount, and its status is **In stock**. This can differ slightly from the low-stock count in Analytics.
+
+**Not tracked** leaves out variable parents and variations that use their parent's stock.
+
+## When stock changes while you edit
+
+Changes are saved as a difference. If an order comes in while you save, the order still counts, and the message says "(another change came in while saving)".
+
+If someone changed the product after the page loaded, the save is refused and the row shows the current value:
+
+> Stock changed to 12 since this page loaded (an order may have come in). Enter the new amount again.
+
+If a save didn't go through, you'll see "The change wasn't saved. Here is the product as it is now; try again."
+
+<Note>
+  Edits made here don't send WooCommerce's low-stock or out-of-stock emails. A developer can turn them on with the `apwc_quick_stock_send_stock_alerts` filter.
+</Note>
+
+While WooCommerce rebuilds its product lookup table, an alert says filters and sorting may be incomplete until it finishes.
+
+## On phones
+
+On a phone, each row of the table stacks into a block instead of scrolling sideways.
+
+## Data
+
+| Item | What it is |
+| --- | --- |
+| **Stock changes** | Quantities and statuses you change are saved on the products in WooCommerce. They stay when the power-up is off or removed. |
+
+## Known limitations
+
+- If an order changes stock by exactly the opposite amount at the same moment (you set 10 → 12 while an order takes 2), the save counts but shows "wasn't saved". The row shows the correct stock.
