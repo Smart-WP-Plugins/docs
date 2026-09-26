@@ -129,7 +129,8 @@
               "admin-powerups/save-order-address",
               "admin-powerups/payment-link",
               "admin-powerups/thankyou-preview",
-              "admin-powerups/order-meta"
+              "admin-powerups/order-meta",
+              "admin-powerups/analytics-filters"
             ]
           },
           {
@@ -161,7 +162,8 @@
               "admin-powerups/shipping-rules",
               "admin-powerups/checkout-blocklist",
               "admin-powerups/holiday-mode",
-              "admin-powerups/high-value-orders"
+              "admin-powerups/high-value-orders",
+              "admin-powerups/quick-stock"
             ]
           },
           "admin-powerups/data-and-uninstall",
