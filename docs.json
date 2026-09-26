@@ -166,6 +166,16 @@
               "admin-powerups/quick-stock"
             ]
           },
+          {
+            "group": "Developer",
+            "icon": "code",
+            "pages": []
+          },
+          {
+            "group": "Performance",
+            "icon": "gauge",
+            "pages": []
+          },
           "admin-powerups/data-and-uninstall",
           "admin-powerups/performance",
           "admin-powerups/faq"
