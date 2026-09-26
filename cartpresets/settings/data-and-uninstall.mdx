@@ -45,16 +45,16 @@ Deleting the plugin removes **nothing** by default.
 
 That's the opposite of most plugins, and it's on purpose. If you deactivate to test something, or delete and reinstall to fix a bad upload, you shouldn't lose a year of work to a routine action.
 
-Each category has its own opt-in under **Settings → Data management**:
+Each category has its own checkbox under **Settings → Data management → Delete on uninstall**. They're there on both versions, and saved with **Save changes**:
 
-| Switch | Key | Removes |
+| Checkbox | Key | Removes |
 | --- | --- | --- |
 | Presets and their settings | `delete_links` | All four tables |
 | Store settings, wording and licence | `delete_settings` | Every store setting (wording included), the stored licence record, each administrator's listing preferences, and cached preset data |
 | The carrier product | `delete_carrier` | The hidden product, if it's still virtual and hidden |
 
 <Warning>
-  These fire on **delete**, not on deactivate, and they can't be undone. Turning one on does nothing straight away. It arms the deletion for whenever you next delete the plugin.
+  These fire on **delete**, not on deactivate, and they can't be undone. Ticking one does nothing straight away. It arms the deletion for whenever you next delete the plugin.
 </Warning>
 
 ### What is never removed
@@ -73,4 +73,4 @@ WordPress's own tools answer for it. **Tools → Export Personal Data** returns 
 
 Presets are database rows, so a full database migration carries them.
 
-If you're moving between separate stores, use [Import and export](/cartpresets/import-export)<Pro /> instead. It matches products by SKU on the way in, which a raw table copy can't do.
+If you're moving between separate stores, use [Import and export](/cartpresets/import-export)<Pro /> instead: **Export presets** and **Import presets**, under **Settings → Data management → Preset data**. It matches products by SKU on the way in, which a raw table copy can't do, and every imported preset arrives inactive. On the free version both buttons are locked.

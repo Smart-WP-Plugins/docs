@@ -15,19 +15,15 @@ All store settings live in a single option, `cartpresets_settings`. Preset and i
 
 ## Store settings
 
-The sections below are in the order the screen draws them: Licence<Pro />, Carrier product, Cart behaviour, Usage limits, Messages and labels, Link settings, Menu location, Data management.
+The sections below are in the order the screen draws them: Licence<Pro />, Cart behaviour, Usage limits<Pro />, Carrier product<Pro />, Messages and labels, Link settings, Menu location, Data management.
+
+The free version draws every card too. The Pro-only ones carry a **Pro** tag, and their controls are locked.
+
+Most of the screen saves together with **Save changes** at the bottom. The licence buttons, the carrier product buttons, and export and import act straight away instead, so they never touch the save bar.
 
 ### Licence<Pro />
 
-On Pro the first card on Settings is **Licence**, above the carrier product. It holds the key, its status, and the Activate, Sync and Deactivate buttons. Those buttons act straight away and sit outside the save bar, so there's nothing to save. The licence has no stored setting keys in `cartpresets_settings`. See [Licence and updates](/cartpresets/licence).
-
-### Carrier product
-
-| Setting | Key | Default | Tier |
-| --- | --- | --- | --- |
-| Carrier product | `carrier_product_id` | `0` (none) | Both |
-
-The hidden product custom items ride on. See [The carrier product](/cartpresets/settings/carrier-product).
+The first card on Settings is **Licence**. On Pro it holds the key, its status, and the **Activate**, **Sync now** and **Deactivate on this site** buttons. On the free version it's locked. The licence has no stored setting keys in `cartpresets_settings`. See [Licence and updates](/cartpresets/licence).
 
 ### Cart behaviour
 
@@ -65,22 +61,30 @@ The lower two are disabled while **Clear the existing cart** is on. An emptied c
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
 | Unavailable links | `refused_action` | `cart` | Both |
-| Custom link | `refused_url` | Empty | Both |
+| Custom URL | `refused_url` | Empty | Both |
 | Show an error message | `refused_notice` | On | Both |
 
-`refused_action` accepts `cart` or `custom`. One answer covers every way a link can be refused: expired, sold out, switched off, restricted, used up, or matching no preset at all. See [Where customers land](/cartpresets/links/destinations).
+`refused_action` accepts `cart` (**Cart**) or `custom` (**Custom URL**). Choosing **Custom URL** shows a **Custom URL** field, and a custom destination won't save without an address. One answer covers every way a link can be refused: expired, sold out, switched off, restricted, used up, or matching no preset at all. See [Where customers land](/cartpresets/links/destinations).
 
 <Note>
   This is store-wide and editable in **both versions**. Only the per-preset override needs Pro. Where a refused customer lands can't put a link back on sale, so there's nothing for a tier gate to protect.
 </Note>
 
-### Usage limits
+### Usage limits<Pro />
 
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
-| Count orders with these statuses | `redemption_statuses` | on-hold, processing, completed | Pro to edit, honoured on both |
+| Count orders with these statuses | `redemption_statuses` | On hold, Processing, Completed | Pro to edit, honoured on both |
 
-A slot is taken when an order enters one of these, and given back when it leaves them, so a cancelled order doesn't permanently eat part of a limited run. See [Purchase limits](/cartpresets/building/purchase-limits).
+A slot is taken when an order enters one of these, and given back when it leaves them, so a cancelled order doesn't permanently eat part of a limited run. Clearing every box falls back to the default. On the free version the boxes are locked and the stored set still applies. See [Purchase limits](/cartpresets/building/purchase-limits).
+
+### Carrier product<Pro />
+
+| Setting | Key | Default | Tier |
+| --- | --- | --- | --- |
+| Carrier product | `carrier_product_id` | `0` (none) | Pro to change |
+
+The hidden product custom items ride on. With none linked, the card shows an empty slot with **Create carrier product** and **Choose a product**. On the free version the card is locked. See [The carrier product](/cartpresets/settings/carrier-product).
 
 ### Messages and labels
 
@@ -88,7 +92,7 @@ A slot is taken when an order enters one of these, and given back when it leaves
 | --- | --- | --- | --- |
 | All twenty-one strings | `notices` | Empty (shipped wording) | Both |
 
-Twenty-one strings, drawn as twenty-two editable fields: the per-customer cap message has a singular and a plural form. Only the ones you've rewritten are stored. See [Cart notices and wording](/cartpresets/links/wording).
+Twenty-one strings, drawn as twenty-two editable fields: the per-customer cap message has a singular and a plural form. They sit in four groups, each opened with **Edit wording**, and a search box finds a message by its wording or by when it shows. Only the ones you've rewritten are stored. See [Cart notices and wording](/cartpresets/links/wording).
 
 ### Link settings
 
@@ -98,13 +102,13 @@ Twenty-one strings, drawn as twenty-two editable fields: the per-customer cap me
 | Pretty permalink base | `permalink_base` | `/preset/` | Both |
 | Append the preset name as a UTM campaign | `utm` | Off | Both |
 
-Changing either URL setting breaks links you've already shared.
+Changing either URL setting breaks links you've already shared. A read-only **Link preview** shows how every preset link will read.
 
 ### Menu location
 
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
-| Where you reach this panel from | `menu_location` | `own` | Both |
+| Menu location | `menu_location` | `own` | Both |
 
 `own` (**Top-level menu**) is a **Cart Presets** menu with All Presets, Add New Preset and Settings beneath it. `products` (**Under Products**) is a single **Cart Presets** entry under **Products**, with no submenu. Add New and Settings stay reachable from the listing screen. Saving this reloads the page to move the menu.
 
@@ -116,9 +120,9 @@ Changing either URL setting breaks links you've already shared.
 | Store settings, wording and licence | `delete_settings` | Off | Both |
 | The carrier product | `delete_carrier` | Off | Both |
 
-Whatever you select is permanently deleted on uninstall. Deactivating never removes anything. `delete_settings` covers more than its wording says: the whole settings option, your licence record, each administrator's listing preferences, and cached preset data.
+These three boxes sit under **Delete on uninstall**, and they're editable on both versions. Everything is kept unless you tick it. Whatever you tick is permanently deleted on uninstall. Deactivating never removes anything. `delete_settings` covers more than its wording says: the whole settings option, your licence record, each administrator's listing preferences, and cached preset data.
 
-The section also carries **Preset data → Export presets / Import presets**<Pro /> — see [Import and export](/cartpresets/import-export).
+Above them, **Preset data** holds **Export presets** and **Import presets**<Pro />. They act straight away, and they're locked on the free version. See [Import and export](/cartpresets/import-export).
 
 See [Data and uninstall](/cartpresets/settings/data-and-uninstall) and [Privacy and personal data](/cartpresets/settings/privacy).
 
@@ -128,28 +132,28 @@ Set in the editor, on one preset.
 
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
-| Date (publish) | `created_at` | Now | Pro to edit |
+| Starts on | `created_at` | Now | Pro to edit |
 | Preset ends on | `end_at` | Empty | Pro to edit |
 | Maximum orders | `max_total` | Empty | Pro to edit, honoured on both |
 | Maximum orders per customer | `max_per` | `0` | Pro to edit, honoured on both |
 | Redirect after adding | `redirect` | `global` | Both |
 | Custom URL | `custom_url` | Empty | Both |
-| Use the Settings default (existing cart) | `cart_override` | Off (follow Settings) | Both |
+| Existing cart: **Store default** / **Override** | `cart_override` | Off (**Store default**) | Both |
 | Clear the existing cart | `clear_cart` | Off | Both |
 | Allow duplicate presets | `allow_duplicate` | Off | Both |
 | Keep existing items | `keep_existing` | On | Both |
 | Coupon code | `coupon` | Empty | Pro — not applied on free |
 | Signed-in customers only | `logged_in` | Off | Pro — not enforced on free |
-| Limit to roles | `roles` | Empty | Pro — not enforced on free |
+| Allowed roles | `roles` | Empty | Pro — not enforced on free |
 | Unavailable links | `refused_action` | `global` | Pro to edit, honoured on both |
-| Custom link | `refused_url` | Empty | Pro to edit, honoured on both |
-| Show an error message | `refused_notice` | On | Pro to edit, honoured on both |
+| Custom URL | `refused_url` | Empty | Pro to edit, honoured on both |
+| Show an error message (no editor control) | `refused_notice` | On | Pro to edit, honoured on both |
 
-`redirect` and `refused_action` both accept `global` (**Use the Settings default**). `refused_action` otherwise accepts `cart` or `custom`, the same two the store offers.
+In the editor, each of **Existing cart**, **Redirect after adding** and **Unavailable links** has a **Store default** / **Override** switch. `redirect` and `refused_action` both store **Store default** as `global`. `refused_action` otherwise accepts `cart` or `custom`, the same two the store offers.
 
-The three cart switches are only read while `cart_override` is on. With it off, the store's own answers apply and the editor draws them disabled — see [Cart behaviour](/cartpresets/links/cart-behaviour#per-preset-override).
+The editor has no switch for `refused_notice`. A preset that overrides **Unavailable links** keeps the stored value, which is on unless an import or the REST API set it off.
 
-Watch the polarity here. The switch is labelled **Use the Settings default** and it ships **on**, which is `cart_override` set to off. Turning that switch off is what sets `cart_override` on and hands the preset its own answers.
+The three cart switches are only read while `cart_override` is on. On **Store default** the editor hides them and names the store's answer instead — see [Cart behaviour](/cartpresets/links/cart-behaviour#per-preset-override).
 
 **A role list implies the sign-in switch.** A guest holds no roles. Roles without `logged_in` would refuse every visitor while the editor showed no sign-in requirement. So saving a role list turns `logged_in` on, whether it arrives from the editor, an import or a filter.
 
@@ -166,19 +170,19 @@ Set on one item inside a preset.
 | Discount type | `disc_type` | None | Both |
 | Discount value | `disc_value` | `0` | Both |
 | Use the regular price instead of the sale price | `use_regular` | Off | Both |
-| Payments a discount covers | `sub_payments` | `0` (all) | Pro — free reads as first only |
+| Discounted payments | `sub_payments` | `0` (every payment) | Pro — free discounts every payment |
 | Waive the sign-up fee | `sub_waive_fee` | Off | Pro — free charges the fee |
 | Allow coupon discounts on this item | `allow_coupons` | Off | Both |
 | Let the customer change the quantity in the cart | `allow_qty` | Off | Both |
-| Minimum quantity | `qty_min` | `1` | Both |
-| Maximum quantity | `qty_max` | `0` (no limit) | Both |
+| Minimum (quantity) | `qty_min` | `1` | Both |
+| Maximum (quantity) | `qty_max` | `0` (no maximum) | Both |
 | Customer can remove this item | `removable` | Off | Both |
 | Variation attributes | `variation_attributes` | Empty | Both |
-| Custom item name | `custom_name` | Empty | Pro |
-| Custom item price | `custom_price` | `0` | Pro |
+| Name (custom item) | `custom_name` | Empty | Pro |
+| Custom price | `custom_price` | `0` | Pro |
 | Description | `description` | Empty | Pro |
 | Image | `image_id` | `0` | Pro |
-| Needs shipping | `requires_shipping` | Off | Pro |
+| This item needs shipping | `requires_shipping` | Off | Pro |
 | Weight, length, width, height | `weight`, `length`, `width`, `height` | Empty | Pro |
 | Shipping class | `shipping_class_id` | `0` | Pro |
 
@@ -190,7 +194,7 @@ Some settings can only be *set* on Pro, but are *enforced* in both versions.
 
 Purchase limits are the clearest case. Setting a cap needs Pro. Both versions count claims against a cap and refuse a link once it fills, because moving to the free version must never put a sold-out link back on sale.
 
-The same logic covers schedules, and a preset's own **Unavailable links** answer: moving to the free version must not quietly send a customer somewhere other than where the merchant chose. The rule: **honour the restriction, drop the enhancement.**
+The same logic covers schedules, and a preset's own **Unavailable links** override: moving to the free version must not quietly send a customer somewhere other than where the merchant chose. The rule: **honour the restriction, drop the enhancement.**
 
 ## Where settings are stored
 

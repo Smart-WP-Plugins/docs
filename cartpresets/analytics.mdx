@@ -16,7 +16,7 @@ import { Media } from '/snippets/media.mdx';
 
 **Analytics → Cart Presets**, beside WooCommerce's own reports.
 
-That's the only way in, on purpose. A report that lives in WooCommerce Analytics should be reached the way every other WooCommerce report is reached, so CartPresets' own admin carries no link to it.
+You can also jump straight to one preset's report from the CartPresets admin. Click a preset's figure in the list's **Revenue** column, or **View in Analytics** in the editor. Either one opens the report filtered to that preset.
 
 <Media>The Presets report with the date range picker, summary cards, chart and table</Media>
 
@@ -60,11 +60,13 @@ If you want click-level attribution, put UTM parameters on your preset links and
 
 The report reads WooCommerce's own books rather than a record of its own, so upgrading from free doesn't start you at zero. The figures have been adding up all along; there was just nowhere to see them.
 
-## The Revenue column in the listing
+## Revenue in the listing
 
-The preset listing has a Revenue column in both versions. On free it shows a crown instead of a figure, and clicking it explains what Pro would show.
+The preset list has a **Revenue** column, with the preset's order count under each figure. It's the same number this report shows: WooCommerce's net revenue on the order lines the preset was stamped on. It isn't an estimate from today's price, so refunds and old prices are already in it.
 
-The column is there on both tiers on purpose. A column that appears and disappears with the tier is worse than one that explains itself.
+You can also sort the list by **Revenue**, and filter it with a Revenue condition. Both use that same figure, so a row never sorts or filters by one number while showing another.
+
+On the free version the column is there but locked. Its header carries a Pro tag that explains it once, and each row shows a lock where the figure would be. Revenue shows as **Revenue (Pro)** in the sort and filter choices, and can't be picked.
 
 ## Reporting and purchase limits are different systems
 

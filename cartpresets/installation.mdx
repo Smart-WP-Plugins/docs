@@ -17,7 +17,7 @@ import { Media } from '/snippets/media.mdx';
 
 Tested up to WordPress 7.1 and WooCommerce 11.0. It supports High-Performance Order Storage and works with both the classic and block-based cart and checkout.
 
-WooCommerce Subscriptions is optional. With it, presets can contain subscription products and you can control how far a discount reaches into renewals. See [Subscriptions](/cartpresets/building/subscriptions).
+WooCommerce Subscriptions is optional. With it, presets can contain subscription products, and a preset's discount applies to every payment. Pro can also limit the discount to the first few payments and waive the sign-up fee. See [Subscriptions](/cartpresets/building/subscriptions).
 
 ## Installing the free version
 
@@ -29,13 +29,13 @@ Pro ships as a separate zip from your purchase email or account area. It install
 
 <Steps>
   <Step title="Deactivate and delete the free version, if you have it">
-    Your presets and settings live in database tables, not in the plugin folder, so deleting the free version doesn't touch them. Leave the uninstall cleanup options alone. They're opt-in and off by default, but check before you delete.
+    Your presets and settings live in the database, not in the plugin folder, so deleting the free version doesn't touch them. Before you delete, check **Settings → Data management → Delete on uninstall** has nothing ticked. Those options are off unless you turned them on.
   </Step>
   <Step title="Upload the Pro zip">
     **Plugins → Add New Plugin → Upload Plugin**, choose the zip, install, activate.
   </Step>
   <Step title="Activate your licence">
-    **Cart Presets → Settings**. The **Licence** card is at the top: paste the key from your purchase email and click **Activate**. See [Licence and updates](/cartpresets/licence).
+    **Cart Presets → Settings**. The **Licence** card is at the top: paste the key from your purchase email and click **Activate**. If the key isn't linked to an account yet, it asks first and shows the name and email it will send. See [Licence and updates](/cartpresets/licence).
   </Step>
 </Steps>
 
@@ -58,7 +58,7 @@ Activation creates four database tables, each with your site's table prefix:
 
 It also registers the `/preset/` rewrite rule and flushes permalinks once.
 
-On a first activation it stores the shipped default for every setting. A store that already has settings keeps them untouched, whether that's a reinstall or a switch between versions. The carrier product isn't created at activation; the Settings screen offers to create one when you need it.
+On a first activation it stores the shipped default for every setting. A store that already has settings keeps them untouched, whether that's a reinstall or a switch between versions. The carrier product isn't created at activation. When you need one<Pro />, **Settings → Carrier product** offers **Create carrier product** or lets you choose a product you already have.
 
 ## Moving between versions
 
@@ -66,12 +66,12 @@ Both versions read and write the same tables, so switching either way migrates n
 
 **Free to Pro.** Your existing presets are untouched. Any Pro setting you couldn't reach before is still at its default, ready to set.
 
-**Pro to free.** Your presets, items and settings stay exactly as they are. The Pro controls stop being editable, and your stored answers stay on the record. Reinstalling Pro turns them back on rather than asking you to set them up again.
+**Pro to free.** Your presets, items and settings stay exactly as they are. The Pro controls are locked and tagged **Pro**, and your stored answers stay on the record. Reinstalling Pro turns them back on rather than asking you to set them up again.
 
 Two things stop *applying* rather than staying on, because leaving them running would be worse:
 
 - **An automatic coupon** is no longer applied. A discount you can't see or switch off would go on discounting orders.
-- **Custom items** aren't added to the cart. They stay with the preset and come back if you upgrade, and the editor marks them rather than quietly pricing something the cart will drop.
+- **Custom items** aren't added to the cart. They stay with the preset and come back if you upgrade. The editor marks them **Not added on the free version**, and the listing and editor totals leave them out.
 
 A schedule already set and a cap already filled are still honoured. Those switch a link **off**, and moving to the free version must not put a link back on sale that your own schedule or cap had stopped.
 

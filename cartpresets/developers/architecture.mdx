@@ -26,7 +26,7 @@ Four custom tables, not custom post types.
 | `cartpresets_redemptions` | One row per claim |
 | `cartpresets_slug_history` | Old slugs and when they expire |
 
-Presets are queried by shape: "active, containing this product, above this price, sorted by revenue". That's a job for SQL, with indexes on the columns you filter by. The same queries against post meta would be a pile of joins on a table shared with every other plugin on the site.
+Presets are queried by shape: "active, containing this product, published this month, most orders first". That's a job for SQL, with indexes on the columns you filter by. The same queries against post meta would be a pile of joins on a table shared with every other plugin on the site.
 
 Settings that don't need indexing sit in a JSON blob on the row. Anything the listing filters or sorts by gets a real column.
 
@@ -40,17 +40,19 @@ That has a cost: a premium feature needs a filter to attach to, so shared code c
 
 ### Which way the gates point
 
-On its own, shared code takes the **conservative** reading. Pro relaxes it:
+On its own, shared code gives the free version's answer. Pro is a listener that hands it the merchant's stored choices:
 
 | Question | Shared code answers | Pro listener |
 | --- | --- | --- |
-| How far does a subscription discount reach? | The first payment | Honours the stored setting |
-| Is this preset scheduled? | It is live now and never ends | Honours the dates |
-| Is this capped? | No cap | Honours the cap |
-| Which coupon applies? | None | Honours the stored code |
+| How far does a subscription discount reach? | Every payment, sign-up fee charged | Honours the stored payment limit and fee waiver |
+| May a save change the dates, caps or coupon? | No: it keeps what's stored. A new preset goes live on save, never ends and has no cap | Writes what the merchant chose |
+| Which coupon applies automatically? | None | Honours the stored code |
 | Is this visitor eligible? | Yes | Honours the rules |
+| What has each preset earned? | Nothing to say, so revenue sorts and filters are refused | Reads WooCommerce's Analytics tables |
 
-Round the other way, with shared code being generous and Pro tightening, the premium behaviour would ship in the free version.
+Shared code never reads a premium setting itself. So the premium behaviour isn't in the free version, waiting to be switched on.
+
+Stored dates and caps keep applying on the free version. What's gated is changing them. A downgrade can't put a link back on sale that the merchant's own schedule or cap had stopped. The coupon is the exception: free doesn't apply a stored code, because that would be a discount the merchant can no longer see or change.
 
 ### The tier is the build, never the licence
 
@@ -82,9 +84,13 @@ Prices never are. A cached price goes stale the moment a product is edited, a sa
 
 ## The admin is a React app
 
-One admin page, one bundle. The whole route lives in the query string, so a view survives a reload, you can share it as a link, and the browser's back button brings it back intact.
+One admin page, one script and one stylesheet, loaded on that page and nowhere else. The panel has four screens: the list, the editor, Settings and the upgrade screen. Moving between them doesn't reload the page. The whole route lives in the query string, so a view survives a reload, you can share it as a link, and the browser's back button brings it back.
 
-At boot the server hands the panel everything it needs in one inline payload: REST base, tier, currency, store settings, the wording catalogue. The panel never has to make a request just to find out what it is. [The boot payload](/cartpresets/developers/javascript) lists every key.
+React renders the design's own markup: its elements, classes and ARIA. Every rule that decides how they look is in one stylesheet, with light and dark themes as sets of tokens. No component carries its own styles, and the panel doesn't use jQuery or `@wordpress/components`. The screens share one set of components, so a fix lands everywhere at once.
+
+The Analytics report<Pro /> is the exception. It lives in WooCommerce Analytics, so it's built from WooCommerce's own components and ships as a separate Pro bundle.
+
+At boot the server hands the panel everything it needs in one inline payload: REST base, tier, currency, store settings, the store-wide preset counts, the outbound links and the wording catalogue. The panel never has to make a request just to find out what it is. [The boot payload](/cartpresets/developers/javascript) lists every key.
 
 You can filter that payload through `cartpresets_admin_boot`. It's how Pro publishes state that shared code must not know about.
 

@@ -11,25 +11,29 @@ This walks through one preset end to end: three products, a discount and a link 
 
 ## 1. Create the preset
 
-Go to **Cart Presets → Add New Preset**.
+Go to **Cart Presets → Add New Preset**, or click **New preset** on the listing.
 
-Give it a name. The slug is the part that appears in the link, so "Starter Kit" becomes `starter-kit`. Leave the slug empty and it's built from the name when you save. Type your own if you want something shorter. If a slug is already taken a number is added, so a save is never refused over it.
+The **Health checks** card on the right starts with two things to do: **Name the preset** and **Add at least one item**. **Save preset** stays unavailable until both are done.
 
-The internal description is for your team. Customers never see it.
+Type a **Name** in the **Preset details** card. The **Slug** fills in as you type: it's the part that appears in the link, so "Starter Kit" becomes `starter-kit`. Type your own if you want something shorter. The button beside it regenerates the slug from the name. If a slug is already taken a number is added, so a save is never refused over it.
+
+The **Internal description** is for your team. Customers never see it.
 
 <Media>The Preset details card with a name, slug and description filled in</Media>
 
 ## 2. Add items
 
-In the **Items** card, click **Add store product** and choose a product. Repeat for each one you want in the set.
+In the **Items** card, click **Add store product**. The chooser lists some of your products straight away; type to search by name or SKU. Choose one and click **Use product**. Repeat for each one you want in the set.
 
-For a variable product, the picker asks you to choose the variation. You have to answer every attribute. A preset has nobody to ask at cart time, so "Any" isn't an option here.
+The new item opens so you can set it up. The chevron at the end of an item's row opens and closes it. Inside:
 
-Expand a row to set:
+- **Quantity**: how many of this item the link adds.
+- **Discount type**: **None**, **Percentage**, **Fixed amount off** or **Custom price**, with the amount beside it.
+- **In the cart**: whether coupons can discount this line, whether the customer can change the quantity (and within what **Minimum** and **Maximum**), and whether they can remove the item.
 
-- **Quantity** — how many of this item the link adds.
-- **A discount** — a percentage, a fixed amount off each unit, or a custom price that replaces the product's own.
-- **Quantity rules** — whether the customer can change the amount in the cart, and within what range.
+For a variable product, choose each option in the item, such as **Choose a color**. Every option needs an answer. A preset has nobody to ask at cart time, so "Any" isn't possible here, and the preset can't be saved until every option is set.
+
+The up and down arrows at the start of each row set the order items land in the cart.
 
 <Media>The Items card with three products, one row expanded showing the discount and quantity controls</Media>
 
@@ -41,7 +45,7 @@ Each item carries its own discount, and the preset's total is the sum of its lin
 | --- | --- | --- |
 | None | — | The product's own price |
 | Percentage | `15` | 15% comes off this item |
-| Fixed amount | `5` | 5 comes off each unit |
+| Fixed amount off | `5` | 5 comes off each unit |
 | Custom price | `20` | 20 replaces the product's price |
 
 **Custom price** is the one to use for a kit you've advertised at a set price: give each item the price you want it to carry.
@@ -52,24 +56,24 @@ The **Pricing summary** on the right recalculates as you type, and shows the sam
 
 ## 4. Check the health panel
 
-In the sidebar, **Health checks** runs through a list of questions about the preset and answers each one. Before the first save the card is titled **Before your link exists**.
+**Health checks**, on the right, runs through a list of questions about the preset. Once the two starting to-dos are done, it shows anything that still needs a look, and a count of the checks that passed.
 
-A **warning** is something that will work but may not be what you meant. A **failure** blocks the save: a variation with an unanswered attribute, a discount switched on with no amount, or no items at all. Click any check to jump to the control it's about.
+A **warning** is something that will work but may not be what you meant, like a discount type chosen with no amount. A check marked **Blocks saving** has to be fixed first: a variable product with an option not chosen, say, or no items at all. Click any check to jump to the field it's about.
 
 <Media>The health checks panel with one warning and one failure, the failure expanded</Media>
 
 ## 5. Save and share
 
-Click **Save preset**. The **Preset link** card fills in with the live URL:
+Click **Save preset** in the bar at the bottom. The **Preset link** card fills in with the live URL:
 
 ```text
 https://yourstore.com/preset/starter-kit
 ```
 
-Copy it with the button beside it. The link is live now: anyone who follows it lands on your cart page holding the three items at the price you set.
+Click **Copy** to copy it. The link is live now: anyone who follows it lands on your cart page holding the three items at the price you set.
 
 <Note>
-  A preset goes live the moment you save it with the status switch on. There's no separate publish step. To build it now and sell it later, use a [schedule](/cartpresets/building/scheduling)<Pro />.
+  A new preset goes live the moment you save it. There's no separate publish step. After the first save, a **Link enabled** switch appears at the top of the editor; turn it off to take the link down. It acts straight away, without **Save preset**. To build a preset now and sell it later, give it a **Starts on** date<Pro />. See [Scheduling](/cartpresets/building/scheduling).
 </Note>
 
 ## 6. Try it yourself

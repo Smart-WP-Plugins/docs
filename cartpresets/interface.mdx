@@ -7,153 +7,215 @@ icon: "window"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-CartPresets for WooCommerce adds a top-level **Cart Presets** menu in wp-admin, plus one entry under **Products** and, on Pro, one report under **Analytics**. If you'd rather it took one line of the menu, **Settings → Menu location → Under Products** removes the top-level menu and leaves only **Products → Cart Presets**. You then reach Add New and Settings from the listing.
+CartPresets for WooCommerce adds a top-level **Cart Presets** menu in wp-admin, plus one entry under **Products** and, on Pro, one report under **Analytics**. If you'd rather it took one line of the menu, **Settings → Menu location → Under Products** removes the top-level menu and leaves only **Products → Cart Presets**. You then reach **New preset** and **Settings** from the buttons on the listing.
 
 | Menu entry | What it is |
 | --- | --- |
 | Cart Presets → All Presets | The listing |
 | Cart Presets → Add New Preset | The editor, empty |
-| Cart Presets → Settings | Store-wide settings, and on Pro the licence |
-| Cart Presets → Upgrade to Pro | Free version only — what Pro adds |
-| Products → Cart Presets | The same listing, where you would look for it |
+| Cart Presets → Settings | Store-wide settings, and the licence |
+| Cart Presets → Upgrade to Pro | Free version only. What Pro adds |
+| Products → Cart Presets | The same listing, where you'd look for it |
 | Analytics → Cart Presets<Pro /> | The Presets report |
 
+Every screen has a light, dark and match-system switch in its header. It only changes how the admin looks to you.
+
 <Media>The wp-admin sidebar with the Cart Presets menu expanded</Media>
+
+## On the free version
+
+Nothing Pro does is hidden. Each Pro control sits where it would on Pro, readable but locked, with a **Pro** tag beside it. Where several locked controls sit together, one note explains them once and offers **See Pro**. Your presets and settings work the same either way; the tags just show you what Pro would add and where.
 
 ## The listing
 
 <Media>The All Presets screen, showing the search, filter, status tabs and listing settings</Media>
 
+The header shows how many presets you have, with **Settings** and **New preset** beside it (and **Upgrade to Pro** on the free version). The right-hand column links to the documentation and the support forum.
+
 ### Finding a preset
 
-**Search** matches preset names and the names of products inside them. Search for "hoodie" and you get every preset containing a hoodie, not just presets called hoodie.
+**Status tabs** across the top: **All**, **Active**, **Scheduled**, **Expired**, **Sold out** and **Inactive**. The count on each tab is for your whole store. It doesn't shrink when you search or filter.
 
-**Status tabs** across the top count and filter by derived status. The count beside each is live.
+**Search presets** matches preset names, and also the names and SKUs of the products inside them. Search for "hoodie" and you get every preset with a hoodie in it, not just presets called hoodie. Press <kbd>/</kbd> to jump to the search box.
 
-**Filter** opens a query builder. Each row is a field, an operator and a value, and rows combine with AND:
+**Filter** opens a filter builder. Click **Add filter**, then pick a field, a comparison and a value. Every filter must match.
 
-| Field | Type | Operators |
-| --- | --- | --- |
-| Status | choice | is, is not |
-| Product name | text | equals, contains, does not contain, starts with |
-| Coupon | text | equals, contains, does not contain, starts with |
-| Price | number | equals, greater than, less than |
-| Order revenue | number | equals, greater than, less than |
-| Orders | number | equals, greater than, less than |
-| Stock problem | yes/no | is |
+| Field | Compares with |
+| --- | --- |
+| Price | is more than, is less than, is exactly |
+| Revenue<Pro /> | is more than, is less than, is exactly |
+| Items | is more than, is less than, is exactly |
+| Orders | is more than, is less than, is exactly |
+| Date | between, after, before |
+| Product | includes (a product name or SKU) |
 
 <Tip>
-  **Order revenue** means money, not a count of orders. The count is the separate **Orders** field.
+  **Revenue** means money taken. **Orders** is the count of orders. On the free version you can filter by Orders but not by Revenue.
 </Tip>
 
-**Listing settings** sets the sort (date, name, status, items, price or orders, ascending or descending), how many presets a page shows, and which columns are visible. On a narrow screen the table stacks each row into a block.
+**Listing settings** (the sliders button beside Filter) chooses:
+
+- **Columns**: Status, Items, Price, Revenue, Date, Description and Link. Items and Description are off to start with.
+- **Sort by**: Date, Name, Status, Revenue<Pro />, Price or Items, then **Descending** or **Ascending**.
+- **Presets per page**: 10, 20 or 50.
+
+These choices are saved to your own user account, so they're still there next time and don't change anyone else's view.
 
 ### The columns
 
 | Column | Shows |
 | --- | --- |
-| Preset | Name, overlapping product chips, and the item and unit count |
-| Status | Active, Scheduled, Expired, Sold out or Inactive — derived, not stored |
-| Price | What a customer pays, computed from live product prices |
-| Revenue<Pro /> | Net revenue recorded against this preset |
-| Date | Publish date and state |
+| Preset | The name, with **Edit**, **Duplicate** and **Delete** links under it |
+| Status | Active, Scheduled, Expired, Sold out or Inactive. Worked out from the preset's settings, not stored |
+| Price | What a customer pays, from live product prices, and how much that saves |
+| Revenue<Pro /> | Revenue recorded against this preset and its order count, with a link to the Presets report |
+| Date | The publish or start date, and whether it's published or scheduled |
 | Link | The preset URL, with a copy button |
 | Items | How many items and units (hidden by default) |
 | Description | The internal description (hidden by default) |
-| Actions | The row menu; Edit, Duplicate and Delete also sit under the preset's name |
+| Actions | The row menu |
 
-On the free version the Revenue column is still there, with a crown in place of the figure. Clicking it explains what Pro would show.
+On the free version the Revenue column is still there. Its header explains once that revenue and orders for each preset are part of Pro, and each cell shows a lock rather than a figure.
+
+On the free version the Price column leaves out custom items, because the free version never adds them to the cart.
+
+#### Needs attention
+
+A live preset whose product has been deleted, unpublished or can no longer be bought shows an amber **Needs attention** badge. A note under the name says which item it is, for example "Beanie no longer exists", followed by **Fix**. Click it to open the preset in the editor.
 
 ### The row menu
 
 | Action | Notes |
 | --- | --- |
 | Edit preset | Opens the editor |
-| Copy link | The preset URL, to the clipboard |
-| Duplicate | Copies everything; the copy is inactive until you turn it on |
-| Clear end date<Pro /> | Only shown when there is one. Puts an ended preset back on sale |
+| Copy link | Copies the preset URL to the clipboard |
+| Duplicate | Copies everything. The copy is inactive until you switch its link on |
+| Clear end date<Pro /> | Only shown when the preset has an end date. Puts an ended preset back on sale |
 | Export as JSON<Pro /> | Downloads this one preset |
-| Activate / Deactivate | Flips the status |
-| Delete preset | Asks first, and cannot be undone |
+| Deactivate / Activate | Switches the link off or on |
+| Delete preset | Asks first |
+
+Deleting is permanent. The confirmation says so, says the link stops working straight away, and offers **Deactivate instead** if you only want to take the link down. Past orders keep their preset details and revenue either way.
 
 ### Bulk actions
 
-Tick the checkbox on any row, or **Select all presets on this page**, then choose from **Bulk actions**: Activate, Deactivate, Duplicate or Delete. Bulk delete asks for confirmation and names how many rows it will remove.
+Tick the rows you want, or the checkbox in the header for every row on the page, then choose from **Bulk actions**: **Activate**, **Deactivate**, **Duplicate**, **Export JSON**<Pro /> or **Delete**, and click **Apply**.
+
+Once a whole page is ticked, a line above the table offers **Select all** for every preset that matches your tab, search and filters, across all pages. One action covers up to 500 presets. If the matching presets change before you apply, nothing happens and you're shown the new count.
+
+Bulk delete lists the presets it will remove, says how many of them are live, and offers **Deactivate instead**.
 
 ## The editor
 
-<Media>The full preset editor, main column and sidebar visible</Media>
+<Media>The full preset editor, the main column and the notes beside it</Media>
 
-The editor is one page: a main column and a sidebar, both updating as you type.
+The editor is one page. The main column holds the preset itself, card by card. Beside it, the **Pricing summary**, **Health checks** and **Preset link** update as you type.
+
+### The header
+
+**Link enabled** switches the preset's link on or off. It acts straight away. It isn't part of **Save preset**, and a message confirms it. A new preset doesn't show it until its first save. New presets start with the link on.
+
+The **⋯** menu holds **Duplicate** (opens an unsaved copy), **Export JSON**<Pro />, **View in Analytics**<Pro /> and **Delete preset**.
 
 ### Main column
 
 | Card | What it holds |
 | --- | --- |
-| Preset details | Name, slug, date<Pro />, internal description |
-| Items | Every item in the preset, each expandable |
-| Coupon<Pro /> | A code applied the moment the link is followed |
-| Cart behaviour | The three questions Settings asks, for this preset: **Existing cart**, **Redirect after adding**, **Unavailable links** |
-| Usage restrictions<Pro /> | **Purchase limits** — maximum orders, maximum orders per customer, the end date — and **Customer access** |
+| Preset details | **Name**, **Slug**, **Starts on**<Pro /> and **Internal description** |
+| Items | Every item in the preset. Click one to open its settings |
+| Automatic coupon<Pro /> | A **Coupon code** applied to the cart when the link is followed |
+| Cart behaviour | **Existing cart**, **Redirect after adding** and **Unavailable links**<Pro />, each on **Store default** or **Override** |
+| Usage restrictions<Pro /> | **Purchase limits** (**Maximum orders**, **Maximum orders per customer**, **Preset ends on**) and **Customer access** |
 
-The editor's cards follow the Settings screen's own order and wording, so a question you've answered store-wide reads the same when you answer it again for one preset. Each of the three Cart behaviour blocks opens with **Use the Settings default**. Turn that off and the controls beneath it belong to this preset.
+**Starts on** and **Preset ends on** take a date and a time.
 
-#### Customer access
+#### Items
+
+**Add store product** opens a product chooser. It shows 12 products before you type, and searches your catalogue by name or SKU. Choose one and click **Use product**. For a variable product, you choose its options in the item itself afterwards.
+
+Each item opens to show:
+
+- **Product**, with **Change** to swap it.
+- The variation's options, for a variable product. Every option needs an answer before the line can be priced.
+- **Pricing**: **Quantity** and **Discount type** (**None**, **Percentage**, **Fixed amount off** or **Custom price**).
+- **In the cart**: **Use the regular price instead of the sale price**, **Allow coupon discounts on this item**, **Let the customer change the quantity in the cart** (with a **Minimum** and **Maximum**), and **Customer can remove this item**.
+
+A subscription product also shows a **Subscription** section. On the free version its discount applies to every payment for as long as the subscription runs. Pro can limit it to the first few payments and waive the sign-up fee. See [Subscriptions](/cartpresets/building/subscriptions).
+
+**Add custom item**<Pro /> adds a line that isn't in your catalogue. On the free version a custom item already in a preset is marked **Not added on the free version**, and the totals leave it out.
+
+The up and down arrows at the start of each row set the order items land in the cart.
+
+#### Cart behaviour
+
+Each block starts on **Store default** and says what that default is, with a link to change it in Settings. Choose **Override** and the choices beneath it apply to this preset only. On the free version you can override **Existing cart** and **Redirect after adding**; overriding **Unavailable links** per preset is Pro.
+
+#### Customer access<Pro />
 
 **Signed-in customers only** refuses a guest. There's no sign-in form and nothing brings them back afterwards, so where they land is whatever **Unavailable links** says.
 
-**Limit to roles** appears only while that switch is on. A role list narrows "signed in" rather than being a rule of its own: a guest holds no roles, so a list without the switch would refuse everyone while the screen showed no sign-in requirement. Turning the switch off clears the roles, and saving a preset with roles set turns the switch on.
+**Allowed roles** appears while that switch is on. Leave every role unticked to allow any signed-in customer, or tick the roles you want to allow.
 
 What a turned-away visitor reads is store-wide wording, under **Settings → Messages and labels**. A preset doesn't carry a rejection message of its own.
 
-### Sidebar
+### Beside the main column
 
-**Pricing summary** recalculates on every keystroke: items, regular value, item discounts, average per unit and the preset total. Every figure is what the customer's cart will hold.
+**Pricing summary** recalculates as you type: items and units, regular value, item discounts, average per unit and the preset total, with what the customer saves. Every figure is what the customer's cart will hold.
 
-**Health checks** asks a series of questions about the draft. A `fail` blocks the save; a `warn` doesn't. Clicking a check scrolls to the control it's about and highlights it. See [Health checks](/cartpresets/building/health-checks).
+**Health checks** asks a series of questions about the preset. A new preset opens with two things to do: **Name the preset** and **Add at least one item**. After that, a check that **Blocks saving** has to be fixed before you can save; a warning doesn't. Click a check to jump to the field it's about. On the free version, an expired or sold-out preset's check says changing the end date or limit is part of Pro. See [Health checks](/cartpresets/building/health-checks).
 
-**Preset link** shows the live URL with a copy button, and says so if the preset hasn't been saved yet.
+**Preset link** shows the URL with a **Copy** button, the `?preset=` form it also answers to, **Open link** and **View in Analytics**<Pro />. Before the first save it shows the path the link will have, and says it's made when you save.
 
 ### The save bar
 
-Pinned to the bottom, always showing which of three states you're in: **All changes saved**, **Unsaved changes**, or the number of blocking problems. **Discard** reverts to the last save.
+The bar stays in view at the bottom. It shows **All changes saved**, **Unsaved changes**, what a new preset still needs, or how many health checks block the save. **Discard** goes back to the last save.
 
 <Note>
-  Leaving with unsaved changes asks first, whether you click a link inside the panel or one in wp-admin's own sidebar.
+  Leaving with unsaved changes asks first, whether you click a link inside the screen or one in wp-admin's own sidebar.
 </Note>
 
 ## Settings
 
 <Media>The Settings screen, carrier product card and cart behaviour section</Media>
 
-Seven sections share one save bar, and on Pro the Licence card sits above them:
+One **Save changes** bar covers the whole screen. The cards, in order:
 
-| Section | Covers |
+| Card | Covers |
 | --- | --- |
-| Licence<Pro /> | Licence key, status, updates — acts immediately, outside the save bar |
-| Carrier product | The hidden product custom items ride on |
+| Licence<Pro /> | The licence key, its status, **Activate**, **Sync now** and **Deactivate on this site**. These act straight away, outside Save changes |
 | Cart behaviour | **Existing cart**, **Unavailable items**, **Redirect after adding** and **Unavailable links** |
-| Usage limits | Which order statuses use up a purchase limit<Pro /> |
-| Messages and labels | All 21 customer-facing strings, drawn as 22 fields |
-| Link settings | URL parameter, pretty permalink base, the link preview, and the UTM campaign toggle |
-| Menu location | Its own Cart Presets menu, or one entry under Products |
-| Data management | The three uninstall opt-ins, and exporting and importing presets<Pro /> |
+| Usage limits<Pro /> | **Count orders with these statuses**: which order statuses use up a purchase limit |
+| Carrier product<Pro /> | The hidden product custom items are placed on, with **Change** and **Unlink** |
+| Messages and labels | Every customer-facing message, in four groups, with **Find a message** to search them |
+| Link settings | **URL parameter**, **Pretty permalink base**, **Link preview**, and **Append the preset name as a UTM campaign** |
+| Menu location | **Top-level menu** or **Under Products** |
+| Data management | **Export presets** and **Import presets**<Pro />, and **Delete on uninstall** |
 
 **Cart behaviour** is the one to read first, because it answers everything a link can do:
 
 | Block | Decides |
 | --- | --- |
-| Existing cart | Clear the existing cart, Allow duplicate presets, Keep existing items — the last two are unanswerable while the first is on, so they are disabled with the reason |
-| Unavailable items | Skip the item, or Refuse the preset, when one item cannot be bought |
-| Redirect after adding | Cart, Checkout, Stay on the page, or a Custom URL, once the link works |
-| Unavailable links | Cart or a Custom URL when the link cannot be used at all, plus **Show an error message** |
+| Existing cart | **Clear the existing cart**, **Allow duplicate presets**, **Keep existing items**. The last two can't apply while the cart is cleared, so they're disabled with that reason |
+| Unavailable items | **Skip the item** or **Refuse the preset** when one item can't be bought |
+| Redirect after adding | **Cart**, **Checkout**, **Stay on the page** or a **Custom URL** once the link works |
+| Unavailable links | **Cart** or a **Custom URL** when the link can't be used at all, plus **Show an error message** |
 
-The sidebar carries a **System status** card — plugin version, WordPress, WooCommerce, PHP, permalink structure, preset base and tier — with a **Copy system report** button. The report is read from your own install and sent nowhere. It's there so you can paste it into a support thread.
+When no carrier product is linked, its card says **No carrier product yet** and offers **Create carrier product** or **Choose a product**. On the free version the card is locked and there's nothing to change: it stays in place so presets made with Pro keep working.
+
+**Messages and labels** groups the wording as **Error messages**, **Warning messages**, **Cart messages** and **Labels**. Each group shows how many of its messages you've changed. Click **Edit wording** to open one.
+
+A licence problem, like a key that isn't activated or has expired, shows as a standard WordPress notice on the listing and the editor. Settings doesn't repeat it, because the licence card already says the same thing. See [Licence and updates](/cartpresets/licence).
+
+The column beside Settings has a **System status** card: plugin version, WordPress, WooCommerce, PHP, permalinks, preset base and tier, with a **Copy system report** button. The report is read from your own install and sent nowhere. It's there so you can paste it into a support thread.
 
 Full detail: [Settings reference](/cartpresets/settings/reference).
 
+## Upgrade to Pro
+
+On the free version, **Cart Presets → Upgrade to Pro** says what Pro adds, then shows Free and Pro side by side. Your presets keep working, and there's nothing to migrate: install Pro and the locked controls open up in place. **Get CartPresets Pro** opens the CartPresets site in a new tab.
+
 ## Where a preset shows up elsewhere
 
-- **The cart and checkout** — each line carries a **Part of preset** label with the preset name. Both labels are editable.
-- **The order** — the same label, plus hidden meta a developer can read. See [Order line item meta](/cartpresets/developers/order-meta).
-- **Order emails** — the order label, with the preset name as it was when the order was placed.
+- **The cart and checkout**: each line carries a **Part of preset** label with the preset name. Both labels are editable.
+- **The order**: the same label, plus hidden meta a developer can read. See [Order line item meta](/cartpresets/developers/order-meta).
+- **Order emails**: the order label, with the preset name as it was when the order was placed.

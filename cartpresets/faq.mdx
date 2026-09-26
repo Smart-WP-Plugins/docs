@@ -16,9 +16,9 @@ import { Pro } from '/snippets/pro.mdx';
   </Accordion>
 
   <Accordion title="Can I use it with subscription products?">
-    Yes. In the free version a preset's discount buys the **first payment**. Renewals bill the product's own price, and the sign-up fee is charged as normal.
+    Yes. On the free version a preset's discount applies to **every payment** for as long as the subscription runs. The sign-up fee is charged as normal.
 
-    Pro lets you choose per item: a fixed number of payments, or every renewal for the life of the subscription, with the option to waive the sign-up fee. See [Subscriptions](/cartpresets/building/subscriptions).
+    Pro lets you choose per item: limit the discount to the first few payments, after which the product's own price resumes, and waive the sign-up fee. See [Subscriptions](/cartpresets/building/subscriptions).
   </Accordion>
 
   <Accordion title="Does it track my customers?">
@@ -38,12 +38,12 @@ import { Pro } from '/snippets/pro.mdx';
   <Accordion title="What happens if I go back to the free version?">
     Your presets, items and settings are untouched. Both versions read the same tables, so nothing is migrated and nothing is lost.
 
-    The premium controls stop being editable, and your stored answers stay on the record exactly as you left them. Reinstalling Pro turns them back on rather than asking you to set them up again.
+    The Pro controls are locked and tagged **Pro**, and your stored answers stay on the record exactly as you left them. Reinstalling Pro turns them back on rather than asking you to set them up again.
 
     **Two stop applying** rather than staying on, because leaving them running would be worse:
 
     - An **automatic coupon** you can't see or switch off would go on discounting orders.
-    - **Custom items** aren't added to the cart at all. The editor marks them and leaves them out of its totals, rather than quoting you a price the cart won't charge.
+    - **Custom items** aren't added to the cart at all. The editor marks them **Not added on the free version**, and the listing and editor leave them out of their totals, rather than quoting you a price the cart won't charge.
 
     **A schedule already set and a cap already filled are still honoured.** Those switch a link *off*, and moving to the free version must not bring back something you deliberately ended.
 
@@ -78,7 +78,7 @@ import { Pro } from '/snippets/pro.mdx';
 The preset was refused. Work through these in order:
 
 1. **Is the slug right?** A typo, a preset you deleted, or a rename more than 30 days old all match no preset.
-2. **Is the preset active?** Check the status badge in the listing. Anything other than Active refuses.
+2. **Is the preset active?** Check the status badge in the listing, or the **Link enabled** switch at the top of the editor. Anything other than Active refuses.
 3. **Has a cap filled, or an end date passed?**<Pro /> The status badge reads Sold out or Expired.
 4. **Is there a customer access rule?**<Pro /> Test in a private window, the way a customer arrives.
 
@@ -105,7 +105,7 @@ Check these four first. They explain most of it:
 - **Taxes.** The editor quotes the preset price; your cart may display tax-inclusive or tax-exclusive depending on WooCommerce settings.
 - **A coupon** applied on top, automatically or by hand.
 - **A sale started** since you built the preset, so the item isn't using its regular price.
-- **A custom item on the free version.** It isn't added to the cart, and the editor leaves it out of its totals too.
+- **A custom item on the free version.** It isn't added to the cart, and the listing and editor leave it out of their totals too.
 
 If none of those explain it, please report it. The editor and the cart are pinned to each other by a shared test fixture, so a mismatch that isn't one of the above is a bug.
 
@@ -115,11 +115,13 @@ Check the notice the customer got. Out of stock, no longer purchasable and delet
 
 Whether a failure skips the item or refuses the whole preset is set by **Settings → Cart behaviour → Unavailable items**.
 
+The listing flags a live preset with a product that's been deleted, unpublished or can't be bought any more. It shows a **Needs attention** badge and a note under the name, with **Fix** to open the preset.
+
 ### The cart charged for one when my preset says three
 
 That product is marked **Sold individually** in WooCommerce, which allows one per order however many are asked for. The cart trims the line to one and charges for one, and the customer gets a notice saying the quantity was adjusted.
 
-Nothing is broken, but the preset is quoting a price nobody will pay. Open the preset: the item shows a **Sold one at a time** badge and the sidebar warns about it. Set that item's quantity to 1, or untick **Sold individually** on the product if you meant to sell several. See [Health checks](/cartpresets/building/health-checks#sold-individually).
+Nothing is broken, but the preset is quoting a price nobody will pay. Open the preset: the item shows a **Sold one at a time** badge and **Health checks** warns about it. Set that item's quantity to 1, or untick **Sold individually** on the product if you meant to sell several. See [Health checks](/cartpresets/building/health-checks#sold-individually).
 
 ### Notices are not appearing
 
@@ -133,7 +135,7 @@ String Translation only lists notices you have actually rewritten. Ones still at
 
 ### Custom items are not being added<Pro />
 
-Check a carrier product is linked under **Settings → Carrier product**. Without one, custom items can't reach the cart.
+Check a carrier product is linked under **Settings → Carrier product**. Without one, the card says **No carrier product yet**, and custom items can't reach the cart.
 
 If you're on the free version, custom items aren't added at all. That's expected, and the editor should be marking them.
 
@@ -145,4 +147,4 @@ Limits and the Presets report answer different questions, so they won't agree: a
 
 ### Getting help
 
-The Settings sidebar has a **Copy system report** button. It reads your install — versions, permalink structure, preset base, tier — and puts the result on your clipboard. It sends nothing anywhere. Paste it into your support thread.
+The **System status** card beside **Cart Presets → Settings** has a **Copy system report** button. It reads your install — versions, permalink structure, preset base, tier — and puts the result on your clipboard. It sends nothing anywhere. Paste it into your support thread.

@@ -88,10 +88,14 @@ apply_filters( 'cartpresets_item_subscription_terms', array $terms, object $item
 
 `cartpresets_item_subscription_terms` decides how far a preset discount reaches into a subscription, as `[ 'payments' => int, 'waive_fee' => bool ]`.
 
-- `payments` counts the payments the discount covers, **including the one being made now**. `1` buys the first payment and bills renewals at the product's own price. `3` is one purchase and two discounted renewals. `0` holds the preset's price on every payment for the life of the subscription.
+- `payments` counts the payments the discount covers, **including the one being made now**. `0` holds the preset's price on every payment for the life of the subscription. `1` buys the first payment and bills renewals at the product's own price. `3` is one purchase and two discounted renewals.
 - `waive_fee` zeroes the product's sign-up fee for that line.
 
-**Seeded conservatively** (`1`, fee charged) so a discount can't become permanent by default. **Safety-clamped**: a returned array with no `payments` key reads as `1`, never as `0`, and the value goes through `absint()`.
+It's seeded with what the free version does: `payments => 0` (every payment), fee charged. Honouring the item's stored payment limit and fee waiver is Pro, and Pro attaches at priority 10 like anyone else, so a listener at a later priority still has the last word. Both settings are stored on either tier.
+
+**Safety-clamped**: a returned array with no `payments` key keeps the seed, so a listener that only answers `waive_fee` can't cut the discount short by accident. The value goes through `absint()`.
+
+A limit of `1` is applied by shared pricing, on both tiers. A limit of `2` or more is put back to the full price after N payments by Pro, which the free version doesn't have. So on free, a listener returning `2` or more gets a discount on every payment.
 
 ## Cart
 
@@ -208,27 +212,42 @@ apply_filters( 'cartpresets_carrier_product_id',      int $product_id );
 ## Listing
 
 ```php
-apply_filters( 'cartpresets_list_args', array $args );
+apply_filters( 'cartpresets_list_args',       array $args );
+apply_filters( 'cartpresets_listing_revenue', ?array $revenue );
 ```
 
-The listing's resolved query arguments, after defaults and before any SQL is built. Every key is always present: `search`, `status`, `sort` with `dir`, `per_page`, `page`, and `filters`.
+`cartpresets_list_args` is the listing's resolved query arguments, after defaults and before any SQL is built. Every key is always present: `search`, `status` (`all`, one derived status, a comma list or an array), `sort` (`name`, `status`, `items`, `price`, `revenue`, `orders` or `publish`) with `dir` (`asc` or `desc`), `per_page`, `page`, and `filters`.
 
-The pre-builder arguments compose with the filter rows. They are `added_after` / `added_before` (`YYYY-MM-DD`, inclusive bounds on the publish date, with the end one running to the last second of its day), `price_op` with `price` and `price_max`, `orders_op` with `orders` and `orders_max`, plus `product`, `stock_problem` and `has_coupon`.
+`search` matches a preset's name, slug and note, and the products inside it: product name, variation name, either one's SKU, or a custom item's name.
+
+The pre-builder arguments compose with the filter rows. They are `added_after` / `added_before` (`YYYY-MM-DD`, inclusive bounds on the publish date, with the end one running to the last second of its day), `price_op` (`eq`, `neq`, `gt`, `lt`, `between`) with `price` and `price_max`, `orders_op` with `orders` and `orders_max`, plus `product`, `stock_problem` and `has_coupon` (`1` or `0`).
 
 `filters` takes either the encoded query-string form (`field~op~value` rows joined by `|`, each value percent-encoded) or an array of `{ field, op, value }`:
 
-| Field | Type | Operators |
-| --- | --- | --- |
-| `product_name` | text | `eq`, `contains`, `not_contains`, `starts_with` |
-| `coupon` | text | `eq`, `contains`, `not_contains`, `starts_with` |
-| `price` | number | `eq`, `gt`, `lt` |
-| `order_revenue` | number | `eq`, `gt`, `lt` |
-| `orders` | number | `eq`, `gt`, `lt` |
-| `stock_problem` | boolean | `is` |
+| Field | Type | Operators | Value |
+| --- | --- | --- | --- |
+| `price` | number | `gt`, `lt`, `eq` | A number |
+| `revenue`<Pro /> | number | `gt`, `lt`, `eq` | A number |
+| `items` | number | `gt`, `lt`, `eq` | A whole number |
+| `orders` | number | `gt`, `lt`, `eq` | A whole number |
+| `date` | date | `between`, `after`, `before` | `YYYY-MM-DD`, or `YYYY-MM-DD..YYYY-MM-DD` for `between` |
+| `product` | product | `includes` | Text |
+| `status` | choice | `is`, `is_not` | A derived status |
+| `product_name` | text | `eq`, `contains`, `not_contains`, `starts_with` | Text |
+| `coupon` | text | `eq`, `contains`, `not_contains`, `starts_with` | Text |
+| `stock_problem` | boolean | `is` | `1` or `0` |
 
-`price` is what the customer pays; `order_revenue` is that price multiplied by recorded redemptions. Both are computed from live product prices, so they're applied after the SQL rather than inside it.
+The first six are the ones the listing's **Filters** popover offers. The rest are accepted from code.
+
+`price` is what the customer pays today, worked out from live product prices. `revenue` is WooCommerce's net revenue on the order lines the preset was stamped on: the same figure the listing's Revenue column shows. Both are applied after the SQL rather than inside it. `order_revenue` is also accepted and means `revenue`.
+
+`items` counts a preset's items; `orders` counts its redemptions. `date` compares the publish date in whole days, and every bound is inclusive: `after` includes its own day, `before` runs to the last second of its day, and a `between` written the wrong way round is read as the range you meant. A full date-time is read as its day. `product` makes the same match the search makes.
 
 What you return is validated exactly like a caller's own arguments. An unknown sort key falls back, statuses outside the ladder are dropped, rows outside the allow-lists are dropped, and every value still reaches SQL through `prepare()`.
+
+`cartpresets_listing_revenue` is how the listing learns revenue. It starts as `null`, meaning revenue isn't available. A listener returns an array of preset ID to net revenue as a float, and a preset missing from it counts as zero. It fires at most once per request, and only when a listing query sorts or filters by revenue. The listener returns data, not SQL.
+
+Pro answers it from WooCommerce's Analytics lookup tables, with the same query the Revenue column's figures come from. With nothing answering, as on the free version, the `/presets` route refuses a revenue sort or filter with a 400. `PresetRepository::get_list()` called directly falls back to the default sort and drops the revenue rows.
 
 ## Admin picker
 
@@ -243,14 +262,28 @@ External, grouped and composite types are left out because they can't be added t
 ## The admin panel
 
 ```php
-apply_filters( 'cartpresets_admin_boot', array $data );
+apply_filters( 'cartpresets_admin_boot',  array $data );
+apply_filters( 'cartpresets_admin_links', array $links );
 ```
 
-Everything the React panel is handed at boot — REST base, tier, currency, the store's settings, the wording catalogue. Append a key and your own screen can read it without a second request on every page load. [The boot payload](/cartpresets/developers/javascript) lists every key the panel is given.
+`cartpresets_admin_boot` is everything the React panel is handed at boot: REST base, the store's clock and currency, the settings, the status ladder, the filter fields, the tier, the store-wide preset counts, the outbound links and the wording catalogue. Append a key and your own screen can read it without a second request on every page load. [The boot payload](/cartpresets/developers/javascript) lists every key the panel is given.
 
 **Additive only.** A listener that removes or rewrites an existing key is breaking the panel rather than extending it, and nothing downstream checks.
 
-Premium code also uses this seam to publish state that shared code must not know about. The licence notice adds a `licence` key here, because shared code can't name a class the free version doesn't ship.
+Premium code also uses this seam to publish state that shared code must not know about. Pro adds a `licence` key, with the licence's status and expiry, so the licence card opens in the right state before its own request answers. Shared code can't name a class the free version doesn't ship.
+
+`cartpresets_admin_links` is every address the panel links out to, handed over as the boot payload's `links`:
+
+| Key | Points at |
+| --- | --- |
+| `docs` | The documentation's home |
+| `quickstart`, `building`, `pricing`, `presetLinks`, `wording`, `hooks`, `faq` | Pages in the documentation |
+| `support` | The WordPress.org support forum |
+| `reportIssue` | A new thread there |
+| `review` | A new review there |
+| `account` | The licence vendor's customer portal |
+
+Change any value, or add a key for a screen of your own. A value that isn't a URL goes back to the default.
 
 ## Order and display
 

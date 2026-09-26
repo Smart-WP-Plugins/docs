@@ -9,24 +9,37 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Licensing applies to Pro only. The free version has no Licence card, because there's nothing to license.
+  Licensing applies to Pro only. On the free version the Licence card is there but locked, with a Pro tag.
 </Info>
 
 ## Activating
 
-**Cart Presets → Settings → Licence**. The card sits at the top of the Settings screen, above Carrier product. Paste the key from your purchase email and click **Activate**.
+Go to **Cart Presets → Settings**. The **Licence** card is the first card on the screen. Paste the key from your purchase email into **Licence key** and click **Activate**.
 
-<Media>The Licence card at the top of Settings, showing plan, expiry, sites used and the Sync and Deactivate this site buttons</Media>
+<Media>The Licence card at the top of Settings, showing the masked key, plan, sites, renewal date, last checked, and the Sync now and Deactivate on this site buttons</Media>
 
-Once active, the card shows your plan, the expiry date, how many of your activations are in use, and when the licence was last checked.
+Once it's active, the card shows the key with all but its last four characters hidden, and:
+
+| Row | Shows |
+| --- | --- |
+| **Plan** | Your plan |
+| **Sites** | How many of your activations are in use, like "2 of 5 in use" |
+| **Renews** | When the licence renews, or **Never** for a lifetime licence |
+| **Last checked** | When the licence was last checked with the licensing service |
 
 | Button | Does |
 | --- | --- |
-| Sync | Checks with the licensing service now, instead of waiting for the next scheduled check |
-| Deactivate this site | Releases this site's activation so you can use it elsewhere |
-| Renew / Buy a licence | Opens the store, if the licence has lapsed or was never bought |
+| **Sync now** | Checks with the licensing service now, instead of waiting for the next check |
+| **Deactivate on this site** | Releases this site's activation so you can use it elsewhere. It asks first |
+| **Manage account** | Opens your account with the licensing service, in a new tab |
 
-The card's buttons act immediately. They're not part of the Settings save bar, so there's nothing to save afterwards, and **Discard** won't undo them.
+The card's buttons act straight away. They're not part of the Settings save bar, so there's nothing to save afterwards, and **Discard** won't undo them.
+
+### A key with no account yet
+
+A key you bought is already attached to your account. A key that was issued by hand might not be. Activating one of those needs a name and email to create the account, so the card asks first.
+
+A **Create an account for this key?** dialog shows the **Name** and **Email** that will be sent: the ones on your WordPress user. Nothing is sent until you click **Create account and activate**. **Cancel** sends nothing. You can change both details later in your account.
 
 <Tip>
   Deactivate before you move a site or tear down a staging install. That frees the activation instead of leaving it held by a site that no longer exists.
@@ -46,7 +59,7 @@ Which version is on disk decides the tier, never licence state. An expired licen
 
 ## What is sent, and when
 
-Your licence key and site URL go to the licensing service: to activate, to check in periodically, and to look for updates.
+Your licence key and site URL go to the licensing service: to activate, to check in periodically, and to look for updates. Your name and email go only when you confirm them for [a key with no account yet](#a-key-with-no-account-yet).
 
 It runs from **wp-admin and cron only**. Your storefront never reaches it, so a customer browsing your shop never triggers a licence check.
 
@@ -60,20 +73,24 @@ WordPress checks for updates on its own schedule: roughly twice a day, and more 
 
 ## The licence notice
 
-Without an active licence you get a dismissible warning. Inside the CartPresets panel it's styled to match the panel, and elsewhere in wp-admin it's a standard WordPress notice. Both carry a **Manage licence** button that opens Settings scrolled to the Licence card. You won't see the in-panel version on Settings itself, where the card is already in front of you.
+Without an active licence, WordPress shows a dismissible warning across wp-admin, including the CartPresets list and editor. It's a standard WordPress admin notice, and it has a **Manage licence** link that opens Settings at the Licence card.
 
-They're one message, not two. Dismiss either and both go, and they stay dismissed for that licence state. If the state changes, say an expiry or a detached site, the message comes back, because now it's telling you something new.
+You won't see it on Settings itself, where the card already tells you the same thing.
 
-The notice leads with what stopped and ends with what didn't, because the honest answer to *my licence lapsed* is that almost nothing changed.
+Dismissing it is per user, and it stays dismissed for that licence state. If the state changes, say an expiry or a detached site, the notice comes back once, because now it's telling you something new. It goes away by itself once the licence is active.
+
+Each version says what stopped and what didn't, because the honest answer to *my licence lapsed* is that almost nothing changed.
 
 ## Licence states
 
-| State | Means | Updates |
-| --- | --- | --- |
-| Active | Everything is fine | Yes |
-| Expired | The term ended | No, until renewed |
-| Cancelled | This site is no longer attached to a licence | No |
-| No licence | Never activated on this site | No |
+The card's badge shows which state you're in.
+
+| Badge | Means | The card shows | Updates |
+| --- | --- | --- | --- |
+| **Active** | Everything is fine | The key, the facts, **Sync now** and **Deactivate on this site** | Yes |
+| **Expired** | The term ended | **Your licence has expired**, with a **Renew licence** button, above the same facts | No, until renewed |
+| **Cancelled** | This site is no longer attached to a licence | **This licence was cancelled**, with **Deactivate on this site** so you can activate a current key | No |
+| **Not activated** | Never activated on this site | The **Licence key** field and **Activate** | No |
 
 In all four, every Pro feature keeps working.
 
@@ -83,7 +100,7 @@ Staging and production count as separate activations. If you've run out:
 
 <Steps>
   <Step title="Deactivate on the site you're leaving">
-    **Cart Presets → Settings → Licence → Deactivate this site**.
+    **Cart Presets → Settings**, then **Deactivate on this site** on the Licence card.
   </Step>
   <Step title="Activate on the new one">
     Paste the same key.

@@ -24,14 +24,26 @@ Customers never see it as a product. They see the cart line, which carries the c
 
 ## Setting one up
 
-Under **Settings → Carrier product**:
+Under **Settings → Carrier product**. With no carrier linked, the card shows an empty slot, **No carrier product yet**, with two buttons:
 
-- **Create one for me** makes one with the right flags set.
-- **Change** points it at an existing product, if you'd rather manage it yourself.
-- **Unlink** detaches it without deleting the product.
+- **Create carrier product** makes one with the right flags set.
+- **Choose a product** opens a picker, if you'd rather use a product you already have.
+
+Once one is linked, the card shows its name, its ID, and whether it's virtual and hidden. Two buttons sit beside it:
+
+- **Change** opens the same picker to point at another product.
+- **Unlink** detaches it without deleting the product. The slot comes back, and custom items can't reach a cart until you create or choose a carrier again.
+
+These buttons act straight away. They're not part of **Save changes**.
+
+### The picker
+
+**Choose a carrier product** lists your published, virtual simple products, newest first. Search by name or ID. Each row shows the product's ID and flags, and a product that's visible in the shop is marked with a warning, because a carrier should be hidden. Pick one and press **Use this product**.
+
+Only a virtual product can be a carrier, so products that need shipping aren't offered.
 
 <Note>
-  On the free version this card is locked and does nothing, because free never adds a custom item. It stays visible so the Settings screen doesn't change shape between tiers.
+  On the free version this card is locked, with a **Pro** tag, because free never adds a custom item. A carrier linked on Pro stays in place, so presets made with Pro keep working. The card stays visible so the Settings screen doesn't change shape between tiers.
 </Note>
 
 ## Several custom items at once
@@ -50,13 +62,15 @@ Without that snapshot, a packing-slip or shipping-label plugin reading a custom 
 
 ## If you delete it
 
-Presets keep their custom items, and the health panel flags every preset that has one. Following one of those links refuses the custom line: skipped or blocking, depending on **Settings → Cart behaviour → Unavailable items** (Skip the item, or Refuse the preset).
+Presets keep their custom items. Following one of those links refuses the custom line: skipped or blocking, depending on **Settings → Cart behaviour → Unavailable items** (**Skip the item**, or **Refuse the preset**).
+
+Each preset with a custom item shows a **Health checks** warning, "Custom items need a carrier product", which links straight to this card.
 
 Re-link a carrier product and everything works again. Nothing is lost.
 
 ## Uninstalling
 
-The carrier product is **not** deleted when you delete the plugin, unless you opt in under **Settings → Data management**. Even then it's only removed if it's still virtual and hidden, so a carrier you pointed at one of your own products is never deleted. It's a WooCommerce product, it may be attached to old orders, and deleting it would damage your order history.
+The carrier product is **not** deleted when you delete the plugin, unless you tick **The carrier product** under **Settings → Data management → Delete on uninstall**. Even then it's only removed if it's still virtual and hidden. If you pointed the carrier at one of your own products and made it visible, it's left alone. Think twice before ticking it: past orders with custom items reference the carrier, and deleting it orphans those lines.
 
 ## For developers
 

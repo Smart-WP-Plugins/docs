@@ -13,9 +13,9 @@ A shopper browsing your catalogue runs **zero database queries** from this plugi
 ```
 Front-end page view, empty cart
   database queries                 0
-  PHP files parsed                 27  (357 KB)
+  PHP files parsed                 27  (359 KB)
   share of all files WooCommerce
-  already loads                    1.6%  (27 of 1,656)
+  already loads                    1.6%  (27 of 1,657)
 ```
 
 Settings live in a single autoloaded option of 584 bytes, read once per request and remembered. A product page, a category, a blog post and your home page all cost this plugin nothing in database work.
@@ -32,14 +32,14 @@ This is the part worth knowing before you commit to a plugin. We seeded a store 
 
 | Store size | Front-end queries | Resolving a link |
 | --- | --- | --- |
-| 104 presets | 0 | 0.07 ms, 2 queries |
-| 10,015 presets | 0 | 0.07 ms, 2 queries |
-| 59,815 presets | 0 | 0.07 ms, 2 queries |
+| 104 presets | 0 | under 0.1 ms, 2 queries |
+| 10,015 presets | 0 | under 0.1 ms, 2 queries |
+| 59,815 presets | 0 | under 0.1 ms, 2 queries |
 
-**575 times the catalogue, identical cost.** A link is an indexed lookup on its slug, so it finds one row whether there are a hundred or sixty thousand. Once resolved, the preset is cached and the second visitor costs no queries at all:
+**575 times the catalogue, the same cost.** A link is an indexed lookup on its slug, so it finds one row whether there are a hundred or sixty thousand. Once resolved, the preset is cached and the second visitor costs no queries at all:
 
 ```
-resolve slug, cold cache     0.07 ms    2 queries
+resolve slug, cold cache     0.08 ms    2 queries
 resolve slug, warm cache     0.00 ms    0 queries
 read its items               0.00 ms    0 queries
 work out its status          0.00 ms    0 queries
@@ -76,10 +76,10 @@ However many rows you show, and however many presets you have:
 
 | Store size | 20 rows | Queries |
 | --- | --- | --- |
-| 104 presets | 0.73 ms | 2 |
-| 10,015 presets | 43.5 ms | 2 |
+| 104 presets | 0.67 ms | 2 |
+| 10,015 presets | 44 ms | 2 |
 
-The derived status, the redemption count and the item count all come back in the same two queries rather than one query per row. Showing 50 rows instead of 20 costs the same two.
+The derived status, the redemption count and the item count all come back in the same two queries rather than one query per row. Showing 50 rows instead of 20 costs the same two. The counts on the status tabs are one more query, however many presets you have.
 
 ## How this was measured
 
