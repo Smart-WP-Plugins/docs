@@ -179,7 +179,9 @@
           {
             "group": "Performance",
             "icon": "gauge",
-            "pages": []
+            "pages": [
+              "admin-powerups/autoloaded-options"
+            ]
           },
           "admin-powerups/data-and-uninstall",
           "admin-powerups/performance",

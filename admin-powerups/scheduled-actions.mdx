@@ -3,3 +3,85 @@ title: "Scheduled action monitor"
 description: "See whether WooCommerce's background jobs are keeping up, and run, retry or clean them up"
 icon: "calendar-clock"
 ---
+
+Scheduled action monitor shows whether WooCommerce's background jobs (Action Scheduler) are keeping up: overdue, failed and stuck actions, with run now, retry and clean-up.
+
+**Shows in:** Monitor tab
+
+<Warning>
+  Scheduled action monitor is a Developer tool: only site admins see it. Its page carries the amber warning: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime." See [Developer and Performance tools](/admin-powerups/developer-tools).
+</Warning>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Scheduled action monitor** in the **Developer** group.
+2. Click **Configure**, then the **Monitor** tab.
+
+It needs Action Scheduler, which comes with WooCommerce.
+
+{/* Screenshot: the Monitor tab with Queue health and the Failed list */}
+
+## Queue health
+
+- Counts: **Overdue**, **Failed**, **Running** (and how many have run for over 5 minutes, which usually means stuck), **Waiting**, **Done** and **Canceled**. Click **Refresh** to count again; counts are kept for 10 minutes.
+- When the oldest waiting action was due, when the last one finished, and the next queue run.
+- The size of the actions and logs tables.
+- **Failed by hook**: which jobs fail most.
+
+If actions are running late, a warning says the queue may not be running and links to [Cron inspector](/admin-powerups/cron-inspector) (when it's on) or Site Health.
+
+## The lists
+
+Three lists: **Failed**, **Overdue** and **Running**. Filter by an exact hook name. **Details** shows the action's facts, its arguments and its log. For anything else, use WooCommerce's **Tools → Scheduled Actions** screen.
+
+Action Scheduler's own actions and WooCommerce's database updates are **Protected**: you can view them, not change them.
+
+Actions that handle payments, renewals, subscriptions or webhooks are marked "May charge, refund or send again."
+
+## Actions
+
+| Action | Where | Confirm | What it does |
+| --- | --- | --- | --- |
+| **Run now** | Overdue | Review (click twice) | Runs one due action in the background straight away, never inside your page. The row shows Queued → Running → Done or Failed. |
+| **Retry** | Failed | Review (click twice) | Adds a new copy of the failed action to the queue. |
+| **Cancel…** | Overdue | Advanced (type "cancel") | The selected actions won't run. A repeating action stops repeating. |
+| **Delete…** | Failed | Advanced (type "delete") | Deletes finished, failed or canceled actions and their logs for good. Cancel waiting actions first. |
+| **Purge old actions** | Below the lists | Advanced (type "purge") | Deletes Done, Failed or Canceled actions older than a number of days, in steps while the page stays open. |
+
+On multisite, Advanced actions need a network (super) admin.
+
+If **Run now** hasn't started after 30 seconds, the server may block requests to itself; check the loopback test in Cron inspector or Site Health. While it runs, it counts as Action Scheduler's one batch, so the normal queue waits.
+
+## Masked arguments
+
+Argument values under sensitive names (tokens, passwords and similar) are masked. Values in a plain list without names are shown as they are.
+
+## Settings
+
+These apply while the power-up is on. Switch it off and Action Scheduler's defaults apply again.
+
+| Setting | Default | What it does |
+| --- | --- | --- |
+| **Keep finished actions for (days)** | 0 (Action Scheduler's default, 31 days) | 0 to 365. Old actions are removed a few at a time as the queue runs; use **Purge** to clear a big backlog. |
+| **Keep failed actions for (days)** | 0 | 0 to 730. With Action Scheduler 4 or newer, 0 keeps the default of 3 months. With older versions, 0 keeps them forever, and above 0 this power-up deletes older failed actions once a day. |
+
+- Canceled actions that never ran are removed at the next clean-up whatever the setting says: Action Scheduler counts from the last run, which they never had.
+- With Action Scheduler 4, if another plugin makes it clean up failed actions together with finished ones, the failed period is ignored.
+
+<Warning>
+  Keeping finished actions for a long time makes the actions table bigger, which slows queue runs and this monitor on busy stores. Keep failed actions long enough to look into them.
+</Warning>
+
+## On phones
+
+On a phone, each action stacks into a block instead of scrolling sideways.
+
+## Data
+
+| Item | What it is |
+| --- | --- |
+| **Settings** | This power-up's saved settings. Deleting them brings back the defaults. |
+| **Queue summary** | The Monitor tab's counts, kept for 10 minutes. |
+| **Run now requests** | Single-use keys that start a Run now in the background. Each expires after 2 minutes. |
+| **Background job history** | Finished and failed background jobs, kept by WooCommerce for troubleshooting. |
+| **Changes to scheduled actions** | Actions you ran, retried, canceled, deleted or purged belong to Action Scheduler. Each change is noted in that action's log. |
