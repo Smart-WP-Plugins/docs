@@ -1,0 +1,78 @@
+---
+title: "Analytics order filters"
+description: "Filter Analytics → Orders by location, payment method, shipping method and customer role"
+icon: "filter"
+---
+
+Analytics order filters adds more choices to **Advanced filters** on WooCommerce's Orders report: where the order was sent or billed, how it was paid and shipped, and who ordered it.
+
+**Shows in:** Analytics → Orders, under Advanced filters
+
+<Note>
+  This power-up needs WooCommerce 9.3 or newer and WooCommerce Analytics. Turn Analytics on in **WooCommerce → Settings → Advanced → Features**. Until then the power-up won't switch on.
+</Note>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Analytics order filters**.
+2. Open **Analytics → Orders**, choose **Advanced filters**, and click **Add a filter**.
+
+The summary numbers, chart, table and CSV export all follow the filters.
+
+{/* Screenshot: Analytics → Orders with a Billing country filter added */}
+
+## The filters
+
+| Filter | Match | How you pick |
+| --- | --- | --- |
+| **Billing country** or **Shipping country** | Includes / Excludes | Search and pick countries |
+| **Billing state** or **Shipping state** | Includes / Excludes | Search and pick states |
+| **Billing city** or **Shipping city** | Includes / Excludes | Type the city |
+| **Payment method** | Is / Is not | Pick from your payment methods |
+| **Shipping method** | Is / Is not | Pick a method type ("Any Flat rate") or a method in one zone |
+| **Customer role** | Is / Is not | Pick a role, or **Guest (no account)** |
+
+- **City** is an exact match. Your database decides whether case and accents matter. Commas are removed, so a city name that contains a comma can't match.
+- **Payment method** and **Shipping method** list your current methods. Methods you've since removed can still be filtered through a link in the address bar.
+- **Customer role** uses the customer's current role. **Guest (no account)** covers orders without an account. The list shows staff who can see reports which roles your paying customers have, for example admins or shop managers who ordered.
+- Refunds follow their order's filters.
+
+### Match all or any
+
+With **Match any**, these filters combine with each other as "any", but WooCommerce's own filters (status, product and so on) still all apply.
+
+## Settings
+
+| Setting | Default | What it does |
+| --- | --- | --- |
+| **Filters** | All on | Which filters appear: **Country**, **State**, **City**, **Payment method**, **Shipping method**, **Customer role**. Shipping method and Customer role are marked **Slower**. |
+| **Address to match** | Billing address | Used by the country, state and city filters. Orders without a shipping address never match a shipping location, and always pass an "Excludes" filter. There's no fallback to the billing address. |
+
+## Safe by design
+
+If the filters can't be applied or counted, the report shows an error instead of unfiltered numbers:
+
+> The Analytics order filters couldn't be applied, so no results are shown. Remove them or try again.
+
+An invalid value, or too many values, shows no orders rather than all orders.
+
+## Performance
+
+<Warning>
+  Filtered reports skip WooCommerce's report cache, so each one is counted fresh. **Shipping method** and **Customer role** look inside order items or customer accounts: on a store with 100,000 orders, a year-long report can take 1 to 2 seconds.
+</Warning>
+
+See [Performance](/admin-powerups/performance).
+
+## Data
+
+| Item | What it is |
+| --- | --- |
+| **Settings** | This power-up's saved settings. Deleting them brings back the defaults. |
+
+## Known limitations
+
+- Up to 50 values per filter (20 for cities).
+- **Segment by** isn't available while these filters are in use.
+- An export started before the power-up (or a filter) was switched off sends its remaining parts unfiltered.
+- For developers: inside a filtered Orders report, another Orders report query run by other code (without filters of its own) uses the same filters.

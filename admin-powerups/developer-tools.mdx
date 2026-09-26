@@ -1,0 +1,47 @@
+---
+title: "Developer and Performance tools"
+sidebarTitle: "About these tools"
+description: "Admin-only power-ups for webhooks, background jobs, cron, order data and autoloaded options, and how their confirmations work"
+icon: "screwdriver-wrench"
+---
+
+The **Developer** and **Performance** groups hold tools for site admins: they look under the hood of WooCommerce and WordPress, and some can make changes you can't undo.
+
+| Group | Power-ups |
+| --- | --- |
+| Developer | [Order meta inspector](/admin-powerups/order-meta), [Webhook health](/admin-powerups/webhook-health), [Scheduled action monitor](/admin-powerups/scheduled-actions), [Cron inspector](/admin-powerups/cron-inspector) |
+| Performance | [Autoloaded options](/admin-powerups/autoloaded-options) |
+
+## Admins only
+
+Both groups are visible to site admins only, marked **Admins only** on the Powerups list. Store managers never see them, and their links answer "not allowed". The System card's "Power-ups on X of Y" counts only the power-ups you can see.
+
+They switch on and off like any other power-up. There's no separate switch for the whole group.
+
+<Warning>
+  An amber warning shows under each group heading and at the top of every tool page: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime."
+</Warning>
+
+## Risk badges and confirmations
+
+Each action carries a badge that tells you how it's confirmed:
+
+| Badge | How you confirm | Examples |
+| --- | --- | --- |
+| **Safe** | Runs on click. Changes nothing, or only asks WooCommerce to do what it does anyway. | Send test, Check loopback, Run now for a due cron event |
+| **Review recommended** | Click twice. The first click changes the button's text ("Click again to ..."); click again within 5 seconds, or it resets. | Re-enable a webhook, Retry, Stop autoloading |
+| **Advanced** | Type the word shown, such as "delete", then click the red button. | Delete events or options, Cancel, Purge |
+
+The typed word works in any letter case, and in your site's language. The same typed confirmation protects the biggest deletes in every power-up's Data section.
+
+### Who can do Advanced actions
+
+Site admins. On multisite, only a network (super) admin: site admins can use Safe and Review actions but not Advanced ones.
+
+## Masked values
+
+These tools show data that plugins stored: order meta, job and cron arguments, option values. Values under sensitive names (tokens, passwords, secrets, keys) are masked. The patterns come from the Order meta inspector's **Sensitive fields to mask** setting.
+
+## Nothing to set up
+
+Most of these tools have no settings. Their Settings tab says "Nothing to set up" and points to the tool tab, for example "Use the Webhooks tab."

@@ -55,6 +55,8 @@ Some switched-on power-ups also get a direct link on their row to the tab you'll
 | Customer tags | Tag groups |
 | Duplicate customer finder | Find duplicates |
 | Checkout blocklist | Blocked attempts |
+| Quick stock | Stock |
+| Webhook health | Webhooks |
 
 ## A power-up's page
 
@@ -63,6 +65,8 @@ Click **Configure** on any row to open its page. The header says where the power
 - **Settings tab**: the power-up's options. Click **Save changes** to save.
 - **Tool tabs**: some power-ups add a tab, such as **Convert past orders** or **Check and apply**. Tool tabs need the power-up to be on.
 - **Data section**: under the settings, what the power-up stores and how to delete it. See [Data and uninstall](/admin-powerups/data-and-uninstall).
+
+A power-up with no options says **Nothing to set up** on its Settings tab. It points to its tool tab (for example "Use the Webhooks tab.") or, if it has none, says "It works while it's on."
 
 <Note>
 Settings work while a power-up is off. You'll see "This power-up is off. Your settings will apply once it's on." Set it up first, then switch it on.
@@ -83,6 +87,10 @@ An amber warning or a **Slower** badge on a setting means the choice works but c
 ## Light and dark mode
 
 The Powerups screen has a light, dark and system theme. Your choice is saved for your user only.
+
+## On phones
+
+The Powerups screen works on a phone. Wide tool tables (Quick stock, Scheduled action monitor, Cron inspector and Autoloaded options) stack each row into a block instead of scrolling sideways. Email recipients & attachments shows each email as a block with its To, Cc and Bcc lines.
 
 ## The sidebar
 
@@ -109,6 +117,8 @@ You can see the jobs under **WooCommerce → Status → Scheduled Actions**, in 
 ## Who can use it
 
 Anyone who can manage WooCommerce, including shop managers, can switch power-ups on and off and change their settings. That includes settings that matter for security, like the checkout blocklist, which roles staff can switch to, and who can reveal masked order meta.
+
+The **Developer** and **Performance** power-ups are the exception: only site admins can see and use them.
 
 Some actions also check the specific permission they need. For example, saving an address to a customer or switching to a customer needs permission to edit that user.
 
