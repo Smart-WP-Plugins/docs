@@ -169,7 +169,10 @@
           {
             "group": "Developer",
             "icon": "code",
-            "pages": []
+            "pages": [
+              "admin-powerups/webhook-health",
+              "admin-powerups/cron-inspector"
+            ]
           },
           {
             "group": "Performance",
