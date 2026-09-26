@@ -9,12 +9,14 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Setting a limit is a Pro feature. **Counting and enforcing one is not.** Both versions record claims and honour a cap that's already set, so moving to the free version never puts a sold-out link back on sale.
+  Setting a limit is a Pro feature. **Counting and enforcing one is not.** Both versions record claims and honour a cap that's already set, so moving to the free version never puts a sold-out link back on sale. On the free version the fields are shown locked with a Pro tag, and so is **Settings → Usage limits**.
 </Info>
 
-A limit caps how many times the offer can be claimed. Set a total, a per-customer cap, or both.
+A limit caps how many times the offer can be claimed. Set **Maximum orders**, **Maximum orders per customer**, or both. Leave a field empty for no limit.
 
-<Media>The Usage restrictions card showing Maximum orders, Maximum orders per customer and the usage meter</Media>
+The note under **Maximum orders** keeps count, for example *12 of 50 used so far.*
+
+<Media>The Usage restrictions card showing Maximum orders, Maximum orders per customer and the used-so-far note</Media>
 
 ## Claims, not units
 
@@ -29,7 +31,7 @@ They're different questions, and they multiply. A total of 50 with a quantity of
 
 A slot is taken when an order enters one of the statuses you choose, under **Settings → Usage limits → Count orders with these statuses**.
 
-The default is **On hold**, **Processing** and **Completed**. On hold is in there because a bank-transfer order is a real commitment. Leave it out and everyone who pays by transfer could oversell a limited run.
+The default is **On hold**, **Processing** and **Completed**. Clear every box and the default comes back. On hold is in there because a bank-transfer order is a real commitment. Leave it out and everyone who pays by transfer could oversell a limited run.
 
 | Status | In the default set |
 | --- | --- |
@@ -61,7 +63,7 @@ Which of the two they meet also depends on your [cart behaviour](/cartpresets/li
 
 ## Per-customer caps and who counts as a customer
 
-For signed-in customers, the account. For guests, the billing email — the same way WooCommerce's own per-user coupon limits identify people.
+For signed-in customers, the account. For guests, the billing email — the same way WooCommerce's own per-user coupon limits identify people. The field's note says so: *Counted by account, or by email for guests.*
 
 A guest email is a best effort, not an identity. Someone determined to get around it can. A per-customer cap is there to keep an honest introductory offer to one per person, not to act as a security boundary.
 
@@ -69,14 +71,14 @@ Developers can change how a customer is recognised through `cartpresets_redempti
 
 ## What a capped-out customer sees
 
-Two separate messages, both editable:
+Two separate messages, both editable under **Settings → Messages and labels**:
 
 | Situation | Shipped wording | Notice ID |
 | --- | --- | --- |
 | Total cap hit | This preset has reached its purchase limit and is no longer available. | `limit_total` |
-| Per-customer cap hit | This preset is limited to %d purchase per customer. (plural: …%d purchases per customer.) | `limit_customer` |
+| Per-customer cap hit (one row for a limit of one, one for more) | This preset is limited to %d purchase per customer. (plural: …%d purchases per customer.) | `limit_customer` |
 
-A preset whose total is used up reads as **Sold out**. Both messages land the same way every refusal does. The **Unavailable links** setting decides where the customer goes — the cart, or a custom link — and whether they're told why at all. See [Where customers land](/cartpresets/links/destinations).
+A preset whose total is used up reads as **Sold out**. Both messages land the same way every refusal does. The **Unavailable links** setting decides where the customer goes — **Cart** or **Custom URL** — and whether they're told why at all. See [Where customers land](/cartpresets/links/destinations).
 
 ## Settings reference
 
@@ -86,4 +88,4 @@ A preset whose total is used up reads as **Sold out**. Both messages land the sa
 | Maximum orders per customer | Preset | `max_per` | `0` (no cap) |
 | Count orders with these statuses | Store | `redemption_statuses` | on-hold, processing, completed |
 
-Both caps sit in the **Usage restrictions** card, in the **Purchase limits** row beside **Preset ends on**.
+Both caps sit in the **Usage restrictions** card, under **Purchase limits**, beside **Preset ends on**.

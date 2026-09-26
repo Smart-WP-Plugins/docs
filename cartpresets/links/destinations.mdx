@@ -9,7 +9,7 @@ import { Media } from '/snippets/media.mdx';
 
 Following a preset link always ends in a redirect. Where it goes depends on one thing: whether anything reached the cart.
 
-If something did, the link worked, in whole or in part, and **Redirect after adding** decides. If nothing did, the link was refused, and **Unavailable links** decides. Both live under **Settings → Cart behaviour**, and a preset can answer either one for itself.
+If something did, the link worked, in whole or in part, and **Redirect after adding** decides. If nothing did, the link was refused, and **Unavailable links** decides. Both live under **Settings → Cart behaviour**, and a preset can answer either one for itself. Overriding **Unavailable links** on a preset needs Pro.
 
 ## Redirect after adding
 
@@ -42,16 +42,18 @@ No referer at all also goes to your home page. That's a link pasted into the add
 
 ### Per-preset override
 
-Each preset can choose its own destination in the editor's **Cart behaviour** card, under **Redirect after adding**. Or leave it on **Use the Settings default**: that row names the store's current choice, so you can see what the default means without leaving the page.
+Each preset can choose its own destination in the editor's **Cart behaviour** card, under **Redirect after adding**. The block has two modes. On **Store default** it names the store's current choice, such as "Using the store default: **Cart**.", so you can see what the default means without leaving the page. Choose **Override** and the four choices appear, starting from the store's answer.
 
 ## Unavailable links
 
 A link can be refused ten ways, and they all share one answer. Set it once, and sold out, expired and not allowed are handled the same.
 
+Set it store-wide under **Settings → Cart behaviour → Unavailable links**. It's editable on both versions.
+
 | Setting | Choices | Key |
 | --- | --- | --- |
-| Send them to | **Cart** · **Custom URL** | `refused_action` |
-| Custom URL | Required when a custom link is chosen | `refused_url` |
+| Unavailable links | **Cart** · **Custom URL** | `refused_action` |
+| Custom URL | The address, in a **Custom URL** field that appears when you choose **Custom URL**. Required then | `refused_url` |
 | Show an error message | On by default | `refused_notice` |
 
 Each reason keeps its own sentence: "sold out" is not "please sign in". What they share is where the customer goes, and whether they're told anything at all.
@@ -83,7 +85,11 @@ The cart always prints them, and so do the Cart and Checkout blocks. A custom la
 
 ### Overriding it on one preset
 
-A preset carries the same three keys, and on a preset `refused_action` also accepts `global`, which follows the store. You set it in the editor's **Cart behaviour** card, under **Unavailable links**. Editing it is Pro, but a stored answer is still honoured on the free version.
+A preset carries the same three keys, and on a preset `refused_action` also accepts `global`, which follows the store. You set it in the editor's **Cart behaviour** card, under **Unavailable links**, by switching from **Store default** to **Override** and choosing **Cart** or **Custom URL**. On **Store default** the block names the store's answer, for example "Cart, with the reason shown".
+
+The editor has no **Show an error message** switch of its own. A preset that overrides keeps its stored `refused_notice`, which is on unless an import or the REST API set it off. Its **Cart** choice says so: "With a notice saying why the link could not be used."
+
+The override is Pro<Pro />. On the free version the block is locked with a **Pro** tag. A stored override is still honoured there, and the editor shows it as stored, so moving to the free version doesn't quietly send a customer somewhere you didn't choose.
 
 A custom destination with no address falls back to the cart. Both screens refuse to save an empty one, so this is a floor under corrupted data rather than something you can set up.
 
@@ -116,14 +122,14 @@ WordPress's own `wp_safe_redirect()` would quietly rewrite an outside host to wp
 | --- | --- | --- | --- |
 | Redirect after adding | Store | `post_add` | `cart` |
 | Custom URL | Store | `post_add_url` | Empty |
-| Destination | Preset | `redirect` | `global` |
+| Redirect after adding | Preset | `redirect` | `global` (**Store default**) |
 | Custom URL | Preset | `custom_url` | Empty |
 | Unavailable links | Store | `refused_action` | `cart` |
 | Custom URL | Store | `refused_url` | Empty |
 | Show an error message | Store | `refused_notice` | On |
-| Unavailable links | Preset | `refused_action` | `global` |
+| Unavailable links<Pro /> | Preset | `refused_action` | `global` (**Store default**) |
 | Custom URL | Preset | `refused_url` | Empty |
-| Show an error message | Preset | `refused_notice` | On |
+| Show an error message (no editor control) | Preset | `refused_notice` | On |
 
 ## For developers
 

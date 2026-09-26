@@ -22,14 +22,17 @@ Everything the panel is handed at load time is on `window.cartPresetsBoot`:
 | `homeUrl` | The site's home URL |
 | `version` | Plugin version |
 | `now` | The store's current time, on the store's clock rather than the browser's |
-| `currency` | Symbol, position, decimals, separators |
+| `currency` | Code, symbol, position, decimals and separators |
 | `statuses` | The derived status ladder |
-| `filterFields` | The listing's filter grammar, from the allow-list the REST route validates against |
+| `filterFields` | The listing's filter fields, each with its operators, from the allow-list the REST route validates against. `listed` marks the ones the **Filters** popover offers, and `pro` marks the ones locked on the free version |
 | `settings` | Resolved store settings |
 | `isPro` | Whether Pro is running |
+| `counts` | Presets per derived status, plus `all`, for the whole store. The same numbers `GET /presets` returns, so the list can draw its header, status tabs and pager before its first fetch |
 | `upgradeUrl` | Where the upgrade call to action points |
+| `carrierReady` | Whether a usable carrier product is linked. The editor warns when a custom item would need one and there isn't one |
+| `links` | Every address the panel links out to: the documentation pages, support, reviews and the licence account. Filterable through [`cartpresets_admin_links`](/cartpresets/developers/hooks-reference#the-admin-panel) |
 | `notices` | The wording catalogue, as `groups` and `items` |
-| `licence`<Pro /> | `status`, `expires` and `dismissed`, added by Pro through `cartpresets_admin_boot` |
+| `licence`<Pro /> | `status` (`active`, `expired`, `cancelled` or `inactive`) and `expires` (an ISO date, or `null`), added by Pro through `cartpresets_admin_boot` |
 
 `now` is worth knowing about if you read it. A preset's status is derived live, and `new Date()` answers in the visitor's timezone. A merchant abroad, or anyone near midnight, would otherwise see a status the server disagrees with.
 

@@ -20,7 +20,9 @@ https://yourstore.com/?preset=starter-kit     query string
 
 The pretty form needs pretty permalinks turned on in WordPress. The query form works either way, so it's the safe fallback on a site with plain permalinks.
 
-<Media>The Preset link card in the editor sidebar, with the copy button</Media>
+In the editor, the **Preset link** note beside the form shows the pretty link with a **Copy** button, the query form under **Also answers to**, and an **Open link** shortcut. A new preset has no link until its first save, so until then the note shows only the path its name will produce.
+
+<Media>The Preset link note in the editor's margin, with the copy button</Media>
 
 ## Changing the base and the parameter
 
@@ -31,7 +33,7 @@ You control both halves, under **Settings → Link settings**:
 | URL parameter | `url_param` | `preset` | The `?preset=` half |
 | Pretty permalink base | `permalink_base` | `/preset/` | The `/preset/` half |
 
-Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. It takes effect when you save, and permalinks are flushed for you.
+Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. The **Link preview** under the two fields shows how every preset link will read before you save. It takes effect when you save, and permalinks are flushed for you.
 
 <Warning>
   Changing the base or the parameter does **not** leave a redirect behind. Links you've already shared in the old form stop working straight away. Renaming a _preset_ does leave a redirect, and that's the next section. But the base is a store-wide change, so set it before you start sharing links, not after.
@@ -41,7 +43,7 @@ The parameter name is checked against names WordPress and WooCommerce already ow
 
 ## Renaming a preset
 
-Change a preset's slug and the old one keeps working for **30 days**, as a permanent redirect to the new one.
+You edit the slug in the editor's **Preset details** card, beside the name. The button next to it regenerates the slug from the name. Change a preset's slug and the old one keeps working for **30 days**, as a permanent redirect to the new one.
 
 Once you share a link it's out of your hands. You can't edit a newsletter you sent last week. Thirty days is long enough for traffic from a campaign already out there to drain away.
 
@@ -55,7 +57,7 @@ After 30 days the old slug stops working, and it's refused like any other link t
 
 Two presets can't share a slug. If you type one that's taken, the new preset gets a number on the end, `starter-kit-2`, and saves. It won't refuse the save and make you think of another name.
 
-If the exact slug matters to you, check the **Preset link** card after saving.
+If the exact slug matters to you, check the **Preset link** note after saving.
 
 ## When a link does not resolve
 

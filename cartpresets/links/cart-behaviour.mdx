@@ -19,7 +19,7 @@ A customer who follows your link often has a cart already. Three switches decide
 | Allow duplicate presets | `allow_duplicate` | Off | Whether a second visit adds a second copy or replaces the first |
 | Keep existing items | `keep_existing` | On | Whether their non-preset lines survive |
 
-**Clear the existing cart** answers the other two for you. The settings screen shows them disabled and says why, rather than hiding them. A control that vanishes takes its explanation with it.
+**Clear the existing cart** answers the other two for you. While it's on, the settings screen shows them disabled with the note "Disabled while the cart is cleared.", rather than hiding them. A control that vanishes takes its explanation with it.
 
 ### Clear the existing cart
 
@@ -79,13 +79,13 @@ Notices took extra work. On a classic theme the blocks never print WooCommerce's
 
 The editor asks the same three questions for a single preset, in its **Cart behaviour** card under **Existing cart**.
 
-**Use the Settings default** starts on. While it's on, the three switches below it show the store's answers and you can't edit them, and the note reads that answer back to you.
+That block has two modes, **Store default** and **Override**, and a new preset starts on **Store default**. In that mode the switches are hidden. A line names the store's current answer instead, such as "Using the store default: **Keep existing items**.", with a **Change it in Settings** link.
 
-Turn it off and they become yours for this preset. They start from the store's current answers, so nothing changes under your hands. **Clear the existing cart** settles the other two here exactly as it does store-wide, and because it sits beside them you can turn it off again to get them back.
+Choose **Override** and the three switches appear, and they're yours for this preset. They start from the store's current answers, so nothing changes under your hands. **Clear the existing cart** settles the other two here exactly as it does store-wide, and you can turn it off again to get them back. Choose **Store default** again and the preset follows the store once more.
 
 | Key on the preset | Holds |
 | --- | --- |
-| `cart_override` | Whether this preset answers for itself. Off by default |
+| `cart_override` | Whether this preset answers for itself: on for **Override**, off for **Store default**. Off by default |
 | `clear_cart`, `allow_duplicate`, `keep_existing` | Its answers, read only when `cart_override` is on |
 
 A preset overrides all three or none of them. There's no half-following, so you can work out the cart from one screen instead of two.

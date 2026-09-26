@@ -14,11 +14,11 @@ import { Media } from '/snippets/media.mdx';
 
 Name a coupon code on a preset and it's applied the moment the preset reaches the cart. The customer types nothing.
 
-<Media>The editor's Coupon card with a code entered, and the resulting cart showing the coupon applied</Media>
+<Media>The editor's Automatic coupon card with a code entered, and the resulting cart showing the coupon applied</Media>
 
 ## Setting one
 
-In the editor, the **Coupon** card has one field: **Coupon code**. Enter an existing WooCommerce coupon code and it's applied as though the customer had typed it, so every rule you set on the coupon itself still holds — usage limits, expiry, minimum spend, product restrictions, individual-use.
+In the editor, the **Automatic coupon** card has one field: **Coupon code**. Enter an existing WooCommerce coupon code and it's applied as though the customer had typed it, so every rule you set on the coupon itself still holds — usage limits, expiry, minimum spend, product restrictions, individual-use.
 
 <Tip>
   One link then carries both the products and the price you promised. A newsletter can say "click here for the starter kit at 20% off" and be literally true.
@@ -26,7 +26,7 @@ In the editor, the **Coupon** card has one field: **Coupon code**. Enter an exis
 
 ## A code that no longer exists
 
-The preset still works and the rest of the cart is unaffected. WooCommerce shows its own notice that the coupon couldn't be applied, just as it would for a code typed by hand.
+The preset still works and the rest of the cart is unaffected. The field's note says as much: *A code that does not exist is ignored, and the link still works.* WooCommerce shows its own notice that the coupon couldn't be applied, just as it would for a code typed by hand.
 
 That's on purpose. A deleted or expired coupon is a reason for the discount not to apply, not a reason for the whole link to fail in front of a customer who did nothing wrong.
 
@@ -54,7 +54,7 @@ This is the one place where moving to the free version changes what a stored set
 
 The code stays on the record. Reinstalling Pro turns it back on rather than asking you to set it up again.
 
-On free the editor shows the field locked, with a note saying the answer is kept and not applied. An empty field would suggest there was nothing there.
+On free the **Automatic coupon** card is locked with a Pro tag, and **Coupon code** is shown empty whatever is stored. A code shown there would describe a discount the link doesn't give.
 
 ## Settings reference
 
