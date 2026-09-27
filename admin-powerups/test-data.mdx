@@ -121,6 +121,8 @@ If you lack the permission for a kind of data in a batch (orders, for example), 
 
 Only objects it can confirm it made: each one is tagged and signed when it's created.
 
+A clean-up first checks your orders for test products; the progress bar shows "Checking orders for test products" with a percentage.
+
 - A product you duplicated from a test product (**Products → Duplicate**) is your own and is never deleted.
 - A refund a staff member added to a test order is deleted with the order.
 - A product is kept while any real order contains it, even if WooCommerce Analytics hasn't imported that order yet. Analytics being off or behind never blocks deleting test products that no order uses.
@@ -140,7 +142,7 @@ Anything real data has come to depend on stays, with a note such as "2 products 
 | has other orders | Accounts with their own orders. |
 | has posts or comments | Accounts with posts or comments. |
 | still in use | Categories still in use. |
-| can't be confirmed as test data | A copied or hand-set tag, an email not on a test domain, or more than 20,000 order lines to check for one group of products. |
+| can't be confirmed as test data | A copied or hand-set tag, an email not on a test domain, a product in more than 20,000 order lines, or more than 5,000 orders edited while the clean-up ran. |
 | you can't delete it | You lack the permission for that object. |
 | couldn't be deleted | The delete itself failed. |
 
@@ -163,8 +165,12 @@ Test accounts are removed from the site. When a network admin cleans up, account
 ## Performance
 
 <Warning>
-  Big runs take minutes: about 170 database queries per order, so 10,000 orders is several hundred steps. Clean up checks real orders for every group of 25 products; that takes under a second each on a store with 3 million order item details, and grows with that table.
+  Big runs take minutes: about 170 database queries per order, so 10,000 orders is several hundred steps. Clean up first checks your orders for test products: under a second in total on a store with 3 million order item details, growing with that table.
 </Warning>
+
+## Known limitations
+
+- On stores that keep orders in WordPress posts (high-performance order storage off): if staff change an existing order line to a test product while a clean-up runs, that product may be deleted.
 
 ## Data
 

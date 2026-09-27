@@ -82,6 +82,6 @@ On a phone, each action stacks into a block instead of scrolling sideways.
 | --- | --- |
 | **Settings** | This power-up's saved settings. Deleting them brings back the defaults. |
 | **Queue summary** | The Monitor tab's counts, kept for 10 minutes. |
-| **Run now requests** | Single-use keys that start a Run now in the background. Each expires after 2 minutes. |
+| **Run now requests** | Single-use keys that start a Run now in the background. Each expires after 2 minutes. On sites with a persistent object cache (Redis, Memcached) they live in the cache, so the entry reads "In the object cache; each expires after 2 minutes" and there's nothing to delete. |
 | **Background job history** | Finished and failed background jobs, kept by WooCommerce for troubleshooting. |
 | **Changes to scheduled actions** | Actions you ran, retried, canceled, deleted or purged belong to Action Scheduler. Each change is noted in that action's log. |
