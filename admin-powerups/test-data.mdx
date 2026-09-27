@@ -1,0 +1,177 @@
+---
+title: "Test data"
+description: "Make realistic test products, customers, orders, coupons and reviews without sending emails, then delete them in one go"
+icon: "flask"
+---
+
+Test data makes realistic products, customers, orders, coupons and reviews for trying out your store, without sending emails. When you're done, the Clean up tab deletes them again, batch by batch.
+
+**Shows in:** Generate and Clean up tabs
+
+<Warning>
+  Test data is a Developer tool: only site admins see it. Its page carries the amber warning: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime." See [Developer and Performance tools](/admin-powerups/developer-tools).
+</Warning>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Test data** in the **Developer** group.
+2. Click **Configure**, then the **Generate** tab.
+
+There's nothing to set up. Both tabs need the power-up on.
+
+{/* Screenshot: the Generate tab with the counts and the While generating list */}
+
+## Your site's environment
+
+The Generate tab says "This site is marked as …": **local**, **development**, **staging** or **production**. It comes from WordPress's environment type; a site with none set counts as production.
+
+- **Not production:** **Generate** is a two-step button (click twice).
+- **Production:** a warning explains that test orders and accounts would show up next to real ones, in reports and in other plugins, and suggests a staging copy. Generating is **Advanced**: type "generate" to confirm. On multisite only a network (super) admin can generate on a production site.
+
+## Generate test data
+
+<Steps>
+  <Step title="Choose how many">
+    Enter how many **Products**, **Customers**, **Orders**, **Coupons** and **Reviews** to make. An empty field counts as none.
+  </Step>
+  <Step title="Shape the run">
+    Set **Variable products (%)** (default 40), **Guest orders (%)** (default 30) and **Spread over the last (days)** (1 to 730, default 90). Pick a **Product status** and, if you like, a **Batch name** (up to 60 characters; the default is "Test data, *today's date*").
+  </Step>
+  <Step title="Generate">
+    Click **Generate** (twice, or type "generate" on production). A progress bar shows each phase: Making categories, Making products, Making coupons, Making customers, Making orders, Making reviews, Finishing.
+  </Step>
+</Steps>
+
+When it's done: "Done. Made *n* objects. Find them in the Clean up tab."
+
+| Kind | What's made | Most per run |
+| --- | --- | --- |
+| **Products** | Simple and variable, with prices, stock and categories. No images. Categories are made with the products. | 1,000 |
+| **Customers** | Accounts with the customer role, emails on a test domain and made-up phone numbers. | 5,000 |
+| **Orders** | Mixed statuses, guest and account orders, some refunds and coupons, spread over the chosen days. | 10,000 |
+| **Coupons** | Only usable with test-domain emails, so real customers can't use them. | 200 |
+| **Reviews** | Ratings and short texts on test products, mostly from test buyers. | 5,000 |
+
+A developer can lower these maximums with the `apwc_test_data_limits` filter.
+
+### Product status
+
+- **Private** (default): only staff see the products.
+- **Published**: the products show in the shop, where shoppers can see and buy them. On production, the confirmation adds "Shoppers can see and buy these products."
+
+Orders and reviews need test products: add products to the run, or keep an earlier batch that has some.
+
+### Permissions
+
+A kind you can't make is disabled, naming the permission your account lacks, for example "You can't make these: your account lacks the “edit_shop_orders” permission."
+
+### While it runs
+
+- Keep the tab open. It runs in short steps; **Stop** ends it any time: "Stopped. What was made so far is listed in the Clean up tab."
+- Closed the tab? Come back and click **Resume**. Only the admin who started a run can resume it.
+- A run that has been paused for more than 10 minutes can be stopped by anyone who can use the power-up.
+- One run at a time per site, and up to 50 batches. With 50 batches, delete some in the Clean up tab first.
+
+## What's switched off while generating
+
+The Generate tab lists it under **While generating**:
+
+- No emails are sent, to anyone (queued emails included).
+- No stock changes on real products, and no payments.
+- No webhooks are delivered.
+- No WooCommerce usage tracking is sent.
+- Everything made is tagged, so the Clean up tab can delete it again.
+
+Orders get their status directly, so WooCommerce's status-change actions don't run for them.
+
+<Note>
+  Other plugins may still react to new orders and accounts. Test orders show in WooCommerce Analytics after its next import (right away, or up to 12 hours with scheduled imports) until you delete them.
+</Note>
+
+## What the data looks like
+
+- Emails end in `example.test` (a developer can pick another reserved test domain).
+- Phone numbers are fictional (555-01xx, 07700 900xxx) and IP addresses come from ranges reserved for documentation.
+- Products are private unless you chose Published.
+- Coupons: codes can't be guessed from the shop, they work only with test-domain emails and only on test products, and can't be combined with other coupons. Discounts are a percentage or a fixed amount per product. A run without any test products makes coupons that apply to nothing.
+
+### Items that fail
+
+If another plugin throws an error while an item is saved, that item counts as failed ("*n* items couldn't be made.") and is logged under **WooCommerce → Status → Logs**, source `apwc-test-data`. If it was saved before the error, it's still tagged, so Clean up removes it.
+
+## Clean up
+
+The **Clean up** tab lists each batch with its name, date, who made it, the environment, its **Contents** ("20 products, 50 customers, 100 orders…") and a **Status**:
+
+| Status | Meaning |
+| --- | --- |
+| **Generating** | Still being made. |
+| **Paused** | A run stopped moving (the tab was closed). |
+| **Complete** | Finished. |
+| **Stopped** | Someone clicked Stop. |
+| **Deleting** | Being cleaned up. |
+| **Partly deleted** | Cleaned up, with some objects kept (see the notes). |
+
+- **Delete** one batch: click twice.
+- **Delete all**: **Advanced**. Type "delete" to confirm. On multisite only a network (super) admin can delete all at once; others can delete batches one by one. Delete all removes every batch's reviews and orders before any accounts or products.
+
+If you lack the permission for a kind of data in a batch (orders, for example), you can't delete that batch: "You can't delete batches that include orders."
+
+### What Clean up deletes
+
+Only objects it can confirm it made: each one is tagged and signed when it's created.
+
+- A product you duplicated from a test product (**Products → Duplicate**) is your own and is never deleted.
+- A refund a staff member added to a test order is deleted with the order.
+- A product is kept while any real order contains it, even if WooCommerce Analytics hasn't imported that order yet. Analytics being off or behind never blocks deleting test products that no order uses.
+
+### Kept notes
+
+Anything real data has come to depend on stays, with a note such as "2 products kept: in real orders".
+
+| Note | When |
+| --- | --- |
+| in real orders | A real order contains the product. |
+| has other reviews | The product has another review, including a test review you may not delete. |
+| its product was kept | A variation whose parent product stays. |
+| used on real orders | A coupon used on real orders. |
+| your account or a network admin | Accounts that are yours or a network admin's. |
+| has another role | Accounts that have another role. |
+| has other orders | Accounts with their own orders. |
+| has posts or comments | Accounts with posts or comments. |
+| still in use | Categories still in use. |
+| can't be confirmed as test data | A copied or hand-set tag, an email not on a test domain, or more than 20,000 order lines to check for one group of products. |
+| you can't delete it | You lack the permission for that object. |
+| couldn't be deleted | The delete itself failed. |
+
+## The signing key
+
+Test data tags what it makes with its own random key, stored in your site's database. Changing the WordPress security keys (salts) doesn't affect it.
+
+The key stays when the plugin is removed, so a later reinstall can still clean up. If the key is lost, the remaining test data can no longer be confirmed and stays, marked "can't be confirmed as test data".
+
+## Multisite
+
+Test accounts are removed from the site. When a network admin cleans up, accounts that belong to no other site are deleted right away. Otherwise delete them under **Network Admin → Users** (their emails end in the test domain).
+
+## Switching off and removing the plugin
+
+- Switching the power-up off stops a run. What was made so far stays listed.
+- Test data stays when the power-up is off or the plugin is removed; only the Clean up tab deletes it. Removing the plugin removes the power-up's options but keeps the signing key and the generated data: reinstall and use **Clean up**.
+- If [Accounts for guest orders](/admin-powerups/guest-accounts) creates an account for a test order, the account joins the batch only while Test data is on.
+
+## Performance
+
+<Warning>
+  Big runs take minutes: about 170 database queries per order, so 10,000 orders is several hundred steps. Clean up checks real orders for every group of 25 products; that takes under a second each on a store with 3 million order item details, and grows with that table.
+</Warning>
+
+## Data
+
+| Item | What it is |
+| --- | --- |
+| **Run in progress** | Where a running generate or clean-up is up to. Deleting it stops the run; what it made stays tracked. |
+| **Batch list** | Labels and counts only. Generated data stays tracked by its markers. |
+| **Step lock** | Makes sure only one step runs at a time. Removed after each step. |
+| **Signing key** | The random key that tags what the power-up makes. Shown, never deleted: without it the data could no longer be cleaned up. |
+| **Generated test data** | Products, customers, orders, coupons and reviews made here, each tagged with its batch. Shown, never deleted here: delete them in the Clean up tab. |

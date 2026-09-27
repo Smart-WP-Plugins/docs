@@ -91,3 +91,53 @@ On a phone, each row of the table stacks into a block instead of scrolling sidew
 ## Known limitations
 
 - If an order changes stock by exactly the opposite amount at the same moment (you set 10 → 12 while an order takes 2), the save counts but shows "wasn't saved". The row shows the correct stock.
+
+## For developers
+
+The Stock tab saves through three REST routes. They exist only while Quick stock is on, and use WordPress's usual REST authentication (logged-in cookie plus a `wp_rest` nonce, or an application password).
+
+| Route | Method | Parameters | What it does |
+| --- | --- | --- | --- |
+| `apwc/v1/quick-stock/{id}/stock` | POST | `quantity` (required; whole number, negative allowed), `expected` (required; the amount you last saw) | Sets the stock amount. It's written as a difference through WooCommerce, so an order that comes in meanwhile still counts. |
+| `apwc/v1/quick-stock/{id}/status` | POST | `status` (required; a WooCommerce stock status such as `instock`, `outofstock` or `onbackorder`), `expected` (optional; the status you last saw) | Sets the stock status of a product that doesn't track stock. Changes are checked for only when `expected` is sent. |
+| `apwc/v1/quick-stock/{id}/manage` | POST | `quantity` (required; whole number, 0 or more) | Starts tracking stock with that amount. Unlike the page, it also accepts a variable parent product, as WooCommerce's product editor does. |
+
+`{id}` is a product or variation ID. Amounts go up to 999,999,999.
+
+### Permissions
+
+The user needs `manage_woocommerce` and `edit_products`, then `edit_product` on that product (on the parent product for a variation). Developers can change the per-product answer with the `apwc_quick_stock_can_edit` filter. Trashed, auto-draft, grouped and external products answer as not found.
+
+### Responses
+
+A successful call returns:
+
+```json
+{
+  "row_html": "<tr>…</tr>",
+  "parent_html": null,
+  "message": "Hoodie: 15 → 30",
+  "old": 15,
+  "new": 30,
+  "changed": true
+}
+```
+
+`parent_html` is the redrawn parent row for a variation. `changed` is false when the value was already the same ("Hoodie: no change").
+
+| Status | Code | When |
+| --- | --- | --- |
+| 400 | `apwc_bad_quantity` | Not a number, not a whole number, too large, or below 0 for `/manage`. |
+| 400 | `apwc_bad_status` | `status` isn't one of WooCommerce's stock statuses. |
+| 401 / 403 | `apwc_cannot_edit` | You can't edit this product. |
+| 404 | `apwc_no_product` | The product doesn't exist or isn't listed by Quick stock. |
+| 409 | `apwc_stock_changed` | The stock or status changed since `expected`. `data.current` holds the value now. |
+| 409 | `apwc_not_tracked` | `/stock` on a product that doesn't track stock. |
+| 409 | `apwc_parent_stock` | A variation that uses its parent's stock. |
+| 409 | `apwc_status_computed` | `/status` on a product whose status follows its stock, or on a variable product. |
+| 409 | `apwc_already_tracked` | `/manage` on a product that already tracks stock. |
+| 500 | `apwc_not_saved` | Nothing was written. |
+
+Every 409 and 500 error includes `data.row_html`, the product's row as it is now.
+
+After a change, the `apwc_quick_stock_updated` action runs. Low-stock and out-of-stock emails are sent only when `apwc_quick_stock_send_stock_alerts` returns true.

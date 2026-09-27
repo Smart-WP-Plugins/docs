@@ -1,7 +1,7 @@
 ---
 title: "Developer and Performance tools"
 sidebarTitle: "About these tools"
-description: "Admin-only power-ups for webhooks, background jobs, cron, order data and autoloaded options, and how their confirmations work"
+description: "Admin-only power-ups for webhooks, background jobs, cron, order data, test data, autoloaded options and database clean-up, and how their confirmations work"
 icon: "screwdriver-wrench"
 ---
 
@@ -9,8 +9,8 @@ The **Developer** and **Performance** groups hold tools for site admins: they lo
 
 | Group | Power-ups |
 | --- | --- |
-| Developer | [Order meta inspector](/admin-powerups/order-meta), [Webhook health](/admin-powerups/webhook-health), [Scheduled action monitor](/admin-powerups/scheduled-actions), [Cron inspector](/admin-powerups/cron-inspector) |
-| Performance | [Autoloaded options](/admin-powerups/autoloaded-options) |
+| Developer | [Order meta inspector](/admin-powerups/order-meta), [Webhook health](/admin-powerups/webhook-health), [Scheduled action monitor](/admin-powerups/scheduled-actions), [Cron inspector](/admin-powerups/cron-inspector), [Test data](/admin-powerups/test-data) |
+| Performance | [Autoloaded options](/admin-powerups/autoloaded-options), [Database clean-up](/admin-powerups/database-cleanup) |
 
 ## Admins only
 
@@ -31,6 +31,8 @@ Each action carries a badge that tells you how it's confirmed:
 | **Safe** | Runs on click. Changes nothing, or only asks WooCommerce to do what it does anyway. | Send test, Check loopback, Run now for a due cron event |
 | **Review recommended** | Click twice. The first click changes the button's text ("Click again to ..."); click again within 5 seconds, or it resets. | Re-enable a webhook, Retry, Stop autoloading |
 | **Advanced** | Type the word shown, such as "delete", then click the red button. | Delete events or options, Cancel, Purge |
+
+The word depends on the action: "delete" for most, "generate" for [Test data](/admin-powerups/test-data) on a production site. [Database clean-up](/admin-powerups/database-cleanup) also asks for a second click on Safe cleans, since they delete rows.
 
 The typed word works in any letter case, and in your site's language. The same typed confirmation protects the biggest deletes in every power-up's Data section.
 
