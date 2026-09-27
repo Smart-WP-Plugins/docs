@@ -178,7 +178,7 @@
             ]
           },
           {
-            "group": "Performance",
+            "group": "Performance tools",
             "icon": "gauge",
             "pages": [
               "admin-powerups/autoloaded-options",
