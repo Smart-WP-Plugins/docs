@@ -65,6 +65,7 @@ The button is disabled with a reason: **Needs a network admin**, **Needs a highe
 
 - Meta rows (post, comment, term, user and order item meta) show the key and the value's length, never the value.
 - Titles, item names and transient names are shown with email addresses, IP addresses and phone numbers masked. Dates, SKUs and prices stay readable.
+- Phone numbers written the national way with spaces (020 7946 0958) are always hidden. A plain run of digits (5551234567) is hidden only when a word like Tel, Phone, Mobile or Call comes just before it, or when it's the whole value, so model, order, tracking and batch numbers stay readable.
 
 ## The checks
 
@@ -148,7 +149,7 @@ The last 20 clean-ups: rows deleted, about how much space, who started, who cont
 ## Performance
 
 <Warning>
-  Checks badged **Slower to scan** walk whole tables in steps; on big stores a full scan takes several steps. Selecting Slower checks for the weekly clean-up walks those tables every week.
+  Checks badged **Slower to scan** walk whole tables in steps; on big stores a full scan takes several steps. **Term links to missing posts** can also take more than one step to count on big stores. Selecting Slower checks for the weekly clean-up walks those tables every week.
 </Warning>
 
 ## Data
