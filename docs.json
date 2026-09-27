@@ -173,7 +173,8 @@
               "admin-powerups/order-meta",
               "admin-powerups/webhook-health",
               "admin-powerups/scheduled-actions",
-              "admin-powerups/cron-inspector"
+              "admin-powerups/cron-inspector",
+              "admin-powerups/test-data"
             ]
           },
           {
