@@ -1,0 +1,165 @@
+---
+title: "Database clean-up"
+description: "Find and delete what WooCommerce and WordPress leave behind: expired sessions and transients, orphaned order data, old revisions, spam and finished background jobs"
+icon: "broom"
+---
+
+Database clean-up finds and deletes what WooCommerce and WordPress leave behind: expired sessions and transients, orphaned order data, old revisions, spam and finished background jobs. Scan first to see the counts; nothing is deleted until you clean a row.
+
+**Shows in:** Database clean-up tab
+
+<Warning>
+  Database clean-up is a Performance tool: only site admins see it. Its page carries the amber warning: "These tools can make permanent changes that can't be undone. Take a backup first. SmartWP Plugins isn't responsible for lost data or downtime." See [Developer and Performance tools](/admin-powerups/developer-tools).
+</Warning>
+
+## Turn it on
+
+1. Go to **WooCommerce → Powerups** and switch on **Database clean-up** in the **Performance** group.
+2. Click **Configure**, then the **Database clean-up** tab.
+
+The defaults work as they are. See [Settings](#settings) to change what counts as old or to clean up weekly.
+
+{/* Screenshot: the Database clean-up tab after a scan */}
+
+## Scan
+
+Click **Scan**. Each check counts its leftover rows, in short steps with a progress bar and **Stop**. Deleting is permanent, so the tab reminds you: "Deleting is permanent. Take a database backup first."
+
+- "Checked 3 hours ago" updates once everything has been scanned.
+- A count older than a day, or taken before a setting changed, needs a new scan ("The count is more than a day old. Scan again."). Click **Scan** on that row.
+- After a clean, checks marked **Slower to scan** show "Scan again to see what's left."
+- A check that hits a database error says "Couldn't be counted: the database returned an error. Scan again."
+- Checks you can't act on aren't scanned for you.
+- On multisite, **User meta without a user** shows **Network admins only** to site admins.
+
+A scan and a clean can't run at the same time on the page.
+
+## Clean
+
+Clean one check at a time. How you confirm depends on its badge:
+
+| Badge | How you confirm |
+| --- | --- |
+| **Safe** | Click **Clean** twice ("Click again to delete"): even Safe cleans delete rows. |
+| **Review recommended** | Click **Clean** twice. |
+| **Advanced** | Tick **I have a recent database backup**, type "delete", then click **Clean**. On multisite only a network (super) admin can. |
+
+The clean runs in short steps with a progress bar and **Stop**. When it's done: "Deleted *n* rows: *check*."
+
+### Stopped part-way
+
+A stopped clean shows "Stopped part-way: *n* rows deleted so far." with:
+
+- **Continue**: carry on where it stopped.
+- **Discard** (click twice): forget the stopped clean-up. "Discarded. What was already deleted stays deleted." Discard needs the same level as the clean and doesn't undo anything.
+
+While a clean is stopped, others can't start until it's continued or discarded.
+
+### Can't clean a row?
+
+The button is disabled with a reason: **Needs a network admin**, **Needs a higher access level** or **Your role can't delete these** (your role lacks the WordPress permission for that data, for example deleting others' posts or moderating comments).
+
+## View example rows
+
+**View** shows up to 10 example rows. It's only offered to admins who can clean that check.
+
+- Meta rows (post, comment, term, user and order item meta) show the key and the value's length, never the value.
+- Titles, item names and transient names are shown with email addresses, IP addresses and phone numbers masked. Dates, SKUs and prices stay readable.
+
+## The checks
+
+### WooCommerce leftovers
+
+| Check | Badge |
+| --- | --- |
+| **Expired shopper sessions** | Safe |
+| **Expired transients** | Safe |
+| **Order items without an order** | Safe, Slower to scan |
+| **Order item details without an item** | Safe, Slower to scan |
+| **Order details without an order** (order tables of high-performance order storage) | Safe, Slower to scan |
+| **Analytics rows without an order** | Safe, Slower to scan |
+| **Product lookup rows without a product** | Safe |
+| **Analytics customers whose account is gone** (guest customers never included) | Review |
+| **Variations without a product** | Review |
+| **Old download logs** | Review |
+| **Expired WooCommerce logs** (older than the retention in **WooCommerce → Status → Logs → Settings**) | Safe, Slower to scan |
+
+### Scheduled action history
+
+| Check | Badge |
+| --- | --- |
+| **Old finished actions** | Review |
+| **Old canceled actions** | Review |
+| **Action logs without an action** | Safe, Slower to scan |
+
+Failed actions aren't cleaned here. When there are some, a line links to the [Scheduled action monitor](/admin-powerups/scheduled-actions) to review them.
+
+### WordPress clutter
+
+| Check | Badge |
+| --- | --- |
+| **Old revisions** (Site Editor history is kept) | Review |
+| **Old auto-drafts** (older than 7 days) | Safe |
+| **Old trashed posts** | Review |
+| **Old spam comments** (by the date they were written) | Safe |
+| **Old trashed comments** (by the date they were trashed) | Review |
+| **Post meta without a post** | Safe, Slower to scan |
+| **Comment meta without a comment** | Safe, Slower to scan |
+| **Term meta without a term** | Safe, Slower to scan |
+| **User meta without a user** | Review; on multisite Advanced, main site only, Slower to scan |
+| **Term links to missing terms** | Safe |
+| **Term links to missing posts** | Review |
+
+### Always kept
+
+Orders, order notes, guest customers, rows with ID 0, and [Customer tags](/admin-powerups/customer-tags) and other user taxonomies are never cleaned.
+
+## Table sizes
+
+**Table sizes** shows estimated rows, size and free space per table from the last scan. Free space is room the database already reuses for new rows. The tool never shrinks tables, because that locks them and can take minutes on a big store.
+
+## Settings
+
+### What counts as old
+
+Rows newer than these are never counted or cleaned.
+
+| Setting | Default | Minimum |
+| --- | --- | --- |
+| **Download logs older than (days)** | 365 | 30 |
+| **Revisions older than (days)** | 90 | 7 |
+| **Trashed posts older than (days)** | 0 (WordPress's trash period) | 7 |
+| **Spam and trashed comments older than (days)** | 30 | 7 |
+
+Sessions, transients, WooCommerce logs and scheduled actions follow their owner's own expiry.
+
+### Weekly clean-up
+
+- **Clean Safe items weekly** (off by default) runs in the background once a week. It works only while the power-up is on.
+- **Clean these every week** picks which checks run. Only Safe checks can. By default: expired shopper sessions, expired transients and term links to missing terms. Checks marked **Slower** walk whole tables, so they aren't selected at first.
+- You can only select checks your role may clean, and every save checks this again.
+
+Weekly runs happen in steps a minute apart. A check that errors is tried again once after 15 minutes, then listed as Failed. A busy moment doesn't skip the week. Switching the power-up off stops it, even mid-run.
+
+## Recent clean-ups
+
+The last 20 clean-ups: rows deleted, about how much space, who started, who continued and who discarded it (or "Weekly clean-up"), when, and notes such as rows that failed, rows that weren't deleted, expired log files cleared, or "stopped making progress".
+
+## Performance
+
+<Warning>
+  Checks badged **Slower to scan** walk whole tables in steps; on big stores a full scan takes several steps. Selecting Slower checks for the weekly clean-up walks those tables every week.
+</Warning>
+
+## Data
+
+| Item | What it is |
+| --- | --- |
+| **Scan results** | The counts from the last scan and table sizes. Deleting them just means scanning again. |
+| **Stopped clean-up** | Where a clean-up stopped part-way, so it can carry on. Deleting it is the same as Discard: nothing is undone, and the history notes it. Not while a step runs, and only by someone who can clean that check. |
+| **Clean-up history** | What was cleaned, how many rows, who and when (never the rows themselves). Deleting it doesn't bring anything back, and asks you to type "delete". That's a safeguard against slips, not a permission: anyone who can use the power-up can do it. |
+| **Weekly clean-up progress** | Where this week's background clean-up is, while it's running. |
+| **Clean-up lock** | Makes sure only one scan or clean step runs at a time. It expires by itself after 2 minutes; a lock held by a running step can't be deleted. |
+| **Deleted rows** | Rows you cleaned are gone for good; switching off or removing the power-up doesn't bring them back. |
+
+Removing the plugin removes the power-up's options and background jobs. Deleted rows stay deleted.
