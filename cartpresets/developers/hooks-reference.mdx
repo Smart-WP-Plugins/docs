@@ -247,8 +247,6 @@ apply_filters( 'cartpresets_listing_revenue', ?array $revenue );
 
 `search` matches a preset's name, slug and note, and the products inside it: product name, variation name, either one's SKU, or a custom item's name.
 
-The pre-builder arguments compose with the filter rows. They are `added_after` / `added_before` (`YYYY-MM-DD`, inclusive bounds on the publish date, with the end one running to the last second of its day), `price_op` (`eq`, `neq`, `gt`, `lt`, `between`) with `price` and `price_max`, `orders_op` with `orders` and `orders_max`, plus `product`, `stock_problem` and `has_coupon` (`1` or `0`).
-
 `filters` takes either the encoded query-string form (`field~op~value` rows joined by `|`, each value percent-encoded) or an array of `{ field, op, value }`:
 
 | Field | Type | Operators | Value |

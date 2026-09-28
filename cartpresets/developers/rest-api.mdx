@@ -33,7 +33,7 @@ A validation failure is a 400 with a `data.fields` object of messages keyed by t
 
 ### Listing parameters
 
-`GET /presets` accepts `search`, `status`, `sort`, `dir`, `page`, `per_page` (up to 200) and `filters`, plus the pre-builder arguments `added_after`, `added_before`, `price_op`, `price`, `price_max`, `orders_op`, `orders`, `orders_max`, `product`, `stock_problem` and `has_coupon`.
+`GET /presets` accepts `search`, `status`, `sort`, `dir`, `page`, `per_page` (up to 200) and `filters`. Dates, prices, orders, products and stock problems are all filter rows. A range is two rows, such as `price~gt~10|price~lt~50`.
 
 - `search` also looks inside a preset: product and variation names, SKUs, and custom item names.
 - `sort` takes `name`, `status`, `items`, `price`, `revenue`, `orders` or `publish`, with `dir` as `asc` or `desc`.
@@ -68,6 +68,8 @@ Among the rest, each preset in the answer has:
 ### Saving
 
 `PUT /presets/<id>` replaces the preset. `created_at`, the publish date, is Pro to change: sent empty, it's saved as the moment of the save, and left out, it keeps the stored date. On the free version the stored date is kept either way.
+
+`POST /presets` also takes `copy_of`, the id of a preset to copy. The new preset then starts from that preset's stored Pro values (the caps, the per-customer limit, the coupon and the unavailable-link settings), with no end date. On the free version those values are kept; on Pro, what you send is written. An id that isn't a positive integer or doesn't name a preset is refused with a 400 keyed `copy_of`. The editor's **Duplicate** sends it.
 
 `POST /presets` and `PUT /presets/<id>` refuse, keyed by the field path (`items`, `items.3`):
 
