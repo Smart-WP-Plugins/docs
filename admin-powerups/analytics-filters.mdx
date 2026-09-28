@@ -34,7 +34,7 @@ The summary numbers, chart, table and CSV export all follow the filters.
 
 - **City** is an exact match. Your database decides whether case and accents matter. Commas are removed, so a city name that contains a comma can't match.
 - **Payment method** and **Shipping method** list your current methods. Methods you've since removed can still be filtered through a link in the address bar.
-- **Customer role** uses the customer's current role. **Guest (no account)** covers orders without an account. The list shows staff who can see reports which roles your paying customers have, for example admins or shop managers who ordered.
+- **Customer role** uses the customer's current role. **Guest (no account)** covers orders without an account. Anyone who can see reports can see in this list which roles your paying customers have, for example admins or shop managers who placed orders.
 - Refunds follow their order's filters.
 
 ### Match all or any
@@ -48,9 +48,9 @@ With **Match any**, these filters combine with each other as "any", but WooComme
 | **Filters** | All on | Which filters appear: **Country**, **State**, **City**, **Payment method**, **Shipping method**, **Customer role**. Shipping method and Customer role are marked **Slower**. |
 | **Address to match** | Billing address | Used by the country, state and city filters. Orders without a shipping address never match a shipping location, and always pass an "Excludes" filter. There's no fallback to the billing address. |
 
-## Safe by design
+## When filters can't be applied
 
-If the filters can't be applied or counted, the report shows an error instead of unfiltered numbers:
+If the filters can't be applied or counted, the report shows an error in place of unfiltered numbers:
 
 > The Analytics order filters couldn't be applied, so no results are shown. Remove them or try again.
 

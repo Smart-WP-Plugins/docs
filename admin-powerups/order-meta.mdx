@@ -18,13 +18,15 @@ Go to **WooCommerce → Powerups** and switch on **Order meta inspector** in the
 
 The box loads its content when you open it ("Loading order meta…"). Big orders (more than 50 items) always load on open, so the order page stays fast.
 
-{/* Screenshot: the Order meta box with the Line items tab open */}
+<Frame caption="The Order meta box on an order page, with the Line items tab open">
+  ![The Order meta box on an order page, with the Line items tab open](https://placehold.co/1600x900/png?text=order-meta-1)
+</Frame>
 
 ## Use it
 
-- **Tabs**: **Order**, **Line items**, **Shipping**, **Coupons** and **Fees**, with counts. Item tabs group by item, for example "Hoodie × 2 · Item #177".
-- **Search**: type in **Search keys and values** to search across all tabs. The counts show where the matches are. Press Esc to clear.
-- **Copy**: each row has **Copy key**, **Copy value** and **Copy JSON**. **Copy tab as JSON** copies what's shown; items keep their structure.
+- The box has tabs for **Order**, **Line items**, **Shipping**, **Coupons** and **Fees**, with counts. Item tabs group by item, for example "Hoodie × 2 · Item #177".
+- Type in **Search keys and values** to search across all tabs. The counts show where the matches are. Press Esc to clear.
+- Each row has **Copy key**, **Copy value** and **Copy JSON**. **Copy tab as JSON** copies what's shown; items keep their structure.
 
 ## The whole order as JSON
 
@@ -40,7 +42,9 @@ A note above the JSON tells you:
 - how many sensitive values were masked
 - what was cut: more than 250 items of one type ("Line items: showing the first 250 of 300."), or very long values (over 10,000 characters), which end in `…[truncated: N chars]`
 
-{/* Screenshot: the Order meta box in JSON view with the note and Copy all */}
+<Frame caption="The Order meta box in JSON view, with the note above the JSON and the Copy all button">
+  ![The Order meta box in JSON view, with the note above the JSON and the Copy all button](https://placehold.co/1600x900/png?text=order-meta-2)
+</Frame>
 
 ## Masked values
 

@@ -19,14 +19,16 @@ Test data makes realistic products, customers, orders, coupons and reviews for t
 
 There's nothing to set up. Both tabs need the power-up on.
 
-{/* Screenshot: the Generate tab with the counts and the While generating list */}
+<Frame caption="The Generate tab with the counts and the While generating list">
+  ![The Generate tab with the counts and the While generating list](https://placehold.co/1600x900/png?text=test-data-1)
+</Frame>
 
 ## Your site's environment
 
 The Generate tab says "This site is marked as …": **local**, **development**, **staging** or **production**. It comes from WordPress's environment type; a site with none set counts as production.
 
-- **Not production:** **Generate** is a two-step button (click twice).
-- **Production:** a warning explains that test orders and accounts would show up next to real ones, in reports and in other plugins, and suggests a staging copy. Generating is **Advanced**: type "generate" to confirm. On multisite only a network (super) admin can generate on a production site.
+- On a site that isn't production, **Generate** is a two-step button (click twice).
+- On production, a warning explains that test orders and accounts would show up next to real ones, in reports and in other plugins, and suggests a staging copy. Generating is **Advanced**: type "generate" to confirm. On multisite only a network (super) admin can generate on a production site.
 
 ## Generate test data
 
@@ -111,6 +113,10 @@ The **Clean up** tab lists each batch with its name, date, who made it, the envi
 | **Stopped** | Someone clicked Stop. |
 | **Deleting** | Being cleaned up. |
 | **Partly deleted** | Cleaned up, with some objects kept (see the notes). |
+
+<Frame caption="The Clean up tab with a list of batches, their contents and status">
+  ![The Clean up tab with a list of batches, their contents and status](https://placehold.co/1600x900/png?text=test-data-2)
+</Frame>
 
 - **Delete** one batch: click twice.
 - **Delete all**: **Advanced**. Type "delete" to confirm. On multisite only a network (super) admin can delete all at once; others can delete batches one by one. Delete all removes every batch's reviews and orders before any accounts or products.

@@ -19,7 +19,9 @@ This power-up needs WooCommerce's High-performance order storage. Turn it on in 
 
 WooCommerce hides the **Search by** dropdown on phones. While Advanced order search is on, it stays visible there too.
 
-{/* Screenshot: the Orders list Search by dropdown open, showing the search types */}
+<Frame caption="The Search by dropdown on the Orders list, open and showing the search types">
+  ![The Search by dropdown on the Orders list, open and showing the search types](https://placehold.co/1600x900/png?text=advanced-order-search-1)
+</Frame>
 
 ## Search types
 
@@ -60,7 +62,7 @@ Each type matches only what it says. For example, `150` as **Exact total** finds
 Types marked **Slower** look inside text and can't use database indexes: Customer, Billing email, Billing phone, Company, Product, SKU, Variation, Coupon, Shipping method, Payment method, Transaction ID, Custom metadata and Order notes. On stores with many orders, a search can take several seconds. **Order number**, the totals, **Order status** and **Customer ID** stay fast.
 
 - With no keys listed under **Custom metadata: only these keys**, a metadata search reads every order's metadata. On large stores, list the keys you need.
-- **Product**, **SKU** and **Variation** use WooCommerce's order–product lookup table, which WooCommerce Analytics keeps. That keeps them fast on big stores. Orders missing from that table are still checked, but if very many are missing (Analytics off, or history never imported), these searches read every order's items and get slow. You can import history in **WooCommerce → Analytics → Settings**.
+- **Product**, **SKU** and **Variation** use WooCommerce's order-product lookup table, which WooCommerce Analytics keeps, so they stay fast on big stores. Orders missing from that table are still checked, but if very many are missing (Analytics off, or history never imported), these searches read every order's items and get slow. You can import history in **WooCommerce → Analytics → Settings**.
 - In the Trash view, Product and SKU searches always take the slow path, because Analytics doesn't import trashed orders.
 - If a SKU matches more than 5,000 products and the Analytics data is missing, the search is refused with a notice: "More than 5,000 products match this SKU, too many to check every order. Type more of the SKU, or import historical data in WooCommerce → Analytics → Settings."
 
