@@ -34,7 +34,15 @@ The file holds the presets, their items, and every setting on both. It doesn't i
 
 ## Importing
 
-On the destination store, go to **Settings → Data management → Preset data → Import presets**. Choose the .json file, or drop it on the dialog, and click **Import**. One import takes up to 500 presets. Anything beyond that is reported as skipped, not quietly dropped.
+On the destination store, go to **Settings → Data management → Preset data → Import presets**. Choose the .json file, or drop it on the dialog, and click **Import**.
+
+One import takes up to **500 presets** and **5,000 items** across them. A bigger file is refused whole, before anything is written, and the message tells you to split it. Import the parts one at a time.
+
+### Every preset is checked like a save
+
+Each preset in the file goes through the same checks as saving it in the editor. One the editor would refuse, such as a preset with no items, a product that can't be found, or a custom redirect with no address, is skipped. The rest still arrive. When it's done, you're told how many presets were imported and how many couldn't be.
+
+Everything is checked before anything is written, so a bad preset late in the file can't stop the import halfway. On a slow or small server, a very large import can still stop between presets to stay inside the server's time and memory limits. It always imports at least one, and the count of presets it couldn't import includes the ones it didn't reach. Import those from a smaller file. The [REST answer](/cartpresets/developers/rest-api) names each preset that wasn't imported, and why.
 
 ### How products are matched
 
@@ -46,12 +54,12 @@ SKU first is the important half. Product IDs almost never line up between two st
 | --- | --- |
 | A product with a matching SKU | Matched |
 | No SKU match, but the ID exists | Matched by ID |
-| Neither | The item keeps the source store's product ID. If no product has that ID here, the item can't be added, and once the preset is active the list marks it **Needs attention** |
+| Neither | The preset is skipped, because the save checks can't find its product |
 
 <Warning>
   An ID-only match is a guess. If your two stores have unrelated product IDs, an import can quietly attach the wrong product. Check imported presets before you activate them. The next section makes that easy.
 
-  **Variations always travel by ID.** Only the parent product is matched by SKU, so a variation item imported into a different store nearly always needs choosing again.
+  **Variations always travel by ID.** Only the parent product is matched by SKU, so a variation item imported into a different store nearly always needs choosing again. If that ID is a variation of a different product there, the preset is skipped.
 </Warning>
 
 ### Every import arrives inactive

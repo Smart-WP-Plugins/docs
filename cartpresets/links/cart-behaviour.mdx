@@ -31,6 +31,8 @@ Use it when the link is the whole offer and you want the customer to arrive hold
   This deletes things the customer chose themselves. If people browse your store and build a cart over several visits, it's an aggressive default to take.
 </Warning>
 
+Anyone who follows the link has their cart emptied first, wherever they found it. A link you share can be posted anywhere, so bear that in mind before you turn this on store-wide.
+
 ### Allow duplicate presets
 
 If the cart is left standing, this decides what happens when someone follows the same link twice.
@@ -58,6 +60,18 @@ Deleting one line of a preset from the cart removes the whole instance, with a n
 The price was quoted for the set. If a customer could delete the expensive half of a discounted pair, they'd get the discount without the bundle.
 
 To exempt one line, use **Customer can remove this item**. See [Items](/cartpresets/building/items#removable).
+
+### A preset is whole or not there at all
+
+The rule works in both directions. WooCommerce's **Undo?** link after a removal brings back the whole preset, not just the line the customer clicked. If the preset can't be put back together, none of it comes back.
+
+The same check runs whenever a cart is loaded, including a saved cart merged in when a customer signs in. A preset that's missing a line it can't do without is taken out, with a notice.
+
+### Editing a preset that customers hold
+
+If you delete an item from a preset, or swap the product or variation on it, any cart holding that preset loses the whole preset. The customer reads *That preset has been removed from your cart because one of its items was changed.* They can follow the link again to get the preset as it stands.
+
+Other edits don't do this. An open cart follows the preset's current settings, the same way it follows a product's price. Change a discount and the next page the customer loads shows the new price, and that's what checkout charges.
 
 ## Quantities
 

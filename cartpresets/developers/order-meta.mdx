@@ -64,9 +64,12 @@ An integration needs the value, not a pre-formatted display string. The units ar
 _cartpresets_sub_payments      how many payments the discount covers
 _cartpresets_sub_full_price    the price renewals return to afterwards
 _cartpresets_sub_restored      set once that price has been restored
+_cartpresets_sub_payments_carried  discounted payments earlier subscriptions used
 ```
 
-These go on the **subscription's** line, not the order's, when a preset item's discount lasts a set number of payments. They're stamped at sign-up rather than read from the preset at renewal time, so editing the preset months later can't change what an existing customer agreed to. See [Subscriptions](/cartpresets/building/subscriptions).
+These go on the **subscription's** line, not the order's, when a preset item's discount lasts a set number of payments. They're stamped at sign-up rather than read from the preset at renewal time, so editing the preset months later can't change what an existing customer agreed to.
+
+`_cartpresets_sub_payments_carried` is only on a subscription that was resubscribed from one with a limited discount. It counts the discounted payments the earlier subscriptions already used, and they count toward the limit. See [Subscriptions](/cartpresets/building/subscriptions).
 
 ## Reading them
 

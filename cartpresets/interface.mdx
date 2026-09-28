@@ -53,6 +53,8 @@ The header shows how many presets you have, with **Settings** and **New preset**
   **Revenue** means money taken. **Orders** is the count of orders. On the free version you can filter by Orders but not by Revenue.
 </Tip>
 
+One list takes up to 8 filters, and up to 3 of them can be **Product**. At 8, **Add filter** turns off and says why. With 3 Product filters in place, **Product** is marked **(limit reached)** in the other rows.
+
 **Listing settings** (the sliders button beside Filter) chooses:
 
 - **Columns**: Status, Items, Price, Revenue, Date, Description and Link. Items and Description are off to start with.
@@ -92,7 +94,7 @@ A live preset whose product has been deleted, unpublished or can no longer be bo
 | Duplicate | Copies everything. The copy is inactive until you switch its link on |
 | Clear end date<Pro /> | Only shown when the preset has an end date. Puts an ended preset back on sale |
 | Export as JSON<Pro /> | Downloads this one preset |
-| Deactivate / Activate | Switches the link off or on |
+| Deactivate / Activate | Switches the link off or on. Switching on runs the same checks as a save |
 | Delete preset | Asks first |
 
 Deleting is permanent. The confirmation says so, says the link stops working straight away, and offers **Deactivate instead** if you only want to take the link down. Past orders keep their preset details and revenue either way.
@@ -104,6 +106,10 @@ Tick the rows you want, or the checkbox in the header for every row on the page,
 Once a whole page is ticked, a line above the table offers **Select all** for every preset that matches your tab, search and filters, across all pages. One action covers up to 500 presets. If the matching presets change before you apply, nothing happens and you're shown the new count.
 
 Bulk delete lists the presets it will remove, says how many of them are live, and offers **Deactivate instead**.
+
+### Switching a preset on
+
+Switching a preset on runs the same checks as saving it in the editor. That applies to the row menu, **Link enabled** in the editor, **Activate** in bulk and **Clear end date**<Pro />. A preset the editor wouldn't save stays off: one with no items, more than 100 items, a product that's gone, or a quantity or price past its limit. For a single preset you're told why. In bulk, the rest are switched on, and a message says how many were left as they were. Open those in the editor to see what's wrong.
 
 ## The editor
 
@@ -128,6 +134,8 @@ The **⋯** menu holds **Duplicate** (opens an unsaved copy), **Export JSON**<Pr
 | Usage restrictions<Pro /> | **Purchase limits** (**Maximum orders**, **Maximum orders per customer**, **Preset ends on**) and **Customer access** |
 
 **Starts on** and **Preset ends on** take a date and a time.
+
+Names, slugs and internal descriptions are saved without invisible characters, such as zero-width spaces, or the control characters that flip text direction. Those could make a name display differently from what it says. Accents, other scripts and emoji are kept.
 
 #### Items
 
@@ -182,7 +190,7 @@ One **Save changes** bar covers the whole screen. The cards, in order:
 
 | Card | Covers |
 | --- | --- |
-| Licence<Pro /> | The licence key, its status, **Activate**, **Sync now** and **Deactivate on this site**. These act straight away, outside Save changes |
+| Licence<Pro /> | The licence key, its status, **Activate**, **Sync now** and **Deactivate on this site**. These act straight away, outside Save changes. Only an administrator can use them |
 | Cart behaviour | **Existing cart**, **Unavailable items**, **Redirect after adding** and **Unavailable links** |
 | Usage limits<Pro /> | **Count orders with these statuses**: which order statuses use up a purchase limit |
 | Carrier product<Pro /> | The hidden product custom items are placed on, with **Change** and **Unlink** |

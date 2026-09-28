@@ -63,7 +63,7 @@ import { Pro } from '/snippets/pro.mdx';
   </Accordion>
 
   <Accordion title="How many presets can I have?">
-    No limit. They're rows in an indexed table, and the listing pages through them.
+    No limit. They're rows in an indexed table, and the listing pages through them. Each preset holds up to 100 items.
   </Accordion>
 
   <Accordion title="Can a customer see a preset without the link?">
@@ -104,7 +104,7 @@ Check these four first. They explain most of it:
 
 - **Taxes.** The editor quotes the preset price; your cart may display tax-inclusive or tax-exclusive depending on WooCommerce settings.
 - **A coupon** applied on top, automatically or by hand.
-- **A sale started** since you built the preset, so the item isn't using its regular price.
+- **A sale started or ended** since the editor loaded. A preset uses a sale price only while the sale is running.
 - **A custom item on the free version.** It isn't added to the cart, and the listing and editor leave it out of their totals too.
 
 If none of those explain it, please report it. The editor and the cart are pinned to each other by a shared test fixture, so a mismatch that isn't one of the above is a bug.
