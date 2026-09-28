@@ -56,6 +56,15 @@ The price renewals return to is the same baseline the editor quoted. If the item
   A limited discount changes the subscription's amount partway through, so the payment gateway has to support that. When the cart holds a limited discount, checkout hides subscription gateways that can't change a subscription's amount. WooCommerce Subscriptions does the same for its own limited coupons.
 </Warning>
 
+### When a customer resubscribes
+
+The count carries over. A customer who cancels and resubscribes from **My account** picks up where they left off, on the terms their first subscription had.
+
+- Two of three discounted payments used: the resubscribe's first payment is the third, still discounted. Renewals after it bill the full price.
+- All three used: the new subscription is at the full price from the start.
+
+So cancelling and resubscribing can't restart an introductory offer.
+
 ### Waive the sign-up fee
 
 Zeroes the product's sign-up fee for that line only. The mark travels in memory and is never saved to the product, so other customers buying the same product outside this preset still pay the fee.

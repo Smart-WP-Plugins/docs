@@ -46,6 +46,7 @@ A check with nowhere to go is a plain row. That's the passed checks, and on the 
 | --- | --- |
 | No name yet | A preset is saved under its name, and its link is generated from it. The slug is optional — leave it empty and one is made from the name |
 | No items yet | A preset with no items is refused at cart time |
+| More than 100 items | A preset holds at most 100 items. Each one is added to the cart separately when a customer follows the link, so a bigger preset makes that click slow. Remove some, or split them into a second preset |
 | Nothing here can be added | Every item is a custom item, and the free version doesn't add those, so the link would be refused. Free version only |
 | *N* store item has no product | Choose a product or delete the row |
 | *Product* has no *size* (or *has N options not chosen*) | Every option must be set before the line can be priced |

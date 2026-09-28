@@ -22,6 +22,8 @@ One product for your whole store. It's:
 
 Customers never see it as a product. They see the cart line, which carries the custom item's own name, price, description and image.
 
+It can't be bought on its own. An `?add-to-cart=` link or a Store API request for it is refused with *This item can only be bought as part of a preset.*, and so is a checkout if a bare carrier line reaches a cart some other way.
+
 ## Setting one up
 
 Under **Settings → Carrier product**. With no carrier linked, the card shows an empty slot, **No carrier product yet**, with two buttons:
@@ -74,6 +76,6 @@ The carrier product is **not** deleted when you delete the plugin, unless you ti
 
 ## For developers
 
-`cartpresets_carrier_product_id` filters which product is used. `cartpresets_carrier_product_created` fires both when the plugin creates one and when you point it at an existing product. A listener's question is "what is the carrier now", not "was it made from scratch".
+`cartpresets_carrier_product_id` filters which product is used, and so which product can't be bought on its own. `cartpresets_carrier_product_created` fires both when the plugin creates one and when you point it at an existing product. A listener's question is "what is the carrier now", not "was it made from scratch".
 
 `cartpresets_custom_item_shipping_data` filters the shipping values a custom item contributes, and is safety-clamped. See the [hooks reference](/cartpresets/developers/hooks-reference).

@@ -12,7 +12,9 @@ Every route CartPresets for WooCommerce registers lives under one namespace: **`
   **There are no public endpoints.** Every route requires the `manage_woocommerce` capability and a valid nonce. They exist to serve the admin panel, not to be a storefront API. A preset reaches a customer through its link, not through REST.
 </Warning>
 
-The capability is filterable through `cartpresets_admin_capability`, which is safety-clamped.
+The capability is filterable through `cartpresets_admin_capability`, which is safety-clamped. Changing the licence also needs `manage_options` (see Licensing, below).
+
+A validation failure is a 400 with a `data.fields` object of messages keyed by the field that caused them. A list where text belongs, such as `name[]=x` or a filter row whose `field` is an array, is a 400 too.
 
 ## Presets
 
@@ -35,7 +37,7 @@ The capability is filterable through `cartpresets_admin_capability`, which is sa
 
 - `search` also looks inside a preset: product and variation names, SKUs, and custom item names.
 - `sort` takes `name`, `status`, `items`, `price`, `revenue`, `orders` or `publish`, with `dir` as `asc` or `desc`.
-- `filters` takes the fields `price`, `revenue`, `items`, `orders`, `date` and `product`, among others.
+- `filters` takes the fields `price`, `revenue`, `items`, `orders`, `date` and `product`, among others. It takes at most **8 rows**, and at most **3** of them from `product`, `product_name` and `stock_problem` together, the rows that look inside a preset's items. More is a 400 saying which limit it passed. The same limits apply to a bulk `query` and to export.
 
 [`cartpresets_list_args`](/cartpresets/developers/hooks-reference#listing) documents the full grammar. It receives exactly these arguments once they're resolved.
 
@@ -61,10 +63,22 @@ Among the rest, each preset in the answer has:
 | `needs_attention` | `true` when the preset is `active` and `attention` isn't empty. It's what the listing's **Needs attention** badge reads. It isn't a status, so it has no tab or count |
 | `totals` | The preset's price before and after its discounts |
 | `items` | Each with `purchasable`. On `GET /presets/<id>`, each also carries `product_type` and `subscription` (see [Products](#supporting-routes)) |
+| `out_of_range` | `true` when an item's quantity or amount is past the limits below. It flags a preset that was stored some other way, such as a direct database write. A number JSON can't carry is sent as `0` |
 
 ### Saving
 
 `PUT /presets/<id>` replaces the preset. `created_at`, the publish date, is Pro to change: sent empty, it's saved as the moment of the save, and left out, it keeps the stored date. On the free version the stored date is kept either way.
+
+`POST /presets` and `PUT /presets/<id>` refuse, keyed by the field path (`items`, `items.3`):
+
+- more than **100 items** in one preset;
+- a quantity, `qty_min` or `qty_max` over **9,999**, or one that isn't a whole number;
+- a `custom_price` or `disc_value` that isn't a finite number of at most **1,000,000,000**;
+- a `variation_id` that isn't a variation of the item's `product_id`.
+
+Names, slugs and notes lose Unicode direction overrides and isolates (U+202A–U+202E, U+2066–U+2069), zero-width spaces and joiners (U+200B–U+200D) and the byte-order mark (U+FEFF) as they're saved.
+
+An item keeps its ID across a save when the payload names it (`id` on the item) and it's still the same type, product and variation. Carts holding the preset find their lines by that ID. An item that doesn't keep its ID, because it was deleted or its product or variation changed, takes its preset out of any cart that holds it.
 
 ### Bulk actions
 
@@ -75,13 +89,24 @@ Among the rest, each preset in the answer has:
 
 One request acts on at most **500** presets. More is refused whole, with a 400.
 
-The answer is `{ action, affected, matched }`, plus `created` (the new IDs) for `duplicate`. Copies are inactive. `clear_end_date` asks the same tier gate a save asks, so it's Pro.
+The answer is `{ action, affected, matched, refused }`, plus `created` (the new IDs) for `duplicate`. Copies are inactive. `clear_end_date` asks the same tier gate a save asks, so it's Pro.
+
+`activate` and `clear_end_date` put a link on sale, so each preset first goes through the same validation as a save, as it's stored. One that would fail isn't changed and is listed in `refused` as `{ id, name, errors }`, with `errors` keyed like a failed save's `data.fields`. When nothing could be changed, the answer is a 400 with the same list in `data.refused`.
 
 ### Export and import<Pro />
 
 `GET /presets/export` exports `ids[]` when given. Otherwise it exports every preset matching `search`, `status` and `filters`, and with none of those, every preset. There's no ceiling.
 
-`POST /presets/import` takes an export document and creates presets from it, inactive. One import takes up to 500 presets; the rest are reported as skipped. See [Import and export](/cartpresets/import-export).
+`POST /presets/import` takes `document`, an export, as an object or a JSON string. A document over **500 presets** or **5,000 items** is refused whole: a 400 with the reason in `data.fields.document`, and nothing is written. Otherwise every preset is checked by the same validation as `POST /presets` before any is written, and each valid one is created inactive, with its slug suffixed if it's taken.
+
+The answer is `{ created, skipped, imported, skipped_presets, stopped }`:
+
+- `imported` lists `{ index, id, name }` for each preset written.
+- `skipped_presets` lists `{ index, name, errors }` for each one that wasn't, with `errors` keyed by field path like a failed save's `data.fields`.
+- `index` is the preset's position in the document, from 0.
+- `stopped` is `true` when the import ran out of its time or memory budget and stopped between presets. The budget is half the request's time limit, up to 20 seconds, and four fifths of PHP's memory limit. The presets it didn't reach are in `skipped_presets`. At least one preset is always imported.
+
+See [Import and export](/cartpresets/import-export).
 
 ## Settings
 
@@ -125,9 +150,11 @@ The answer is `{ action, affected, matched }`, plus `created` (the new IDs) for 
 | Method | Route | Does |
 | --- | --- | --- |
 | `GET` | `/licence` | Current state — never the key itself |
-| `POST` | `/licence` | Activate |
-| `DELETE` | `/licence` | Deactivate |
-| `POST` | `/licence/sync` | Re-check now |
+| `POST` | `/licence` | Activate. Needs `manage_options` |
+| `DELETE` | `/licence` | Deactivate. Needs `manage_options` |
+| `POST` | `/licence/sync` | Re-check now. Needs `manage_options` |
+
+Changing the licence needs `manage_options`, an administrator's capability, on top of the plugin's own. Without it these routes answer 403. It isn't filterable. `GET /licence` answers `canManage` too, whether the current user may change it. For a user without `manage_options`, it answers from what's stored and never asks the licensing service to refresh.
 
 `POST /licence` takes `key`. If the key has no account attached yet, the answer is a 409 (`cartpresets_licence_identity_required`) carrying the `name` and `email` that activating would send. Nothing is sent until you call again with `confirm_identity: true`. The Licence card asks the merchant first. See [Licence and updates](/cartpresets/licence#activating).
 

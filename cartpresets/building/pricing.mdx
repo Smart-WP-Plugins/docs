@@ -16,10 +16,12 @@ A discount belongs to an item. Each item works out a source price and applies it
 ```text
 base = custom item      → its configured price
        use_regular on   → the product's regular price
-       otherwise        → the sale price if there is one, else regular
+       otherwise        → the sale price while a sale is running, else regular
 ```
 
 **Use the regular price instead of the sale price**, under an item's **In the cart** panel, is there because a sale and a preset discount otherwise stack into a margin nobody agreed to. If you're running 20% off a product and you put it in a preset at 20% off, you probably expect the second 20%, not both.
+
+A sale price only counts while the sale is running, by WooCommerce's own sale dates. A sale scheduled for next week, or one that has ended, gives the regular price, just as the product costs when it's added on its own. The editor and the listing quote the same price the cart charges today.
 
 Custom items don't have this switch, because they have no sale price.
 
@@ -33,6 +35,8 @@ Custom items don't have this switch, because they have no sale price.
 | Custom price | `value` | A literal override; ignores the base entirely. Not offered on custom items, which have their own price |
 
 Everything is clamped to zero. A 50 fixed discount on a 45 product gives 0, never −5.
+
+A price or discount amount can be up to 1,000,000,000 in your store's currency. A save with anything larger is refused on the item that holds it.
 
 <Tip>
   Fixed being per-unit is on purpose. It matches percentage, which is per-unit whatever the quantity is. Two of an item at 5 off is 10 off, not 5.
@@ -53,6 +57,8 @@ If the editor and the cart ever disagree, that's a bug worth reporting.
 Item definitions are cached. Prices never are.
 
 A cached price goes stale the moment you edit a product, run a sale, or change a tax rate, and a stale price in a cart is a wrong charge. Every figure is worked out from live product prices at the moment it's needed, including the Price column in the listing. On the free version, that column and the editor's summary leave out custom items, because the free version doesn't add them to the cart.
+
+The same goes for a cart that already holds a preset. It's priced by the preset's current settings, so a discount you change reaches carts that already hold it. See [Cart behaviour](/cartpresets/links/cart-behaviour#editing-a-preset-that-customers-hold).
 
 ## Coupons on top
 

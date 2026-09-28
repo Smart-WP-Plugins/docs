@@ -43,6 +43,20 @@ The default is **On hold**, **Processing** and **Completed**. Clear every box an
 | Refunded | No |
 | Failed | No |
 
+## A checkout holds its slot
+
+Between checkout and payment, an order hasn't reached a counted status yet. So a customer who gets through checkout holds a slot while they pay. Two customers racing for the last slot can't both get it.
+
+The hold lasts as long as WooCommerce's own **Hold stock (minutes)** setting, under **WooCommerce → Settings → Products → Inventory**, or 60 minutes if that's empty. It ends early when the order reaches a counted status, or is cancelled, fails or is refunded. It applies even if your store doesn't manage stock.
+
+Paying for an existing order, such as a failed payment the customer retries from **Pay for order**, checks the preset again: that it's still on sale, not past its end date, within its caps, and still open to that customer. If it isn't, the payment is refused.
+
+One order counts once, even if a payment gateway and the customer's return both complete it at the same moment.
+
+<Note>
+  A payment that completes after its hold has run out, without the customer going through checkout or **Pay for order** again, is still recorded. That's the one way a cap can be passed, and your stock-hold time decides how long the window is.
+</Note>
+
 ## Slots come back
 
 Recording is reversible. An order that leaves the counted statuses releases its slot, so a cancelled or refunded order doesn't permanently eat part of a limited run.
@@ -64,6 +78,8 @@ Which of the two they meet also depends on your [cart behaviour](/cartpresets/li
 ## Per-customer caps and who counts as a customer
 
 For signed-in customers, the account. For guests, the billing email — the same way WooCommerce's own per-user coupon limits identify people. The field's note says so: *Counted by account, or by email for guests.*
+
+A signed-in customer and a guest with the same email are one person. An account's allowance includes orders placed as a guest under its email or billing email, and the other way round. Signing out doesn't give anyone a fresh allowance.
 
 A guest email is a best effort, not an identity. Someone determined to get around it can. A per-customer cap is there to keep an honest introductory offer to one per person, not to act as a security boundary.
 

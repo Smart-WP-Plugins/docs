@@ -17,13 +17,14 @@ Both use the text domain `cartpresets-for-woocommerce`. That's the free plugin's
 
 ## Storage
 
-Four custom tables, not custom post types.
+Five custom tables, not custom post types.
 
 | Table | Holds |
 | --- | --- |
 | `cartpresets_presets` | One row per preset |
 | `cartpresets_items` | Items, with a foreign key `preset_id` |
-| `cartpresets_redemptions` | One row per claim |
+| `cartpresets_redemptions` | One row per claim, unique per order and instance, so an order counts once |
+| `cartpresets_holds` | Claims between checkout and payment, each with an expiry |
 | `cartpresets_slug_history` | Old slugs and when they expire |
 
 Presets are queried by shape: "active, containing this product, published this month, most orders first". That's a job for SQL, with indexes on the columns you filter by. The same queries against post meta would be a pile of joins on a table shared with every other plugin on the site.

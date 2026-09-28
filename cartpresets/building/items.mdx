@@ -7,7 +7,7 @@ icon: "boxes-stacked"
 import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
-An item is one line the link adds to the cart. A preset can hold as many as you like, and they land in the cart in the order the **Items** card shows. Use the arrows beside a line to move it up or down.
+An item is one line the link adds to the cart. A preset holds up to 100 items, and they land in the cart in the order the **Items** card shows. Use the arrows beside a line to move it up or down.
 
 <Media>The Items card with four rows, one expanded</Media>
 
@@ -52,13 +52,13 @@ This isn't optional. A variation with an attribute left as "Any" passes WooComme
 
 ## Quantity
 
-**Quantity**, in the **Pricing** panel, is how many the link adds. Under **In the cart** you also decide whether the customer can change it once it's in the cart.
+**Quantity**, in the **Pricing** panel, is how many the link adds, up to 9,999. Under **In the cart** you also decide whether the customer can change it once it's in the cart.
 
 | Control | Default | Effect |
 | --- | --- | --- |
 | Let the customer change the quantity in the cart | Off | When off, the quantity box in the cart is locked and shows a notice if they try |
 | Minimum | 1 | The lowest they can go, when changing is allowed |
-| Maximum | Empty (**No maximum**) | The highest they can go at the preset price |
+| Maximum | Empty (**No maximum**) | The highest they can go at the preset price. Up to 9,999 |
 
 <Note>
   Quantity rules cap what one claim holds. That's a different question from [purchase limits](/cartpresets/building/purchase-limits)<Pro />, which cap how many times the offer can be claimed at all.
@@ -75,6 +75,8 @@ The editor warns you rather than letting the two disagree. The item's line says 
 By default, removing one item of a preset from the cart removes the whole preset, and says so. That's on purpose. The price was quoted for the set, and letting a customer delete the expensive half of a discounted pair would hand them the discount without the bundle.
 
 Turn on **Customer can remove this item** on a line to exempt it. Handy for an optional extra riding along with a fixed core.
+
+WooCommerce's **Undo?** link brings the whole preset back, not one line of it. See [Cart behaviour](/cartpresets/links/cart-behaviour#a-preset-is-whole-or-not-there-at-all).
 
 ## Coupons
 

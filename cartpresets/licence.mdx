@@ -35,6 +35,12 @@ Once it's active, the card shows the key with all but its last four characters h
 
 The card's buttons act straight away. They're not part of the Settings save bar, so there's nothing to save afterwards, and **Discard** won't undo them.
 
+### Who can change it
+
+Only an administrator can activate, sync or deactivate the licence. The licence decides whether the site gets updates, and WordPress keeps plugin updates for administrators too.
+
+Anyone else who can open Settings, such as a Shop Manager, sees the card read-only: the status and the facts, with no key field and no buttons, and a note saying *Only an administrator can change the licence*. They don't see the licence notice either, because its one link is to something they can't do.
+
 ### A key with no account yet
 
 A key you bought is already attached to your account. A key that was issued by hand might not be. Activating one of those needs a name and email to create the account, so the card asks first.
@@ -63,7 +69,7 @@ Your licence key and site URL go to the licensing service: to activate, to check
 
 It runs from **wp-admin and cron only**. Your storefront never reaches it, so a customer browsing your shop never triggers a licence check.
 
-The key is never written to a log, never returned in an API response, and never shown in a notice.
+The key is never written to a log, never returned in an API response, and never shown in a notice. An update check sends it in a request header, not in the address, because addresses end up in server logs.
 
 ## Updates
 
