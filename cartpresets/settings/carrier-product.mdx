@@ -13,12 +13,7 @@ WooCommerce can't put a line in a cart without a product behind it. A [custom it
 
 ## What it is
 
-One product for your whole store. It's:
-
-- **Virtual** — nothing to ship by itself
-- **Hidden from the catalogue** — not in shop pages or category listings
-- **Excluded from search** and from your sitemap
-- **Priced at zero**, because every line that uses it overrides the price anyway
+There's one for your whole store. It's virtual, so there's nothing to ship by itself. It's hidden from the catalogue, so it isn't in shop pages or category listings, and it's excluded from search and from your sitemap. It's priced at zero, because every line that uses it overrides the price anyway.
 
 Customers never see it as a product. They see the cart line, which carries the custom item's own name, price, description and image.
 
@@ -58,7 +53,7 @@ That works because each line gets its own copy of the product object before anyt
 
 A custom item that ships carries its own weight, dimensions and shipping class, set on the item.
 
-Those values are also stamped onto the **order line** at checkout, under `_cartpresets_custom_*` meta keys. That matters more than it looks. Reading the order line back re-fetches the real carrier product, which is generic, virtual and weightless. The copy that carried the actual weight existed for one cart calculation and was never saved.
+Those values are also stamped onto the order line at checkout, under `_cartpresets_custom_*` meta keys. Reading the order line back re-fetches the real carrier product, which is generic, virtual and weightless. The copy that carried the actual weight existed for one cart calculation and was never saved.
 
 Without that snapshot, a packing-slip or shipping-label plugin reading a custom preset item gets nothing it can use. See [Order line item meta](/cartpresets/developers/order-meta).
 
@@ -72,10 +67,10 @@ Re-link a carrier product and everything works again. Nothing is lost.
 
 ## Uninstalling
 
-The carrier product is **not** deleted when you delete the plugin, unless you tick **The carrier product** under **Settings → Data management → Delete on uninstall**. Even then it's only removed if it's still virtual and hidden. If you pointed the carrier at one of your own products and made it visible, it's left alone. Think twice before ticking it: past orders with custom items reference the carrier, and deleting it orphans those lines.
+The carrier product isn't deleted when you delete the plugin, unless you tick **The carrier product** under **Settings → Data management → Delete on uninstall**. Even then it's only removed if it's still virtual and hidden. If you pointed the carrier at one of your own products and made it visible, it's left alone. Think twice before ticking it: past orders with custom items reference the carrier, and deleting it orphans those lines.
 
 ## For developers
 
-`cartpresets_carrier_product_id` filters which product is used, and so which product can't be bought on its own. `cartpresets_carrier_product_created` fires both when the plugin creates one and when you point it at an existing product. A listener's question is "what is the carrier now", not "was it made from scratch".
+`cartpresets_carrier_product_id` filters which product is used, and so which product can't be bought on its own. `cartpresets_carrier_product_created` fires both when the plugin creates one and when you point it at an existing product. So a listener learns which product is the carrier, but not whether it was made from scratch.
 
 `cartpresets_custom_item_shipping_data` filters the shipping values a custom item contributes, and is safety-clamped. See the [hooks reference](/cartpresets/developers/hooks-reference).

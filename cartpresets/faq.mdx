@@ -12,11 +12,11 @@ import { Pro } from '/snippets/pro.mdx';
   <Accordion title="Does it work with the block cart and checkout?">
     Yes. Pricing, quantity locks, cascade removal and notices all work in both the classic and block cart and checkout.
 
-    Notices need a little help: on a classic theme, the blocks never print WooCommerce's classic notice queue, so a message would sit in the session until some other template printed it. CartPresets prepends the pending queue to both blocks through WooCommerce's own notice templates.
+    Notices need extra handling. On a classic theme, the blocks never print WooCommerce's classic notice queue, so a message would sit in the session until some other template printed it. CartPresets prepends the pending queue to both blocks through WooCommerce's own notice templates.
   </Accordion>
 
   <Accordion title="Can I use it with subscription products?">
-    Yes. On the free version a preset's discount applies to **every payment** for as long as the subscription runs. The sign-up fee is charged as normal.
+    Yes. On the free version a preset's discount applies to every payment for as long as the subscription runs. The sign-up fee is charged as normal.
 
     Pro lets you choose per item: limit the discount to the first few payments, after which the product's own price resumes, and waive the sign-up fee. See [Subscriptions](/cartpresets/building/subscriptions).
   </Accordion>
@@ -24,13 +24,13 @@ import { Pro } from '/snippets/pro.mdx';
   <Accordion title="Does it track my customers?">
     Not in the analytics sense. The plugin records no analytics of its own and enqueues nothing on your storefront: no scripts, no styles.
 
-    One thing is recorded. When an order reaches a status you count, the plugin stores who claimed which preset — the customer's account, or their billing email if they checked out as a guest. That's what makes purchase limits countable, and it's the only personal data the plugin keeps. WordPress's own export and erase tools cover it. See [Privacy and personal data](/cartpresets/settings/privacy).
+    One thing is recorded. When an order reaches a status you count, the plugin stores who claimed which preset: the customer's account, or their billing email if they checked out as a guest. That's what makes purchase limits countable, and it's the only personal data the plugin keeps. WordPress's own export and erase tools cover it. See [Privacy and personal data](/cartpresets/settings/privacy).
 
     Pro's Presets report reads your existing WooCommerce order data, under your store's own Analytics settings. Those figures never leave your site.
   </Accordion>
 
   <Accordion title="What happens when my Pro licence expires?">
-    The plugin carries on working exactly as installed. A licence buys updates and support, not the right to keep running what you already have.
+    The plugin carries on working exactly as installed. A licence buys updates and support. You don't need one to keep running what you already have.
 
     Nothing switches off, nothing is deleted and no setting stops applying. You just stop getting new versions until you renew, from the **Licence** card at the top of **Cart Presets → Settings**.
   </Accordion>
@@ -38,16 +38,16 @@ import { Pro } from '/snippets/pro.mdx';
   <Accordion title="What happens if I go back to the free version?">
     Your presets, items and settings are untouched. Both versions read the same tables, so nothing is migrated and nothing is lost.
 
-    The Pro controls are locked and tagged **Pro**, and your stored answers stay on the record exactly as you left them. Reinstalling Pro turns them back on rather than asking you to set them up again.
+    The Pro controls are locked and tagged **Pro**, and your stored answers stay on the record exactly as you left them. Reinstall Pro and they apply again, with nothing to set up.
 
-    **Two stop applying** rather than staying on, because leaving them running would be worse:
+    Two things stop applying:
 
-    - An **automatic coupon** you can't see or switch off would go on discounting orders.
-    - **Custom items** aren't added to the cart at all. The editor marks them **Not added on the free version**, and the listing and editor leave them out of their totals, rather than quoting you a price the cart won't charge.
+    - An automatic coupon isn't applied, because one you can't see or switch off would go on discounting orders.
+    - Custom items aren't added to the cart at all. The editor marks them **Not added on the free version**, and the listing and editor leave them out of their totals, so they never quote a price the cart won't charge.
 
-    **A schedule already set and a cap already filled are still honoured.** Those switch a link *off*, and moving to the free version must not bring back something you deliberately ended.
+    A schedule already set and a cap already filled are still honoured. Those switch a link off, and moving to the free version shouldn't bring back something you deliberately ended.
 
-    The rule throughout: honour the restriction, drop the enhancement.
+    The rule is to honour restrictions and drop enhancements.
   </Accordion>
 
   <Accordion title="What happens to my data on uninstall?">
@@ -59,7 +59,7 @@ import { Pro } from '/snippets/pro.mdx';
   <Accordion title="Is a preset link secret?">
     No. Anyone with the link can follow it, and a slug is guessable.
 
-    If a preset shouldn't be public, use **Customer access**<Pro /> in the editor's Usage restrictions card to require sign-in, or to limit the link to particular roles. See [Eligibility](/cartpresets/building/eligibility). Obscurity isn't a restriction.
+    If a preset shouldn't be public, use **Customer access**<Pro /> in the editor's Usage restrictions card to require sign-in, or to limit the link to particular roles. See [Eligibility](/cartpresets/building/eligibility). A hard-to-guess slug doesn't restrict anything.
   </Accordion>
 
   <Accordion title="How many presets can I have?">
@@ -90,7 +90,7 @@ Where they landed is set by **Settings → Cart behaviour → Unavailable links*
 
 ### The link works for me but not for customers
 
-Almost always eligibility, or being signed in as an administrator. Test in a private window.
+It's almost always eligibility, or you being signed in as an administrator. Test in a private window.
 
 ### Pretty links 404 but `?preset=` works
 
@@ -100,14 +100,14 @@ If pretty permalinks are disabled site-wide, the query form is the correct one t
 
 ### The cart price does not match the editor
 
-Check these four first. They explain most of it:
+Check these four first, since they explain most cases:
 
 - **Taxes.** The editor quotes the preset price; your cart may display tax-inclusive or tax-exclusive depending on WooCommerce settings.
 - **A coupon** applied on top, automatically or by hand.
 - **A sale started or ended** since the editor loaded. A preset uses a sale price only while the sale is running.
 - **A custom item on the free version.** It isn't added to the cart, and the listing and editor leave it out of their totals too.
 
-If none of those explain it, please report it. The editor and the cart are pinned to each other by a shared test fixture, so a mismatch that isn't one of the above is a bug.
+If none of those explain it, please report it. The editor and the cart are checked against the same test data, so a mismatch that isn't one of the above is a bug.
 
 ### An item is missing from the cart
 
@@ -129,9 +129,9 @@ Check that the notice still has wording. An override saved as whitespace reads a
 
 ### Reworded notices show in English on a translated store
 
-**WPML needs the String Translation add-on**, not just WPML core. Without it the config file is read and ignored: no error, no notice, just untranslated wording.
+WPML needs the String Translation add-on as well as WPML core. Without it the config file is read and ignored, with no error or notice, and the wording stays untranslated.
 
-String Translation only lists notices you have actually rewritten. Ones still at their shipped wording are translated through gettext instead, so their absence there is correct. See [Translating](/cartpresets/links/wording#translating).
+String Translation only lists notices you've rewritten. Ones still at their shipped wording are translated through gettext instead, so it's expected that they're missing there. See [Translating](/cartpresets/links/wording#translating).
 
 ### Custom items are not being added<Pro />
 
@@ -147,4 +147,4 @@ Limits and the Presets report answer different questions, so they won't agree: a
 
 ### Getting help
 
-The **System status** card beside **Cart Presets → Settings** has a **Copy system report** button. It reads your install — versions, permalink structure, preset base, tier — and puts the result on your clipboard. It sends nothing anywhere. Paste it into your support thread.
+The **System status** card beside **Cart Presets → Settings** has a **Copy system report** button. It reads your install (versions, permalink structure, preset base and tier) and puts the result on your clipboard. It sends nothing anywhere. Paste it into your support thread.

@@ -9,7 +9,7 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  The Presets report is a Pro feature. On the free version there's no menu entry and no report. It's absent, not switched off.
+  The Presets report is a Pro feature. On the free version there's no menu entry and no report at all.
 </Info>
 
 ## Where to find it
@@ -27,8 +27,8 @@ You can also jump straight to one preset's report from the CartPresets admin. Cl
 | Summary cards | Preset net sales, preset orders, items sold via presets, and average preset revenue per order, for the period |
 | Chart | Revenue or orders over time, by day, week or month, with period comparison |
 | Show | All presets, a single preset, or a comparison of the presets you choose |
-| Table | One row per preset — net sales, orders, items sold, average revenue per order |
-| Drill-down | The orders behind a preset — date, order number, status, customer and customer type, products, items sold, coupons, net sales and attribution |
+| Table | One row per preset: net sales, orders, items sold, average revenue per order |
+| Drill-down | The orders behind a preset: date, order number, status, customer and customer type, products, items sold, coupons, net sales and attribution |
 
 The date-range picker, the comparison and the chart controls are all WooCommerce's own components, and the export uses WooCommerce's own CSV exporter, so the page behaves just like the reports beside it.
 
@@ -40,7 +40,7 @@ Three things follow from that:
 
 **Revenue is net of refunds.** A refund carries negative revenue and its line items carry the preset meta, so the subtraction lands on the right preset. Order counts use parent orders only, so a refunded order is one order, not two.
 
-**A sale is whatever WooCommerce says it is.** The excluded-status list is WooCommerce's own, so this page agrees with every other page under Analytics instead of keeping its own opinion.
+**A sale is whatever WooCommerce says it is.** The excluded-status list is WooCommerce's own, so this page agrees with every other page under Analytics instead of using a list of its own.
 
 **A deleted preset keeps its history**, listed as *Deleted preset #N*. The money was real, and a report whose rows vanish with the preset won't match your accounts.
 
@@ -48,7 +48,7 @@ Three things follow from that:
 
 Nothing records link opens, add-to-carts or checkout-reached.
 
-Following a preset link makes **zero analytics writes**. Sales enter the books when WooCommerce processes the order, on hooks that never run on your storefront. That's how the plugin keeps a near-zero storefront footprint.
+Following a preset link makes no analytics writes. Sales enter the books when WooCommerce processes the order, on hooks that never run on your storefront. That's how the plugin keeps a near-zero storefront footprint.
 
 If you want click-level attribution, put UTM parameters on your preset links and read them in your existing analytics. See [Preset links](/cartpresets/links/preset-links#utm-parameters).
 
@@ -56,9 +56,9 @@ If you want click-level attribution, put UTM parameters on your preset links and
   If WooCommerce Analytics is disabled, there's no Presets page, and the plugin keeps no record of its own. Whether sales are tracked at all is your WooCommerce decision, and CartPresets follows it.
 </Note>
 
-## Upgrading starts with history
+## Upgrading keeps your history
 
-The report reads WooCommerce's own books rather than a record of its own, so upgrading from free doesn't start you at zero. The figures have been adding up all along; there was just nowhere to see them.
+The report reads WooCommerce's own books rather than a record of its own, so upgrading from free doesn't start you at zero. Sales made through presets on the free version show up in the report as soon as you upgrade.
 
 ## Revenue in the listing
 
@@ -68,7 +68,7 @@ You can also sort the list by **Revenue**, and filter it with a Revenue conditio
 
 On the free version the column is still there, and each row shows a **Pro** tag where the figure would be. Revenue shows as **Revenue (Pro)** in the sort and filter choices, and can't be picked.
 
-## Reporting and purchase limits are different systems
+## Reporting and purchase limits are separate
 
 Purchase limits never read any of this.
 

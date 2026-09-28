@@ -53,12 +53,10 @@ A **Create an account for this key?** dialog shows the **Name** and **Email** th
 
 ## What a licence buys
 
-**Updates and support.** Not the right to keep running what you already have.
-
-Plugins differ on this, so it's worth spelling out:
+A licence buys updates and support. You don't need one to keep running what you already have.
 
 <Note>
-  **When your licence expires, the plugin carries on working exactly as installed.** Nothing switches off, nothing is deleted, and no setting stops applying. You just stop getting new versions until you renew.
+  When your licence expires, the plugin carries on working exactly as installed. Nothing switches off, nothing is deleted, and no setting stops applying. You just stop getting new versions until you renew.
 </Note>
 
 Which version is on disk decides the tier, never licence state. An expired licence leaves every Pro file exactly where it was, so every Pro feature keeps working.
@@ -67,7 +65,7 @@ Which version is on disk decides the tier, never licence state. An expired licen
 
 Your licence key and site URL go to the licensing service: to activate, to check in periodically, and to look for updates. Your name and email go only when you confirm them for [a key with no account yet](#a-key-with-no-account-yet).
 
-It runs from **wp-admin and cron only**. Your storefront never reaches it, so a customer browsing your shop never triggers a licence check.
+It runs from wp-admin and cron only. Your storefront never reaches it, so a customer browsing your shop never triggers a licence check.
 
 The key is never written to a log, never returned in an API response, and never shown in a notice. An update check sends it in a request header, not in the address, because addresses end up in server logs.
 
@@ -83,9 +81,9 @@ Without an active licence, WordPress shows a dismissible warning across wp-admin
 
 You won't see it on Settings itself, where the card already tells you the same thing.
 
-Dismissing it is per user, and it stays dismissed for that licence state. If the state changes, say an expiry or a detached site, the notice comes back once, because now it's telling you something new. It goes away by itself once the licence is active.
+Dismissing it is per user, and it stays dismissed for that licence state. If the state changes, say an expiry or a detached site, the notice comes back once, because it's telling you something new. It goes away by itself once the licence is active.
 
-Each version says what stopped and what didn't, because the honest answer to *my licence lapsed* is that almost nothing changed.
+Each version of the notice says what stopped and what didn't. When a licence lapses, almost nothing changes.
 
 ## Licence states
 
@@ -119,4 +117,4 @@ If the old site is already gone and still holding an activation, contact support
 
 `cartpresets_update_manifest_url` changes where a site looks for its release manifest. Point it elsewhere to run a pre-release channel, or return an empty string to switch automatic updates off for that site entirely.
 
-The licence is checked **before** the manifest is fetched, so the filter changes which release a licensed site is offered. It doesn't bypass licensing. See the [hooks reference](/cartpresets/developers/hooks-reference#updates-pro-only).
+The licence is checked before the manifest is fetched, so the filter changes which release a licensed site is offered. It doesn't bypass licensing. See the [hooks reference](/cartpresets/developers/hooks-reference#updates-pro-only).

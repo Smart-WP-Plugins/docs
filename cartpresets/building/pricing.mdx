@@ -19,7 +19,7 @@ base = custom item      → its configured price
        otherwise        → the sale price while a sale is running, else regular
 ```
 
-**Use the regular price instead of the sale price**, under an item's **In the cart** panel, is there because a sale and a preset discount otherwise stack into a margin nobody agreed to. If you're running 20% off a product and you put it in a preset at 20% off, you probably expect the second 20%, not both.
+**Use the regular price instead of the sale price**, under an item's **In the cart** panel, stops a sale and a preset discount stacking into a margin nobody agreed to. If a product is on sale at 20% off and you put it in a preset at 20% off, you probably meant 20% off in total, not both.
 
 A sale price only counts while the sale is running, by WooCommerce's own sale dates. A sale scheduled for next week, or one that has ended, gives the regular price, just as the product costs when it's added on its own. The editor and the listing quote the same price the cart charges today.
 
@@ -31,15 +31,15 @@ Custom items don't have this switch, because they have no sale price.
 | --- | --- | --- |
 | None | `base` | |
 | Percentage | `base × (1 − value/100)` | |
-| Fixed amount | `base − value` | **Per unit**, not spread across the quantity |
-| Custom price | `value` | A literal override; ignores the base entirely. Not offered on custom items, which have their own price |
+| Fixed amount | `base − value` | Per unit, not spread across the quantity |
+| Custom price | `value` | Replaces the base price outright. Not offered on custom items, which have their own price |
 
 Everything is clamped to zero. A 50 fixed discount on a 45 product gives 0, never −5.
 
 A price or discount amount can be up to 1,000,000,000 in your store's currency. A save with anything larger is refused on the item that holds it.
 
 <Tip>
-  Fixed being per-unit is on purpose. It matches percentage, which is per-unit whatever the quantity is. Two of an item at 5 off is 10 off, not 5.
+  A fixed amount is taken off each unit, the same way a percentage is. Two of an item at 5 off is 10 off, not 5.
 </Tip>
 
 The value's label follows the type: **Percent off**, **Amount off** or **Custom price**. The [health checks](/cartpresets/building/health-checks) flag a discount type chosen with no amount, as a warning rather than a blocking check.
@@ -48,15 +48,15 @@ The value's label follows the type: **Percent off**, **Amount off** or **Custom 
 
 The editor's **Pricing summary** is worked out in your browser, so it can update as you type. The cart's price is worked out in PHP.
 
-That's two implementations of the same arithmetic, and two implementations drift. A shared fixture table pins them to each other, and both run against it in the test suite. Change a formula on one side and not the other and a test fails, rather than the cart quietly charging the wrong amount.
+Both sides run against the same table of test cases. If a formula changes on one side and not the other, a test fails before the cart can charge the wrong amount.
 
-If the editor and the cart ever disagree, that's a bug worth reporting.
+If the editor and the cart ever disagree, that's a bug. Please report it.
 
 ## Prices are never cached
 
 Item definitions are cached. Prices never are.
 
-A cached price goes stale the moment you edit a product, run a sale, or change a tax rate, and a stale price in a cart is a wrong charge. Every figure is worked out from live product prices at the moment it's needed, including the Price column in the listing. On the free version, that column and the editor's summary leave out custom items, because the free version doesn't add them to the cart.
+A cached price goes stale as soon as you edit a product, run a sale or change a tax rate, and a stale price in a cart is a wrong charge. Every figure is worked out from live product prices at the moment it's needed, including the Price column in the listing. On the free version, that column and the editor's summary leave out custom items, because the free version doesn't add them to the cart.
 
 The same goes for a cart that already holds a preset. It's priced by the preset's current settings, so a discount you change reaches carts that already hold it. See [Cart behaviour](/cartpresets/links/cart-behaviour#editing-a-preset-that-customers-hold).
 
@@ -64,10 +64,10 @@ The same goes for a cart that already holds a preset. It's priced by the preset'
 
 Store coupons are refused on preset items by default, per item. Turn on **Allow coupon discounts on this item** where you want them to stack. See [Items](/cartpresets/building/items#coupons).
 
-A preset can also apply a coupon of its own, automatically, the moment the link is followed — see [Automatic coupons](/cartpresets/building/auto-coupon)<Pro />.
+A preset can also apply a coupon of its own, automatically, as soon as the link is followed. See [Automatic coupons](/cartpresets/building/auto-coupon)<Pro />.
 
 ## Subscriptions
 
-A preset discount on a subscription product raises a question a one-off purchase doesn't: does the discount buy the first payment, or every renewal for the life of the subscription?
+With a subscription product you have to decide whether the discount covers the first payment only or every renewal.
 
-The free version discounts **every payment** for as long as the subscription runs, with the sign-up fee charged. Pro does the same by default, and lets you limit the discount to a set number of payments, or waive the fee, per item. See [Subscriptions](/cartpresets/building/subscriptions).
+The free version discounts every payment for as long as the subscription runs, with the sign-up fee charged. Pro does the same by default, and lets you limit the discount to a set number of payments, or waive the fee, per item. See [Subscriptions](/cartpresets/building/subscriptions).

@@ -6,10 +6,10 @@ icon: "square-js"
 
 import { Pro } from '/snippets/pro.mdx';
 
-The admin panel is a bundle of its own, and it publishes **no JavaScript API**. There's one global, and it's data rather than code: the payload the panel is handed before its first fetch.
+The admin panel is a bundle of its own, and it publishes no JavaScript API. There's one global, and it's data rather than code: the payload the panel is handed before its first fetch.
 
 <Warning>
-  This exists on the plugin's **admin page only**. Nothing is enqueued on your storefront, so there's no front-end equivalent and there won't be one.
+  This exists on the plugin's admin page only. Nothing is enqueued on your storefront, so there's no front-end equivalent and there won't be one.
 </Warning>
 
 ## The boot payload
@@ -34,7 +34,7 @@ Everything the panel is handed at load time is on `window.cartPresetsBoot`:
 | `notices` | The wording catalogue, as `groups` and `items` |
 | `licence`<Pro /> | `status` (`active`, `expired`, `cancelled` or `inactive`) and `expires` (an ISO date, or `null`), added by Pro through `cartpresets_admin_boot` |
 
-`now` is worth knowing about if you read it. A preset's status is derived live, and `new Date()` answers in the visitor's timezone. A merchant abroad, or anyone near midnight, would otherwise see a status the server disagrees with.
+If you work out a status yourself, use `now`. A preset's status is derived live, and `new Date()` answers in the visitor's timezone. A merchant abroad, or anyone near midnight, would otherwise see a status the server disagrees with.
 
 ## Adding your own keys
 
@@ -53,7 +53,7 @@ const mine = window.cartPresetsBoot.myPlugin;
 ```
 
 <Warning>
-  That filter is **additive only**. Removing or rewriting an existing key breaks the panel, and nothing downstream checks.
+  That filter is additive only. Removing or rewriting an existing key breaks the panel, and nothing downstream checks.
 </Warning>
 
 ## Nothing else is exported

@@ -12,7 +12,7 @@ import { Media } from '/snippets/media.mdx';
   Import and export are Pro features. On the free version the routes aren't registered at all, so a request 404s like any unknown route. The admin still shows every export and import control, locked with a Pro tag, so you can see what CartPresets for WooCommerce Pro adds.
 </Info>
 
-Presets export as JSON and import somewhere else. The obvious use is moving a staging store's work to production without rebuilding it by hand.
+Presets export as JSON and import somewhere else. The usual use is moving a staging store's work to production without rebuilding it by hand.
 
 <Media>The listing with several presets selected and the export action visible</Media>
 
@@ -36,7 +36,7 @@ The file holds the presets, their items, and every setting on both. It doesn't i
 
 On the destination store, go to **Settings → Data management → Preset data → Import presets**. Choose the .json file, or drop it on the dialog, and click **Import**.
 
-One import takes up to **500 presets** and **5,000 items** across them. A bigger file is refused whole, before anything is written, and the message tells you to split it. Import the parts one at a time.
+One import takes up to 500 presets and 5,000 items across them. A bigger file is refused whole, before anything is written, and the message tells you to split it. Import the parts one at a time.
 
 ### Every preset is checked like a save
 
@@ -46,9 +46,9 @@ Everything is checked before anything is written, so a bad preset late in the fi
 
 ### How products are matched
 
-**By SKU first, falling back to product ID.**
+Products are matched by SKU first, falling back to product ID.
 
-SKU first is the important half. Product IDs almost never line up between two stores: the same hoodie is #412 on staging and #1908 on production. A SKU is a name you chose, so it usually survives the move.
+The SKU is what matters. Product IDs almost never line up between two stores: the same hoodie is #412 on staging and #1908 on production. A SKU is a name you chose, so it usually survives the move.
 
 | The import finds | Result |
 | --- | --- |
@@ -57,23 +57,23 @@ SKU first is the important half. Product IDs almost never line up between two st
 | Neither | The preset is skipped, because the save checks can't find its product |
 
 <Warning>
-  An ID-only match is a guess. If your two stores have unrelated product IDs, an import can quietly attach the wrong product. Check imported presets before you activate them. The next section makes that easy.
+  An ID-only match is a guess. If your two stores have unrelated product IDs, an import can quietly attach the wrong product. Check imported presets before you activate them. They all arrive inactive, as the next section explains.
 
-  **Variations always travel by ID.** Only the parent product is matched by SKU, so a variation item imported into a different store nearly always needs choosing again. If that ID is a variation of a different product there, the preset is skipped.
+  Variations always travel by ID. Only the parent product is matched by SKU, so a variation item imported into a different store nearly always needs choosing again. If that ID is a variation of a different product there, the preset is skipped.
 </Warning>
 
 ### Every import arrives inactive
 
-Whatever the status was on export, imported presets land **inactive**.
+Whatever the status was on export, imported presets land inactive.
 
-No link goes live unasked. You get to open each one, check the items matched the products you expected, look at the **Health checks**, and activate when you're ready.
+No link goes live until you choose. You get to open each one, check the items matched the products you expected, look at the **Health checks**, and activate when you're ready.
 
 ### Slugs
 
 An imported slug that's already taken on the destination store gets a numbered suffix, the same way a manually created one does. The import never overwrites an existing preset.
 
 <Note>
-  So importing the same file twice gives you two copies, not an update. Import is a copy, not a sync.
+  Importing the same file twice gives you two copies. An import never updates presets that are already there.
 </Note>
 
 ## What does not travel
@@ -89,7 +89,7 @@ An imported slug that's already taken on the destination store gets a numbered s
 | The carrier product | No | Set one up on the destination store first |
 
 <Warning>
-  Link a carrier product on the destination store **before** you import presets containing custom items. Without one, those items can't be added to a cart, and each such preset's **Health checks** warn that custom items need a carrier product.
+  Link a carrier product on the destination store before you import presets containing custom items. Without one, those items can't be added to a cart, and each such preset's **Health checks** warn that custom items need a carrier product.
 </Warning>
 
 ## For developers

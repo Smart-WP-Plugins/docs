@@ -44,7 +44,7 @@ Ten messages for a link that couldn't be followed, one for each of the ten ways 
 </Warning>
 
 <Note>
-  **`not_signed_in` and `role_not_allowed` are store-wide**, not per preset. You write them once here and every link uses them, so a wholesale link and a staff link say the same thing.
+  `not_signed_in` and `role_not_allowed` are store-wide, not per preset. You write them once here and every link uses them, so a wholesale link and a staff link say the same thing.
 </Note>
 
 ## Warning messages
@@ -95,12 +95,9 @@ Five messages contain a placeholder that carries a value:
 | `quantity_max` | `%d` | The maximum quantity |
 | `order_line` | `%s` | The preset name, as it was when the order was placed |
 
-These are checked when you save, in both directions:
+They're checked when you save. Dropping a placeholder leaves a sentence that reads like a typo, such as *"limited to purchases per customer"*. Adding one would break the cart page in front of a customer.
 
-- **Dropping one** leaves a sentence that reads like a typo: *"limited to purchases per customer"*.
-- **Adding one** would break the cart page in front of a customer.
-
-Either one is refused. The save stops, the group holding the row at fault opens, and the error shows under that row, so you can't save a message that would fail later.
+Either is refused. The save stops, the group holding the row at fault opens, and the error shows under that row, so you can't save a message that would fail later.
 
 ## The one plural
 
@@ -114,23 +111,23 @@ Either one is refused. The save stops, the group holding the row at fault opens,
 
 There are two halves, and they translate differently.
 
-**Wording you haven't touched** goes through WordPress's normal translation functions, and it's in the `.pot` file like everything else. Nothing special needed.
+Wording you haven't touched goes through WordPress's normal translation functions, and it's in the `.pot` file like everything else. You don't need to do anything.
 
-**Wording you've rewritten** is a value in an option, and an option value is data, not a translatable string. CartPresets ships a `wpml-config.xml` that names every key, so a translation plugin can pick it up.
+Wording you've rewritten is a value in an option, and an option value is data, not a translatable string. CartPresets ships a `wpml-config.xml` that names every key, so a translation plugin can pick it up.
 
 <Warning>
-  **WPML needs String Translation, not just WPML core.** Checked against WPML 4.9.7. Core parses the config block, but the class that registers and translates those keys ships with the **WPML String Translation** add-on. Without it the config file is read and then ignored. No error, no notice, just untranslated wording on a store you think is set up.
+  WPML needs the String Translation add-on as well as WPML core. Checked against WPML 4.9.7. Core parses the config block, but the class that registers and translates those keys ships with the **WPML String Translation** add-on. Without it the config file is read and then ignored. There's no error or notice, so the wording stays untranslated on a store you think is set up.
 </Warning>
 
 **Polylang** reads the same file through its own WPML-config compatibility and needs no add-on.
 
 ### Why String Translation only lists some of them
 
-It lists the ones you've actually rewritten. That's correct, not a gap.
+It lists only the ones you've rewritten. That's expected.
 
 WPML builds its list from the keys that are named in the config and held in the option, and CartPresets stores only your overrides. A notice still at its shipped wording has nothing to translate there, because gettext translates it instead.
 
-So the list grows as you edit. A store that has reworded nothing sees nothing.
+The list grows as you edit, and a store that has reworded nothing sees an empty list.
 
 ## For developers
 

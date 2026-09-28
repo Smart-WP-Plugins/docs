@@ -9,10 +9,10 @@ import { Pro } from '/snippets/pro.mdx';
 import { Media } from '/snippets/media.mdx';
 
 <Info>
-  Scheduling is a Pro feature. On the free version, **Starts on** and **Preset ends on** are shown locked with a Pro tag. A new preset goes live the moment you save it with its link enabled, and never ends on its own. A date already stored still holds a preset back or ends it.
+  Scheduling is a Pro feature. On the free version, **Starts on** and **Preset ends on** are shown locked with a Pro tag. A new preset goes live as soon as you save it with its link enabled, and never ends on its own. A date already stored still holds a preset back or ends it.
 </Info>
 
-A schedule is two moments: when the preset starts selling, and when it stops. Each one is a date **and** a time, on your store's clock. Once the end has passed, a customer meets the same answer every other refused link gets.
+A schedule is two moments: when the preset starts selling, and when it stops. Each one is a date and a time, on your store's clock. Once the end has passed, a customer meets the same answer every other refused link gets.
 
 <Media>The Preset details card with the Starts on field, and the Usage restrictions card with Preset ends on</Media>
 
@@ -31,16 +31,16 @@ Set **Starts on**, in the **Preset details** card, to a moment in the future and
 Leave it empty and the preset starts as soon as it's active. The empty field says so: *Starts when active*. When you save, an empty **Starts on** is filled in with the moment of the save. A start that's already passed works the same way.
 
 <Tip>
-  This is how a campaign link gets built and approved weeks early, then opens on its own on launch day with nobody awake for it.
+  You can build and approve a campaign link weeks early, and it opens on its own on launch day with nobody awake for it.
 </Tip>
 
 ## The end
 
 Set **Preset ends on**, in the **Usage restrictions** card, and the preset stops selling at that moment. It reads as **Expired** afterwards. Leave it empty and the preset runs until you switch it off.
 
-It's the third field under **Purchase limits**, beside **Maximum orders** and **Maximum orders per customer**. Between them the three answer one question: when does this link stop selling, and after how many orders.
+It's the third field under **Purchase limits**, beside **Maximum orders** and **Maximum orders per customer**. Together they decide when the link stops selling and after how many orders.
 
-A seasonal offer closes itself instead of relying on someone remembering.
+A seasonal offer closes on time without anyone having to remember.
 
 A cart filled before the deadline can't check out after it. Checkout asks the same question the link does.
 
@@ -50,14 +50,14 @@ A cart filled before the deadline can't check out after it. Checkout asks the sa
 
 ## What happens when it ends
 
-An ended preset isn't a broken link, and it isn't a special case either. Where the customer lands is the store's **Unavailable links** setting, which answers for every way a link can be refused: expired, sold out, switched off, used up, restricted, or pointing at no preset at all.
+An ended preset is handled like any other refused link. Where the customer lands is set by the store's **Unavailable links** setting, which covers every way a link can be refused: expired, sold out, switched off, used up, restricted, or pointing at no preset at all.
 
 | Level | Where | Choices |
 | --- | --- | --- |
 | Store | **Settings → Cart behaviour → Unavailable links** | **Cart** (the default) or **Custom URL**, plus **Show an error message** |
 | Preset<Pro /> | The editor's **Cart behaviour** card, under **Unavailable links** | **Store default**, or **Override** with its own **Cart** or **Custom URL** |
 
-The destination and the message are separate questions. **Show an error message** defaults to on, and that's on purpose. Picture a customer who follows a link they were given, arrives holding nothing new, and is told nothing. As far as they can tell, your store is broken.
+The destination and the message are separate settings. **Show an error message** is on by default. Without it, a customer who follows a link they were given arrives holding nothing new and is told nothing. As far as they can tell, your store is broken.
 
 Turn it off once you've got somewhere better to send them, usually a custom URL for a landing page that explains the offer has closed and shows what else you sell.
 
@@ -65,19 +65,19 @@ Turn it off once you've got somewhere better to send them, usually a custom URL 
   A custom page only shows the reason if it prints WooCommerce notices. Most themes do on WooCommerce pages; a landing page often doesn't. The cart always does.
 </Warning>
 
-Full detail: [Where customers land](/cartpresets/links/destinations).
+See [Where customers land](/cartpresets/links/destinations) for the full detail.
 
 <Media>The editor's Cart behaviour card showing Unavailable links and its Custom URL field</Media>
 
 ## Putting an ended preset back on sale
 
-Clearing the end date brings it back. Two ways in:
+Clearing the end date brings it back. You can do it in two places:
 
-- The **Preset ends on** field in the editor — clear it and save.
+- The **Preset ends on** field in the editor. Clear it and save.
 - **Clear end date** in the listing's row menu, which only appears on presets that have one.
 
 <Note>
-  Clearing an end date is gated exactly like setting one. On the free version **Clear end date** is locked with a Pro tag, and a preset that ended stays ended. Moving to the free version must never put a link back on sale that your own schedule had stopped.
+  Clearing an end date needs Pro, just like setting one. On the free version **Clear end date** is locked with a Pro tag, and a preset that ended stays ended. Moving to the free version shouldn't put a link back on sale that your own schedule had stopped.
 </Note>
 
 ## Status is derived, never stored
@@ -90,11 +90,11 @@ The status badge is worked out from **Link enabled**, the two dates and the purc
 | Scheduled | Link enabled, and the start is in the future |
 | Expired | Link enabled, and the end has passed |
 | Sold out | Link enabled, and the purchase limit is used up |
-| Inactive | Link switched off — whatever the dates and limits say |
+| Inactive | Link switched off, whatever the dates and limits say |
 
-The switch outranks everything, and an expired date outranks a full limit, because you can raise a limit but you can't argue with a date.
+The switch outranks everything, and an expired date outranks a full limit, because you can raise a limit, but a date that has passed stays passed.
 
-That's why a preset can go live on a site nobody visited overnight. There's nothing to run.
+Since nothing has to run, a preset goes live on time even if nobody visits the site overnight.
 
 ## Settings reference
 
