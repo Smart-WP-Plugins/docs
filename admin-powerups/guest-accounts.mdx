@@ -16,8 +16,8 @@ Accounts for guest orders creates a customer account when someone checks out as 
 ## How automatic accounts work
 
 - An account is created when a guest order reaches one of the statuses under **When an order is**, after the wait (15 minutes by default).
-- **Why the wait:** once an order belongs to an account, WooCommerce asks for a login on the thank-you page. The wait gives the shopper time to see their order confirmation first.
-- **Existing accounts are never used automatically.** If the email already has an account, the order stays a guest order and gets a private note: "An account with this email already exists, so the order stays a guest order."
+- The wait is there because WooCommerce asks for a login on the thank-you page once an order belongs to an account. It gives the shopper time to see their order confirmation first.
+- Existing accounts are never used automatically. If the email already has an account, the order stays a guest order and gets a private note: "An account with this email already exists, so the order stays a guest order."
 
 <Note>
 Why not link by email? WooCommerce doesn't check that people own the email they register with, so linking by email could show one customer's orders to someone else.
