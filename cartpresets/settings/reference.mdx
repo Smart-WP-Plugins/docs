@@ -23,7 +23,7 @@ Most of the screen saves together with **Save changes** at the bottom. The licen
 
 ### Licence<Pro />
 
-The first card on Settings is **Licence**. On Pro it holds the key, its status, and the **Activate**, **Sync now** and **Deactivate on this site** buttons. Only an administrator sees the buttons; anyone else who can open Settings sees the card read-only. On the free version it's locked. The licence has no stored setting keys in `cartpresets_settings`. See [Licence and updates](/cartpresets/licence).
+The first card on Settings is **Licence**. On Pro it holds the key, its status, and the **Activate**, **Sync now** and **Deactivate on this site** buttons. Only an administrator sees the buttons; anyone else who can open Settings sees the card read-only. The free version has no Licence card, so Settings starts with Cart behaviour. The licence has no stored setting keys in `cartpresets_settings`. See [Licence and updates](/cartpresets/licence).
 
 ### Cart behaviour
 
@@ -117,7 +117,7 @@ Changing either URL setting breaks links you've already shared. A read-only **Li
 | Setting | Key | Default | Tier |
 | --- | --- | --- | --- |
 | Presets and their settings | `delete_links` | Off | Both |
-| Store settings, wording and licence | `delete_settings` | Off | Both |
+| Store settings, wording and licence (on free: Store settings and wording) | `delete_settings` | Off | Both |
 | The carrier product | `delete_carrier` | Off | Both |
 
 These three boxes sit under **Delete on uninstall**, and they're editable on both versions. Everything is kept unless you tick it. Whatever you tick is permanently deleted on uninstall. Deactivating never removes anything. `delete_settings` covers more than its wording says: the whole settings option, your licence record, each administrator's listing preferences, and cached preset data.
