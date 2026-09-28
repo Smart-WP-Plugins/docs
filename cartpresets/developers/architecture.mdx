@@ -115,7 +115,9 @@ A preset link can be refused ten ways, each with its own message: no such slug, 
 
 One row holds it: a redemption. It's written for every preset instance in an order that reaches a counted status, capped or not, because the count is what a cap reads later. A signed-in customer is recorded as their account, and a guest by their billing email, which is the only way to recognise the same guest twice.
 
-`Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser **anonymises** rather than deletes. A redemption row says both who claimed a preset and that it was claimed, so removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
+A claim waiting on payment also sits in `cartpresets_holds` under a SHA-256 of the same key, until the order is paid or cancelled, or for a day at most.
+
+`Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser also blanks the hash on any hold. The eraser **anonymises** rather than deletes. A redemption row says both who claimed a preset and that it was claimed, so removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Licensing and updates<Pro />
 

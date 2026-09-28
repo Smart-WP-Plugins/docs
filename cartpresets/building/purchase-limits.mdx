@@ -47,15 +47,19 @@ The default is **On hold**, **Processing** and **Completed**. Clear every box an
 
 Between checkout and payment, an order hasn't reached a counted status yet. So a customer who gets through checkout holds a slot while they pay. Two customers racing for the last slot can't both get it.
 
-The hold lasts as long as WooCommerce's own **Hold stock (minutes)** setting, under **WooCommerce → Settings → Products → Inventory**, or 60 minutes if that's empty. It ends early when the order reaches a counted status, or is cancelled, fails or is refunded. It applies even if your store doesn't manage stock.
+Once the order exists, the slot stays held until the order is paid, cancelled, fails or is refunded. Payments can arrive late: a customer comes back from a payment page, or retries a declined card an hour later. The slot is still theirs when they do. WooCommerce cancels unpaid orders after its **Hold stock (minutes)** setting, under **WooCommerce → Settings → Products → Inventory**, and that gives the slot back.
+
+If your store doesn't hold stock, nothing cancels an abandoned order, so a hold gives up on its own after a day. On the classic checkout there's a short gap before the order is created. That gap uses the **Hold stock** time, or 60 minutes if it's empty.
 
 Paying for an existing order, such as a failed payment the customer retries from **Pay for order**, checks the preset again: that it's still on sale, not past its end date, within its caps, and still open to that customer. If it isn't, the payment is refused.
 
 One order counts once, even if a payment gateway and the customer's return both complete it at the same moment.
 
-<Note>
-  A payment that completes after its hold has run out, without the customer going through checkout or **Pay for order** again, is still recorded. That's the one way a cap can be passed, and your stock-hold time decides how long the window is.
-</Note>
+## A payment that arrives too late
+
+It can still happen: a payment lands after its hold ran out, and someone else has taken the slot in the meantime. The order is counted anyway. The customer has paid, and refusing them now would mean a refund they didn't cause.
+
+You'll see it on the order. A note says the order takes the preset past its purchase limit, and why. What to do next is up to you. You can honour it, contact the customer, or refund.
 
 ## Slots come back
 
