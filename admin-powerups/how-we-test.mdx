@@ -5,7 +5,7 @@ description: "The reviews, automated tests, release checks and performance measu
 icon: "vial"
 ---
 
-Admin Powerups touches orders, customer accounts, emails and checkout. This page explains how we check each release before it ships, what we measured, and what we haven't tested yet.
+Admin Powerups touches orders, customer accounts, emails and checkout, so every release goes through reviews, automated tests, release checks and performance measurements before it ships.
 
 ## What "tested" means here
 
@@ -15,7 +15,7 @@ A release is ready only when:
 - every release check passes,
 - the independent security, QA, performance and code reviews have no open release-blocking findings.
 
-If a check couldn't run, we report it as **not tested**. We never count it as a pass.
+A check that couldn't run is reported as **not tested** and never counted as a pass.
 
 ## How a change gets to a release
 
@@ -50,23 +50,23 @@ The 1.0 release has about 790 automated PHPUnit tests. They run against real Wor
 
 Tests that need High-performance order storage, such as Advanced order search, are skipped in legacy mode with a reason.
 
-What they cover:
+They cover:
 
-- **Every power-up**: its rules, settings, tools, emails and background jobs.
-- **Power-ups together**: checkout and email combinations, order lifecycle, activating, deactivating and updating the plugin.
-- **Both checkouts**: anything that changes checkout is tested in the classic checkout and the block checkout.
-- **Settings in the wrong shape**: every settings form still works when stored values have an unexpected type.
-- **Switched off means off**: a power-up that's off leaves no hooks behind.
+- each power-up's rules, settings, tools, emails and background jobs
+- power-ups used together: checkout and email combinations, the order lifecycle, and activating, deactivating and updating the plugin
+- both checkouts: anything that changes checkout is tested in the classic checkout and the block checkout
+- settings stored in an unexpected type, which every settings form must still handle
+- power-ups that are off, which must leave no hooks behind
 
 ### Security tests
 
-On top of the per-power-up tests, dedicated suites try to break things on purpose:
+Separate suites also try to break things on purpose:
 
-- **Permission matrix**: every REST, AJAX and admin-post endpoint is called as a logged-out visitor, a customer and staff. New REST routes are picked up automatically.
-- **Input fuzzing**: endpoints and settings forms get odd input, such as quotes, HTML, emoji, very long text and huge numbers.
-- **SQL injection**: the order and customer search types are tested with injection attempts.
-- **Escaping**: output is checked for escaping, and masked order meta never appears in the page.
-- **Switch to customer**: permissions, no privilege escalation, tampering, password changes and the full switch-and-back cycle with real sessions. See [Switch to customer](/admin-powerups/switch-to-customer).
+- A permission matrix calls every REST, AJAX and admin-post endpoint as a logged-out visitor, a customer and staff. New REST routes are picked up automatically.
+- Input fuzzing sends odd input to endpoints and settings forms, such as quotes, HTML, emoji, very long text and huge numbers.
+- The order and customer search types are tested with SQL injection attempts.
+- Output is checked for escaping, and masked order meta must never appear in the page.
+- Switch to customer is tested for permissions, privilege escalation, tampering, password changes and the full switch-and-back cycle with real sessions. See [Switch to customer](/admin-powerups/switch-to-customer).
 
 ## Real-browser tests
 
@@ -96,7 +96,7 @@ We measure performance with a probe that counts the plugin's own database querie
 
 ### Your storefront
 
-With every power-up on, the plugin adds **0 database queries** to the front end and the Store API (the block cart and checkout). Page time and memory stayed within run-to-run noise.
+With every power-up on, the plugin adds 0 database queries to the front end and the Store API (the block cart and checkout). Page time and memory stayed within run-to-run noise.
 
 ### wp-admin
 
@@ -106,7 +106,7 @@ With every power-up on, the plugin adds **0 database queries** to the front end 
 
 ### A large store
 
-We also test on a store with **100,000 orders, 50,000 customers and 10,000 products**, using High-performance order storage. Each row compares the code before and after the release work.
+We also test on a store with 100,000 orders, 50,000 customers and 10,000 products, using High-performance order storage. Each row compares the code before and after the release work.
 
 | What we checked | Before | After |
 | --- | --- | --- |
@@ -122,16 +122,16 @@ Settings that can still be slow on big stores carry a warning or a **Slower** ba
 
 ## Privacy and your data
 
-- **Everything is declared.** Each power-up lists what it stores. The Data section on its page and the uninstall both read that list, and tests check every power-up's list. See [Data and uninstall](/admin-powerups/data-and-uninstall).
-- **Store records stay.** Customer accounts, saved addresses, order statuses and order notes are never deleted by the plugin. Tests check uninstall with and without **Keep data if the plugin is deleted**.
-- **Sensitive order meta is masked.** Keys that look like tokens, passwords, secrets or card details are hidden in the [order meta inspector](/admin-powerups/order-meta) unless you allow staff to reveal them. Staff who can't reveal them can't search them with [Advanced order search](/admin-powerups/advanced-order-search) either. Tests check that masked values never reach the page.
-- **Password links stay private.** New account and password reset emails are never stored with their content, copied to extra recipients or offered for resend.
+- Each power-up lists what it stores. The Data section on its page and the uninstall both read that list, and tests check every power-up's list. See [Data and uninstall](/admin-powerups/data-and-uninstall).
+- The plugin never deletes customer accounts, saved addresses, order statuses or order notes. Tests check uninstall with and without **Keep data if the plugin is deleted**.
+- Order meta keys that look like tokens, passwords, secrets or card details are hidden in the [order meta inspector](/admin-powerups/order-meta) unless you allow staff to reveal them. Staff who can't reveal them can't search them with [Advanced order search](/admin-powerups/advanced-order-search) either. Tests check that masked values never reach the page.
+- New account and password reset emails, which carry password links, are never stored with their content, copied to extra recipients or offered for resend.
 
 ## What we haven't tested yet
 
 <Warning>
-  - **Legacy order storage at large scale**: the large-store results above use High-performance order storage. The automated tests run in legacy posts storage, but we haven't measured performance there with a large store.
-  - **No guarantees**: passing tests and reviews mean we found no known release-blocking problems. They don't guarantee there are none, so please tell us if something goes wrong.
+  - The large-store results above use High-performance order storage. The automated tests also run in legacy posts storage, but we haven't measured performance there on a large store.
+  - Passing tests and reviews mean we found no known release-blocking problems. That isn't a guarantee there are none, so please tell us if something goes wrong.
 </Warning>
 
 ## Report a problem

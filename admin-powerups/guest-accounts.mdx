@@ -16,8 +16,8 @@ Accounts for guest orders creates a customer account when someone checks out as 
 ## How automatic accounts work
 
 - An account is created when a guest order reaches one of the statuses under **When an order is**, after the wait (15 minutes by default).
-- **Why the wait:** once an order belongs to an account, WooCommerce asks for a login on the thank-you page. The wait gives the shopper time to see their order confirmation first.
-- **Existing accounts are never used automatically.** If the email already has an account, the order stays a guest order and gets a private note: "An account with this email already exists, so the order stays a guest order."
+- The wait is there because WooCommerce asks for a login on the thank-you page once an order belongs to an account. It gives the shopper time to see their order confirmation first.
+- Existing accounts are never used automatically. If the email already has an account, the order stays a guest order and gets a private note: "An account with this email already exists, so the order stays a guest order."
 
 <Note>
 Why not link by email? WooCommerce doesn't check that people own the email they register with, so linking by email could show one customer's orders to someone else.
@@ -61,7 +61,9 @@ The **Convert past orders** tab creates accounts for older guest orders. It need
   </Step>
 </Steps>
 
-{/* Screenshot: the Convert past orders tab mid-run with the skipped orders table */}
+<Frame caption="The Convert past orders tab during a run, with the progress bar and the skipped orders table">
+  ![The Convert past orders tab during a run, with the progress bar and the skipped orders table](https://placehold.co/1600x900/png?text=guest-accounts-1)
+</Frame>
 
 The tool runs while the tab is open, in batches of 20. Skipped orders are listed with a reason:
 
@@ -74,7 +76,7 @@ The tool runs while the tab is open, in batches of 20. Skipped orders are listed
 | Email belongs to an account that is not a member of this site. | Multisite only. |
 
 <Note>
-On multisite, the tool needs permission to create users. Site admins can't use it when the network doesn't let them add users (Network settings). That's intended.
+On multisite, the tool needs permission to create users. Site admins can't use it when the network doesn't let them add users (Network settings). This is expected.
 </Note>
 
 ## Privacy
