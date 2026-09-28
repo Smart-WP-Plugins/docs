@@ -23,6 +23,10 @@ Alongside the key, the row holds the preset, the order, and when the claim happe
 
 A developer can change how customers are identified with `cartpresets_redemption_customer_key` — see the [hooks reference](/cartpresets/developers/hooks-reference#identity-and-keys).
 
+### While an order is waiting for payment
+
+A limited preset holds the customer's slot between checkout and payment. That hold stores a scrambled form of the same key (a SHA-256 hash), never the address itself. It's gone once the order is paid or cancelled, or after a day at most. The hash can still be matched by anyone who already knows the address, so the erase tool clears it too.
+
 ## Export Personal Data
 
 WordPress's own **Tools → Export Personal Data** screen lists CartPresets among its sources.
@@ -50,6 +54,7 @@ Deleting the row would give a limited run its slot back. A preset capped at fift
 After an erasure:
 
 - The address is gone from the plugin's tables.
+- Any hold still waiting on a payment loses its link to the customer, and keeps the slot until the order is paid or cancelled.
 - The claim still counts against the preset's total limit.
 - The person can claim that preset again, because nothing links the old claim to them. That's the right result for a customer who has been forgotten.
 

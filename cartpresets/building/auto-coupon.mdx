@@ -48,6 +48,12 @@ Turn on **Allow coupon discounts on this item** for the lines you want the coupo
   Worth testing before you send the link. A preset discount plus a coupon is easy to get wrong in the generous direction.
 </Warning>
 
+### Minimum spend counts preset items
+
+A coupon's **Minimum spend** and **Maximum spend** are checked by WooCommerce against the whole cart, preset lines included, even lines that refuse the coupon. A preset can therefore qualify a coupon that then only discounts the customer's other items. The same goes for free shipping with a minimum amount.
+
+That's WooCommerce's rule for every coupon, typed or automatic. If you want preset items to stay out of it, use the coupon's own **Exclude products** list as well.
+
 ## Customers entering codes by hand
 
 Unaffected, on both versions. This feature is about codes the preset applies for them, not about whether coupons work at all.

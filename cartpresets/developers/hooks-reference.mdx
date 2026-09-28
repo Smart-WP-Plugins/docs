@@ -222,10 +222,19 @@ The two built-in forms answer for each other when a per-customer cap is counted.
 ## Purchase limits
 
 ```php
-apply_filters( 'cartpresets_hold_minutes', int $minutes );
+apply_filters( 'cartpresets_hold_minutes', int $minutes, string $context );
 ```
 
-How long a claim is held between checkout and payment. A preset instance that passes the checkout gate holds its slot, and counts against `max_total` and `max_per`, until its order reaches a counted status, is cancelled, fails or is refunded, or the hold runs out. The default is WooCommerce's **Hold stock (minutes)**, or 60 when that's empty. **Safety-clamped** to at least one minute.
+How long a claim is held between checkout and payment. A preset instance that passes the checkout gate holds its slot, and counts against `max_total` and `max_per`, until its order reaches a counted status, is cancelled, fails or is refunded, or the hold runs out. **Safety-clamped** to at least one minute.
+
+`$context` says which hold you're setting:
+
+| `$context` | When | Default |
+| --- | --- | --- |
+| `checkout` | Classic checkout, before the order exists | WooCommerce's **Hold stock (minutes)**, or 60 when that's empty |
+| `order` | Once the claim belongs to an order | A day, or the stock hold if that's longer |
+
+`cartpresets_redemption_limit_exceeded` fires with `$limit_type` set to `max_total` or `max_per` when a limit refuses a purchase at checkout. It fires with `paid_over_limit` when a payment arrives after its hold ran out and takes a preset past its limit. That order is counted, not refused, and gets an order note.
 
 ## Listing
 
