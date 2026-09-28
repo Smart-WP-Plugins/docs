@@ -46,7 +46,7 @@ Each preset can choose its own destination in the editor's **Cart behaviour** ca
 
 ## Unavailable links
 
-A link can be refused ten ways, and they all share one answer. Set it once, and sold out, expired and not allowed are handled the same.
+A link can be refused in ten ways, and one setting covers them all. Sold out, expired and not allowed all send the customer to the same place.
 
 Set it store-wide under **Settings → Cart behaviour → Unavailable links**. It's editable on both versions.
 
@@ -56,7 +56,7 @@ Set it store-wide under **Settings → Cart behaviour → Unavailable links**. I
 | Custom URL | The address, in a **Custom URL** field that appears when you choose **Custom URL**. Required then | `refused_url` |
 | Show an error message | On by default | `refused_notice` |
 
-Each reason keeps its own sentence: "sold out" is not "please sign in". What they share is where the customer goes, and whether they're told anything at all.
+Each reason keeps its own sentence, so "sold out" and "please sign in" read differently. What they share is where the customer goes, and whether they're told anything at all.
 
 | Situation | Notice ID |
 | --- | --- |
@@ -74,12 +74,12 @@ Each reason keeps its own sentence: "sold out" is not "please sign in". What the
 You can rewrite all ten sentences. See [Cart notices and wording](/cartpresets/links/wording).
 
 <Note>
-  **The cart or a custom URL. That's the whole list.** There's no separate fallback link sitting behind these. If you want refused customers on your shop page, paste the shop page in as the custom URL, and then you can see where they land.
+  The only choices are the cart or a custom URL. There's no separate fallback link behind them. If you want refused customers on your shop page, paste the shop page in as the custom URL, and then you can see where they land.
 </Note>
 
 ### Telling them why
 
-The reason is shown as a WooCommerce notice, and it's the **theme** that prints it, not this plugin.
+The reason is shown as a WooCommerce notice, and it's your theme that prints it, not this plugin.
 
 The cart always prints them, and so do the Cart and Checkout blocks. A custom landing page often doesn't: a page template that never calls `woocommerce_output_all_notices` shows nothing, whatever the switch is set to. Test the page you chose before a campaign goes out.
 
@@ -91,11 +91,11 @@ The editor has no **Show an error message** switch of its own. A preset that ove
 
 The override is Pro<Pro />. On the free version the block is locked with a **Pro** tag. A stored override is still honoured there, and the editor shows it as stored, so moving to the free version doesn't quietly send a customer somewhere you didn't choose.
 
-A custom destination with no address falls back to the cart. Both screens refuse to save an empty one, so this is a floor under corrupted data rather than something you can set up.
+A custom destination with no address falls back to the cart. Both screens refuse to save an empty one, so this only catches bad stored data. It isn't something you can set up.
 
-## A refusal is not a partial success
+## When part of a preset works
 
-Sometimes most of a preset works. That's a **success**, so none of the refusal settings above apply. The customer keeps what could be added, **Redirect after adding** decides where they land, an automatic coupon still applies, and the caveat message explains what was skipped.
+Sometimes most of a preset works. That counts as a success, so none of the refusal settings above apply. The customer keeps what could be added, **Redirect after adding** decides where they land, an automatic coupon still applies, and the caveat message explains what was skipped.
 
 | Situation | Notice ID |
 | --- | --- |
@@ -110,10 +110,10 @@ The **Unavailable items** setting decides whether a failing item is skipped or r
 
 Custom destinations, per-preset custom URLs and refusal links can all point at another domain.
 
-WordPress's own `wp_safe_redirect()` would quietly rewrite an outside host to wp-admin, sending your customer to a dashboard login. CartPresets runs the destinations you configured through a helper that allow-lists that host, so the address you typed is the address they reach.
+WordPress's own `wp_safe_redirect()` rewrites an outside host to wp-admin, which would send your customer to a dashboard login. CartPresets runs the destinations you configured through a helper that allow-lists that host, so the address you typed is the address they reach.
 
 <Note>
-  This applies only to addresses **you** configured in settings. A host arriving in a request is never trusted.
+  This applies only to addresses you configured in settings. A host arriving in a request is never trusted.
 </Note>
 
 ## Settings reference

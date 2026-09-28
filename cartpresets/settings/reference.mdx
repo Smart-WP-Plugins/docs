@@ -67,7 +67,7 @@ The lower two are disabled while **Clear the existing cart** is on. An emptied c
 `refused_action` accepts `cart` (**Cart**) or `custom` (**Custom URL**). Choosing **Custom URL** shows a **Custom URL** field, and a custom destination won't save without an address. One answer covers every way a link can be refused: expired, sold out, switched off, restricted, used up, or matching no preset at all. See [Where customers land](/cartpresets/links/destinations).
 
 <Note>
-  This is store-wide and editable in **both versions**. Only the per-preset override needs Pro. Where a refused customer lands can't put a link back on sale, so there's nothing for a tier gate to protect.
+  This is store-wide and editable in both versions. Only the per-preset override needs Pro. Where a refused customer lands can't put a link back on sale, so there's no reason to lock it.
 </Note>
 
 ### Usage limits<Pro />
@@ -142,9 +142,9 @@ Set in the editor, on one preset.
 | Clear the existing cart | `clear_cart` | Off | Both |
 | Allow duplicate presets | `allow_duplicate` | Off | Both |
 | Keep existing items | `keep_existing` | On | Both |
-| Coupon code | `coupon` | Empty | Pro — not applied on free |
-| Signed-in customers only | `logged_in` | Off | Pro — not enforced on free |
-| Allowed roles | `roles` | Empty | Pro — not enforced on free |
+| Coupon code | `coupon` | Empty | Pro (not applied on free) |
+| Signed-in customers only | `logged_in` | Off | Pro (not enforced on free) |
+| Allowed roles | `roles` | Empty | Pro (not enforced on free) |
 | Unavailable links | `refused_action` | `global` | Pro to edit, honoured on both |
 | Custom URL | `refused_url` | Empty | Pro to edit, honoured on both |
 | Show an error message (no editor control) | `refused_notice` | On | Pro to edit, honoured on both |
@@ -153,9 +153,9 @@ In the editor, each of **Existing cart**, **Redirect after adding** and **Unavai
 
 The editor has no switch for `refused_notice`. A preset that overrides **Unavailable links** keeps the stored value, which is on unless an import or the REST API set it off.
 
-The three cart switches are only read while `cart_override` is on. On **Store default** the editor hides them and names the store's answer instead — see [Cart behaviour](/cartpresets/links/cart-behaviour#per-preset-override).
+The three cart switches are only read while `cart_override` is on. On **Store default** the editor hides them and names the store's answer instead. See [Cart behaviour](/cartpresets/links/cart-behaviour#per-preset-override).
 
-**A role list implies the sign-in switch.** A guest holds no roles. Roles without `logged_in` would refuse every visitor while the editor showed no sign-in requirement. So saving a role list turns `logged_in` on, whether it arrives from the editor, an import or a filter.
+A role list implies the sign-in switch, because a guest holds no roles. Roles without `logged_in` would refuse every visitor while the editor showed no sign-in requirement. So saving a role list turns `logged_in` on, whether it arrives from the editor, an import or a filter.
 
 <Note>
   There's no per-preset rejection message. A visitor who is turned away reads the store-wide wording: `not_signed_in` and `role_not_allowed` in **Messages and labels**.
@@ -170,8 +170,8 @@ Set on one item inside a preset.
 | Discount type | `disc_type` | None | Both |
 | Discount value | `disc_value` | `0` | Both |
 | Use the regular price instead of the sale price | `use_regular` | Off | Both |
-| Discounted payments | `sub_payments` | `0` (every payment) | Pro — free discounts every payment |
-| Waive the sign-up fee | `sub_waive_fee` | Off | Pro — free charges the fee |
+| Discounted payments | `sub_payments` | `0` (every payment) | Pro (free discounts every payment) |
+| Waive the sign-up fee | `sub_waive_fee` | Off | Pro (free charges the fee) |
 | Allow coupon discounts on this item | `allow_coupons` | Off | Both |
 | Let the customer change the quantity in the cart | `allow_qty` | Off | Both |
 | Minimum (quantity) | `qty_min` | `1` | Both |
@@ -194,7 +194,7 @@ Some settings can only be *set* on Pro, but are *enforced* in both versions.
 
 Purchase limits are the clearest case. Setting a cap needs Pro. Both versions count claims against a cap and refuse a link once it fills, because moving to the free version must never put a sold-out link back on sale.
 
-The same logic covers schedules, and a preset's own **Unavailable links** override: moving to the free version must not quietly send a customer somewhere other than where the merchant chose. The rule: **honour the restriction, drop the enhancement.**
+The same logic covers schedules, and a preset's own **Unavailable links** override: moving to the free version shouldn't send a customer somewhere other than where the merchant chose. The rule is to honour restrictions and drop enhancements.
 
 ## Where settings are stored
 
@@ -204,4 +204,4 @@ The same logic covers schedules, and a preset's own **Unavailable links** overri
 | Preset | Columns and a settings blob on `cartpresets_presets` |
 | Item | A settings blob on `cartpresets_items` |
 
-Writes walk the schema, not the request, so a key that isn't in the schema is never saved, no matter what a request contains. Developers can register their own keys — see [the hooks reference](/cartpresets/developers/hooks-reference#schema).
+Writes walk the schema, not the request, so a key that isn't in the schema is never saved, no matter what a request contains. Developers can register their own keys. See [the hooks reference](/cartpresets/developers/hooks-reference#schema).

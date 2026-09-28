@@ -50,7 +50,7 @@ Each item carries its own discount, and the preset's total is the sum of its lin
 
 **Custom price** is the one to use for a kit you've advertised at a set price: give each item the price you want it to carry.
 
-The **Pricing summary** on the right recalculates as you type, and shows the same numbers the customer's cart will. If they disagree, that's a bug: the two are pinned to each other by a shared test fixture.
+The **Pricing summary** on the right recalculates as you type, and shows the same numbers the customer's cart will. Both are checked against the same test data, so if they ever differ, that's a bug.
 
 <Media>The pricing summary sidebar showing regular value, item discounts, average per unit and the preset total</Media>
 
@@ -70,7 +70,7 @@ Click **Save preset** in the bar at the bottom. The **Preset link** card fills i
 https://yourstore.com/preset/starter-kit
 ```
 
-Click **Copy** to copy it. The link is live now: anyone who follows it lands on your cart page holding the three items at the price you set.
+Click **Copy** to copy it. Anyone who follows the link lands on your cart page holding the three items at the price you set.
 
 <Note>
   A new preset goes live the moment you save it. There's no separate publish step. After the first save, a **Link enabled** switch appears at the top of the editor; turn it off to take the link down. It acts straight away, without **Save preset**. To build a preset now and sell it later, give it a **Starts on** date<Pro />. See [Scheduling](/cartpresets/building/scheduling).

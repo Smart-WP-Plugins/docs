@@ -33,7 +33,7 @@ Settings that don't need indexing sit in a JSON blob on the row. Anything the li
 
 ## The tier boundary
 
-**`src/Pro/` and `assets/src/pro/` are the entire premium footprint.** The free version is built from the same tree with those two directories deleted.
+`src/Pro/` and `assets/src/pro/` hold all of the premium code. The free version is built from the same tree with those two directories deleted.
 
 Nothing in shared code names a Pro class. Pro attaches to the same public filters any third-party plugin would use, documented in the [hooks reference](/cartpresets/developers/hooks-reference).
 
@@ -53,7 +53,7 @@ On its own, shared code gives the free version's answer. Pro is a listener that 
 
 Shared code never reads a premium setting itself. So the premium behaviour isn't in the free version, waiting to be switched on.
 
-Stored dates and caps keep applying on the free version. What's gated is changing them. A downgrade can't put a link back on sale that the merchant's own schedule or cap had stopped. The coupon is the exception: free doesn't apply a stored code, because that would be a discount the merchant can no longer see or change.
+Stored dates and caps keep applying on the free version. Only changing them needs Pro. A downgrade can't put a link back on sale that the merchant's own schedule or cap had stopped. The coupon is the exception: free doesn't apply a stored code, because that would be a discount the merchant can't see or change there.
 
 ### The tier is the build, never the licence
 
@@ -63,9 +63,9 @@ An expired licence leaves every Pro file where it was, so every gate keeps answe
 
 ## The storefront footprint
 
-**No styles and no scripts are enqueued on the front end. Ever.**
+No styles and no scripts are ever enqueued on the front end.
 
-An ordinary front-end page view costs **zero database queries** from this plugin, because the settings are one autoloaded option. It parses 27 PHP files, about 1.6% of what a WooCommerce request already loads. The cart-integrity hooks (price override, quantity lock, cascade removal) only attach when a cart actually holds a preset. A shopper browsing your catalogue runs none of this plugin's code beyond the check that decides there's nothing to do.
+An ordinary front-end page view costs no database queries from this plugin, because the settings are one autoloaded option. It parses 27 PHP files, about 1.6% of what a WooCommerce request already loads. The cart-integrity hooks (price override, quantity lock, cascade removal) only attach when a cart actually holds a preset. A shopper browsing your catalogue runs none of this plugin's code beyond the check that decides there's nothing to do.
 
 It's also why there's no analytics subsystem: a preset hit writes nothing. Sales enter the books when WooCommerce processes the order, on hooks that never run on the storefront.
 
@@ -73,7 +73,7 @@ It's also why there's no analytics subsystem: a preset hit writes nothing. Sales
 
 `Support\Pricing` and `Support\Totals` in PHP are the authority. `assets/src/lib/pricing.js` mirrors them. It's there only because the editor's live summary has to recompute a total in the browser as you type, and it can't call PHP for that.
 
-Two hand-maintained copies of the same arithmetic will drift. Both run against a shared fixture table in the test suite, so changing a formula on one side and not the other fails a test instead of quietly charging the wrong amount.
+Two hand-maintained copies of the same arithmetic tend to drift apart. Both run against a shared fixture table in the test suite, so a formula changed on one side and not the other fails a test before it can charge the wrong amount.
 
 Changing a formula means changing three things: the PHP, the JS, and the fixture.
 
@@ -81,7 +81,7 @@ Changing a formula means changing three things: the PHP, the JS, and the fixture
 
 Item definitions are cached, because they only change through the plugin's own save paths. That's a closed set to invalidate.
 
-Prices never are. A cached price goes stale the moment a product is edited, a sale starts or a tax rate changes. A stale price in a cart is a wrong charge.
+Prices never are. A cached price goes stale as soon as a product is edited, a sale starts or a tax rate changes. A stale price in a cart is a wrong charge.
 
 ## The admin is a React app
 
@@ -97,9 +97,9 @@ You can filter that payload through `cartpresets_admin_boot`. It's how Pro publi
 
 ## Order lines carry their own record
 
-At checkout, every preset line is stamped with the preset ID, the preset name **as it was at that moment**, the instance ID, and the ID of the preset item the line came from.
+At checkout, every preset line is stamped with the preset ID, the preset name as it was at that moment, the instance ID, and the ID of the preset item the line came from.
 
-The name is a snapshot for a reason: renaming a preset next year must not rewrite what last year's orders say they were.
+The name is a snapshot, so renaming a preset next year doesn't rewrite what last year's orders say.
 
 See [Order line item meta](/cartpresets/developers/order-meta).
 
@@ -109,7 +109,7 @@ A preset link can be refused ten ways, each with its own message: no such slug, 
 
 `Support\Refusal::resolve()` gives the single answer, and `PresetUrlHandler::refuse()` is the single caller. The keys are `refused_action` (`cart` or `custom`), `refused_url` and `refused_notice`, at store level and on each preset, where the action also takes `global` to follow the store. One level answers all three questions. Reading the destination from the preset and the notice switch from the store would be a combination neither screen ever shows.
 
-**A refusal is not a partial success.** The split is `empty( $added )`: nothing reached the cart, or something did. Anything that reached it keeps the post-add destination, its own caveat notice, the automatic coupon and `cartpresets_after_add_to_cart`.
+A refusal and a partial success are handled apart. The split is `empty( $added )`: nothing reached the cart, or something did. Anything that reached it keeps the post-add destination, its own caveat notice, the automatic coupon and `cartpresets_after_add_to_cart`.
 
 ## Personal data
 
@@ -117,11 +117,11 @@ One row holds it: a redemption. It's written for every preset instance in an ord
 
 A claim waiting on payment also sits in `cartpresets_holds` under a SHA-256 of the same key, until the order is paid or cancelled, or for a day at most.
 
-`Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser also blanks the hash on any hold. The eraser **anonymises** rather than deletes. A redemption row says both who claimed a preset and that it was claimed, so removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
+`Privacy` registers a WordPress personal-data exporter and eraser for it, in wp-admin only. The eraser also blanks the hash on any hold. The eraser anonymises rather than deletes. A redemption row says both who claimed a preset and that it was claimed, so removing it would give a limited run its slot back. See [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Licensing and updates<Pro />
 
-Licences are sold and checked through Freemius, but the Freemius SDK is **not** bundled. Pro talks to the Freemius REST API directly from one small client. The SDK would have to start up on every request, front end included. This client runs from wp-admin and cron only, so licensing adds nothing to a storefront request.
+Licences are sold and checked through Freemius, but the Freemius SDK isn't bundled. Pro talks to the Freemius REST API directly from one small client. The SDK would have to start up on every request, front end included. This client runs from wp-admin and cron only, so licensing adds nothing to a storefront request.
 
 Freemius answers _may this site update?_ The package itself comes from a release manifest at `smartwpplugins.com/updates/cartpresets-for-woocommerce-pro.json`. The licence is checked before the manifest is fetched, and if either side fails it fails quietly: the Plugins screen shows what it would have shown anyway.
 
@@ -129,7 +129,7 @@ Licence state never decides the tier. See [the tier is the build](#the-tier-is-t
 
 ## What is deliberately not extensible
 
-These are guarantees, not gaps:
+These limits are deliberate:
 
 - No filter bypasses a capability or nonce check.
 - No filter turns a hard validation failure back into a valid item.

@@ -12,17 +12,17 @@ Five tables and one option:
 
 | Table | Holds | Personal data |
 | --- | --- | --- |
-| `cartpresets_presets` | Presets — name, slug, status, dates, caps, settings | None |
+| `cartpresets_presets` | Presets: name, slug, status, dates, caps, settings | None |
 | `cartpresets_items` | The items inside each preset | None |
 | `cartpresets_redemptions` | One row per claim, for purchase limits | The order ID, and a user ID or a guest's billing email |
 | `cartpresets_holds` | Claims between checkout and payment, so a capped preset can't be oversold. Each row expires | A hash of the customer's key, never the email itself |
 | `cartpresets_slug_history` | Old slugs, for 30-day redirects | None |
 
-Plus the `cartpresets_settings` option, and meta on order line items — see [Order line item meta](/cartpresets/developers/order-meta).
+Plus the `cartpresets_settings` option, and meta on order line items. See [Order line item meta](/cartpresets/developers/order-meta).
 
 ### The one row with personal data in it
 
-A redemption records who claimed a preset, so a per-customer cap can be enforced. For a signed-in customer that's their user ID. For a guest it's their billing email address, lowercased — the only stable way to recognise the same guest twice. No IP address is recorded. A developer can change how customers are identified with `cartpresets_redemption_customer_key`.
+A redemption records who claimed a preset, so a per-customer cap can be enforced. For a signed-in customer that's their user ID. For a guest it's their billing email address, lowercased, since that's the only stable way to recognise the same guest twice. No IP address is recorded. A developer can change how customers are identified with `cartpresets_redemption_customer_key`.
 
 Without it there can be no per-customer limit. You can't know somebody has already claimed something if you don't record that they did.
 
@@ -30,9 +30,9 @@ A customer can ask for that record, and ask for it to be forgotten: see [Privacy
 
 ## What leaves your site
 
-**Nothing, on the free version.** No analytics, no phone-home, no scripts or styles enqueued on your storefront at all.
+On the free version, nothing does. There's no analytics, no phone-home, and no scripts or styles enqueued on your storefront.
 
-**On CartPresets for WooCommerce Pro**, one thing: a licence check. Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates. The update check sends the key in a request header, never in the address. It runs from wp-admin and cron only, never from your storefront, so a customer browsing your shop never triggers it.
+On CartPresets for WooCommerce Pro, one thing does: a licence check. Your licence key and site URL go to the licensing service to activate, to verify periodically, and to check for updates. The update check sends the key in a request header, never in the address. It runs from wp-admin and cron only, never from your storefront, so a customer browsing your shop never triggers it.
 
 The Presets report reads your own WooCommerce order tables. Those figures never leave your site.
 
@@ -42,9 +42,9 @@ The Presets report reads your own WooCommerce order tables. Those figures never 
 
 ## Uninstalling
 
-Deleting the plugin removes **nothing** by default.
+Deleting the plugin removes nothing by default.
 
-That's the opposite of most plugins, and it's on purpose. If you deactivate to test something, or delete and reinstall to fix a bad upload, you shouldn't lose a year of work to a routine action.
+That's the opposite of most plugins, and it's deliberate. If you deactivate to test something, or delete and reinstall to fix a bad upload, you shouldn't lose a year of work to a routine action.
 
 Each category has its own checkbox under **Settings → Data management → Delete on uninstall**. They're there on both versions, and saved with **Save changes**:
 
@@ -55,7 +55,7 @@ Each category has its own checkbox under **Settings → Data management → Dele
 | The carrier product | `delete_carrier` | The hidden product, if it's still virtual and hidden |
 
 <Warning>
-  These fire on **delete**, not on deactivate, and they can't be undone. Ticking one does nothing straight away. It arms the deletion for whenever you next delete the plugin.
+  These run when you delete the plugin, not when you deactivate it, and they can't be undone. Ticking one does nothing straight away. It sets up the deletion for the next time you delete the plugin.
 </Warning>
 
 ### What is never removed
@@ -66,9 +66,9 @@ The carrier product is also left alone unless you opt in for it specifically. It
 
 ## GDPR and data requests
 
-The only personal data is the redemption record — a user ID or billing email against an order ID.
+The only personal data is the redemption record: a user ID or billing email against an order ID.
 
-WordPress's own tools answer for it. **Tools → Export Personal Data** returns every preset an address claimed. **Tools → Erase Personal Data** anonymises those claims rather than deleting them, so a spent purchase limit stays spent. For the full detail, including why erasure keeps the row, see [Privacy and personal data](/cartpresets/settings/privacy).
+WordPress's own tools handle it. **Tools → Export Personal Data** returns every preset an address claimed. **Tools → Erase Personal Data** anonymises those claims rather than deleting them, so a spent purchase limit stays spent. For the full detail, including why erasure keeps the row, see [Privacy and personal data](/cartpresets/settings/privacy).
 
 ## Moving to a new site
 

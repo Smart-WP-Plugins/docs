@@ -6,7 +6,7 @@ icon: "receipt"
 
 import { Pro } from '/snippets/pro.mdx';
 
-Order lines created by a CartPresets for WooCommerce preset carry these meta keys. **The names won't change**, within a major version or across one. They're the stable integration surface for packing slips, shipping labels, fulfilment and accounting.
+Order lines created by a CartPresets for WooCommerce preset carry these meta keys. The names won't change, within a major version or across one. They're the stable integration surface for packing slips, shipping labels, fulfilment and accounting.
 
 ## Always present
 
@@ -20,13 +20,13 @@ _cartpresets_item_id
 | Key | Holds |
 | --- | --- |
 | `_cartpresets_preset_id` | The preset's numeric ID |
-| `_cartpresets_preset_name` | Its name **as it was when the order was placed** |
+| `_cartpresets_preset_name` | Its name as it was when the order was placed |
 | `_cartpresets_instance_id` | Which copy of the preset this line belongs to |
 | `_cartpresets_item_id` | Which item of the preset the line came from: its row in `cartpresets_items` |
 
 ### Why the name is snapshotted
 
-Renaming a preset next year must not rewrite what last year's orders say they were. An order is a historical record. If the name were read live, tidying up a title would quietly rewrite history.
+An order is a historical record. If the name were read live, renaming a preset next year would change what last year's orders say.
 
 The ID stays live, so you can still find the preset. The two together let you say *"this was bought as Summer Kit, which is now called Seasonal Bundle"*.
 
@@ -54,9 +54,7 @@ Without this snapshot, a packing-slip or shipping-label plugin reading a custom 
 
 ### The values are raw
 
-Numbers and a term ID. No unit strings, no formatting.
-
-An integration needs the value, not a pre-formatted display string. The units are your store's own, and you can read them from WooCommerce settings.
+They're numbers and a term ID, with no unit strings or formatting, because an integration needs the value itself. The units are your store's own, and you can read them from WooCommerce settings.
 
 ## Subscription lines with a limited discount<Pro />
 
@@ -67,7 +65,7 @@ _cartpresets_sub_restored      set once that price has been restored
 _cartpresets_sub_payments_carried  discounted payments earlier subscriptions used
 ```
 
-These go on the **subscription's** line, not the order's, when a preset item's discount lasts a set number of payments. They're stamped at sign-up rather than read from the preset at renewal time, so editing the preset months later can't change what an existing customer agreed to.
+These go on the subscription's line, not the order's, when a preset item's discount lasts a set number of payments. They're stamped at sign-up rather than read from the preset at renewal time, so editing the preset months later can't change what an existing customer agreed to.
 
 `_cartpresets_sub_payments_carried` is only on a subscription that was resubscribed from one with a limited discount. It counts the discounted payments the earlier subscriptions already used, and they count toward the limit. See [Subscriptions](/cartpresets/building/subscriptions).
 
@@ -109,11 +107,11 @@ foreach ( $order->get_items() as $item_id => $item ) {
 apply_filters( 'cartpresets_order_line_item_meta', array $meta, array $cart_item );
 ```
 
-**Additive only.** Append keys; the plugin's own are re-applied afterwards. Prefix yours with your own namespace so the two sets never collide.
+It's additive only. Append keys, and the plugin's own are re-applied afterwards. Prefix yours with your own namespace so the two sets never collide.
 
 ## They survive uninstall, and a data-erasure request
 
-Order line meta is **never** removed, whatever you switch on under **Settings → Data management**.
+Order line meta is never removed, whatever you switch on under **Settings → Data management**.
 
 It's part of your order history, and an order that recorded which preset it came from should keep recording it after the plugin is gone. Deleting it would damage records you may be legally required to keep.
 
@@ -121,6 +119,6 @@ The same holds for WordPress's **Erase Personal Data** tool. The plugin's eraser
 
 ## The report reads these
 
-The [Presets report](/cartpresets/analytics)<Pro /> joins WooCommerce's own lookup tables against `_cartpresets_preset_id`. That's the whole mechanism. The meta is stamped at checkout for reasons that have nothing to do with reporting, and the report reads it like any other integration would.
+The [Presets report](/cartpresets/analytics)<Pro /> joins WooCommerce's own lookup tables against `_cartpresets_preset_id`. The meta is stamped at checkout for reasons that have nothing to do with reporting, and the report reads it like any other integration would.
 
-So an integration that needs sales figures on **both** tiers can do exactly what the report does, without the report.
+So an integration that needs sales figures on both tiers can do exactly what the report does, without the report.

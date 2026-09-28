@@ -6,10 +6,10 @@ icon: "code-branch"
 
 import { Pro } from '/snippets/pro.mdx';
 
-Every route CartPresets for WooCommerce registers lives under one namespace: **`cartpresets/v1`**.
+Every route CartPresets for WooCommerce registers lives under one namespace: `cartpresets/v1`.
 
 <Warning>
-  **There are no public endpoints.** Every route requires the `manage_woocommerce` capability and a valid nonce. They exist to serve the admin panel, not to be a storefront API. A preset reaches a customer through its link, not through REST.
+  There are no public endpoints. Every route requires the `manage_woocommerce` capability and a valid nonce. The routes serve the admin panel. A preset reaches a customer through its link, never through REST.
 </Warning>
 
 The capability is filterable through `cartpresets_admin_capability`, which is safety-clamped. Changing the licence also needs `manage_options` (see Licensing, below).
@@ -37,7 +37,7 @@ A validation failure is a 400 with a `data.fields` object of messages keyed by t
 
 - `search` also looks inside a preset: product and variation names, SKUs, and custom item names.
 - `sort` takes `name`, `status`, `items`, `price`, `revenue`, `orders` or `publish`, with `dir` as `asc` or `desc`.
-- `filters` takes the fields `price`, `revenue`, `items`, `orders`, `date` and `product`, among others. It takes at most **8 rows**, and at most **3** of them from `product`, `product_name` and `stock_problem` together, the rows that look inside a preset's items. More is a 400 saying which limit it passed. The same limits apply to a bulk `query` and to export.
+- `filters` takes the fields `price`, `revenue`, `items`, `orders`, `date` and `product`, among others. It takes at most 8 rows, and at most 3 of them from `product`, `product_name` and `stock_problem` together, the rows that look inside a preset's items. More is a 400 saying which limit it passed. The same limits apply to a bulk `query` and to export.
 
 [`cartpresets_list_args`](/cartpresets/developers/hooks-reference#listing) documents the full grammar. It receives exactly these arguments once they're resolved.
 
@@ -71,12 +71,12 @@ Among the rest, each preset in the answer has:
 
 `POST /presets` and `PUT /presets/<id>` refuse, keyed by the field path (`items`, `items.3`):
 
-- more than **100 items** in one preset;
-- a quantity, `qty_min` or `qty_max` over **9,999**, or one that isn't a whole number;
-- a `custom_price` or `disc_value` that isn't a finite number of at most **1,000,000,000**;
+- more than 100 items in one preset;
+- a quantity, `qty_min` or `qty_max` over 9,999, or one that isn't a whole number;
+- a `custom_price` or `disc_value` that isn't a finite number of at most 1,000,000,000;
 - a `variation_id` that isn't a variation of the item's `product_id`.
 
-Names, slugs and notes lose Unicode direction overrides and isolates (U+202A–U+202E, U+2066–U+2069), zero-width spaces and joiners (U+200B–U+200D) and the byte-order mark (U+FEFF) as they're saved.
+Names, slugs and notes lose Unicode direction overrides and isolates (U+202A to U+202E, U+2066 to U+2069), zero-width spaces and joiners (U+200B to U+200D) and the byte-order mark (U+FEFF) as they're saved.
 
 An item keeps its ID across a save when the payload names it (`id` on the item) and it's still the same type, product and variation. Carts holding the preset find their lines by that ID. An item that doesn't keep its ID, because it was deleted or its product or variation changed, takes its preset out of any cart that holds it.
 
@@ -84,10 +84,10 @@ An item keeps its ID across a save when the payload names it (`id` on the item) 
 
 `POST /presets/bulk` takes an `action`: `activate`, `deactivate`, `duplicate`, `clear_end_date` or `delete`. It names the presets one of two ways:
 
-- **`ids`**: the presets you ticked.
-- **`query`**: `{ search, status, filters }`, validated the way the listing validates them, for every preset that matches. This is the listing's **select all** across pages. Send `expect` with it: the count the merchant confirmed. If the query matches a different number by the time it runs, nothing changes and the answer is a 409 (`cartpresets_bulk_changed`) with the new count in `data.total`.
+- `ids`: the presets you ticked.
+- `query`: `{ search, status, filters }`, validated the way the listing validates them, for every preset that matches. This is the listing's **Select all** across pages. Send `expect` with it: the count the merchant confirmed. If the query matches a different number by the time it runs, nothing changes and the answer is a 409 (`cartpresets_bulk_changed`) with the new count in `data.total`.
 
-One request acts on at most **500** presets. More is refused whole, with a 400.
+One request acts on at most 500 presets. More is refused whole, with a 400.
 
 The answer is `{ action, affected, matched, refused }`, plus `created` (the new IDs) for `duplicate`. Copies are inactive. `clear_end_date` asks the same tier gate a save asks, so it's Pro.
 
@@ -97,7 +97,7 @@ The answer is `{ action, affected, matched, refused }`, plus `created` (the new 
 
 `GET /presets/export` exports `ids[]` when given. Otherwise it exports every preset matching `search`, `status` and `filters`, and with none of those, every preset. There's no ceiling.
 
-`POST /presets/import` takes `document`, an export, as an object or a JSON string. A document over **500 presets** or **5,000 items** is refused whole: a 400 with the reason in `data.fields.document`, and nothing is written. Otherwise every preset is checked by the same validation as `POST /presets` before any is written, and each valid one is created inactive, with its slug suffixed if it's taken.
+`POST /presets/import` takes `document`, an export, as an object or a JSON string. A document over 500 presets or 5,000 items is refused whole: a 400 with the reason in `data.fields.document`, and nothing is written. Otherwise every preset is checked by the same validation as `POST /presets` before any is written, and each valid one is created inactive, with its slug suffixed if it's taken.
 
 The answer is `{ created, skipped, imported, skipped_presets, stopped }`:
 
@@ -149,7 +149,7 @@ See [Import and export](/cartpresets/import-export).
 
 | Method | Route | Does |
 | --- | --- | --- |
-| `GET` | `/licence` | Current state — never the key itself |
+| `GET` | `/licence` | Current state, never the key itself |
 | `POST` | `/licence` | Activate. Needs `manage_options` |
 | `DELETE` | `/licence` | Deactivate. Needs `manage_options` |
 | `POST` | `/licence/sync` | Re-check now. Needs `manage_options` |
@@ -159,14 +159,14 @@ Changing the licence needs `manage_options`, an administrator's capability, on t
 `POST /licence` takes `key`. If the key has no account attached yet, the answer is a 409 (`cartpresets_licence_identity_required`) carrying the `name` and `email` that activating would send. Nothing is sent until you call again with `confirm_identity: true`. The Licence card asks the merchant first. See [Licence and updates](/cartpresets/licence#activating).
 
 <Note>
-  A licence key travels **in** and never back out. `GET /licence` returns the status, plan, expiry, sites in use and when it was last checked, plus a masked copy showing only the key's last four characters.
+  A licence key is sent in and never sent back out. `GET /licence` returns the status, plan, expiry, sites in use and when it was last checked, plus a masked copy showing only the key's last four characters.
 </Note>
 
-## Absent, not refusing
+## Pro routes on the free version
 
-On the free version the Pro routes are **not registered at all**. A request to `/sales` or `/presets/import` returns a plain 404, exactly like a route that never existed.
+On the free version the Pro routes aren't registered at all. A request to `/sales` or `/presets/import` returns a plain 404, exactly like a route that never existed.
 
-That's deliberate. A route that exists and refuses tells an attacker the feature is there; a route that doesn't exist tells them nothing. It also means the free version ships no premium code to refuse with.
+A route that exists and refuses tells an attacker the feature is there. A route that doesn't exist tells them nothing. It also means the free version ships no premium code to refuse with.
 
 ```php
 if ( ! \SmartWP\CartPresets\Support\Tier::is_pro() ) {

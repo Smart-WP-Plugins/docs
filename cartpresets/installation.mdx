@@ -40,7 +40,7 @@ Pro ships as a separate zip from your purchase email or account area. It install
 </Steps>
 
 <Warning>
-  Run one version at a time. If one is already active, activating the other is refused with a message naming both. If both do end up active, the second to load stands down and says so, rather than letting two copies fight over the same tables.
+  Run one version at a time. If one is already active, activating the other is refused with a message naming both. If both do end up active, the second to load stands down and says so, so two copies never write to the same tables.
 </Warning>
 
 <Media>The Plugins screen with CartPresets for WooCommerce Pro active and the licence notice above it</Media>
@@ -51,7 +51,7 @@ Activation creates four database tables, each with your site's table prefix:
 
 | Table | Holds |
 | --- | --- |
-| `cartpresets_presets` | One row per preset — name, slug, status, dates, caps, settings |
+| `cartpresets_presets` | One row per preset: name, slug, status, dates, caps, settings |
 | `cartpresets_items` | The items inside each preset |
 | `cartpresets_redemptions` | One row per claim, for purchase limits |
 | `cartpresets_slug_history` | Old slugs, so renamed links keep working for 30 days |
@@ -66,14 +66,14 @@ Both versions read and write the same tables, so switching either way migrates n
 
 **Free to Pro.** Your existing presets are untouched. Any Pro setting you couldn't reach before is still at its default, ready to set.
 
-**Pro to free.** Your presets, items and settings stay exactly as they are. The Pro controls are locked and tagged **Pro**, and your stored answers stay on the record. Reinstalling Pro turns them back on rather than asking you to set them up again.
+**Pro to free.** Your presets, items and settings stay exactly as they are. The Pro controls are locked and tagged **Pro**, and your stored answers stay on the record. Reinstall Pro and they apply again, with nothing to set up.
 
-Two things stop *applying* rather than staying on, because leaving them running would be worse:
+Two things stop applying on the free version:
 
-- **An automatic coupon** is no longer applied. A discount you can't see or switch off would go on discounting orders.
-- **Custom items** aren't added to the cart. They stay with the preset and come back if you upgrade. The editor marks them **Not added on the free version**, and the listing and editor totals leave them out.
+- An automatic coupon isn't applied. A discount you can't see or switch off would go on discounting orders.
+- Custom items aren't added to the cart. They stay with the preset and come back if you upgrade. The editor marks them **Not added on the free version**, and the listing and editor totals leave them out.
 
-A schedule already set and a cap already filled are still honoured. Those switch a link **off**, and moving to the free version must not put a link back on sale that your own schedule or cap had stopped.
+A schedule already set and a cap already filled are still honoured. Those switch a link off, and moving to the free version shouldn't put a link back on sale that your own schedule or cap had stopped.
 
 ## Uninstalling
 
