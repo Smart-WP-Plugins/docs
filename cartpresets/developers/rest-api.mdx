@@ -25,7 +25,7 @@ A validation failure is a 400 with a `data.fields` object of messages keyed by t
 | `GET` | `/presets/<id>` | Read one |
 | `PUT` | `/presets/<id>` | Update |
 | `DELETE` | `/presets/<id>` | Delete |
-| `POST` | `/presets/<id>/duplicate` | Copy, inactive |
+| `POST` | `/presets/<id>/duplicate` | Copy, inactive and with no end date |
 | `POST` | `/presets/bulk` | Act on several at once |
 | `GET` | `/presets/slug-check` | Whether a slug is available |
 | `GET` | `/presets/export`<Pro /> | Export as JSON |
@@ -95,9 +95,9 @@ The answer is `{ action, affected, matched, refused }`, plus `created` (the new 
 
 ### Export and import<Pro />
 
-`GET /presets/export` exports `ids[]` when given. Otherwise it exports every preset matching `search`, `status` and `filters`, and with none of those, every preset. There's no ceiling.
+`GET /presets/export` exports `ids[]` when given. Otherwise it exports every preset matching `search`, `status` and `filters`, and with none of those, every preset. There's no ceiling. Each item carries `product_sku` and `variation_sku` beside its IDs. `variation_sku` is the variation's own SKU, or an empty string when it has none.
 
-`POST /presets/import` takes `document`, an export, as an object or a JSON string. A document over 500 presets or 5,000 items is refused whole: a 400 with the reason in `data.fields.document`, and nothing is written. Otherwise every preset is checked by the same validation as `POST /presets` before any is written, and each valid one is created inactive, with its slug suffixed if it's taken.
+`POST /presets/import` takes `document`, an export, as an object or a JSON string. A document over 500 presets or 5,000 items is refused whole: a 400 with the reason in `data.fields.document`, and nothing is written. Otherwise every preset is checked by the same type check, quantity reader and validation as `POST /presets` before any is written. Products are matched by `product_sku`, then by ID. A variation is matched by `variation_sku` and must belong to the matched product. Without a SKU, its old ID is kept only when it's a variation of that product, and otherwise the preset is skipped with an error on that item. Each valid preset is created inactive, with its slug suffixed if it's taken.
 
 The answer is `{ created, skipped, imported, skipped_presets, stopped }`:
 
@@ -119,7 +119,7 @@ See [Import and export](/cartpresets/import-export).
 
 `GET /settings` answers `settings`, `carrier` and `samples`. `carrier` is `null`, or `{ id, name, edit, virtual, hidden }`. `virtual` and `hidden` are read from the product itself; `hidden` means its catalogue visibility is hidden.
 
-`GET /settings/carrier-options` takes an optional `search` (a name, or an exact product ID). It answers `products`: up to thirty published, virtual, simple products, newest first, each `{ id, name, virtual, hidden, current }`. `current` marks the carrier now. Choosing a product that isn't virtual is refused.
+`GET /settings/carrier-options` takes an optional `search` (a name, or an exact product ID). It answers `products`: up to thirty published, virtual, simple products, newest first, each `{ id, name, virtual, hidden, current }`. `current` marks the carrier now. `POST /settings/carrier` applies the same test when you choose a product: one that isn't published, simple and virtual is refused.
 
 ## Supporting routes
 
@@ -141,9 +141,11 @@ See [Import and export](/cartpresets/import-export).
 
 | Method | Route | Does |
 | --- | --- | --- |
-| `GET` | `/sales` | Rows and the orders drill-down |
-| `GET` | `/sales/stats` | Totals and the time series |
+| `GET` | `/sales` | Totals, the time series and the per-preset table for a date range |
+| `GET` | `/sales/stats` | All-time orders and revenue for the presets in `ids`, for the list's Revenue column |
 | `GET` | `/sales/presets` | Preset names, for the report's filters |
+
+`GET /sales/stats` takes `ids`, a comma-separated list of preset IDs, and answers `stats`, keyed by ID. Every ID you ask about gets an entry, `{ orders, revenue }`, with zeros for a preset that hasn't sold. When WooCommerce Analytics' tables aren't there to read, each entry is `{ "orders": 0, "revenue": 0, "unavailable": true }`, and the list shows a dash in place of the figure.
 
 ## Licensing<Pro />
 

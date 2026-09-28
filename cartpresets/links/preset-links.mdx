@@ -11,16 +11,18 @@ Every preset has a link, and that link is the only way to reach it. There's no p
 
 ## Two forms, one preset
 
-Both of these go to the same preset, and both always work:
+Both of these go to the same preset:
 
 ```text
 https://yourstore.com/preset/starter-kit      pretty permalink
 https://yourstore.com/?preset=starter-kit     query string
 ```
 
-The pretty form needs pretty permalinks turned on in WordPress. The query form works either way, so it's the safe fallback on a site with plain permalinks.
+The pretty form needs pretty permalinks turned on in WordPress. The query form works either way.
 
-In the editor, the **Preset link** note beside the form shows the pretty link with a **Copy** button, the query form under **Also answers to**, and an **Open link** shortcut. A new preset has no link until its first save, so until then the note shows only the path its name will produce.
+On a site with plain permalinks, every preset link the plugin gives you is the query form, `?preset=starter-kit`, or your own parameter if you've changed it. That includes the editor, the list's Link column and the **Link preview** in Settings.
+
+In the editor, the **Preset link** note beside the form shows the link with a **Copy** button and an **Open link** shortcut. When the link is the pretty form, the query form is listed under it as **Also answers to**. A new preset has no link until its first save, so until then the note shows only the path its name will produce.
 
 <Media>The Preset link note in the editor's margin, with the copy button</Media>
 
@@ -33,7 +35,7 @@ You control both halves, under **Settings → Link settings**:
 | URL parameter | `url_param` | `preset` | The `?preset=` half |
 | Pretty permalink base | `permalink_base` | `/preset/` | The `/preset/` half |
 
-Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. The **Link preview** under the two fields shows how every preset link will read before you save. It takes effect when you save, and permalinks are flushed for you.
+Change the base to `/kit/` and every preset link becomes `/kit/starter-kit`. The **Link preview** under the two fields shows how every preset link will read before you save. On a site with plain permalinks it shows the query form, and its note says links use the URL parameter. It takes effect when you save, and permalinks are flushed for you.
 
 <Warning>
   Changing the base or the parameter doesn't leave a redirect behind. Links you've already shared in the old form stop working straight away. Renaming a preset does leave one (see the next section), but the base is a store-wide change, so set it before you start sharing links.

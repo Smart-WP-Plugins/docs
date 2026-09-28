@@ -40,9 +40,11 @@ One import takes up to 500 presets and 5,000 items across them. A bigger file is
 
 ### Every preset is checked like a save
 
-Each preset in the file goes through the same checks as saving it in the editor. One the editor would refuse, such as a preset with no items, a product that can't be found, or a custom redirect with no address, is skipped. The rest still arrive. When it's done, you're told how many presets were imported and how many couldn't be.
+Each preset in the file goes through the same checks as saving it in the editor. One the editor would refuse, such as a preset with no items, a product that can't be found, or a custom redirect with no address, is skipped. So is one with a value of the wrong type, such as a list where text belongs. Quantities are read the way a save reads them: a blank quantity means one, and anything that isn't a whole number in the allowed range is refused. The rest of the file still arrives.
 
-Everything is checked before anything is written, so a bad preset late in the file can't stop the import halfway. On a slow or small server, a very large import can still stop between presets to stay inside the server's time and memory limits. It always imports at least one, and the count of presets it couldn't import includes the ones it didn't reach. Import those from a smaller file. The [REST answer](/cartpresets/developers/rest-api) names each preset that wasn't imported, and why.
+When it's done, the dialog says how many presets were imported and lists each one it skipped, with the reason. A skipped preset with no name is listed by its place in the file.
+
+Everything is checked before anything is written, so a bad preset late in the file can't stop the import halfway. On a slow or small server, a very large import can still stop between presets to stay inside the server's time and memory limits. It always imports at least one. When it stops early, the dialog says so, and the presets it didn't reach are in the skipped list. Import those from a smaller file. The [REST answer](/cartpresets/developers/rest-api) has the same list.
 
 ### How products are matched
 
@@ -58,9 +60,18 @@ The SKU is what matters. Product IDs almost never line up between two stores: th
 
 <Warning>
   An ID-only match is a guess. If your two stores have unrelated product IDs, an import can quietly attach the wrong product. Check imported presets before you activate them. They all arrive inactive, as the next section explains.
-
-  Variations always travel by ID. Only the parent product is matched by SKU, so a variation item imported into a different store nearly always needs choosing again. If that ID is a variation of a different product there, the preset is skipped.
 </Warning>
+
+A variation is matched by its own SKU. The export records each variation's SKU beside its ID, or leaves it empty when the variation has no SKU of its own.
+
+| The file has | Result |
+| --- | --- |
+| A variation SKU that matches a variation of the matched product | Matched |
+| A variation SKU with no match on this store | The preset is skipped: *No variation on this store has the SKU …* |
+| No variation SKU, and the old ID is a variation of the matched product | Matched by ID, which is what an import into the same store looks like |
+| Anything else | The preset is skipped |
+
+A variation item never quietly turns into the whole variable product. Moving presets between stores works best when your variations have SKUs on both.
 
 ### Every import arrives inactive
 
