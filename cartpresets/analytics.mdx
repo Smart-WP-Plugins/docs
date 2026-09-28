@@ -36,11 +36,13 @@ The date-range picker, the comparison and the chart controls are all WooCommerce
 
 WooCommerce's own order tables, joined against the preset ID stamped on every preset order line at checkout.
 
-Three things follow from that:
+Four things follow from that:
 
 **Revenue is net of refunds.** A refund carries negative revenue and its line items carry the preset meta, so the subtraction lands on the right preset. Order counts use parent orders only, so a refunded order is one order, not two.
 
 **A sale is whatever WooCommerce says it is.** The excluded-status list is WooCommerce's own, so this page agrees with every other page under Analytics instead of using a list of its own.
+
+**An order counts once for each preset in it.** Preset orders adds up each preset's orders, so an order with two presets in it counts twice. The average revenue per order uses the same count.
 
 **A deleted preset keeps its history**, listed as *Deleted preset #N*. The money was real, and a report whose rows vanish with the preset won't match your accounts.
 
@@ -63,6 +65,8 @@ The report reads WooCommerce's own books rather than a record of its own, so upg
 ## Revenue in the listing
 
 The preset list has a **Revenue** column, with the preset's order count under each figure. It's the same number this report shows: WooCommerce's net revenue on the order lines the preset was stamped on. It isn't an estimate from today's price, so refunds and old prices are already in it.
+
+The figures come from WooCommerce Analytics' tables. Until Analytics has imported your orders, each cell shows a dash with a note saying so.
 
 You can also sort the list by **Revenue**, and filter it with a Revenue condition. Both use that same figure, so a row never sorts or filters by one number while showing another.
 

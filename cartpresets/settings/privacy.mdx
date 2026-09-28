@@ -39,11 +39,11 @@ An export returns every preset that address claimed, under the heading **Preset 
 | Claimed on | The date and time of the claim |
 | Order | The order the claim belongs to, when there is one |
 
-An address covers both keys it can have. Somebody who bought once as a guest and later opened an account with the same address is one person, whatever the table says, so you get back the guest rows and the account rows.
+An address covers both keys it can have. Somebody who bought once as a guest and later opened an account with the same address is one person, whatever the table says, so you get back the guest rows and the account rows. The account is found by its login email or its billing email, the same accounts a per-customer purchase limit counts.
 
 ## Erase Personal Data
 
-**Tools → Erase Personal Data** anonymises the claim rather than deleting it. The customer key is replaced with a value derived from nothing about them. WordPress reports the rows as **retained**, with a message explaining why.
+**Tools → Erase Personal Data** finds the same claims an export does: the address's guest rows, and the rows of any account whose login email or billing email is that address. It anonymises them rather than deleting them. The customer key is replaced with a value derived from nothing about them. WordPress reports the rows as **retained**, with a message explaining why.
 
 <Note>
   A redemption row records who claimed a preset, and that the preset was claimed. The first is personal data. The second is stock.

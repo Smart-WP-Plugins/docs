@@ -115,7 +115,7 @@ apply_filters( 'cartpresets_notice_text',         string $text, string $id, bool
 
 `cartpresets_cart_item_data` is **additive only**. Append your own keys freely; the plugin's are re-applied afterwards. The integrity rules read them, and a filter rewriting an instance ID would break preset isolation for every other line in the cart.
 
-`cartpresets_cart_group_id` is applied on both sides of every comparison. Override it and "the rest of this preset" changes meaning everywhere, including away from the trigger line. A wider group has to hold every item any of its lines requires, or it'll be taken out as incomplete.
+`cartpresets_cart_group_id` is applied on both sides of every comparison. Override it and "the rest of this preset" changes meaning everywhere, including away from the trigger line. A wider group has to hold every item any of its lines requires, or it'll be taken out as incomplete. The same id is what a checkout holds, what the order line is stamped with and what the redemption row records, so one group counts once against a purchase limit. It's cut to 64 characters, the width of the column that stores it.
 
 Every preset line carries the IDs of the items its preset can't be without. A cart loaded from the session loses any preset that isn't whole, and a line with no such list counts as not whole. Every line also needs its preset item to still exist and point at the same product and variation; one that doesn't takes its preset out with the `cascade_removed` notice.
 
@@ -306,11 +306,11 @@ Premium code also uses this seam to publish state that shared code must not know
 | Key | Points at |
 | --- | --- |
 | `docs` | The documentation's home |
-| `quickstart`, `building`, `pricing`, `presetLinks`, `wording`, `hooks`, `faq` | Pages in the documentation |
+| `quickstart` | The documentation's first page |
 | `support` | The WordPress.org support forum |
 | `reportIssue` | A new thread there |
 | `review` | A new review there |
-| `account` | The licence vendor's customer portal |
+| `account`<Pro /> | The licence vendor's customer portal. Pro adds it |
 
 Change any value, or add a key for a screen of your own. A value that isn't a URL goes back to the default.
 

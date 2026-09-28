@@ -30,7 +30,7 @@ Everything the panel is handed at load time is on `window.cartPresetsBoot`:
 | `counts` | Presets per derived status, plus `all`, for the whole store. The same numbers `GET /presets` returns, so the list can draw its header, status tabs and pager before its first fetch |
 | `upgradeUrl` | Where the upgrade call to action points |
 | `carrierReady` | Whether a usable carrier product is linked. The editor warns when a custom item would need one and there isn't one |
-| `links` | Every address the panel links out to: the documentation pages, support, reviews and the licence account. Filterable through [`cartpresets_admin_links`](/cartpresets/developers/hooks-reference#the-admin-panel) |
+| `links` | Every address the panel links out to: the documentation, support, reviews and, on Pro, the licence account. Filterable through [`cartpresets_admin_links`](/cartpresets/developers/hooks-reference#the-admin-panel) |
 | `notices` | The wording catalogue, as `groups` and `items` |
 | `licence`<Pro /> | `status` (`active`, `expired`, `cancelled` or `inactive`) and `expires` (an ISO date, or `null`), added by Pro through `cartpresets_admin_boot` |
 

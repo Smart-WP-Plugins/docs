@@ -30,7 +30,7 @@ Nothing Pro does is hidden. Each Pro control sits where it would on Pro, readabl
 
 <Media>The All Presets screen, showing the search, filter, status tabs and listing settings</Media>
 
-The header shows how many presets you have, with **Settings** and **New preset** beside it (and **Upgrade to Pro** on the free version). The right-hand column links to the documentation and the support forum.
+The header shows how many presets you have, with **Settings** and **New preset** beside it (and **Upgrade to Pro** on the free version). The right-hand column has a **Support** card with **Open a support thread** and **Documentation** buttons, and a **Help the plugin** card with **Leave a review** and **Report an issue**.
 
 ### Finding a preset
 
@@ -77,6 +77,8 @@ These choices are saved to your own user account, so they're still there next ti
 | Description | The internal description (hidden by default) |
 | Actions | The row menu |
 
+Until WooCommerce Analytics has imported your orders, a Revenue cell shows a dash. Hover over it for the note: *Revenue shows once WooCommerce Analytics has imported your orders.*
+
 On the free version the Revenue column is still there. Each cell shows a **Pro** tag where the figure would be.
 
 On the free version the Price column leaves out custom items, because the free version never adds them to the cart.
@@ -91,7 +93,7 @@ A live preset whose product has been deleted, unpublished or can no longer be bo
 | --- | --- |
 | Edit preset | Opens the editor |
 | Copy link | Copies the preset URL to the clipboard |
-| Duplicate | Copies everything. The copy is inactive until you switch its link on |
+| Duplicate | Copies the preset, including its purchase limits and coupon. The copy has no end date, and it's inactive until you switch its link on |
 | Clear end date<Pro /> | Only shown when the preset has an end date. Puts an ended preset back on sale |
 | Export as JSON<Pro /> | Downloads this one preset |
 | Deactivate / Activate | Switches the link off or on. Switching on runs the same checks as a save |
@@ -121,7 +123,7 @@ The editor is one page. The main column holds the preset itself, card by card. B
 
 **Link enabled** switches the preset's link on or off. It acts straight away. It isn't part of **Save preset**, and a message confirms it. A new preset doesn't show it until its first save. New presets start with the link on.
 
-The **⋯** menu holds **Duplicate** (opens an unsaved copy), **Export JSON**<Pro />, **View in Analytics**<Pro /> and **Delete preset**.
+The **⋯** menu holds **Duplicate** (opens an unsaved copy), **Export JSON**<Pro />, **View in Analytics**<Pro /> and **Delete preset**. The unsaved copy has no end date. On the free version it also starts without the preset's Pro settings, because a new preset saved on free can't set them.
 
 ### Main column
 
@@ -172,7 +174,7 @@ What a turned-away visitor reads is store-wide wording, under **Settings → Mes
 
 **Health checks** asks a series of questions about the preset. A new preset opens with two things to do: **Name the preset** and **Add at least one item**. After that, a check that **Blocks saving** has to be fixed before you can save; a warning doesn't. Click a check to jump to the field it's about. On the free version, an expired or sold-out preset's check says changing the end date or limit is part of Pro. See [Health checks](/cartpresets/building/health-checks).
 
-**Preset link** shows the URL with a **Copy** button, the `?preset=` form it also answers to, **Open link** and **View in Analytics**<Pro />. Before the first save it shows the path the link will have, and says it's made when you save.
+**Preset link** shows the URL with a **Copy** button, the `?preset=` form it also answers to (on a site with plain permalinks the URL is already that form), **Open link** and **View in Analytics**<Pro />. Before the first save it shows the path the link will have, and says it's made when you save.
 
 ### The save bar
 
@@ -214,7 +216,7 @@ When no carrier product is linked, its card says **No carrier product yet** and 
 
 A licence problem, like a key that isn't activated or has expired, shows as a standard WordPress notice on the listing and the editor. Settings doesn't repeat it, because the licence card already says the same thing. See [Licence and updates](/cartpresets/licence).
 
-The column beside Settings has a **System status** card: plugin version, WordPress, WooCommerce, PHP, permalinks, preset base and tier, with a **Copy system report** button. The report is read from your own install and sent nowhere. It's there so you can paste it into a support thread.
+The column beside Settings has a **System status** card: plugin version, WordPress, WooCommerce, PHP, permalinks, preset base and tier, with a **Copy system report** button. The report is read from your own install and sent nowhere. It's there so you can paste it into a support thread. Under it, a **Support** card has **Open a support thread** and **Documentation** buttons.
 
 Every setting is covered in the [Settings reference](/cartpresets/settings/reference).
 
