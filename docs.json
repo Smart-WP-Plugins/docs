@@ -205,7 +205,7 @@
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
+      "label": "Support",
       "href": "https://app.mintlify.com"
     }
   },
