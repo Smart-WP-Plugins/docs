@@ -4,8 +4,7 @@
   "name": "SmartWP Plugins Documentation",
   "colors": {
     "primary": "#0353a6",
-    "light": "#007dff",
-    "dark": "#9D8CFF"
+    "light": "#9D8CFF"
   },
   "favicon": {
     "light": "/images/FAVICON_COLOR.svg",
