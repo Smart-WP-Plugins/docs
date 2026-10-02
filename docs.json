@@ -197,16 +197,10 @@
     "dark": "/images/LOGO_WHITE.svg"
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hello@smartwpplugins.com"
-      }
-    ],
     "primary": {
       "type": "button",
       "label": "Support",
-      "href": "https://app.mintlify.com"
+      "href": "http://smartwpplugins.com/support"
     }
   },
   "contextual": {
