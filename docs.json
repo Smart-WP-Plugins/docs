@@ -234,18 +234,6 @@
   "interaction": {
     "drilldown": true
   },
-  "redirects": [
-    {
-      "source": "/addrvault/:slug*",
-      "destination": "/unwan/:slug*",
-      "permanent": true
-    },
-    {
-      "source": "/addrvault",
-      "destination": "/unwan",
-      "permanent": true
-    }
-  ],
   "appearance": {
     "default": "dark"
   }
