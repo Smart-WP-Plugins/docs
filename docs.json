@@ -3,8 +3,9 @@
   "theme": "mint",
   "name": "SmartWP Plugins Documentation",
   "colors": {
-    "primary": "#0353a6",
-    "light": "#9D8CFF"
+    "primary": "#5B3FE0",
+    "light": "#9D8CFF",
+    "dark": "#5B3FE0"
   },
   "favicon": {
     "light": "/images/FAVICON_COLOR.svg",
@@ -226,7 +227,7 @@
     }
   },
   "icons": {
-    "library": "fontawesome"
+    "library": "lucide"
   },
   "metadata": {
     "timestamp": false
@@ -250,5 +251,11 @@
       "destination": "/unwan",
       "permanent": true
     }
-  ]
+  ],
+  "appearance": {
+    "default": "dark"
+  },
+  "background": {
+    "decoration": "grid"
+  }
 }
