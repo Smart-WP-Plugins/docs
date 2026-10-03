@@ -221,7 +221,7 @@
     }
   },
   "icons": {
-    "library": "lucide"
+    "library": "fontawesome"
   },
   "metadata": {
     "timestamp": true
