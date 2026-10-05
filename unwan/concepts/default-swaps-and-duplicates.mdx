@@ -41,10 +41,14 @@ The customer now has both addresses in their book; nothing was deleted.
 Before any address is saved — whether typed into My Account, entered at checkout, or displaced by a default swap — Unwan checks it against every existing entry (both profile defaults and every additional address) using a normalized signature:
 
 ```text
-signature = normalize(first_name) + "|" + normalize(last_name) + "|" + normalize(address_1)
+signature = normalize(first_name) + "|" + normalize(last_name) + "|" + normalize(address_1) + "|" + normalize(postcode) without spaces
 ```
 
-where `normalize()` strips accents, collapses whitespace, and lowercases the value. Company, city, state, postcode, country, and phone are **not** part of the signature — the comparison is deliberately narrow, matched to how customers actually think of "the same address." An address with no street line at all never produces a signature and is treated as always-unique (it can't collide, but it also can't be detected as a duplicate).
+where `normalize()` strips accents, collapses whitespace, and lowercases the value. Spaces in the postcode are removed entirely, so `SW1A 2AA` and `sw1a2aa` match. Company, apartment line, city, state, country, and phone are **not** part of the signature — the comparison is deliberately narrow, matched to how customers actually think of "the same address." An address with no street line at all never produces a signature and is treated as always-unique (it can't collide, but it also can't be detected as a duplicate).
+
+<Note>
+  The postcode joined the signature in 1.0.8. Before, an address that corrected only the postcode counted as a duplicate: a checkout save reused the old entry and dropped the correction, and the address book showed only one of the two. Now they're separate entries, including two defaults that differ only in postcode. After updating, a customer may see a second entry where an older one had been hidden this way; nothing is deleted, and the customer can delete the outdated one in My Account.
+</Note>
 
 <Tabs>
   <Tab title="New address at checkout">

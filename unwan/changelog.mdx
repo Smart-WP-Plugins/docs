@@ -6,6 +6,10 @@ icon: "clock-rotate-left"
 
 This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
 
+## 1.0.8
+
+- The postcode is now part of duplicate detection. An address that corrects only the postcode is saved as its own entry instead of being folded into the old one, and addresses that differ only in postcode both appear in the address book. Spaces and capitals in postcodes are still ignored. See [Duplicate detection](/unwan/concepts/default-swaps-and-duplicates#duplicate-detection).
+
 ## 1.0.7
 
 Interface text follows each customer's language again, with fixes for classic checkout, shared billing and shipping defaults, and multisite.
