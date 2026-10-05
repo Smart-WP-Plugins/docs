@@ -28,7 +28,16 @@ Set **Accent color** to any hex color. It drives the accent text, primary button
 
 ## Labels
 
-Every customer-facing string listed below is editable directly from the settings screen, with translations still able to override whatever you type:
+Every customer-facing string listed below is editable directly from the settings screen. Each field starts empty, with its default shown as a placeholder:
+
+- **Left empty**, the label shows its default text, translated into each customer's language.
+- **Your own text** is shown exactly as typed. On a multilingual site, WPML and Polylang list your customized labels for translation (Unwan ships a `wpml-config.xml` for this).
+
+Typing the default text itself saves the field as empty, so it keeps following each customer's language.
+
+<Note>
+  Before 1.0.7, saving the settings page stored every default in the language of whoever saved it, so all customers saw that language. Updating to 1.0.7 removes those stored copies and keeps any label you actually changed.
+</Note>
 
 | Label | Default |
 | --- | --- |

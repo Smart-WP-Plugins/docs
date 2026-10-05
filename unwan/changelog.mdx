@@ -6,6 +6,47 @@ icon: "clock-rotate-left"
 
 This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
 
+## 1.0.7
+
+Interface text follows each customer's language again, plus fixes for classic checkout, shared billing and shipping defaults, and multisite.
+
+- Interface text now follows each customer's language. Labels left at their defaults were saved in the language of whoever saved the settings; those saved copies are removed on update, and customized labels can be translated with WPML or Polylang. See [Labels](/unwan/customization/appearance-and-theming#labels).
+- Fixed checkout not pre-selecting a saved address for customers whose checkout only had the store's default country filled in.
+- Fixed classic checkout hiding a field the order was then refused for, such as an invalid postcode.
+- Fixed classic checkout hiding a field required in the saved address's country when that country differs from the store's.
+- Fixed classic checkout saving an empty address when a field editor removed the street, city and postcode fields.
+- Fixed editing an address that is both the billing and shipping default overwriting details where the two differ, such as the apartment. Each default card now shows its own details.
+- Fixed the My Account address search missing addresses written in accented or non-Latin letters, such as Łódź or Москва.
+- Fixed the Address book page showing "Page not found" on multisite sites after network activation or an update.
+- Fixed "That saved address could not be found" appearing on the next page instead of the one it was about.
+- The address actions menu in My Account now closes when keyboard focus leaves it.
+- Uninstall cleanup on multisite now keeps customers' address books unless every site using Unwan asked for its data to be removed.
+
+## 1.0.6
+
+Checkout reliability with checkout field editors, local pickup and virtual products, and no lost addresses.
+
+- Fixed checkout getting stuck when the store requires a field, such as phone or company, that a saved address doesn't have. The field now appears so the customer can fill it in.
+- Fixed every address field reappearing after a failed payment while a saved address was still selected.
+- Fixed fields added by checkout field editors disappearing at checkout when a saved address was selected.
+- Fixed classic checkout refusing orders with "Please choose a valid saved address" on checkout pages built with page builders, alongside another address-book plugin, and for customers with no saved addresses.
+- Fixed orders for virtual or downloadable products replacing the customer's default shipping address.
+- Fixed the chosen billing address switching back on checkouts that need no shipping or that ship to the billing address.
+- Fixed the order using a different address from the one shown after switching between delivery and local pickup.
+- Fixed "Use same address for billing" billing the previous address after a saved delivery address was chosen.
+- Fixed shipping rates and taxes being worked out for the default address after another saved address was chosen.
+- Fixed "Make the new address the matching default" losing the previous default at block checkout, and doing nothing once the address limit was reached.
+- Fixed saving an address in My Account wiping fields the form doesn't show, such as a company or apartment hidden by a field editor.
+- Fixed removing every default role from an address deleting it when the address limit was full.
+- Fixed classic checkout not saving a changed billing email, or custom fields from checkout field editors, to the customer's account.
+- Fixed turning off one checkout selector stopping WooCommerce from updating that address.
+- Fixed choosing "Enter a new address" a second time clearing what had been typed.
+- Fixed classic checkout showing a mix of two addresses after the page was reloaded.
+- The chosen address is now kept when the checkout page is reloaded or revisited.
+- An address that isn't in the address book now shows as "Enter a new address" with its fields open, instead of a closed summary above open fields.
+- Saved addresses are now included in WordPress's personal data export and erasure tools.
+- The My Account address form now shows only the fields Unwan saves. See [Custom checkout fields](/unwan/checkout/checkout-overview#custom-checkout-fields).
+
 ## 1.0.5
 
 Checkout address entry fixes, both reported from live stores.

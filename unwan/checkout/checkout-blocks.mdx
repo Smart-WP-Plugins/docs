@@ -38,20 +38,28 @@ Unwan works around this without fighting WooCommerce's own checkout flow:
 
 <Steps>
   <Step title="Capture, before the overwrite">
-    When the Store API is about to update the customer object (`woocommerce_store_api_checkout_update_customer_data` / `..._cart_update_customer_data`), Unwan reads and holds the customer's _current_ profile default, if the incoming address differs from it.
+    On every signed-in checkout request (`woocommerce_store_api_checkout_update_customer_from_request`), Unwan takes a copy of both stored profile defaults, whatever the request contains. WooCommerce also rewrites the shipping default with the billing address for carts that need no shipping, and express payment buttons write it without Unwan's picker involved, so both are always captured.
   </Step>
   <Step title="Let WooCommerce finish">
     WooCommerce is allowed to write the submitted address to its normal place — it has to, so the draft order can copy the correct address for _this_ order before anything is restored.
   </Step>
   <Step title="Restore the account default afterward">
-    Once the full Store API request has completed — including WooCommerce's own final customer sync — Unwan writes the captured default back, via a `rest_request_after_callbacks` filter, with a `shutdown`-time fallback in case the primary hook doesn't fire (payment failures, validation errors, etc.).
+    Once the full Store API request has completed — including WooCommerce's own final customer sync — Unwan writes back only the values that changed, via a `rest_request_after_callbacks` filter, with a `shutdown`-time fallback in case the primary hook doesn't fire (payment failures, validation errors, etc.). If nothing changed, nothing is saved: saving the customer would make WooCommerce discard its session copy and price shipping and tax for the default address on the next request.
   </Step>
   <Step title="Save the new address afterward, if applicable">
     If the shopper explicitly chose "Enter a new address," the finalized address is read back off the **processed order** (not the raw request) and added to the address book only once it's known to be complete and valid.
   </Step>
 </Steps>
 
-The net effect: the order itself always has the correct, submitted address, and the account's stored default is untouched unless **New address defaults → Make the new address the matching default** is explicitly enabled.
+The net effect: the order itself always has the correct, submitted address, and the account's stored default is untouched unless **New address defaults → Make the new address the matching default** is explicitly enabled. In that mode the old default is restored first and the new address then takes its place, so the old one stays in the address book.
+
+For local pickup and other orders with no shipping address, WooCommerce fills the shipping address with the billing one. Unwan never saves that copy as a new shipping address.
+
+## Collapsing rows without hiding what's needed
+
+When a saved address is selected, Unwan collapses each standard address row individually, never the whole form, so fields other plugins place inside it stay visible. The list of collapsed rows lives on Unwan's own picker element (`data-unwan-collapse`) and the stylesheet hides the matching rows with `:has()`. WooCommerce re-renders its own form wrapper (for example while an order is processing), so state kept there would be wiped and every field would reappear after a failed payment.
+
+A row stays visible when WooCommerce's validation store reports an error for it — a required field the saved address lacks, or a value that fails the store's rules — and once shown, it stays shown until the customer picks another address. Browsers without `:has()` support simply show every field.
 
 ## Compatibility
 

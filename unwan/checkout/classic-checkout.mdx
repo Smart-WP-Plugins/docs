@@ -19,13 +19,19 @@ The classic-checkout JavaScript (`unwan-classic-checkout.js`) reads a localized 
 
 ## Submission and validation
 
-Unwan adds a hidden field per enabled selector (`unwan_billing_address_id` / `unwan_shipping_address_id`) holding the current selection, defaulting to the customer's top-ranked option. On submit:
+Unwan adds a hidden field per enabled selector (`unwan_billing_address_id` / `unwan_shipping_address_id`) holding the current selection. The script writes it again just before the order is submitted, and creates it if a checkout template left it out. On submit:
 
-1. `woocommerce_after_checkout_validation` rejects the order if a selector is enabled and its submitted value isn't `"new"` and doesn't match a real entry in that customer's checkout options — the same server-side validation a crafted or stale request would need to defeat.
-2. `woocommerce_checkout_update_customer_data` returns `false` when either Unwan selection field is present, which stops WooCommerce's own default customer-data write — Unwan persists only the address types the shopper actually chose to save as a default, on its own terms.
-3. `woocommerce_checkout_update_user_meta` saves a new address (if `"new"` was chosen and **Save checkout addresses** is on) and, if configured, promotes it to the matching profile default.
+1. `woocommerce_after_checkout_validation` rejects the order only if a submitted value is a saved-address ID that isn't in that customer's address book — the same server-side check a crafted or stale request would need to defeat. An empty value means "no selection", not an invalid one: checkout builders that print only their own fields never post it, and other scripts can blank it, so such orders go through normally.
+2. `woocommerce_checkout_update_customer` puts the customer's stored billing and shipping defaults back on the customer object just before WooCommerce saves it, when the picker posted a selection. Everything else WooCommerce saves as usual — a changed billing email, custom fields from checkout field editors, and other plugins' data. A type whose default is still empty is left for WooCommerce to fill.
+3. `woocommerce_checkout_update_user_meta` saves a new address (if `"new"` was chosen, the address has a street, city or postcode, and **Save checkout addresses** is on) and, if configured, promotes it to the matching profile default — even when the additional-address limit is full.
 
-Unwan also fills in the customer's WordPress display name from the billing name on this hook, but only when it's currently empty or is still just the account email — it never overwrites a name the customer has already set.
+## Fields that stay visible
+
+A selected saved address collapses the standard address rows, never the whole form, so fields other plugins add stay where they are. A row is shown again when:
+
+- WooCommerce or a field editor marks it required for the address's country and the saved address has no value for it. Unwan works out the required fields for the store's country and every country in the customer's address book, because WooCommerce's own country rules change the required markers on the page as the form loads.
+- WooCommerce marks it invalid.
+- The order is refused because of it. WooCommerce names the field in its error message (for example an invalid postcode), and Unwan reopens that row so the customer can correct it.
 
 ## Detecting Checkout Blocks pages
 

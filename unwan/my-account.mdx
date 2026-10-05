@@ -36,7 +36,11 @@ These aren't just UI-level restrictions: the same rules are enforced server-side
 
 The listing and editor views are mutually exclusive — opening the editor (via **Add new address** or any row's **Edit** action) replaces the list entirely with just the form and a **Back to addresses** link, rather than showing both at once.
 
-The editor form is WooCommerce's own locale-aware address field set (via `WC()->countries->get_address_fields()`), plus two checkboxes: **Default shipping address** and **Default billing address**. Leaving both unchecked keeps the entry as a plain, role-free additional address available everywhere at checkout.
+The editor form is WooCommerce's own locale-aware address field set (via `WC()->countries->get_address_fields()`), limited to the fields Unwan saves, plus two checkboxes: **Default shipping address** and **Default billing address**. Leaving both unchecked keeps the entry as a plain, role-free additional address available everywhere at checkout.
+
+Fields other plugins add to WooCommerce's address forms aren't shown here, because the address book doesn't store them — see [Custom checkout fields](/unwan/checkout/checkout-overview#custom-checkout-fields). Saving changes only what the customer edited: a field the form doesn't show (for example one a field editor removed) keeps its stored value.
+
+When the billing and shipping defaults share a name and street, they appear as one entry with both roles, but each summary card shows its own details. Editing that entry applies the customer's changes to both defaults and leaves anything that differs between them, such as an apartment number, as it was.
 
 <Note>
   If a save fails validation (a required field is empty, or the phone number doesn't look valid), Unwan redirects back to the same editor with the customer's entered values intact — nothing is lost, and nothing needs to be retyped from scratch.
@@ -45,3 +49,7 @@ The editor form is WooCommerce's own locale-aware address field set (via `WC()->
 ## Security
 
 Every action — save, delete, make default — is a POST request, protected by a dedicated nonce (`check_admin_referer()` per action), scoped to the currently signed-in customer's own address book, validated, and sanitized before anything is written. There is no code path that lets one customer read or modify another customer's addresses.
+
+## Personal data
+
+Saved additional addresses are included in WordPress's **Tools → Export Personal Data** and **Erase Personal Data** (listed as "Address book"). The billing and shipping defaults are WooCommerce customer data, covered by WooCommerce's own exporter and eraser.
