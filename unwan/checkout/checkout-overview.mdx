@@ -30,17 +30,39 @@ If any of those isn't true, native WooCommerce fields render exactly as they wou
   </Tab>
 </Tabs>
 
-Selecting a saved address hides the native WooCommerce address fields (their values are populated from the selection); choosing **Enter a new address** clears and reveals them again. WooCommerce's own checkout fields and stores remain the single source of truth for what actually gets submitted — Unwan only decides what pre-fills them.
+Selecting a saved address fills WooCommerce's address fields from it and collapses the standard address rows; choosing **Enter a new address** clears and reveals them again. Choosing it a second time keeps what the customer has typed. WooCommerce's own checkout fields and stores remain the single source of truth for what actually gets submitted — Unwan only decides what pre-fills them.
 
-Only a _saved_ address stands in for the fields. If the cart already carries an address that isn't in the book — carried over from an earlier order, or edited away from a saved one — the picker shows it as the current selection but leaves the fields visible and editable underneath, so it can be corrected in place rather than cleared and retyped.
+A collapsed saved address never hides a row the order needs. If the store requires a value the saved address doesn't have (for example a phone number or company), or a value doesn't meet the store's rules (for example a postcode WooCommerce rejects when the order is placed), that row stays visible so the customer can fill it in. It stays visible while they type, until they pick another address.
+
+Only a _saved_ address collapses the fields. If the cart already carries an address that isn't in the book — carried over from an earlier order, or edited away from a saved one — the picker shows **Enter a new address** with the fields open, so it can be corrected in place rather than cleared and retyped.
+
+The customer's choice survives a reload. Each browser tab remembers the selected address (only its ID, never the address itself) and restores it when the checkout page is reloaded or revisited, until the order is placed.
 
 <Note>
-  Local pickup is a special case. WooCommerce drops the shipping address from the order and collects only a billing address, while keeping its internal "use shipping as billing" flag set. Unwan suspends its shipping-to-billing synchronisation for as long as collection is active, leaving the billing picker and the billing fields in charge.
+  Local pickup and **Use same address for billing** follow WooCommerce's own rules. During local pickup WooCommerce collects only a billing address, so the billing picker is in charge, and switching back to delivery restores the delivery address the customer chose. With **Use same address for billing** ticked, the chosen delivery address is also used for billing.
 </Note>
+
+## Custom checkout fields
+
+Unwan is designed to manage the standard WooCommerce address: name, company, address lines, city, state, postcode, country, and phone. That is what it saves, shows, and lets customers edit in My Account.
+
+Unwan keeps one shared address book, where any address can be used for billing, shipping, or both. Fields that checkout field editors add to the billing or shipping address are built around one of those roles, so they stay with your field editor rather than in the address book.
+
+At checkout, those fields appear as usual, handled by WooCommerce and your field editor, wherever the field editor places them. Unwan never hides, clears or changes them, nor any other field outside the address:
+
+- email and contact fields
+- order notes and additional information fields
+- account and registration fields
+
+When a customer picks a saved address, Unwan collapses only the standard address rows, and any row the store requires stays visible as described above.
+
+<Tip>
+  Developers can add a field to the address book with the [`unwan_address_field_keys`](/unwan/developers/hooks-reference#unwan_address_field_keys) filter, which makes it both saved and shown in the My Account form.
+</Tip>
 
 ## What happens after checkout
 
-- **A saved selection is order-specific by default.** Choosing a saved address for this order does not silently change the customer's account default — that would be a surprising side effect for something as routine as picking a delivery address.
+- **A saved selection is order-specific by default.** Choosing a saved address for this order does not silently change the customer's account default — that would be a surprising side effect for something as routine as picking a delivery address. This also holds for orders that need no shipping, which WooCommerce would otherwise use to overwrite the shipping default with the billing address.
 - **A new address entered at checkout is saved automatically** (governed by **Save checkout addresses**, on by default), becoming a role-free additional address — unless it's an exact duplicate of something already in the book, in which case the existing entry is reused.
 - **Promoting a new address to the account default** is opt-in, via **New address defaults → Make the new address the matching default**. With this off (the default), the account's billing/shipping profile defaults never change just because a customer typed a new address for one order.
 - **Billing and shipping don't double-save.** If a customer lets billing be used for shipping, or otherwise submits the same address for both roles, Unwan's normal duplicate detection means only one additional-address record is ever created — see [Default Swaps & Duplicate Detection](/unwan/concepts/default-swaps-and-duplicates).

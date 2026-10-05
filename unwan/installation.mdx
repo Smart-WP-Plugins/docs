@@ -30,7 +30,7 @@ Unwan declares `Requires Plugins: woocommerce` in its plugin header, so WordPres
     Either search for **Unwan – Multiple Address Book for WooCommerce** under **Plugins → Add New Plugin** in your WordPress admin, or upload `unwan-for-woocommerce.zip` directly via **Plugins → Add New Plugin → Upload Plugin**.
   </Step>
   <Step title="Activate the plugin">
-    On activation, Unwan registers its My Account rewrite endpoint and flushes rewrite rules automatically — no manual permalink resave is required.
+    On activation, Unwan registers its My Account rewrite endpoint and flushes rewrite rules automatically — no manual permalink resave is required. It does the same the first time each site loads a new version, which covers updates and every site of a multisite network.
   </Step>
   <Step title="Open the settings screen">
     Go to **WooCommerce → Settings → Accounts & Privacy → Unwan** (or use the **Settings** link Unwan adds directly under its entry on the Plugins screen) to configure behavior, appearance, and labels. No setting is required to get started — reasonable defaults are already in place after activation.

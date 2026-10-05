@@ -32,13 +32,21 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="What happens to data when Unwan is uninstalled?">
-    Data is retained by default. Enabling **Uninstall cleanup** first will permanently remove Unwan's settings and additional customer addresses on uninstall — WooCommerce's own billing/shipping profile fields are never touched, regardless of this setting.
+    Data is retained by default. Enabling **Uninstall cleanup** first will permanently remove Unwan's settings and additional customer addresses on uninstall — WooCommerce's own billing/shipping profile fields are never touched, regardless of this setting. On multisite, saved addresses are shared by the whole network, so they're removed only when every site that uses Unwan has cleanup turned on.
   </Accordion>
 
   <Accordion title="What languages is Unwan available in?">
     Unwan ships with translations for ten languages: Spanish, French, German, Italian, Portuguese (Brazil), Dutch, Polish, Russian, Swedish, and Japanese. They cover both the customer-facing screens and the settings page, and apply automatically once WordPress is running in that language — nothing to install or configure.
 
-    Any label you edit under **Text and labels** takes priority over the translation for that string, so a customized label stays exactly as you typed it. If a community translation for your locale is published on translate.wordpress.org, WordPress uses that in preference to the bundled copy.
+    Labels left empty under **Text and labels** show their default text in each customer's language. A label you customize is shown exactly as you typed it; on a multilingual site, WPML and Polylang can translate it. If a community translation for your locale is published on translate.wordpress.org, WordPress uses that in preference to the bundled copy.
+  </Accordion>
+
+  <Accordion title="Does Unwan save custom checkout fields?">
+    Unwan is designed to manage the standard WooCommerce address: name, company, address lines, city, state, postcode, country, and phone. Fields that checkout field editors add to the billing or shipping address stay with your field editor rather than in the address book. At checkout they appear and work as usual, and Unwan never hides, clears or changes them. See [Custom checkout fields](/unwan/checkout/checkout-overview#custom-checkout-fields).
+  </Accordion>
+
+  <Accordion title="Are saved addresses included in personal data exports?">
+    Yes. WordPress's **Export Personal Data** and **Erase Personal Data** tools include the customer's additional saved addresses, listed as "Address book". The billing and shipping defaults are covered by WooCommerce's own exporter and eraser.
   </Accordion>
 
   <Accordion title="Is Unwan built to WordPress coding standards?">
@@ -54,7 +62,7 @@ icon: "circle-question"
   </Accordion>
 
   <Accordion title="The address book endpoint doesn't appear in My Account">
-    This usually means permalinks need refreshing. Unwan registers its rewrite endpoint and flushes rules automatically on activation, but if the plugin was activated in an unusual way (e.g. via WP-CLI without the standard activation hook, or a staging sync that skipped it), visit **Settings → Permalinks** and click **Save Changes** once to force a flush.
+    This usually means permalinks need refreshing. Unwan refreshes them automatically on activation and again the first time each site loads a new version, including every site of a multisite network. If the page still shows "Page not found" (for example after a staging sync that copied the database but not the rewrite rules), visit **Settings → Permalinks** and click **Save Changes** once to force a refresh.
   </Accordion>
 
   <Accordion title="A theme or plugin's CSS is bleeding into the picker">
