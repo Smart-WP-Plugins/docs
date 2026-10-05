@@ -20,6 +20,8 @@ apply_filters( 'unwan_address_field_keys', array $keys ): array
 
 Email is intentionally excluded by default — it belongs to account identity, not a postal address.
 
+These keys also decide which fields the My Account address form shows. Adding a key (for example a field your checkout field editor registers) makes it both saved and editable in the address book; fields not in this list are left out of the form.
+
 ### `unwan_saved_addresses`
 
 Filters a customer's normalized shared additional addresses after metadata is read.

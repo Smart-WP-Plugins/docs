@@ -9,7 +9,7 @@ icon: "sitemap"
 | Area | Files | Responsibility |
 | --- | --- | --- |
 | Bootstrap | `unwan-for-woocommerce.php` | Constants, namespace loader, compatibility declarations, WooCommerce gate |
-| Coordination | `includes/Plugin.php` | Wires up services, styles, translations, activation |
+| Coordination | `includes/Plugin.php` | Wires up services, styles, translations, activation, once-per-version upgrade steps |
 | Persistence | `includes/AddressRepository.php` | Unified storage, default swaps, duplicate detection, formatting |
 | Settings | `includes/Admin/Settings.php` | Accounts & Privacy subsection, behavior, labels, appearance |
 | My Account | `includes/AccountController.php`, `templates/myaccount/` | Endpoint, form handling, actions |
@@ -17,7 +17,8 @@ icon: "sitemap"
 | Picker styles | `assets/css/unwan.css` | Scoped reset and all visual presentation |
 | Classic checkout | `includes/Checkout/ClassicCheckout.php` | Shortcode checkout adapter |
 | Checkout Blocks | `includes/Checkout/BlocksController.php`, `BlocksIntegration.php`, `src/blocks/` | Blocks registration and Store API integration |
-| Translations | `languages/` | Bundled POT, ten locale catalogues, block script-translation JSON |
+| Translations | `languages/`, `wpml-config.xml` | Bundled POT, ten locale catalogues, block script-translation JSON, label declarations for WPML and Polylang |
+| Privacy | `includes/Privacy.php` | WordPress personal data exporter and eraser for saved addresses |
 | Uninstall | `uninstall.php` | Opt-in settings and address cleanup |
 | Tests | `tests/`, `phpunit.xml.dist` | Integration suite run against real WordPress \+ WooCommerce (development only) |
 
@@ -62,14 +63,16 @@ Every PHP file is checked against a WordPress Coding Standards ruleset (`WordPre
 
 ## Testing
 
-Unwan is covered by 168 integration tests that boot a real WordPress install with WooCommerce active, using the WordPress core PHPUnit library. They are not unit tests against mocks: every assertion runs through actual `WC_Customer` objects, real user meta, and the real template stack, which is what makes them useful as a compatibility check against a new WordPress or WooCommerce release.
+Unwan is covered by 195 integration tests that boot a real WordPress install with WooCommerce active, using the WordPress core PHPUnit library. They are not unit tests against mocks: every assertion runs through actual `WC_Customer` objects, real user meta, and the real template stack, which is what makes them useful as a compatibility check against a new WordPress or WooCommerce release.
 
 | Area | What is asserted |
 | --- | --- |
 | Storage | Where each address lives, field sanitization, how the two defaults and the shared extras combine into one book |
 | Duplicates | That case, accents, and whitespace normalize away, and that a different name at the same street stays a separate entry |
 | Default roles | That reassigning a default never loses the displaced address, even when the additional-address limit is already full |
-| Checkout | Option shaping and ordering, cache invalidation, validation, and that an order-specific choice does not rewrite profile defaults |
+| Checkout | Option shaping and ordering, cache invalidation, validation, and that an order-specific choice does not rewrite profile defaults — including virtual and local-pickup orders, and checkout updates that must never save the profile |
+| Settings | Sanitization, label placeholders and fallbacks, and that every label setting is declared in `wpml-config.xml` |
+| Privacy and upgrades | Personal data export and erasure, and the once-per-version rewrite refresh and label cleanup |
 | Hooks | Every filter and action on the [Hooks Reference](/unwan/developers/hooks-reference), with its documented signature |
 | My Account | Markup structure, output escaping, search visibility, and that one customer can never open another's address |
 | Blocks | Block registration, the Store API extension schema, and that guests receive no address data |
