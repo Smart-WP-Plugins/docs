@@ -17,7 +17,7 @@ Checkout blocklist stops orders from emails, domains, phone numbers, IP addresse
 
 | Setting | Default | What it does |
 |---|---|---|
-| **Emails and domains** | Empty | One per line. An address (`name@example.com`) or a whole domain (`example.com`, which also blocks its subdomains). Gmail dots and +tags are ignored. |
+| **Emails and domains** | Empty | One per line. An address (`name@example.com`) or a whole domain (`example.com`, which also blocks its subdomains). Gmail dots and +tags are ignored, and `gmail.com` and `googlemail.com` count as the same domain. |
 | **Phone numbers** | Empty | One per line. Spaces, dashes and country codes don't matter. |
 | **IP addresses** | Empty | One per line. A single address or a range (`203.0.113.0/24`). |
 | **Customer accounts** | None | Blocks the account when logged in, and orders placed with its email. |
@@ -50,9 +50,12 @@ It doesn't check account sign-up, and it isn't fraud scoring.
 
 ## Blocked attempts
 
-The **Blocked attempts** tab (also linked from the Powerups list) lists checkouts the blocklist stopped: date, what matched (**Blocked by**), email, phone, IP address and account. It keeps up to 200 entries for 30 days.
+The **Blocked attempts** tab (also linked from the Powerups list) lists checkouts the blocklist stopped: the date, **Blocked by** (email, phone, IP address or account, with the entry that matched), the email and the IP address. It keeps up to 200 entries for 30 days.
 
-Only placing the order is logged, not typing in the form.
+- Only placing the order is logged, not typing in the form.
+- The same attempt repeated within a minute is logged once.
+- One IP address adds at most 10 rows every 10 minutes. Further tries from it are counted on its latest row ("+3 more attempts"), so one address can't push other attempts off the list.
+- Emails are kept up to 254 characters, other values up to 200.
 
 <Frame caption="The Blocked attempts tab with a few stopped checkouts">
   ![The Blocked attempts tab with a few stopped checkouts](https://placehold.co/1600x900/png?text=checkout-blocklist-1)

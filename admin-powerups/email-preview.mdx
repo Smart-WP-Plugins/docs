@@ -41,15 +41,22 @@ Open the **Preview & test** tab (also linked from the Powerups list).
   ![The Preview & test tab showing a Processing order email for a real order](https://placehold.co/1600x900/png?text=email-preview-1)
 </Frame>
 
-- A test goes only to the address you enter, never to Cc or Bcc recipients.
+- A test goes only to the address you enter. Cc and Bcc recipients are always removed.
 - It sends exactly what WooCommerce would, so plain-text emails go as plain text.
 - It shows as **Test** in the [Email log](/admin-powerups/email-log).
 - The order and the customer aren't changed or emailed.
+- Each person can send 10 tests every 10 minutes. After that you see "You can send 10 test emails every 10 minutes. Try again in a few minutes."
 
 <Warning>
 A test contains that real customer's order details. Send it only to your own address.
 </Warning>
 
+Emails with a private password or verification link (new account, password reset, email address confirmation and back-in-stock sign-up verification) can't be previewed, test-sent or resent.
+
 ## Data
 
-This power-up stores nothing. Resends add order notes, which are part of your order history.
+| Item | What it is |
+| --- | --- |
+| **Test send times** | When each person sent test emails in the last 10 minutes, to limit how many they can send. |
+
+Resends add order notes, which are part of your order history.

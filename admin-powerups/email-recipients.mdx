@@ -29,7 +29,7 @@ Everyone in To and Cc sees each other's address, including the customer on custo
 
 - Invalid addresses are marked and not saved.
 - Emails that are turned off, or have no recipient, stay unsent. An extra To address doesn't force them out.
-- Account emails (new account, password reset) aren't offered, because password links go only to the account holder.
+- Account emails (new account, password reset, email address confirmation and back-in-stock sign-up verification) aren't offered, because their private links go only to the account holder.
 
 ## Attachments
 
@@ -43,7 +43,9 @@ Click **Add attachment rule** to attach files to emails. Each rule has:
 Large files make emails slow to send and may be rejected by inboxes. Keep attachments small (under 5 MB in total).
 </Warning>
 
-Any Media Library file can be attached, including WooCommerce's protected downloadable files. Only store managers can set this up, but check what you attach.
+A rule only attaches files that the person who saved it can read, stored inside your uploads folder. Files in protected download folders are never attached: WooCommerce's `woocommerce_uploads` (on any site of a network), and the `edd` and `dlm_uploads` folders of Easy Digital Downloads and Download Monitor. The check runs when the rules are saved and again at every send.
+
+Saving checks every rule's files for the person saving. If a shop manager re-saves rules an admin made, files the shop manager can't read are dropped, and a rule left without files isn't saved.
 
 ## Settings
 
