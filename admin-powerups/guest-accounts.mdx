@@ -63,7 +63,7 @@ The **Convert past orders** tab creates accounts for older guest orders. It need
 </Steps>
 
 <Frame caption="The Convert past orders tab during a run, with the progress bar and the skipped orders table">
-  ![The Convert past orders tab during a run, with the progress bar and the skipped orders table](https://placehold.co/1600x900/png?text=guest-accounts-1)
+  ![The Convert past orders tab during a run, with the progress bar and the skipped orders table](/images/admin-powerups/guest-accounts-1.png)
 </Frame>
 
 The tool runs while the tab is open, in batches of 20. Skipped orders are listed with a reason:
@@ -72,9 +72,9 @@ The tool runs while the tab is open, in batches of 20. Skipped orders are listed
 |---|---|
 | No valid email. | The order has no usable billing email. |
 | Already has a customer. | The order already belongs to an account. |
-| An account with this email already exists. Linking is off. | Turn on **Use an existing account with the same email** to link these. |
-| Email belongs to a staff account. | Staff accounts are never linked. |
-| Email belongs to an account that is not a member of this site. | Multisite only. |
+| An account with this email already exists. Linking is off. | **Use an existing account with the same email** is off (the default), so every existing account gets this reason, staff accounts included. Turn the setting on to link customer accounts. |
+| Email belongs to a staff account. | Only while linking is on. Staff accounts are never linked. |
+| Email belongs to an account that is not a member of this site. | Multisite only, while linking is on. |
 
 <Note>
 On multisite, the tool needs permission to create users. Site admins can't use it when the network doesn't let them add users (Network settings). This is expected.
