@@ -59,6 +59,12 @@ Below the list, **Hooks with no callback** and **Hooks with the most events** he
 
 The result says what happened: a cron run started, WP-Cron is off so the server cron runs it, it runs on the next page visit, cron is already running, or it couldn't start.
 
+Events that belong to WordPress or WooCommerce work the same way, but for them **Run now…** is **Advanced**, due or not: type "run" to confirm. Running them early can publish scheduled posts, cancel unpaid orders or start sales. On multisite only a network (super) admin gets this button.
+
+Action Scheduler's queue, Admin Powerups' own jobs and hooks a site filter protects have no **Run now**. They run on their own schedule.
+
+A legend above the list shows these levels, and says so when your account can't run WordPress or WooCommerce events or delete events.
+
 ## Delete
 
 Deleting is **Advanced**: type "delete" to confirm. On multisite only a network (super) admin can delete.
@@ -66,7 +72,7 @@ Deleting is **Advanced**: type "delete" to confirm. On multisite only a network 
 - **Delete** or **Delete selected**: up to 20 events at a time. A recurring event stops repeating unless its plugin schedules it again.
 - **Delete all** (under **Hooks with no callback**): every event of a hook whose plugin or theme is inactive or no longer installed.
 
-WordPress, WooCommerce, Action Scheduler, Admin Powerups and similar jobs are **Protected**. They can't be deleted here, but they can still be run.
+WordPress, WooCommerce, Action Scheduler, Admin Powerups and similar jobs are **Protected** and can't be deleted here. Of these, only WordPress and WooCommerce events can be run now, with the Advanced confirmation above.
 
 ## When the list is read-only
 

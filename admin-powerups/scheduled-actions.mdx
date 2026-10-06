@@ -45,12 +45,14 @@ Actions that handle payments, renewals, subscriptions or webhooks are marked "Ma
 | Action | Where | Confirm | What it does |
 | --- | --- | --- | --- |
 | **Run now** | Overdue | Review (click twice) | Runs one due action in the background straight away, never inside your page. The row shows Queued → Running → Done or Failed. |
-| **Retry** | Failed | Review (click twice) | Adds a new copy of the failed action to the queue. |
+| **Retry** | Failed | Review (click twice). Advanced (type "retry") for actions that may charge again. | Adds a new copy of the failed action to the queue. |
 | **Cancel…** | Overdue | Advanced (type "cancel") | The selected actions won't run. A repeating action stops repeating. |
 | **Delete…** | Failed | Advanced (type "delete") | Deletes finished, failed or canceled actions and their logs for good. Cancel waiting actions first. |
 | **Purge old actions** | Below the lists | Advanced (type "purge") | Deletes Done, Failed or Canceled actions older than a number of days, in steps while the page stays open. |
 
 On multisite, Advanced actions need a network (super) admin.
+
+Retrying an action marked "May charge, refund or send again." is an Advanced change: retry it from its own row and type "retry". Admins below the Advanced level see "Retrying it is an Advanced change: it needs a network admin." in its place. When you retry several selected actions at once, these ones are skipped.
 
 If **Run now** hasn't started after 30 seconds, the server may block requests to itself; check the loopback test in Cron inspector or Site Health. While it runs, it counts as Action Scheduler's one batch, so the normal queue waits.
 

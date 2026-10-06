@@ -40,9 +40,11 @@ The 100 largest autoloaded options, with **Option**, **Size**, **Probable owner*
 
 ### View a value
 
-The eye icon shows the raw value as stored. It's never run or unpacked. Long values show the first 4 KB. **Copy name** copies the option name.
+The eye icon shows the raw value as stored. It's never run or unpacked. Long values show the first 4 KB. **Copy name** copies the option name. The viewer opens only options that are autoloaded, or that you switched off here.
 
 Values with sensitive names, or content that looks like a secret (API keys, tokens, private keys), are hidden. **Reveal value** and **Download value** (up to 1 MB) need Advanced permission: site admins, or on multisite a network (super) admin.
+
+Admins below the Advanced level, such as site admins on multisite, can't reveal anything, so they get a stricter mask. It also hides values under more names, long random-looking strings such as hashes and license keys, and logins written inside URLs.
 
 ## Stop autoloading
 
