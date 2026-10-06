@@ -53,6 +53,8 @@ Fields that look sensitive (tokens, secrets, passwords, card and bank data, API 
 - Masked values are never in the page source.
 - Copying a masked row copies the mask.
 - Masking ignores case, accents and look-alike characters in the key. For example `_access_tokén`, full-width letters and zero-width characters are masked like `_access_token`.
+- A value that holds a sensitive key anywhere inside it, such as an access token inside a payment gateway's saved response, is masked as a whole, in the box and in the JSON view. Values saved as JSON text count too.
+- If you can't reveal masked values, the order key, payment link, customer IP address and transaction ID are masked for you too, in the JSON view and in meta keys that look like them.
 
 The same fields are also hidden from [Advanced order search](/admin-powerups/advanced-order-search), and the same patterns mask arguments in the [Scheduled action monitor](/admin-powerups/scheduled-actions) and [Cron inspector](/admin-powerups/cron-inspector).
 

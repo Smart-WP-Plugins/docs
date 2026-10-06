@@ -63,6 +63,8 @@ Only registered customers can be tagged. To turn guest orders into accounts, use
 - One column per group, through [Customer table columns](/admin-powerups/customer-table-columns). Each tag in the column links to the filtered list. The Tag groups tab links there, and tells you to turn it on if it's off.
 - [Advanced customer search](/admin-powerups/advanced-customer-search) adds a **Customer tag** search type while this power-up is on.
 
+The tag filter, its counts and the tag columns show only to people who can manage WooCommerce.
+
 ## Settings
 
 | Setting | Default | What it does |
@@ -80,6 +82,7 @@ A daily background job removes the tags of users who are no longer on the site: 
 - On multisite, tags are per site.
 - Switching a group from many values to one keeps customers' existing tags until their profile is saved.
 - Tag lookups are indexed, so filtering stays fast at any store size.
+- Group names can be in any script. Each group also gets a short internal key made from its name, and every key is unique. A name that can't be spelled in Latin letters, such as one in Cyrillic or Chinese, gets the key `group`, then `group_2` and so on.
 
 ## Data
 

@@ -35,7 +35,7 @@ For types with a special format, the search box shows an example.
 | **Order number** | Customers with this order (custom numbers too) | `1042` |
 | **SKU purchased** | Customers who bought this exact SKU | `HD-XL-BLK` |
 | **Product purchased** | Customers who bought a product, by name | `Hoodie` |
-| **Customer tag** | Customers with a tag (only while [Customer tags](/admin-powerups/customer-tags) is on) | `VIP` |
+| **Customer tag** | Customers with a tag (only while [Customer tags](/admin-powerups/customer-tags) is on and has at least one tag group) | `VIP` |
 | **Number of orders** | Order count | `5`, `5+`, `>3`, `2-4`, `0` for none |
 | **Lifetime spend** | Total of paid orders | `>500`, `100-300` |
 | **Ordered in** | Customers who ordered in a period | `today`, `yesterday`, `this month`, `last 30 days`, `2026`, `2026-03`, `2026-01..2026-03` |
@@ -44,9 +44,15 @@ For types with a special format, the search box shows an example.
 Order number, SKU, product, spend, number of orders and date searches need High-performance order storage.
 </Note>
 
+**Number of orders** and **Lifetime spend** cap very large numbers at the largest amount they search for. A number too long to read as an amount finds nothing.
+
 Only registered customers are listed, because guests have no account. To find guest orders, use [Advanced order search](/admin-powerups/advanced-order-search).
 
 SKU and product searches use WooCommerce's order-product lookup table, which updates in the background. A just-placed order can take a moment to appear.
+
+### Who can use which types
+
+Search types need permission to manage WooCommerce. The order-based ones (**Order number**, **SKU purchased**, **Product purchased**, **Number of orders**, **Lifetime spend** and **Ordered in**) also work for people who can edit orders. Types you can't use aren't in your dropdown, so a role that can only list users sees none of them.
 
 ## Settings
 
