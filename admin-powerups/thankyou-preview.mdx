@@ -17,7 +17,7 @@ Go to **WooCommerce → Powerups** and switch on **Thank-you page preview**. It 
 On the order page, find the **Thank-you page** section in the **Customer pages** box and click **Preview**. The page opens in a new tab with a banner ("Scripts and tracking are off") and a **Back to order** link.
 
 <Frame caption="A thank-you page in preview, with the Scripts and tracking are off banner and the Back to order link">
-  ![A thank-you page in preview, with the Scripts and tracking are off banner and the Back to order link](https://placehold.co/1600x900/png?text=thankyou-preview-1)
+  ![A thank-you page in preview, with the Scripts and tracking are off banner and the Back to order link](/images/admin-powerups/thankyou-preview-1.png)
 </Frame>
 
 ## What the preview does and doesn't do
@@ -40,4 +40,5 @@ This power-up stores nothing.
 ## Known limitations
 
 - The preview shows the page without scripts, so anything a script draws (some themes and blocks) won't appear. The customer sees the same page, with scripts.
+- Images from other sites, such as Gravatar avatars, don't load in the preview because its content security policy blocks them. They can show as broken images.
 - Images, stylesheets and fonts from a CDN are blocked too. A developer can allow a CDN with the `apwc_thankyou_preview_img_src`, `apwc_thankyou_preview_style_src` and `apwc_thankyou_preview_font_src` filters.
