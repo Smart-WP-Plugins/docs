@@ -18,6 +18,16 @@ A few power-ups need more:
 
 You can turn on High-performance order storage in **WooCommerce → Settings → Advanced → Features**.
 
+### If PHP or WooCommerce drops below the minimum
+
+WordPress won't activate the plugin on PHP older than 8.1. If your host later moves the site to an older PHP version, the plugin stops loading and administrators who can manage plugins see this notice:
+
+> Admin Powerups for WooCommerce needs PHP 8.1 or newer.
+
+Your settings and data are kept, and the power-ups work again once the site is back on PHP 8.1 or newer. Deleting the plugin while the site runs the older PHP leaves its data in place.
+
+While WooCommerce is missing or older than 9.9, wp-admin shows "Admin Powerups for WooCommerce needs WooCommerce 9.9 or newer to be active." and no power-up runs. Background jobs that power-ups had already scheduled stay in the queue, and Action Scheduler may mark them as failed. The plugin's settings also stop loading on every page. Once WooCommerce is back, they load again on the next request, and the first wp-admin visit by a shop manager or admin sets up the switched-on power-ups' tables and jobs again.
+
 ## Install
 
 <Steps>
@@ -45,7 +55,7 @@ You can turn on High-performance order storage in **WooCommerce → Settings →
 
 - **Search power-ups**: type to filter the list. Press `/` to jump to the search box.
 - **Status**: show **All**, only **On**, or only **Off**.
-- **Category**: chips for **Orders**, **Customers**, **Emails** and **Store operations**.
+- **Category**: chips for **Orders**, **Customers**, **Emails** and **Store operations**. Site admins also get **Developer** and **Performance**.
 - **Clear filters** resets the search and filters.
 
 When some power-ups are on, their row also gets a direct link to the tab you'll open most:
@@ -96,9 +106,15 @@ The Powerups screen works on a phone. Wide tool tables (Quick stock, Scheduled a
 
 ## The sidebar
 
-- **Documentation**: links to these docs.
-- **Support**: ask on the WordPress.org forum. Threads are public, so leave out customer details.
+- **Support**: ask on the WordPress.org forum. Threads are public, so leave out customer details. **Ask a question** opens the forum and **Documentation** opens these docs.
 - **System**: your WordPress, WooCommerce and PHP versions, order storage, how many power-ups are on, and background jobs. **Copy for support** copies this so you can paste it into a forum thread.
+- **Enjoying it?**: links to leave a review or report a bug.
+
+The line at the bottom of the sidebar shows the plugin version, for example "Admin Powerups 1.0.0 by SmartWP Plugins."
+
+<Frame caption="The sidebar with the Support card's Ask a question and Documentation buttons, and the System card">
+  ![The sidebar with the Support card's Ask a question and Documentation buttons, and the System card](https://placehold.co/1600x900/png?text=getting-started-2)
+</Frame>
 
 The System card is checked once and saved. It shows when it was last checked ("Checked … ago"). Click the refresh icon to check everything again.
 
