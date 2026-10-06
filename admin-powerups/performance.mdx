@@ -32,6 +32,15 @@ The choice still works, but it takes longer on big stores.
 | Analytics order filters | Any filtered report | Skips WooCommerce's report cache, so it's counted fresh each time. | Remove the filters when you don't need them. |
 | [Scheduled action monitor](/admin-powerups/scheduled-actions) | A long **Keep finished actions for** period | The actions table grows, which slows queue runs. | Keep the default (31 days). |
 | [Autoloaded options](/admin-powerups/autoloaded-options) | The owner filter | Guesses the owner of every autoloaded option (tens of milliseconds on big sites). | Search by option name. |
+| [Database clean-up](/admin-powerups/database-cleanup) | Checks badged **Slower to scan** in **Clean these every week** | Each one walks a whole table every week. | Leave them out of the weekly clean-up and clean them by hand when needed. |
+
+## What we measured
+
+With every power-up on, the plugin adds no database queries to the storefront, cart or checkout.
+
+On a test store with 100,000 orders, 50,000 customers and 10,000 products, it added about 10 ms to the Orders list and 20 ms to the Users list with all 12 customer columns. With warm caches, most searches, filters and tool screens took 0.4 to 1.6 seconds, page load included. Big jobs, such as a duplicate scan or a database clean-up, run in steps of a few seconds each.
+
+See [How we test](/admin-powerups/how-we-test#a-large-store) for every number and what we haven't measured yet.
 
 ## High-performance order storage
 

@@ -31,7 +31,7 @@ For each email: its type, date, order, To, Cc and Bcc, subject, attachments, and
 
 **Turned off** and **Not sent** entries are logged only when WooCommerce reports them (WooCommerce 10.9 or newer) and **Also log emails that didn't go out** is on.
 
-Account emails (new account, password reset) are logged without their content, because they contain password links.
+Account emails (new account, password reset, email address confirmation and back-in-stock sign-up verification) are logged without their content, because they carry private password or verification links.
 
 ## The Log tab
 
@@ -42,8 +42,10 @@ Account emails (new account, password reset) are logged without their content, b
 - **Search** by email address, subject or order number.
 - **Filter** by email type and status.
 - Each row has **View** (opens the email as sent in a window over the list), **Resend** (where possible) and **Delete** (click twice to confirm).
+- The viewer doesn't load remote images or other outside content, so images linked from the email don't show there.
+- For a test, the details in the viewer include **Sent by**: who sent it.
 - The order number opens the order.
-- Page numbers and a **Per page** choice (20, 50, 100 or 200) sit below the list.
+- Page numbers and a **Per page** choice (20, 50, 100 or 200) sit below the list. A page number past the end shows the last page; a page number that makes no sense, such as -3, shows the first.
 
 ## Resending
 
@@ -71,7 +73,9 @@ On very busy stores, the daily clean-up continues in follow-up jobs until old en
 
 ## Privacy
 
-Logged emails are included in WordPress's personal data export and erase tools, however many emails an address has. The tools match whole email addresses only.
+Logged emails are included in WordPress's personal data export and erase tools, however many emails an address has. They cover emails sent to that address, and store emails about the person's orders and account, such as New order, Cancelled order or Failed order. The tools match whole email addresses only.
+
+The export lists each email's date, title and subject. It adds the content as plain text for emails the person received and for customer emails about their orders, never for account emails. Store emails about their orders are exported without their content.
 
 ## Data
 
@@ -79,3 +83,5 @@ Logged emails are included in WordPress's personal data export and erase tools, 
 |---|---|
 | **Settings** | This power-up's saved settings. |
 | **Logged emails** | Every entry, including the email content. Deleting removes the log table; it's created again when the power-up is on. |
+
+When you switch the power-up off, the log is kept. Old entries still expire every day and privacy requests still include it, until you delete it here. Deactivating the plugin stops the daily clean-up.

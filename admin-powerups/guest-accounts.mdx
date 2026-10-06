@@ -17,6 +17,7 @@ Accounts for guest orders creates a customer account when someone checks out as 
 
 - An account is created when a guest order reaches one of the statuses under **When an order is**, after the wait (15 minutes by default).
 - The wait is there because WooCommerce asks for a login on the thank-you page once an order belongs to an account. It gives the shopper time to see their order confirmation first.
+- After the wait, the order is checked again. It must still be a guest order, and either in one of the statuses picked now or paid (for example completed in the meantime). An order that was canceled, refunded, failed, left pending or put on hold by then gets no account and no email, unless that status is picked.
 - Existing accounts are never used automatically. If the email already has an account, the order stays a guest order and gets a private note: "An account with this email already exists, so the order stays a guest order."
 
 <Note>
@@ -30,7 +31,7 @@ Conversions run as background jobs (**WooCommerce → Status → Scheduled Actio
 | Setting | Default | What it does |
 |---|---|---|
 | **Create accounts automatically** | On | Turn off to use only **Convert past orders**. |
-| **When an order is** | Processing, Completed | The statuses that create an account. |
+| **When an order is** | Processing, Completed | The statuses that create an account. **Pending payment**, **On hold** and **Failed** are badged **Unpaid**. |
 | **Wait (minutes)** | 15 | Gives the shopper time to see their order confirmation. |
 | **Use an existing account with the same email** | Off | Only in **Convert past orders**, never for automatic accounts. See the warning below. |
 | **Email login details to new customers** | On | Uses WooCommerce's "New account" email, with a link to set a password. |
@@ -42,7 +43,7 @@ Conversions run as background jobs (**WooCommerce → Status → Scheduled Actio
 </Warning>
 
 <Warning>
-Pick paid statuses (Processing, Completed). An account is created for any email that isn't used yet. Only the mailbox owner gets the login link, but unpaid or fake orders would still create accounts.
+Pick paid statuses (Processing, Completed). An account is created for any email that isn't used yet. Only the mailbox owner gets the login link, but unpaid or fake orders would still create accounts. While an **Unpaid** status is picked, the setting warns: "Anyone can place an unpaid order with any email address, so accounts and welcome emails could go to people who never ordered."
 </Warning>
 
 ## Convert past orders

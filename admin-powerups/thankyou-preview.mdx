@@ -22,12 +22,12 @@ On the order page, find the **Thank-you page** section in the **Customer pages**
 
 ## What the preview does and doesn't do
 
-- Scripts, tracking pixels, analytics and conversion code don't run.
-- Other plugins' thank-you actions are skipped.
+- Scripts, tracking pixels, analytics and conversion code don't run. On top of the security header that blocks scripts, the preview removes script modules, the import map, module preload links and WordPress's emoji loader.
+- Other plugins' thank-you actions are skipped, and so is anything other plugins or the theme add around the order details. WooCommerce's own parts, such as the **Order again** button, stay.
 - Your own cart is left alone.
 - The page isn't cached or indexed.
 - Payment instructions (for example bank details) and order details still show.
-- Images from other sites, such as tracking pixels, are blocked.
+- Images, stylesheets and fonts from other sites are blocked, and so are video, audio and embedded frames.
 
 ## Links expire
 
@@ -40,4 +40,4 @@ This power-up stores nothing.
 ## Known limitations
 
 - The preview shows the page without scripts, so anything a script draws (some themes and blocks) won't appear. The customer sees the same page, with scripts.
-- Images from a CDN are blocked too. A developer can allow a CDN with the `apwc_thankyou_preview_img_src` filter.
+- Images, stylesheets and fonts from a CDN are blocked too. A developer can allow a CDN with the `apwc_thankyou_preview_img_src`, `apwc_thankyou_preview_style_src` and `apwc_thankyou_preview_font_src` filters.

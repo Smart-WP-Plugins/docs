@@ -42,7 +42,10 @@ On multisite, only super admins can usually edit network users, so site admins a
 | **Addresses to save** | Billing, Shipping | Which addresses the automatic save copies. |
 | **Skip empty fields** | Off | On: keeps what the profile already has instead of clearing it. Off: an exact copy. |
 
-The automatic save runs no matter who changes the status: checkout, payment or staff. Turning the setting on counts as permission.
+The automatic save never updates staff accounts (order editors, store managers and admins). On multisite, that includes people who are staff on any other site in the network. Other accounts are updated when:
+
+- the person changing the status may edit that customer (shoppers may always edit their own account), or can edit orders and the account's only role on this site is Customer;
+- nobody is logged in, as with payment webhooks and scheduled jobs, and the account's only role on this site is Customer.
 
 ## Data
 

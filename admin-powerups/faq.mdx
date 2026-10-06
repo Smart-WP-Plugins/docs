@@ -16,6 +16,12 @@ icon: "circle-question"
   <Accordion title="Why doesn't Accounts for guest orders add orders to an account that already has the same email?">
     WooCommerce doesn't check that people own the email they sign up with, so linking by email could show one customer's orders to someone else. Automatic conversion leaves those orders as guest orders and adds a note. If you trust how accounts get created on your store, the **Convert past orders** tool can link them when you turn on **Use an existing account with the same email**.
   </Accordion>
+  <Accordion title="What are the requirements?">
+    WordPress 6.7 or newer, PHP 8.1 or newer and WooCommerce 9.9 or newer. A few power-ups need more, such as High-performance order storage for Advanced order search. See [Requirements](/admin-powerups/getting-started#requirements).
+  </Accordion>
+  <Accordion title="What happens if my host moves the site to an older PHP version?">
+    The plugin needs PHP 8.1 or newer. On an older version it stops loading, and administrators who can manage plugins see a notice: "Admin Powerups for WooCommerce needs PHP 8.1 or newer." Your settings and data are kept, and the power-ups work again once the site is back on PHP 8.1 or newer. Deleting the plugin while the site runs the older PHP leaves its data in place.
+  </Accordion>
   <Accordion title="Who can change the settings?">
     Anyone who can manage WooCommerce, including shop managers. That includes security-related settings such as the checkout blocklist, which roles staff can switch to, and who can reveal masked order meta.
   </Accordion>
@@ -38,6 +44,12 @@ It tells you why. The usual reasons:
 
 - **Advanced order search** needs High-performance order storage. Turn it on in **WooCommerce → Settings → Advanced → Features**.
 - **Switch to customer** stays off while the User Switching plugin is active.
+
+### A notice says the plugin needs a newer PHP or WooCommerce
+
+"Admin Powerups for WooCommerce needs PHP 8.1 or newer." means the site runs an older PHP version. Ask your host to move it to PHP 8.1 or newer.
+
+"Admin Powerups for WooCommerce needs WooCommerce 9.9 or newer to be active." means WooCommerce is missing, inactive or too old. Update or activate WooCommerce. Until then no power-up runs, and your settings stay as they are. See [If PHP or WooCommerce drops below the minimum](/admin-powerups/getting-started#if-php-or-woocommerce-drops-below-the-minimum).
 
 ### Waits and scheduled tasks run late
 
@@ -74,6 +86,6 @@ If saved settings are in an unexpected shape (from an older version, another plu
     On the Powerups screen, click **Copy for support** in the sidebar's System card.
   </Step>
   <Step title="Ask on the forum">
-    Post on the [WordPress.org support forum](https://wordpress.org/support/plugin/admin-powerups-for-woocommerce/) and paste your system info. Threads are public, so leave out customer details.
+    Click **Ask a question** in the sidebar's Support card, or go to the [WordPress.org support forum](https://wordpress.org/support/plugin/admin-powerups-for-woocommerce/) directly. Post your question and paste your system info. Threads are public, so leave out customer details.
   </Step>
 </Steps>

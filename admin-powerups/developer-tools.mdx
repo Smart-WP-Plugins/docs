@@ -34,9 +34,11 @@ Each action carries a badge that tells you how it's confirmed:
 | --- | --- | --- |
 | **Safe** | Runs on click. Changes nothing, or only asks WooCommerce to do what it does anyway. | Send test, Check loopback, Run now for a due cron event |
 | **Review recommended** | Click twice. The first click changes the button's text ("Click again to ..."); click again within 5 seconds, or it resets. | Re-enable a webhook, Retry, Stop autoloading |
-| **Advanced** | Type the word shown, such as "delete", then click the red button. | Delete events or options, Cancel, Purge |
+| **Advanced** | Type the word shown, such as "delete", then click the red button. | Delete events or options, Cancel, Purge, Run a WordPress or WooCommerce cron event now, Retry an action that may charge again |
 
-The word depends on the action: "delete" for most, "generate" for [Test data](/admin-powerups/test-data) on a production site. [Database clean-up](/admin-powerups/database-cleanup) also asks for a second click on Safe cleans, since they delete rows.
+The word depends on the action: "delete", "cancel", "purge", "run" or "retry", and "generate" for [Test data](/admin-powerups/test-data) on a production site. [Database clean-up](/admin-powerups/database-cleanup) also asks for a second click on Safe cleans, since they delete rows.
+
+The second click on a Review action is there to catch slips. The server treats Review changes like Safe ones, so anyone who can use the tool can make them. For Advanced changes, the server checks both the access level and the typed word.
 
 The typed word works in any letter case, and in your site's language. The same typed confirmation protects the biggest deletes in every power-up's Data section.
 

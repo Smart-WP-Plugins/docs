@@ -12,6 +12,8 @@ Turning a power-up off keeps its settings and data. Switch it back on and everyt
 
 Turning it off does stop its background work. For example, it cancels guest-account conversions and order completions that are still waiting.
 
+The Email log is the exception. While its log exists, old entries still expire every day and privacy requests still include it, with the power-up on or off. Delete the log in its Data section to stop that. Deactivating the plugin stops the daily clean-up.
+
 ## The Data section
 
 Open a power-up with **Configure** and scroll below its settings to **Data**. It lists what the power-up stores, how much, and a button for each item:
@@ -24,7 +26,7 @@ Open a power-up with **Configure** and scroll below its settings to **Data**. It
   ![The Data section of a power-up, with Delete, Reset and Stays items](https://placehold.co/1600x900/png?text=data-and-uninstall-1)
 </Frame>
 
-Deleting asks you to confirm in two steps. Deleting all customer tags also asks you to type "delete".
+Deleting asks you to confirm in two steps. Deleting all customer tags, or the Database clean-up history, also asks you to type "delete".
 
 Big lists, such as background job history, delete in batches with a progress count. When it's done, the page reloads so the settings show the new state, and a message confirms it.
 
@@ -50,8 +52,15 @@ Each power-up's page in these docs has a **Data** table. In short:
 | Customer tags | Tag groups and tags, background job history |
 | Duplicate customer finder | Last scan results, scan in progress, "Not a duplicate" marks, scan work tables |
 | Email log | Logged emails |
+| Email preview & resend | Test send times |
 | Checkout blocklist | Blocked attempts, background job history |
 | High-value order alerts | Email wording, alert sent markers, alert locks |
+| Quick stock | Edit locks |
+| Scheduled action monitor | Queue summary, Run now requests, background job history |
+| Cron inspector | Last loopback check |
+| Autoloaded options | Change history |
+| Test data | Run in progress, batch list, step lock, signing key |
+| Database clean-up | Scan results, stopped clean-up, clean-up history, weekly clean-up progress, clean-up lock |
 
 ## Deleting the plugin
 
@@ -59,10 +68,12 @@ When you delete the plugin from **Plugins**, it removes its settings and data on
 
 To keep them, switch on **Keep data if the plugin is deleted** in the sidebar's System card before you delete the plugin. It's set per site.
 
+Switching it on takes effect straight away. Switching it off asks you to type "delete" first, because the next plugin delete would then remove the data for good. **Cancel** or Escape leaves it on. The server checks the typed word too.
+
 Store records (accounts, saved addresses, orders and order notes) stay either way. Records of **Switch to customer** switches that are still active expire on their own within 12 hours.
 
 ## Privacy
 
 - The plugin has no tracking. Your data stays on your site.
-- [Customer tags](/admin-powerups/customer-tags) and the [Email log](/admin-powerups/email-log) are included in WordPress's personal data export and erase tools.
+- [Customer tags](/admin-powerups/customer-tags) and the [Email log](/admin-powerups/email-log) are included in WordPress's personal data export and erase tools. For the Email log, that includes store emails about the person's orders and account.
 - [Accounts for guest orders](/admin-powerups/guest-accounts) creates user accounts from checkout data. Mention it in your privacy policy.

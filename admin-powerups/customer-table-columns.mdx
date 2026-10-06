@@ -50,6 +50,16 @@ While [Customer tags](/admin-powerups/customer-tags) is on, you can also add one
 - **Lifetime spend** adds up paid orders (Processing and Completed), the same figure WooCommerce uses. Refunds aren't taken off. It's shown in the store currency.
 - **Last order** is plain text for users who can't edit orders.
 
+### Who sees them
+
+Some roles can open the Users list without access to customer data, so each column checks who is looking:
+
+- Customer details (addresses, phone, email, city, country, and add-on columns such as customer tags) need permission to manage WooCommerce.
+- **Orders**, **Lifetime spend**, **Average order** and **Last order** need permission to manage WooCommerce or to edit orders.
+- **Customer since** shows to everyone.
+
+A role that can only list users sees none of the other columns.
+
 ## WordPress and plugin columns
 
 The list also shows WordPress's columns (Name, Email, Role, Posts) and columns other plugins add, badged **WordPress** or **Plugin**. They're found automatically with a quick background check of the Users list when the settings open.

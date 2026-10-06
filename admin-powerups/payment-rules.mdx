@@ -46,10 +46,10 @@ Click **Add rule**. Each rule reads like a sentence:
 | **Product category** | is any of, is none of | Includes subcategories. |
 | **Product type** | is any of, is none of | Includes **Virtual** and **Downloadable**. |
 | **Shipping class** | is any of, is none of | |
-| **Chosen shipping method** | is any of, is none of | |
+| **Chosen shipping method** | is any of, is none of | The method chosen for each shipping package in the cart. A cart that doesn't need shipping has none. |
 | **Country** | is any of, is none of | |
 | **State** | is any of, is none of | |
-| **Customer role** | is any of, is none of | Includes **Guest (not logged in)**. |
+| **Customer role** | is any of, is none of | Includes **Guest (no account on this site)**, which also covers a logged-in user with no role on this site, such as a network user from another site on multisite. |
 
 ### Hide or only offer
 
@@ -66,7 +66,7 @@ Rules only ever remove methods, so their order doesn't matter.
 ## Where the rules apply
 
 - The classic checkout and the block checkout.
-- The "Pay for order" page (classic or block). There the rules check that order's total and items, not the cart.
+- The "Pay for order" page (classic or block). There the rules check that order's total and items instead of the cart. On the classic page, the link must carry the order's key, as WooCommerce's own payment links do. In the block checkout, the order is used once WooCommerce has accepted the request to pay it. Anything else checks the cart.
 - Admin screens always see every method.
 
 ## Saving

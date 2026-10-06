@@ -74,6 +74,8 @@ If someone changed the product after the page loaded, the save is refused and th
 
 If a save didn't go through, you'll see "The change wasn't saved. Here is the product as it is now; try again."
 
+Quick stock saves one change per product at a time. If another change to the same product is still being saved here, yours is refused with "Another change to this product is being saved. Try again in a moment."
+
 <Note>
   Edits made here don't send WooCommerce's low-stock or out-of-stock emails. A developer can turn them on with the `apwc_quick_stock_send_stock_alerts` filter.
 </Note>
@@ -89,6 +91,7 @@ On a phone, each row of the table stacks into a block instead of scrolling sidew
 | Item | What it is |
 | --- | --- |
 | **Stock changes** | Quantities and statuses you change are saved on the products in WooCommerce. They stay when the power-up is off or removed. |
+| **Edit locks** | Short-lived rows that stop two saves of the same product overlapping. One left by a request that stopped half way expires after 30 seconds. |
 
 ## Known limitations
 
@@ -133,6 +136,7 @@ A successful call returns:
 | 400 | `apwc_bad_status` | `status` isn't one of WooCommerce's stock statuses. |
 | 401 / 403 | `apwc_cannot_edit` | You can't edit this product. |
 | 404 | `apwc_no_product` | The product doesn't exist or isn't listed by Quick stock. |
+| 409 | `apwc_busy` | Another save of the same product is still running. |
 | 409 | `apwc_stock_changed` | The stock or status changed since `expected`. `data.current` holds the value now. |
 | 409 | `apwc_not_tracked` | `/stock` on a product that doesn't track stock. |
 | 409 | `apwc_parent_stock` | A variation that uses its parent's stock. |
