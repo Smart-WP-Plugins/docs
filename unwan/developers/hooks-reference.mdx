@@ -40,6 +40,8 @@ apply_filters( 'unwan_checkout_address_options', array $options, int $user_id, s
 
 Each option contains `id`, `name`, `description`, `street`, `details`, `isDefault`, `defaultRoles`, `selectLabel`, and `fields`. Both checkout contexts receive the same set; only ordering and `isDefault` depend on `$type` (`"billing"` or `"shipping"`).
 
+Since 1.1.0 the same list also feeds the [admin order screen's](/unwan/admin-orders) "Saved addresses" dropdown, which uses `id`, `selectLabel`, and `fields`.
+
 ### `unwan_address_type_enabled`
 
 Filters whether a checkout selector is enabled.
@@ -47,6 +49,25 @@ Filters whether a checkout selector is enabled.
 ```php
 apply_filters( 'unwan_address_type_enabled', bool $enabled, string $type ): bool
 ```
+
+### `unwan_admin_order_addresses_enabled`
+
+Filters whether the admin order screen offers the "Saved addresses" dropdown (setting **Admin order dropdown**, `unwan_admin_order_addresses`). When it returns `false`, the order screen gets no address data at all.
+
+```php
+apply_filters( 'unwan_admin_order_addresses_enabled', bool $enabled ): bool
+```
+
+<CodeGroup>
+
+```php example.php
+// Only shop managers and administrators get the dropdown.
+add_filter( 'unwan_admin_order_addresses_enabled', function ( $enabled ) {
+    return $enabled && current_user_can( 'manage_woocommerce' );
+} );
+```
+
+</CodeGroup>
 
 ### `unwan_address_save_limit`
 

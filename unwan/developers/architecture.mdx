@@ -12,6 +12,7 @@ icon: "sitemap"
 | Coordination | `includes/Plugin.php` | Wires up services, styles, translations, activation, once-per-version upgrade steps |
 | Persistence | `includes/AddressRepository.php` | Unified storage, default swaps, duplicate detection, formatting |
 | Settings | `includes/Admin/Settings.php` | Accounts & Privacy subsection, behavior, labels, appearance |
+| Admin orders | `includes/Admin/OrderAddresses.php`, `assets/js/unwan-admin-order.js` | Saved-address dropdown on the admin order screen |
 | My Account | `includes/AccountController.php`, `templates/myaccount/` | Endpoint, form handling, actions |
 | Picker controller | `src/unwan-address-picker.js` | Shared standard-DOM markup and interaction |
 | Picker styles | `assets/css/unwan.css` | Scoped reset and all visual presentation |
@@ -63,7 +64,7 @@ Every PHP file is checked against a WordPress Coding Standards ruleset (`WordPre
 
 ## Testing
 
-Unwan is covered by 195 integration tests that boot a real WordPress install with WooCommerce active, using the WordPress core PHPUnit library. They are not unit tests against mocks: every assertion runs through actual `WC_Customer` objects, real user meta, and the real template stack, which is what makes them useful as a compatibility check against a new WordPress or WooCommerce release.
+Unwan is covered by 211 integration tests that boot a real WordPress install with WooCommerce active, using the WordPress core PHPUnit library. They are not unit tests against mocks: every assertion runs through actual `WC_Customer` objects, real user meta, and the real template stack, which is what makes them useful as a compatibility check against a new WordPress or WooCommerce release.
 
 | Area | What is asserted |
 | --- | --- |
@@ -77,6 +78,7 @@ Unwan is covered by 195 integration tests that boot a real WordPress install wit
 | My Account | Markup structure, output escaping, search visibility, and that one customer can never open another's address |
 | Blocks | Block registration, the Store API extension schema, and that guests receive no address data |
 | Uninstall | That cleanup stays opt-in and never touches WooCommerce's own profile fields |
+| Admin orders | The dropdown's data and ordering, plain-text labels, the country filter, staff-only loading, the on/off setting, and that saving an admin order changes no customer address |
 
 Two of the tests exist to catch drift rather than defects. One fails when a new setting is added without also adding it to the uninstall routine's option list — the failure mode it prevents is data left behind after a "full removal". The other fails when the plugin's `Tested up to` header falls behind the WordPress version the suite just ran on, which is what prompts a re-verification instead of letting the claim quietly go stale.
 

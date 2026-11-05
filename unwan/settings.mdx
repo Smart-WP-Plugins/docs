@@ -16,6 +16,7 @@ All Unwan settings live in one place: **WooCommerce → Settings → Accounts & 
 | --- | --- | --- | --- |
 | Billing checkout selector | `unwan_billing_enable` | On | Lets customers choose any address-book entry for billing at checkout |
 | Shipping checkout selector | `unwan_shipping_enable` | On | Lets customers choose any address-book entry for shipping at checkout |
+| Admin order dropdown | `unwan_admin_order_addresses` | On | Lets staff fill an order's billing or shipping address from the customer's saved addresses on the admin order screen. Independent of the two checkout selectors. See [Admin Orders](/unwan/admin-orders) |
 | Additional address limit | `unwan_address_save_limit` | `0` (unlimited) | Maximum additional addresses per customer. Billing and shipping defaults don't count against this — and a displaced default from a role swap always bypasses it, see [Default Swaps](/unwan/concepts/default-swaps-and-duplicates) |
 | Address search threshold | `unwan_address_search_threshold` | `4` | Saved-address count above which the search field appears, in both checkout and My Account. `0` always shows it |
 | Save checkout addresses | `unwan_save_checkout_addresses` | On | Whether a new, validated address entered at checkout is added to the customer's address book |
