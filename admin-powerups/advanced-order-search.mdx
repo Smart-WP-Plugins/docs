@@ -1,10 +1,10 @@
 ---
 title: "Advanced order search"
-description: "Search orders by customer, phone, SKU, total, coupon, notes and more"
+description: "Find an order by SKU, total, coupon, phone number or note, which WooCommerce's own order search can't do"
 icon: "magnifying-glass"
 ---
 
-Advanced order search adds 18 search types to the **Search by** dropdown on the Orders list, so you can find an order by whatever detail you have.
+WooCommerce's order search can't find an order by SKU, total, coupon or note, and a phone number you type can match an order ID instead. Advanced order search adds these to the **Search by** dropdown on the Orders list, so you pick what you're searching by and find the order from whatever detail you have: customer details, products and SKUs, totals and ranges, coupons, payment and shipping methods, transaction IDs, custom fields and order notes.
 
 **Shows in:** Orders list
 
@@ -54,7 +54,7 @@ Each type matches only what it says. For example, `150` as **Exact total** finds
 
 | Setting | Default | What it does |
 |---|---|---|
-| **Search by** | All 18 types | Which types appear in the dropdown. Types marked **Slower** look inside text. |
+| **Search by** | All types | Which types appear in the dropdown. Types marked **Slower** look inside text. |
 | **Hide the WooCommerce options these replace** | On | Hides WooCommerce's Order ID, Customer email, Customers, Products and Transaction ID options. |
 | **Exact total: match within** | 0 | Also find totals this close to your search. Use 0 for exact. |
 | **Custom metadata: only these keys** | Empty | One key per line. Empty searches any key. |
