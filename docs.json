@@ -21,6 +21,7 @@
           "unwan/quickstart",
           "unwan/my-account",
           "unwan/settings",
+          "unwan/admin-orders",
           {
             "group": "Checkout",
             "pages": [

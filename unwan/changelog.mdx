@@ -6,6 +6,14 @@ icon: "clock-rotate-left"
 
 This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
 
+## 1.1.0
+
+Saved addresses on the admin order screen, and new minimum versions.
+
+- New: staff can fill an order's billing or shipping address from the customer's saved addresses. A "Saved addresses" dropdown appears on the admin order screen as soon as a customer is chosen, on new and existing orders, and updates when the customer changes. Choosing an address only fills the order: nothing is added to the address book and the customer's default addresses don't change. Addresses in countries the store doesn't sell or ship to are left out, and the dropdown can be turned off in the settings. See [Admin Orders](/unwan/admin-orders).
+- Unwan now requires WooCommerce 9.7 or later, and WordPress 6.6 or later (which WooCommerce 9.7 needs). Block checkout relies on features older WooCommerce versions don't have, and failed there with the message "extensions > unwan is not of type object".
+- Fixed an address chosen at block checkout being picked again on the next checkout in the same browser tab, after an order placed with "Use same address for billing".
+
 ## 1.0.8
 
 - The postcode is now part of duplicate detection. An address that corrects only the postcode is saved as its own entry instead of being folded into the old one, and addresses that differ only in postcode both appear in the address book. Spaces and capitals in postcodes are still ignored. See [Duplicate detection](/unwan/concepts/default-swaps-and-duplicates#duplicate-detection).

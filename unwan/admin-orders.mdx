@@ -1,0 +1,46 @@
+---
+title: "Admin Orders"
+description: "Fill an order's address from the customer's saved addresses"
+icon: "clipboard-list"
+---
+
+When staff create or edit an order under **WooCommerce → Orders**, Unwan adds a **Saved addresses** dropdown above the billing fields and above the shipping fields. It lists the chosen customer's whole address book, so an order taken over the phone or entered by hand doesn't have to be retyped.
+
+## How it works
+
+<Steps>
+  <Step title="Choose the customer">
+    Pick a customer in the order's **Customer** field. The dropdowns appear straight away, on a new order before it's saved as well as on an existing one. Change the customer and the list switches to theirs; clear it (a guest order) and the dropdowns go away.
+  </Step>
+  <Step title="Choose an address">
+    Each dropdown lists the customer's default for that type first, marked **(default)**, then every other saved address. Choosing one fills that part of the order: name, company, address lines, city, state, postcode, country, and phone. The email field and anything else on the order stay as they are.
+  </Step>
+  <Step title="Edit if needed, then save">
+    The filled fields stay editable. Choosing the same address again fills them in again.
+  </Step>
+</Steps>
+
+With the keyboard, move through the list with the arrow keys or by typing, then press **Enter** or move focus away to fill the address. A mouse choice fills immediately.
+
+## What it never does
+
+- **It never adds to the address book.** Addresses staff type on an order are not saved for the customer.
+- **It never changes the customer's defaults.** Creating or editing an admin order leaves their billing and shipping defaults exactly as they were.
+
+The order only uses the address for that order, the same as at checkout.
+
+## Which addresses are listed
+
+- Addresses in a country the store doesn't sell to are left out of the billing dropdown, and addresses in a country it doesn't ship to are left out of the shipping dropdown (**WooCommerce → Settings → General → Selling location(s)** and **Shipping location(s)**). WooCommerce's country field couldn't take them anyway.
+- When a customer's billing and shipping defaults share a name, street, and postcode, they're one entry in the address book, but each dropdown fills that type's own default, including any detail where the two differ, such as an apartment number.
+- On multisite, a customer who isn't a member of the current site is hidden, exactly as WooCommerce hides their details on that order screen, unless the viewer can manage network users or customers are shared across the network.
+
+## Turning it off
+
+The dropdown is on by default. Turn it off with **Admin order dropdown** under **WooCommerce → Settings → Accounts & Privacy → Unwan** (see the [Settings Reference](/unwan/settings)). The checkout selector settings don't affect it.
+
+Developers can control it with the [`unwan_admin_order_addresses_enabled`](/unwan/developers/hooks-reference#unwan_admin_order_addresses_enabled) filter.
+
+<Note>
+  The dropdown works with both order storage modes (High-Performance Order Storage and the older posts storage), and only on the order screen, for staff who can edit orders. It adds no new request of its own: the address book arrives with the page and with WooCommerce's own customer lookup.
+</Note>
