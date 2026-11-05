@@ -127,7 +127,7 @@ We also test on a store with 100,000 orders, 50,000 customers and 10,000 product
 | Screen | Without the plugin | With the plugin |
 | --- | --- | --- |
 | Orders list | 0.38 s | 0.39 s |
-| Users list with all 12 customer columns | 0.37 s | 0.39 s |
+| Users list with every customer column | 0.37 s | 0.39 s |
 | Analytics → Orders, one year, without the report cache | 0.49 s | 0.52 s |
 
 | Power-up | What we measured | Time |
@@ -136,14 +136,14 @@ We also test on a store with 100,000 orders, 50,000 customers and 10,000 product
 | Advanced order search | Customer, email, company, SKU or notes | 0.5 to 0.7 s |
 | Advanced order search | Phone, product, coupon or shipping method | 0.9 to 1 s |
 | Advanced order search | Variation text | 1.1 s |
-| Advanced customer search | Each of the 13 types | 0.5 to 0.7 s |
+| Advanced customer search | Each search type | 0.5 to 0.7 s |
 | Analytics order filters | One year by country, state, city, payment method or guests | 0.5 to 0.6 s |
 | Analytics order filters | One year by shipping method type, or with all six filters | 0.9 s |
 | Analytics order filters | One year by customer role | 1 s |
 | Analytics order filters | One year by one shipping method in one zone | 1.6 s |
 | Quick stock, Autoloaded options, Scheduled action monitor, Cron inspector | Opening, filtering and sorting their tabs | 0.4 to 0.5 s |
 | Duplicate customer finder | Scanning all 50,000 customers | 184 steps, 76 to 99 s in total |
-| Database clean-up | Scanning all 24 checks offered on this store | One step, about 3 s |
+| Database clean-up | Scanning every check offered on this store | One step, about 3 s |
 | Test data | Making 200 products, 500 customers and 2,000 orders | About 3 minutes, in 80 steps |
 | Test data | Cleaning that batch up again | About 1.5 minutes |
 
