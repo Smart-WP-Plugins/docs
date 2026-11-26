@@ -6,6 +6,14 @@ icon: "clock-rotate-left"
 
 This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
 
+## 1.1.1
+
+Ready for WordPress 7.2, WooCommerce 11.3 and PHP 8.6.
+
+- Tested with WordPress 7.2 and WooCommerce 11.3.
+- Fixed a deprecation notice on PHP 8.6 ("Declaring class constant called 'namespace' is deprecated"), logged on every page load while debugging is on.
+- The checkout blocks now use WordPress's own copy of React's JSX runtime instead of bundling one, so they keep working when WordPress moves to React 19. WordPress.org's Plugin Check reported the bundled copy as an error.
+
 ## 1.1.0
 
 Saved addresses on the admin order screen, and new minimum versions.
