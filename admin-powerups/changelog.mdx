@@ -1,0 +1,20 @@
+---
+title: "Changelog"
+description: "What changed in each release of Admin Powerups for WooCommerce."
+icon: "clock-rotate-left"
+---
+
+This mirrors the `== Changelog ==` section of the plugin's own `readme.txt`, which remains the source of truth shown inside WordPress.
+
+## 1.0.1
+
+Ready for WordPress 7.2, PHP 8.6 and jQuery 4.
+
+- Tested with WordPress 7.2.
+- [Find duplicates](/admin-powerups/duplicate-customers) no longer relies on a PHP function that PHP 8.6 deprecates. Names that sound alike, such as Catherine and Kathryn, still match exactly as before.
+- Fixed a deprecation notice on PHP 8.6 ("Declaring class constant called 'namespace' is deprecated"), logged on every page load while debugging is on.
+- The tag picker on the user profile ([Customer tags](/admin-powerups/customer-tags)) no longer uses a jQuery function that jQuery 4 removes, so it keeps working when WordPress moves to jQuery 4.
+
+## 1.0.0
+
+First release.
