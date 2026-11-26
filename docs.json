@@ -188,7 +188,8 @@
           },
           "admin-powerups/data-and-uninstall",
           "admin-powerups/performance",
-          "admin-powerups/faq"
+          "admin-powerups/faq",
+          "admin-powerups/changelog"
         ]
       }
     ]
